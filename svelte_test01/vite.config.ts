@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
-import preact from '@preact/preset-vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 import {viteSingleFile} from "./builder/vite-plugin-singlefile";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [preact(), viteSingleFile()],
+  plugins: [svelte(),  viteSingleFile()],
   build:{
     minify:true,
     cssCodeSplit:false,
