@@ -14,6 +14,8 @@
 #include "driver/sdmmc_host.h"
 #include "sdmmc_cmd.h"
 #include "esp_vfs_fat.h"
+#include <sys/stat.h>
+#include <dirent.h>
 #include <esp_log.h>
 #define TAG "MAIN"
 
@@ -85,8 +87,8 @@ esp_err_t init_sdcard(void)
         .max_files = 5,
         .allocation_unit_size = 16 * 1024,
         .disk_status_check_enable = false};
-
-    esp_err_t ret = esp_vfs_fat_sdmmc_mount("/sdcard", &host, &slot_config, &mount_config, &card);
+    const char* sdroot = "/sdcard";
+    esp_err_t ret = esp_vfs_fat_sdmmc_mount(sdroot, &host, &slot_config, &mount_config, &card);
 
     if (ret != ESP_OK)
     {
@@ -103,6 +105,13 @@ esp_err_t init_sdcard(void)
         }
         return ESP_FAIL;
     }
+    struct dirent *entry;
+    DIR *dir = opendir(sdroot);
+    while ((entry = readdir(dir)) != nullptr) {
+        ESP_LOGI(TAG, "%s %s", (entry->d_type == DT_DIR ? "DIR " : "FILE"), entry->d_name);
+    }
+    closedir(dir);
+
     return ESP_OK;
 }
 
@@ -146,16 +155,16 @@ esp_err_t i2sMasterInit(uint32_t sampleRate, i2s_data_bit_width_t bitsPerSample)
 
 esp_err_t i2cWriteNAU8822(uint8_t addr, int16_t data)
 {
-    uint8_t write_buf[2] = {((addr << 1) | (data >> 8)), ((int8_t)(data & 0x00ff))};
+    uint8_t write_buf[2] = {(uint8_t)((addr << 1) | (data >> 8)), (uint8_t)((data & 0x00ff))};
     return i2c_master_write_to_device(I2C_NUM_0, NAU8822_I2C_ADDRESS, write_buf, sizeof(write_buf), pdMS_TO_TICKS(1000));
 }
 
-esp_err_t  i2cReadNAU8822( uint8_t reg_addr, uint16_t& reg_data)
+esp_err_t  i2cReadNAU8822(uint8_t addr, uint16_t& reg_data)
 {
-    reg_addr<<1;
-    uint8_t buf[2];
-    esp_err_t espRc = i2c_master_write_read_device(I2C_NUM_0, NAU8822_I2C_ADDRESS, &reg_addr, 1, buf, 2, pdMS_TO_TICKS(1000));
-    reg_data = buf[1]+(buf[0]<<8);
+    uint8_t write_buf[1] = {(uint8_t)((addr << 1))};
+    uint8_t read_buf[2];
+    esp_err_t espRc = i2c_master_write_read_device(I2C_NUM_0, NAU8822_I2C_ADDRESS, write_buf, sizeof(write_buf), read_buf, sizeof(read_buf), pdMS_TO_TICKS(1000));
+    reg_data = read_buf[1]+(read_buf[0]<<8);
     return espRc;
 }
 
@@ -183,16 +192,31 @@ esp_err_t i2cCheckNAU8822(){
 
 void i2cSetupNAU8822Play()
 {
-    i2cWriteNAU8822(0, 0x000);
-    vTaskDelay(10);
-    i2cWriteNAU8822(1, 0x1FF);
-    i2cWriteNAU8822(2, 0x1BF);
-    i2cWriteNAU8822(3, 0x1FF);
-    i2cWriteNAU8822(4, 0x010);
-    i2cWriteNAU8822(5, 0x000);
-    i2cWriteNAU8822(6, 0x00C);
-    i2cWriteNAU8822(7, 0x000);
-    i2cWriteNAU8822(13, 0x09f);
+    i2cWriteNAU8822(0, 0x000);//Software Reset
+    vTaskDelay(pdMS_TO_TICKS(2));
+    uint16_t value{0};
+    i2cWriteNAU8822(1, 0x000);//Write something in any other register to release reset condition
+    ESP_ERROR_CHECK(i2cReadNAU8822(1, value));
+    if(value!=0){
+        ESP_LOGE(TAG, "Power Management Resgister is not 0");
+    }
+    i2cWriteNAU8822(1, 0x15A);
+    ESP_ERROR_CHECK(i2cReadNAU8822(1, value));
+    if(value!=0x15A){
+        ESP_LOGE(TAG, "Power Management Resgister is not 0x15A");
+    }
+    i2cWriteNAU8822(1, 0x1FF);//Enable everything
+    ESP_ERROR_CHECK(i2cReadNAU8822(1, value));
+    if(value!=0x1FF){
+        ESP_LOGE(TAG, "Power Management Resgister is not 0x1FF");
+    }
+    i2cWriteNAU8822(2, 0x1BF); // Power 2: Enable everything, but sleep (so sleep is off)
+    i2cWriteNAU8822(3, 0x1FF); // Power 3: Enable everything
+    i2cWriteNAU8822(4, 0x010); //Audio Intrface: normal phase, 16bit (instead of default 24), standard I2S format
+    i2cWriteNAU8822(5, 0x000); //no companding = reset value!
+    i2cWriteNAU8822(6, 0x00C); //MCLK, pin#11 used as master clock, divide by 1,  Scaling of output frequency at BCLK pin#8 when chip is in master mode: divide by 8
+    i2cWriteNAU8822(7, 0x000); //Clokc COntrol 2: default
+    i2cWriteNAU8822(13, 0x09f); 
     i2cWriteNAU8822(10, 0x008);
     i2cWriteNAU8822(14, 0x108);
     i2cWriteNAU8822(15, 0x0FF);
@@ -300,7 +324,7 @@ extern "C" void app_main()
     i2cInit();
     i2cSetupNAU8822Play();
     sWav_t *wav = new sWav_t();
-    const char *filename = "/sdcard/CantinaBand3.wav";
+    const char *filename = "/sdcard/Cantina3.wav";
     vTaskDelay(100);
     wav->fp = fopen(filename, "rb");//oper read binary
     if (wav->fp == nullptr)
