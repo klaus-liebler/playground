@@ -20,12 +20,12 @@
 
 enum class eNauInit
 {
-    ORIGINAL_MANUFACTURER,
-    BTL_KLAUS,
-    STEREO_KLAUS
+    ORIGINAL_DF_ROBOT,
+    BTL,
+    STEREO
 };
 
-constexpr eNauInit nauInit{eNauInit::ORIGINAL_MANUFACTURER};
+constexpr eNauInit nauInit{eNauInit::BTL};
 
 extern const uint8_t wav_start[] asm("_binary_CantinaBand3_wav_start");
 extern const uint8_t wav_end[] asm("_binary_CantinaBand3_wav_end");
@@ -249,30 +249,26 @@ void muteHeadphones(void)
 
 void i2cSetupNAU8822Play(uint8_t initialVolume_0_255=57*4)//this is the hardware default volume
 {
-    if (nauInit == eNauInit::STEREO_KLAUS)
+    if (nauInit == eNauInit::BTL)
     {
         ESP_ERROR_CHECK(i2cWriteNAU8822(0, 0x000)); // Software Reset
         vTaskDelay(pdMS_TO_TICKS(100));
-        //muteSpeakers(); // according to datasheet power up procedure
-        //muteHeadphones();
+        muteSpeakers(); // according to datasheet power up procedure
+        muteHeadphones();
         i2cWriteNAU8822(1, 0b1'0000'1101); // according to datasheet power up procedure
         vTaskDelay(pdMS_TO_TICKS(250));    // according to datasheet power up procedure
-        i2cWriteNAU8822(3, 0b0'0110'1111); // Power 3: Enable everything but AUX
-        i2cWriteNAU8822(4, 0x010);         // Audio Interface: normal phase, 16bit (instead of default 24), standard I2S format
-        i2cWriteNAU8822(6, 0b0'0000'0000); // MCLK, pin#11 used as master clock, divided by 1, slave mode
+        i2cWriteNAU8822(2, 0b1'1000'0000); // Power 2: Enable Headphones
+        i2cWriteNAU8822(3, 0b0'0110'1111); // Power 3: Enable LR-speaker and LR-mixer and LR-DAC
+        i2cWriteNAU8822(4, 0b0'0001'0000); // Audio Interface: normal phase, 16bit (instead of default 24), standard I2S format
+        i2cWriteNAU8822(6, 0b0'0000'1100); // MCLK, pin#11 used as master clock, divided by 1, divide by 8, slave mode
         // i2cWriteNAU8822(10, 0b0'0000'1000); //Oversampling = x128 //Achtung, kein Softmute einstellen, sonst immer! stumm!
         // i2cWriteNAU8822(14, 0x108); //ADC Oversampling = x128
-        i2cWriteNAU8822(49, 0b0'0001'1110); // Output Control: Optimize for 5V, Thermal shutdown enable,
-    }
-    else if (nauInit == eNauInit::BTL_KLAUS)
-    {
-        // BTL Config -->does not work good
-        i2cWriteNAU8822(43, 0b0'0011'0000); // Right Speaker Submixer -->BTL-Configuration, 0db
-        i2cWriteNAU8822(49, 0b0'0101'1110); // Output Control: Left DAC output to RMIX!. Außerdem: Thermal shutdown enable, Speaker für 5V Versorgungsspannung optimiert.
+        i2cWriteNAU8822(43, 0b0'0001'0000); // Right Speaker Submixer -->BTL-Configuration
+        i2cWriteNAU8822(49, 0b0'0101'1110); //Output Control: Left DAC output to RMIX!. Außerdem: Thermal shutdown enable, Speaker für 5V Versorgungsspannung optimiert.
         i2cWriteNAU8822(50, 0b0'0000'0001); // Left mixer.
         i2cWriteNAU8822(51, 0x000);         // Right mixer.
     }
-    else if (nauInit == eNauInit::ORIGINAL_MANUFACTURER)
+    else if (nauInit == eNauInit::ORIGINAL_DF_ROBOT)
     {
         i2cWriteNAU8822(0, 0x000);
         vTaskDelay(pdMS_TO_TICKS(100));
