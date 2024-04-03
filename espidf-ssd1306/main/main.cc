@@ -267,10 +267,6 @@ public:
         
     }
 
-    OnOpenFullscreenResult OnOpenFullscreen(){
-        return OnOpenFullscreenResult::OK;
-    }
-
     MenuItemResult Up() override
     {
        return MenuItemResult::REDRAW;
@@ -286,6 +282,73 @@ public:
         return MenuItemResult::OPEN_NEW_FULLSCREEN;
     }
 };
+
+class OptionItem : public MenuItem
+{
+private:
+    std::vector<const char *> *options;
+    size_t selected_option{0}; //index in the content vector
+    size_t selected_line{0}; //index in the graphics ram o
+    int movement{0};
+public:
+    OptionItem(const char *name, std::vector<const char *> *options) : MenuItem(name), options(options) {}
+    void RenderCompact(FullLineWriter *lw, int page, bool invert) override
+    {
+        lw->printfl(page, invert, "%s\t%s", name, options[selected_option]);
+    }
+
+    const char * GetSelectedOptionName(int offset=0){
+        return options->at(ssd1306::modulo(selected_option+offset, options->size()));
+    }
+
+    size_t GetSelectedOptionIndex(){
+        return selected_option;
+    }
+
+    void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t textLines) override{
+        if(initial){
+            ESP_LOGI(TAG, "Menu Full update");
+            lw->ClearScreenAndResetStartline(false,0);
+            selected_line=1;
+            int option_idx = selected_option-1;
+            for (int textline = 0; textline < textLines; textline++)
+            {
+                int corr_option_idx = ssd1306::modulo(option_idx, options->size());
+                const char* itm = options->at(corr_option_idx);
+                if(option_idx==selected_option){
+                    lw->printfl(textline, true, "\x1b\xe %s", itm);
+                }else{
+                    lw->printfl(textline, false, "   %s", itm);
+                }
+                option_idx++;
+            }
+        }
+        else if(movement==+1){
+            lw->printfl(selected_line-1, false, " ");//delete first line on display (needs at least a space character; otherwise nothiong will be printed)
+            lw->printfl(selected_line, false, "   %s", GetSelectedOptionName());//redraw selected line as unselected
+            lw->printfl(selected_line+1, true, "\x1b\xe %s", GetSelectedOptionName(+1));//redraw next line as selected 
+            lw->Scroll(+1);
+            lw->printfl(selected_line+textLines-1, false, "   %s", GetSelectedOptionName(textLines-1));
+            selected_line = ssd1306::modulo(++selected_line, textLines);
+            selected_option =ssd1306::modulo(++selected_option, options->size());
+            movement=0;
+        }
+    }
+
+    MenuItemResult Up() override
+    {
+       return MenuItemResult::REDRAW;
+    }
+    MenuItemResult Down() override
+    {
+       movement=+1;
+       return MenuItemResult::REDRAW;
+    }
+
+};
+
+
+
 // Management enthält ein Vector mit dem Pfad der Bearbeitung
 // MenuFolder enthält andere MenuFolder und auch MenuItems
 // Wird ein MenuItem selektiert, wird es dem Pfad hinzugefügt und es darf sich FullScreen zeigen
@@ -382,12 +445,20 @@ std::vector<MenuItem *> folder2_items = {
     new ReturnItem(),
 };
 
+std::vector<const char *> option_items = {
+    "Opt1",
+    "Opt2",
+    "Opt3",
+    "Opt4",
+    "Opt5",
+};
+
 std::vector<MenuItem *> root_items = {
     new IntegerItem("Integer0", 1, 0, 10),
     new FixedPointItem<4>("Fixed1", 0.25, 0, 1),
     new FolderItem("Folder2", &folder2_items),
     new BoolItem("Bool3", false),
-    new IntegerItem("Integer4", 4, 0, 10),
+    new OptionItem("Option", &option_items),
     new IntegerItem("Integer5", 4, 0, 10),
     new IntegerItem("Integer6", 4, 0, 10),
     new IntegerItem("Integer7", 4, 0, 10),
