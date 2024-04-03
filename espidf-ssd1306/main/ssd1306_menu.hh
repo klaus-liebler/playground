@@ -23,34 +23,47 @@ namespace ssd1306
             NOT_OK_AND_CLOSE_PREVIOUS_WINDOW, // for ReturnItem
         };
 
+        
+
+        class MenuItem;
+        
+        template<class T>
+        class MenuItemChanged{
+            public:
+            virtual void ValueChanged(const MenuItem* item, T newValue)=0;
+        };
+
         class MenuItem
         {
         protected:
-            const char *name;
+            const char * const name;
 
         public:
-            MenuItem(const char *name) : name(name) {}
+            MenuItem(const char * const name) : name(name) {}
             virtual void RenderCompact(FullLineWriter *lw, int page_modulo_inside, bool invert) = 0;
             virtual void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t textLines){};
             virtual OnOpenFullscreenResult OnOpenFullscreen() { return OnOpenFullscreenResult::OK; } // This is the normal case
             virtual void OnCloseFullscreen() { return; }                                             // This is the normal case
-            virtual MenuItemResult Up() { return MenuItemResult::CLOSE_MYSELF; };
-            virtual MenuItemResult Down() { return MenuItemResult::CLOSE_MYSELF; };
-            virtual MenuItemResult Select(MenuItem **itemToOpen) { return MenuItemResult::CLOSE_MYSELF; };
-            virtual MenuItemResult Back() { return MenuItemResult::CLOSE_MYSELF; };
-            const char *GetName() { return name; }
+            virtual MenuItemResult Up() { return MenuItemResult::CLOSE_MYSELF; }
+            virtual MenuItemResult Down() { return MenuItemResult::CLOSE_MYSELF; }
+            virtual MenuItemResult Select(MenuItem** toOpen) { return MenuItemResult::CLOSE_MYSELF; }
+            virtual MenuItemResult Back() { return MenuItemResult::CLOSE_MYSELF; }
+            const char* GetName() const{ return name; }
         };
 
         class IntegerItem : public MenuItem
         {
         private:
-            int value, value_min, value_max;
-
+            int* value;
+            int value_min;
+            int value_max;
+            MenuItemChanged<int>* cb;
         public:
-            IntegerItem(const char *name, int value_init, int value_min, int value_max) : MenuItem(name), value(value_init), value_min(value_min), value_max(value_max) {}
+            IntegerItem(const char * const name, int* value, int value_min, int value_max, MenuItemChanged<int>* cb=nullptr) : 
+                MenuItem(name), value(value), value_min(value_min), value_max(value_max), cb(cb) {}
             void RenderCompact(FullLineWriter *lw, int line, bool invert) override
             {
-                lw->printfl(line, invert, "%s\t%d", name, value);
+                lw->printfl(line, invert, "%s\t%d", name, *value);
             }
 
             void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t screenHeight) override
@@ -60,20 +73,20 @@ namespace ssd1306
                     lw->ClearScreenAndResetStartline();
                     lw->printfl(0, false, "Edit Value");
                 }
-                lw->printfl(1, true, "%d", value);
+                lw->printfl(1, true, "%d", *value);
             }
             MenuItemResult Up() override
             {
-                value++;
-                if (value > value_max)
-                    value = value_min;
+                (*value)++;
+                if((*value) > value_max) *value = value_min;
+                if(cb)cb->ValueChanged(this, *value);
                 return MenuItemResult::REDRAW;
             }
             MenuItemResult Down() override
             {
-                value--;
-                if (value < value_min)
-                    value = value_max;
+                (*value)--;
+                if ((*value) < value_min) *value = value_max;
+                if(cb) cb->ValueChanged(this, *value);
                 return MenuItemResult::REDRAW;
             }
         };
@@ -81,13 +94,13 @@ namespace ssd1306
         class BoolItem : public MenuItem
         {
         private:
-            bool value;
-
+            bool* value;
+            MenuItemChanged<bool>* cb;
         public:
-            BoolItem(const char *name, bool value_init) : MenuItem(name), value(value_init) {}
+            BoolItem(const char * const name, bool* value, MenuItemChanged<bool>* cb=nullptr) : MenuItem(name), value(value), cb(cb) {}
             void RenderCompact(FullLineWriter *lw, int line, bool invert) override
             {
-                if (value)
+                if (*value)
                 {
                     lw->printfl(line, invert, "%s\t\x1b\x10", name);
                 }
@@ -104,7 +117,7 @@ namespace ssd1306
                     lw->ClearScreenAndResetStartline();
                     lw->printfl(0, false, "Edit Value");
                 }
-                if (value)
+                if (*value)
                 {
                     lw->printfl(1, true, "\x1b\x10");
                 }
@@ -116,12 +129,14 @@ namespace ssd1306
 
             MenuItemResult Up() override
             {
-                value = !value;
+                *value = !(*value);
+                if(cb) cb->ValueChanged(this, *value);
                 return MenuItemResult::REDRAW;
             }
             MenuItemResult Down() override
             {
-                value = !value;
+                *value = !(*value);
+                if(cb) cb->ValueChanged(this, *value);
                 return MenuItemResult::REDRAW;
             }
         };
@@ -130,13 +145,21 @@ namespace ssd1306
         class FixedPointItem : public MenuItem
         {
         private:
-            int value, value_min, value_max;
-
+            int value_int, value_min, value_max;
+            float* value_ptr;
+            MenuItemChanged<float>* cb;
         public:
-            FixedPointItem(const char *name, float value_init, float value_min, float value_max) : MenuItem(name), value(value_init * UNITS_PER_INTEGER), value_min(value_min * UNITS_PER_INTEGER), value_max(value_max * UNITS_PER_INTEGER) {}
+            FixedPointItem(const char * const name, float* value, float value_min, float value_max, MenuItemChanged<float>* cb=nullptr) : 
+                MenuItem(name), 
+                value_int((*value) * UNITS_PER_INTEGER), 
+                value_min(value_min * UNITS_PER_INTEGER), 
+                value_max(value_max * UNITS_PER_INTEGER), 
+                value_ptr(value),
+                cb(cb)
+                {}
             void RenderCompact(FullLineWriter *lw, int line, bool invert) override
             {
-                lw->printfl(line, invert, "%s\t%.2f", name, (float)value / (float)UNITS_PER_INTEGER);
+                lw->printfl(line, invert, "%s\t%.2f", name, *value_ptr);
             }
 
             void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t screenHeight) override
@@ -146,28 +169,31 @@ namespace ssd1306
                     lw->ClearScreenAndResetStartline();
                     lw->printfl(0, false, "Edit Value");
                 }
-                lw->printfl(1, true, "%.2f", (float)value / (float)UNITS_PER_INTEGER);
+                lw->printfl(1, true, "%.2f", *value_ptr);
             }
 
             MenuItemResult Up() override
             {
-                value++;
-                if (value > value_max)
-                    value = value_min;
+                value_int++;
+                if (value_int > value_max)
+                    value_int = value_min;
+                *value_ptr=(float)value_int / (float)UNITS_PER_INTEGER;
+                if(cb) cb->ValueChanged(this, *value_ptr);
                 return MenuItemResult::REDRAW;
             }
             MenuItemResult Down() override
             {
-                value--;
-                if (value < value_min)
-                    value = value_max;
+                value_int--;
+                if (value_int < value_min)
+                    value_int = value_max;
+                *value_ptr=(float)value_int / (float)UNITS_PER_INTEGER;
+                if(cb) cb->ValueChanged(this, *value_ptr);
                 return MenuItemResult::REDRAW;
             }
         };
 
         class ReturnItem : public MenuItem
         {
-        private:
         public:
             ReturnItem() : MenuItem("\x1b\x2\x1b\x2\x1b\x2\x1b\x2") {}
             void RenderCompact(FullLineWriter *lw, int line, bool invert) override
@@ -181,7 +207,7 @@ namespace ssd1306
         class PlaceholderItem : public MenuItem
         {
         public:
-            PlaceholderItem(const char *name) : MenuItem(name) {}
+            PlaceholderItem(const char * const name) : MenuItem(name) {}
             void RenderCompact(FullLineWriter *lw, int line, bool invert) override
             {
                 lw->printfl(line, invert, "%s", name);
@@ -192,19 +218,19 @@ namespace ssd1306
         class FolderItem : public MenuItem
         {
         private:
-            std::vector<MenuItem *> *content;
+            const std::vector<MenuItem*> * const content;
             size_t selected_menu{0}; // index in the content vector
             size_t selected_line{0}; // index in the graphics ram o
             int movement{0};
 
         public:
-            FolderItem(const char *name, std::vector<MenuItem *> *content) : MenuItem(name), content(content) {}
+            FolderItem(const char* const name, const std::vector<MenuItem* >* const content) : MenuItem(name), content(content) {}
             void RenderCompact(FullLineWriter *lw, int page, bool invert) override
             {
                 lw->printfl(page, invert, "%s\t\x1b\x3", name);
             }
 
-            MenuItem *GetContent(int uncorrected_index)
+            MenuItem* GetContent(int uncorrected_index)
             {
                 return content->at(ssd1306::modulo(uncorrected_index, content->size()));
             }
@@ -253,7 +279,7 @@ namespace ssd1306
                     for (int page = 0; page < 8; page++)
                     {
                         int corr_menu_idx = ssd1306::modulo(menu_idx, content->size());
-                        MenuItem *itm = content->at(corr_menu_idx);
+                        MenuItem* itm = content->at(corr_menu_idx);
                         itm->RenderCompact(lw, page, menu_idx == selected_menu);
                         menu_idx++;
                     }
@@ -284,9 +310,9 @@ namespace ssd1306
                 return MenuItemResult::REDRAW;
             }
 
-            MenuItemResult Select(MenuItem **itemToOpen) override
+            MenuItemResult Select(MenuItem** itemToOpen) override
             {
-                *itemToOpen = content->at(selected_menu);
+                *itemToOpen=content->at(selected_menu);
                 return MenuItemResult::OPEN_NEW_FULLSCREEN;
             }
         };
@@ -298,9 +324,10 @@ namespace ssd1306
             size_t selected_option{0}; // index in the content vector
             size_t selected_line{0};   // index in the graphics ram o
             int movement{0};
+            MenuItemChanged<int>* cb;
 
         public:
-            OptionItem(const char *name, std::vector<const char *> *options) : MenuItem(name), options(options) {}
+            OptionItem(const char *name, std::vector<const char *> *options, MenuItemChanged<int>* cb=nullptr) : MenuItem(name), options(options), cb(cb) {}
             void RenderCompact(FullLineWriter *lw, int page, bool invert) override
             {
                 lw->printfl(page, invert, "%s\t %s", name, GetSelectedOptionName());
@@ -309,7 +336,6 @@ namespace ssd1306
             const char *GetSelectedOptionName(int offset = 0)
             {
                 auto name = options->at(ssd1306::modulo(selected_option + offset, options->size()));
-                ESP_LOGI(TAG, "%s", name);
                 return name;
             }
 
@@ -349,12 +375,14 @@ namespace ssd1306
                     lw->printfl(selected_line + textLines - 1, false, "   %s", GetSelectedOptionName(textLines - 1));
                     selected_line = ssd1306::modulo(++selected_line, textLines);
                     selected_option = ssd1306::modulo(++selected_option, options->size());
+                    if(cb) cb->ValueChanged(this, selected_option);
                     movement = 0;
                 }
             }
 
             MenuItemResult Up() override
             {
+                movement = -1;
                 return MenuItemResult::REDRAW;
             }
             MenuItemResult Down() override

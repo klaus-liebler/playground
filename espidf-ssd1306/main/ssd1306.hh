@@ -39,7 +39,7 @@ namespace ssd1306
     /**
      * Allways positive; for array indices!
      */
-    inline size_t modulo(int i, int n)
+    inline size_t modulo(const int i, const int n)
     {
         return (i % n + n) % n;
     }
