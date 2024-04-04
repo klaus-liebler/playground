@@ -12,10 +12,11 @@ class FullLineWriter
 {
 public:
     virtual size_t printfl(int line, bool invert, const char *format, ...) = 0;
-    virtual void ClearScreenAndResetStartline(bool invert = false, uint8_t startline = 0) = 0;
+    virtual void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1) = 0;
     virtual void SetStartline(uint8_t startline) = 0;
     virtual void Scroll(int textLines) = 0;
-    virtual uint8_t GetTextLines() = 0;
+    virtual uint8_t GetShownLines() = 0;
+    virtual uint8_t GetAvailableLines() = 0;
 };
 
 namespace ssd1306
@@ -49,12 +50,16 @@ namespace ssd1306
     {
 
     public:
-        uint8_t GetTextLines() override
+        uint8_t GetShownLines() override
         {
             return HEIGHT / (font->h);
         }
 
-        void ClearScreenAndResetStartline(bool invert = false, uint8_t startline = 0)
+        uint8_t GetAvailableLines() override{
+            return 64/(font->h);
+        }
+
+        void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1)
         {
 
             uint8_t cmd_buf[4];
@@ -76,7 +81,7 @@ namespace ssd1306
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, data_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));
             }
 
-            SetStartline(startline);
+            SetStartline((float)(this->font->h*start_textline_nominator)/(float)start_textline_denominator);
         }
 
         void SetStartline(uint8_t startline)
@@ -384,7 +389,7 @@ namespace ssd1306
             ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, buf, sizeof(buf), I2C_TICKS_TO_WAIT));
         }
 
-        esp_err_t Init(i2c_master_bus_handle_t bus_handle)
+        esp_err_t Init(i2c_master_bus_handle_t bus_handle, uint32_t scl_speed_hz=400000)
         {
             ESP_ERROR_CHECK(i2c_master_probe(bus_handle, I2C_ADDRESS, 100));
             ESP_LOGI(TAG, "Found SSD1306");
@@ -392,7 +397,7 @@ namespace ssd1306
             i2c_device_config_t dev_cfg = {
                 .dev_addr_length = I2C_ADDR_BIT_LEN_7,
                 .device_address = I2C_ADDRESS,
-                .scl_speed_hz = 100000,
+                .scl_speed_hz = scl_speed_hz,
             };
 
             ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_cfg, &this->dev_handle));

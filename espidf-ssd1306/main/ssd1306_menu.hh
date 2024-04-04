@@ -41,7 +41,7 @@ namespace ssd1306
         public:
             MenuItem(const char * const name) : name(name) {}
             virtual void RenderCompact(FullLineWriter *lw, int page_modulo_inside, bool invert) = 0;
-            virtual void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t textLines){};
+            virtual void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines){};
             virtual OnOpenFullscreenResult OnOpenFullscreen() { return OnOpenFullscreenResult::OK; } // This is the normal case
             virtual void OnCloseFullscreen() { return; }                                             // This is the normal case
             virtual MenuItemResult Up() { return MenuItemResult::CLOSE_MYSELF; }
@@ -66,7 +66,7 @@ namespace ssd1306
                 lw->printfl(line, invert, "%s\t%d", name, *value);
             }
 
-            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t screenHeight) override
+            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
             {
                 if (initial)
                 {
@@ -110,7 +110,7 @@ namespace ssd1306
                 }
             }
 
-            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t screenHeight) override
+            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
             {
                 if (initial)
                 {
@@ -162,7 +162,7 @@ namespace ssd1306
                 lw->printfl(line, invert, "%s\t%.2f", name, *value_ptr);
             }
 
-            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t screenHeight) override
+            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
             {
                 if (initial)
                 {
@@ -225,9 +225,9 @@ namespace ssd1306
 
         public:
             FolderItem(const char* const name, const std::vector<MenuItem* >* const content) : MenuItem(name), content(content) {}
-            void RenderCompact(FullLineWriter *lw, int page, bool invert) override
+            void RenderCompact(FullLineWriter *lw, int line, bool invert) override
             {
-                lw->printfl(page, invert, "%s\t\x1b\x3", name);
+                lw->printfl(line, invert, "%s\t\x1b\x3", name);
             }
 
             MenuItem* GetContent(int uncorrected_index)
@@ -235,15 +235,16 @@ namespace ssd1306
                 return content->at(ssd1306::modulo(uncorrected_index, content->size()));
             }
 
-            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t textLines) override
+            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
             {
                 if (initial)
                 {
-                    ESP_LOGI(TAG, "Menu Full update");
-                    lw->ClearScreenAndResetStartline(false, 0);
+                    ESP_LOGI(TAG, "Menu Full update selected_menu=%u, shownLines=%d availableLines=%d", selected_menu, shownLines, availableLines);
+                    lw->ClearScreenAndResetStartline(false, shownLines==availableLines?0:3, 4);
+                    //Bei zwei sichtbaren Zeilen wird von der selected_menu - 1 nur ein viertel und von der selected_menu+1 dafür drei viertel dargestellt
                     selected_line = 1;
                     int menu_idx = selected_menu - 1;
-                    for (int textline = 0; textline < textLines; textline++)
+                    for (int textline = 0; textline < availableLines; textline++)
                     {
                         int corr_menu_idx = ssd1306::modulo(menu_idx, content->size());
                         MenuItem *itm = content->at(corr_menu_idx);
@@ -253,16 +254,18 @@ namespace ssd1306
                 }
                 else if (movement == +1)
                 {
-                    ESP_LOGD(TAG, "Update ram %d with %s and %d with %s and %d with %s",
-                             ssd1306::modulo(selected_line, textLines), GetContent(selected_menu)->GetName(),
-                             ssd1306::modulo(selected_line + 1, textLines), GetContent(selected_menu + 1)->GetName(),
-                             ssd1306::modulo(selected_line + (textLines - 1), textLines), GetContent(selected_menu + 5)->GetName());
-                    lw->printfl(selected_line - 1, false, " ");                                // delete first line on display (needs at least a space character; otherwise nothiong will be printed)
+                    ESP_LOGI(TAG, "Update ram %d with %s and %d with %s and %d with %s",
+                             ssd1306::modulo(selected_line, availableLines), GetContent(selected_menu)->GetName(),
+                             ssd1306::modulo(selected_line + 1, availableLines), GetContent(selected_menu + 1)->GetName(),
+                             ssd1306::modulo(selected_line + (availableLines - 1), availableLines), GetContent(selected_menu + availableLines - 1)->GetName());
+                    if(shownLines==availableLines){
+                        lw->printfl(selected_line - 1, false, " ");// delete first line on display (needs at least a space character; otherwise nothing will be printed)
+                    }
                     GetContent(selected_menu)->RenderCompact(lw, selected_line, false);        // redraw selected line as unselected
                     GetContent(selected_menu + 1)->RenderCompact(lw, selected_line + 1, true); // redraw next line as selected
                     lw->Scroll(+1);
-                    GetContent(selected_menu + textLines - 1)->RenderCompact(lw, selected_line + textLines - 1, false);
-                    selected_line = ssd1306::modulo(++selected_line, textLines);
+                    GetContent(selected_menu + availableLines - 1)->RenderCompact(lw, selected_line + availableLines - 1, false);
+                    selected_line = ssd1306::modulo(++selected_line, availableLines);
                     selected_menu = ssd1306::modulo(++selected_menu, content->size());
                     movement = 0;
                 }
@@ -344,7 +347,7 @@ namespace ssd1306
                 return selected_option;
             }
 
-            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t textLines) override
+            void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
             {
                 if (initial)
                 {
@@ -352,7 +355,7 @@ namespace ssd1306
                     lw->ClearScreenAndResetStartline(false, 0);
                     selected_line = 1;
                     int option_idx = selected_option - 1;
-                    for (int textline = 0; textline < textLines; textline++)
+                    for (int textline = 0; textline < availableLines; textline++)
                     {
                         const char *itm = options->at(ssd1306::modulo(option_idx, options->size()));
                         if (option_idx == selected_option)
@@ -372,8 +375,8 @@ namespace ssd1306
                     lw->printfl(selected_line, false, "   %s", GetSelectedOptionName());           // redraw selected line as unselected
                     lw->printfl(selected_line + 1, true, "\x1b\xe %s", GetSelectedOptionName(+1)); // redraw next line as selected
                     lw->Scroll(+1);
-                    lw->printfl(selected_line + textLines - 1, false, "   %s", GetSelectedOptionName(textLines - 1));
-                    selected_line = ssd1306::modulo(++selected_line, textLines);
+                    lw->printfl(selected_line + availableLines - 1, false, "   %s", GetSelectedOptionName(availableLines - 1));
+                    selected_line = ssd1306::modulo(++selected_line, availableLines);
                     selected_option = ssd1306::modulo(++selected_option, options->size());
                     if(cb) cb->ValueChanged(this, selected_option);
                     movement = 0;
@@ -403,14 +406,14 @@ namespace ssd1306
             FolderItem *root;
             FullLineWriter *lw;
             std::vector<MenuItem *> path;
-            uint8_t textLines{4};
-
+            uint8_t shownLines{2};
+            uint8_t availableLines{4};
         public:
-            MenuManagement(FolderItem *root, FullLineWriter *lw) : root(root), lw(lw) {}
+            MenuManagement(FolderItem *root, FullLineWriter *lw) : root(root), lw(lw), shownLines(lw->GetShownLines()), availableLines(lw->GetAvailableLines()) {}
 
             void Init()
             {
-                root->RenderFullScreen(lw, true, this->textLines);
+                root->RenderFullScreen(lw, true, shownLines, availableLines);
                 path.push_back(this->root);
             }
 
@@ -420,7 +423,7 @@ namespace ssd1306
                 switch (mi->Down())
                 {
                 case MenuItemResult::REDRAW:
-                    mi->RenderFullScreen(lw, false, this->textLines);
+                    mi->RenderFullScreen(lw, false, shownLines, availableLines);
                     break;
                 case MenuItemResult::NO_ACTION:
                     break;
@@ -435,7 +438,7 @@ namespace ssd1306
                 mi->OnCloseFullscreen();
                 path.pop_back();
                 path.back()->OnOpenFullscreen();
-                path.back()->RenderFullScreen(lw, true, this->textLines);
+                path.back()->RenderFullScreen(lw, true, shownLines, availableLines);
             }
             void Select()
             {
@@ -446,7 +449,7 @@ namespace ssd1306
                 case MenuItemResult::NO_ACTION:
                     break;
                 case MenuItemResult::REDRAW:
-                    mi->RenderFullScreen(lw, false, this->textLines);
+                    mi->RenderFullScreen(lw, false, shownLines, availableLines);
                     break;
                 case MenuItemResult::CLOSE_MYSELF:
                     GoBack();
@@ -458,7 +461,7 @@ namespace ssd1306
                     {
                     case OnOpenFullscreenResult::OK:
                         mi->OnCloseFullscreen();
-                        toOpen->RenderFullScreen(lw, true, this->textLines);
+                        toOpen->RenderFullScreen(lw, true, shownLines, availableLines);
                         path.push_back(toOpen);
                         break;
                     case OnOpenFullscreenResult::NOT_OK_AND_CLOSE_PREVIOUS_WINDOW:

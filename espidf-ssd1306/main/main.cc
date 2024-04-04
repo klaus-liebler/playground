@@ -43,13 +43,17 @@ class :public MenuItemChanged<float>{
     }
 } float_cb;
 
-ssd1306::M<128, 64> *lcd{nullptr};
+ssd1306::M<128, 32> *lcd{nullptr};
 
 
 int Integer2_1_0{1};
 int Integer2_0{2};
 int Integer2_2{3};
 int Integer2_3{4};
+int Integer0{0};
+int Integer5{5};
+bool Bool3{false};
+float Fixed1{0.25};
 
 std::vector<MenuItem *> folder2_1_items = {
     new IntegerItem("Integer2_1_0", &Integer2_1_0, 0, 10, &int_cb),
@@ -71,11 +75,6 @@ std::vector<const char *> option_items = {
     "Opt4",
     "Opt5",
 };
-int Integer0{0};
-int Integer5{5};
-
-bool Bool3{false};
-float Fixed1{0.25};
 
 std::vector<MenuItem *> root_items = {
     new IntegerItem("Integer0", &Integer0, 0, 10, &int_cb),
@@ -144,7 +143,7 @@ extern "C" void app_main(void)
     // dev_cfg.scl_speed_hz = 100000;
     // ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle));
 
-    lcd = new ssd1306::M<128,64>(&font::Font16x8);
+    lcd = new ssd1306::M<128,32>(&font::Font16x8);
     lcd->Init(bus_handle);
     auto root_folder = new FolderItem("root", &root_items);
     auto m=new MenuManagement(root_folder, lcd);
