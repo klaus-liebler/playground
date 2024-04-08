@@ -1,3 +1,10 @@
 {
-  "C_Cpp.intelliSenseEngine": "default"
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.adapterTargetName": "esp32s3",
+  "files.associations": {
+    "fcntl.h": "c",
+    "cstdlib": "c"
+  },
+  "idf.flashType": "UART",
+  "idf.portWin": "COM11"
 }

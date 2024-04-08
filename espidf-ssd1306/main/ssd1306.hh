@@ -8,6 +8,8 @@
 #include <ssd1306_fonts.hh>
 #include <ssd1306_cmd.hh>
 
+#include <stdio.h>
+
 class FullLineWriter
 {
 public:
@@ -55,8 +57,9 @@ namespace ssd1306
             return HEIGHT / (font->h);
         }
 
-        uint8_t GetAvailableLines() override{
-            return 64/(font->h);
+        uint8_t GetAvailableLines() override
+        {
+            return 64 / (font->h);
         }
 
         void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1)
@@ -81,7 +84,7 @@ namespace ssd1306
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, data_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));
             }
 
-            SetStartline((float)(this->font->h*start_textline_nominator)/(float)start_textline_denominator);
+            SetStartline((float)(this->font->h * start_textline_nominator) / (float)start_textline_denominator);
         }
 
         void SetStartline(uint8_t startline)
@@ -182,10 +185,10 @@ namespace ssd1306
 
         void Scroll(int textlines)
         {
-            int step=((this->font->h)/4)*(textlines<0?-1:+1);
-            int count = 4*abs(textlines);
+            int step = ((this->font->h) / 4) * (textlines < 0 ? -1 : +1);
+            int count = 4 * abs(textlines);
             ESP_LOGI(TAG, "Scoll h=%d count=%d, step=%d, old startline=%d", this->font->h, count, step, startline);
-            for (int i = 0; i < count; i++) 
+            for (int i = 0; i < count; i++)
             {
                 startline += step;
                 startline = (startline + 64) % 64;
@@ -231,7 +234,8 @@ namespace ssd1306
             ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, write_buf, numberOfSegments + 1, I2C_TICKS_TO_WAIT));
         }
 
-        void setWindowFullPage(uint8_t page){
+        void setWindowFullPage(uint8_t page)
+        {
             uint8_t *out_buf = new uint8_t[4];
             page = modulo(page, 8);
             out_buf[0] = CMD::WRITE_CMD_STREAM;
@@ -244,17 +248,56 @@ namespace ssd1306
             ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, out_buf, 4, I2C_TICKS_TO_WAIT));
         }
 
-        const uint8_t* GetCharImage(char char_code, uint8_t ramline){
-            char_code-=(font->ascii_offset);
-            size_t bytes_per_char = font->h*font->w/8;
-            return (font->first_character_data+bytes_per_char*char_code)+ramline*bytes_per_char/2;
+        const uint8_t *GetCharImage(char char_code, uint8_t ramline)
+        {
+            char_code -= (font->ascii_offset);
+            size_t bytes_per_char = font->h * font->w / 8;
+            return (font->first_character_data + bytes_per_char * char_code) + ramline * bytes_per_char / 2;
         }
 
-        const uint8_t* GetSymbolImage(char char_code, uint8_t ramline){
+        const uint8_t *GetSymbolImage(char char_code, uint8_t ramline)
+        {
             char_code--;
-            return font::icons16x16+(32*char_code)+16*ramline;
+            return font::icons16x16 + (32 * char_code) + 16 * ramline;
         }
-        
+    /*
+        size_t printchar_ttf(int line, SFT *sft, unsigned long cp)
+        {
+            SFT_Glyph gid; //  unsigned long gid;
+            if (sft_lookup(sft, cp, &gid) < 0){
+                ESP_LOGE(TAG, "Missing codepoint %lu", cp);
+                return 0;
+            }
+            ESP_LOGI(TAG, "lookup successful");
+            SFT_GMetrics mtx;
+            if (sft_gmetrics(sft, gid, &mtx) < 0){
+                ESP_LOGE(TAG, "Bad glyph metrics codepoint %lu", cp);
+                return 0;
+            }
+            
+            SFT_Image img = {};
+            img.width = (mtx.minWidth + 3) & ~3;
+            img.height = mtx.minHeight;
+            
+            ESP_LOGI(TAG, "sft_gmetrics successful imgWidth=%d imgHeight=%d", img.width, img.height);
+            char pixels[img.width * img.height];
+            img.pixels = pixels;
+
+            if (sft_render(sft, gid, img) < 0){
+                ESP_LOGE(TAG, "Not renderable codepoint %lu", cp);
+                return 0;
+            }
+            ESP_LOGI(TAG, "Successfully rendered char '%c' with w=%d and h=%d  ", (char)cp, img.width, img.height);
+            for(int y=0;y<img.height;y++){
+                for(int x=0;x<img.width;x++){
+                    printf("%c",pixels[y*img.width+x]);
+                }
+                printf("\n");
+            }
+
+            return 0;
+        }
+*/
         size_t printfl(int line, bool invert, const char *format, ...)
         {
             va_list args_list;
@@ -268,9 +311,9 @@ namespace ssd1306
                 return 0;
             }
             uint8_t *out_buf = new uint8_t[WIDTH + 1];
-            for(int ramline=0;ramline<(font->h)/8;ramline++)
+            for (int ramline = 0; ramline < (font->h) / 8; ramline++)
             {
-                setWindowFullPage(ramline+line*(font->h)/8);
+                setWindowFullPage(ramline + line * (font->h) / 8);
                 out_buf[0] = CMD::WRITE_DAT;
                 uint8_t seg = 0;
                 uint8_t char_index = 0;
@@ -286,13 +329,13 @@ namespace ssd1306
                         break;
                     }
                     const uint8_t *char_image{nullptr};
-                    size_t char_width=8;
-                    if (char_code == 0x1B)//Escape character -->goto symbol font
+                    size_t char_width = 8;
+                    if (char_code == 0x1B) // Escape character -->goto symbol font
                     {
                         char_code = chars[++char_index];
-                        //char_image = font::icons8x8_data[(uint8_t)char_code];
+                        // char_image = font::icons8x8_data[(uint8_t)char_code];
                         char_image = GetSymbolImage(char_code, ramline);
-                        char_width=16;
+                        char_width = 16;
                     }
                     else
                     {
@@ -324,19 +367,19 @@ namespace ssd1306
                             break;
                         }
                         const uint8_t *char_image{nullptr};
-                        size_t char_width=8;
+                        size_t char_width = 8;
                         if (chars[char_index - 1] == 0x1B)
                         {
                             char_image = GetSymbolImage(char_code, ramline);
                             char_index -= 2;
-                            char_width=16;
+                            char_width = 16;
                         }
                         else
                         {
                             char_image = GetCharImage(char_code, ramline);
                             char_index -= 1;
                         }
-                        for (int i = char_width-1; i >= 0; i--)
+                        for (int i = char_width - 1; i >= 0; i--)
                         {
                             out_buf[1 + seg] = invert ? ~char_image[i] : char_image[i];
                             seg--;
@@ -345,14 +388,13 @@ namespace ssd1306
                 }
 
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, out_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));
-                
             }
             free(chars);
             delete[] out_buf;
             return chars_len;
         }
 
-        size_t printf(int line, uint8_t segment0_127, bool invert, const char *format, ...)
+        size_t lcdprintf(int line, uint8_t segment0_127, bool invert, const char *format, ...)
         {
             line %= 8; // important: line can be an arbitrary integer
             if (line < 0)
@@ -389,7 +431,7 @@ namespace ssd1306
             ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, buf, sizeof(buf), I2C_TICKS_TO_WAIT));
         }
 
-        esp_err_t Init(i2c_master_bus_handle_t bus_handle, uint32_t scl_speed_hz=400000)
+        esp_err_t Init(i2c_master_bus_handle_t bus_handle, uint32_t scl_speed_hz = 400000)
         {
             ESP_ERROR_CHECK(i2c_master_probe(bus_handle, I2C_ADDRESS, 100));
             ESP_LOGI(TAG, "Found SSD1306");
@@ -479,7 +521,7 @@ namespace ssd1306
             this->s_chDisplayBuffer[index] |= 1 << y & 0b111;
         }
 
-        M(const font::FixedSizeFont *font, uint8_t startline=0) : startline(startline & 0b00111111), font(font)
+        M(const font::FixedSizeFont *font, uint8_t startline = 0) : startline(startline & 0b00111111), font(font)
         {
             this->s_chDisplayBuffer = new uint8_t[128 * 8];
             memset(this->s_chDisplayBuffer, 0, 128 * 8);
