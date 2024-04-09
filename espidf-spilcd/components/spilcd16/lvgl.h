@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
+#include <string.h>
 #define LV_ATTRIBUTE_LARGE_CONST 
-#define NULL (0)
 #define LVGL_VERSION_MAJOR (9)
 #define LVGL_VERSION_MINOR (0)
 #define LV_FONT_FMT_TXT_LARGE (0)
@@ -207,7 +207,7 @@ typedef uint8_t lv_font_glyph_format_t;
 
 /** Describes the properties of a glyph.*/
 typedef struct {
-    resolved_font;  /**< Pointer to a font where the glyph was actually found after handling fallbacks*/
+    
     uint16_t adv_w; /**< The glyph needs this space. Draw the next glyph after this width.*/
     uint16_t box_w; /**< Width of the glyph's bounding box*/
     uint16_t box_h; /**< Height of the glyph's bounding box*/
@@ -230,8 +230,10 @@ enum _lv_font_subpx_t {
     LV_FONT_SUBPX_BOTH,
 };
 
-#define lv_font_get_glyph_dsc_fmt_txt NULL
-#define lv_font_get_bitmap_fmt_txt NULL
+#define lv_font_get_bitmap_fmt_txt nullptr
+
+#define lv_font_get_glyph_dsc_fmt_txt nullptr
+
 typedef struct   {
 
     void* get_glyph_dsc;
@@ -241,12 +243,12 @@ typedef struct   {
     enum _lv_font_subpx_t subpx;
     int8_t underline_position;
     int8_t underline_thickness;
-    lv_font_fmt_txt_dsc_t* dsc;
+    const lv_font_fmt_txt_dsc_t* dsc;
 } lv_font_t;
 
 
 
-
+extern const lv_font_t lv_font_montserrat_16;
 
 
 

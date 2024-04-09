@@ -12,6 +12,7 @@
 #include <esp_heap_caps.h>
 #include <algorithm>
 #include <esp_log.h>
+#include "./interfaces.hh"
 #include "errorcodes.hh"
 #include "common-esp32.hh"
 #include <bit>
@@ -28,29 +29,10 @@ Achtung. Wenn der Renderer mal false zurück liefert, müssen die Datenstrukture
 
 namespace SPILCD16
 {
-    typedef uint16_t Color565;
+    
     constexpr size_t PIXEL_BUFFER_SIZE_IN_PIXELS = 240 * 8; // Wenn die volle Breite ausgenutzt würde, könnten 16 Zeilen "auf einen Rutsch" übertragen werden
     constexpr int SPI_Command_Mode = 0;
     constexpr int SPI_Data_Mode = 1;
-    
-    
-    namespace RGB565
-    {
-        constexpr Color565 RGBto565(u8 red, u8 green, u8 blue){
-            u16 Rgb565 = (((red & 0b11111000)<<8) + ((green & 0b11111100)<<3) + (blue>>3));
-            if(std::endian::native == std::endian::big) return Rgb565;
-            else if(std::endian::native == std::endian::little) return std::byteswap(Rgb565);//ESP32 is little endian
-            else return 0;
-        }
-        
-        constexpr Color565 BLACK{RGBto565(0,0,0)};
-        constexpr Color565 WHITE{RGBto565(255,255,255)};
-        constexpr Color565 BLUE{RGBto565(0,0,255)};
-        constexpr Color565 GREEN{RGBto565(0,255,0)};
-        constexpr Color565 RED{RGBto565(255,0,0)};
-        constexpr Color565 YELLOW{RGBto565(255,255,0)};
-        constexpr Color565 SILVER{RGBto565(192,192,192)};
-    }
 
     namespace CMD
     {
@@ -144,38 +126,12 @@ namespace SPILCD16
         SYNC_CMD=8,
     };
 
-    class Point2D
-    {
-    public:
-        int16_t x;
-        int16_t y;
-        void CopyFrom(Point2D &other)
-        {
-            this->x = other.x;
-            this->y = other.y;
-        }
-        uint32_t PixelsTo(Point2D other)
-        {
-            return (std::max(0, other.x - x)) * (std::max(0, other.y - y));
-        }
-        Point2D(int16_t x, int16_t y) : x(x), y(y) {}
-        Point2D() : x(0), y(0) {}
-    };
+
     /*
         Manager befragt AsyncRenderer zunächst nach dem rechteckigen Bereich, der beschrieben werden soll. Möglicherweise sind das mehrere Bereiche. Solange GetNextOverallLimits "true" zurück gibt, gibt es auch weitere zu beschreibende Bereiche
         Dann wird die Anzahl der Pixel für diesen Bereich ausgerechnet und Render eben so oft aufgerufen, bis diesen Bereich mit den zur Verfügung stehenden Buffern beschrieben werden kann
     */
-    class IAsyncRenderer
-    {
-    public:
-        /**
-         * Methode liefert zurück, welcher Bereich auf dem LCD zu beschreiben ist.
-         * Aufrufer muss sich dann darum kümmern, dass dieser Bereich auf durch eine entsprechende Anzahl an Render-Aufrufen auch wirklich beschrieben wird
-         * Funktion returniert false, wenn es keine vollzuschreibenden Bereiche mehr gibt
-         */
-        virtual bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) = 0;
-        virtual void Render(uint32_t startPixel, uint16_t *buffer, size_t len) = 0;
-    };
+
 
     class FilledRectRenderer : public IAsyncRenderer
     {
