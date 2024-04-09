@@ -24,30 +24,36 @@ Achtung. Wenn der Renderer mal false zurück liefert, müssen die Datenstrukture
 
 */
 
+#define LCD135x240 135, 240, 52, 40
+
 namespace SPILCD16
 {
+    typedef uint16_t Color565;
     constexpr size_t PIXEL_BUFFER_SIZE_IN_PIXELS = 240 * 8; // Wenn die volle Breite ausgenutzt würde, könnten 16 Zeilen "auf einen Rutsch" übertragen werden
     constexpr int SPI_Command_Mode = 0;
     constexpr int SPI_Data_Mode = 1;
-    namespace RGB565 //65k colors, RGB 5-6-5-bit input,  3Ah="05h"
+    
+    
+    namespace RGB565
     {
-        constexpr uint16_t RGB565(u8 red, u8 green, u8 blue){
+        constexpr Color565 RGBto565(u8 red, u8 green, u8 blue){
             u16 Rgb565 = (((red & 0b11111000)<<8) + ((green & 0b11111100)<<3) + (blue>>3));
-            return std::byteswap(Rgb565);
+            if(std::endian::native == std::endian::big) return Rgb565;
+            else if(std::endian::native == std::endian::little) return std::byteswap(Rgb565);//ESP32 is little endian
+            else return 0;
         }
         
-        constexpr uint16_t BLACK{RGB565(0,0,0)};
-        constexpr uint16_t WHITE{RGB565(255,255,255)};
-        constexpr uint16_t BLUE{RGB565(0,0,255)};
-        constexpr uint16_t GREEN{RGB565(0,255,0)};
-        constexpr uint16_t RED{RGB565(255,0,0)};
-        constexpr uint16_t YELLOW{RGB565(255,255,0)};
-        constexpr uint16_t SILVER{RGB565(192,192,192)};
+        constexpr Color565 BLACK{RGBto565(0,0,0)};
+        constexpr Color565 WHITE{RGBto565(255,255,255)};
+        constexpr Color565 BLUE{RGBto565(0,0,255)};
+        constexpr Color565 GREEN{RGBto565(0,255,0)};
+        constexpr Color565 RED{RGBto565(255,0,0)};
+        constexpr Color565 YELLOW{RGBto565(255,255,0)};
+        constexpr Color565 SILVER{RGBto565(192,192,192)};
     }
 
     namespace CMD
     {
-        // ST7789 specific commands used in init
         constexpr uint8_t NOP = 0x00;
         constexpr uint8_t Software_Reset = 0x01;
         constexpr uint8_t RDDID = 0x04;
@@ -124,7 +130,6 @@ namespace SPILCD16
         constexpr uint8_t PROMACT = 0xFE;   // Program action
     };
 
-    typedef uint16_t Color565;
 
     enum class TransactionPhase
     {
@@ -512,30 +517,14 @@ namespace SPILCD16
             delayAtLeastMs(10);
 
             lcd_cmd(CMD::Interface_Pixel_Format);
-            lcd_data(0x05);
-
-            lcd_cmd(CMD::Memory_Data_Access_Control); //necessary, because not all types of reset set this to 0x00
+            lcd_data(0x05);//16bit color format
+            
+            lcd_cmd(CMD::Memory_Data_Access_Control); //necessary, because not all types of reset set this value to 0x00
             lcd_data(0x00);
-            /*
-            lcd_cmd(CMD::Column_Address_Set);
-            lcd_data(0x00);
-            lcd_data(0x00);
-            lcd_data(0x00);
-            lcd_data(0xF0);
-
-            lcd_cmd(CMD::Row_Address_Set);
-            lcd_data(0x00);
-            lcd_data(0x00);
-            lcd_data(0x00);
-            lcd_data(0xF0);
-            */
+            
             lcd_cmd(CMD::Display_Inversion_On); //enable the color inversion mode that is necessary for in-plane switching (IPS) TFT displays.
-
-            //lcd_cmd(CMD::Normal_Display_Mode_On); //should not be necessary as this is the default after all types resets...
-            //delayAtLeastMs(30);
-
+            
             lcd_cmd(CMD::Display_On);
-            //delayAtLeastMs(255); //In the datasheet there is no hint for the need of a delay
 
             //FilledRectRenderer rr(Point2D(0, 0), Point2D(135, 240), fillColor);
             //DrawAsyncAsSync(&rr, false);
