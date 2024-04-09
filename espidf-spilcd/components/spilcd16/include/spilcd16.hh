@@ -439,6 +439,8 @@ namespace SPILCD16
             this->foregroundColor=c;
         }
 
+
+
         esp_err_t InitSpiAndGpio()
         {
             if (cs != GPIO_NUM_NC)
@@ -544,6 +546,10 @@ namespace SPILCD16
             FillRectSyncPolling(Point2D(130, 10), Point2D(135, 230), RGB565::RED);//rechts
             FillRectSyncPolling(Point2D(10, 0), Point2D(125, 5), RGB565::GREEN);//oben
             FillRectSyncPolling(Point2D(10, 235), Point2D(125, 240), RGB565::GREEN);//unten
+            
+        }
+
+        void DrawUnicode(Point2D baseline_left, uint16_t codepoint){
             
         }
 

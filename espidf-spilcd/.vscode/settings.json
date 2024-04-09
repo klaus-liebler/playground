@@ -71,7 +71,8 @@
     "thread": "cpp",
     "cinttypes": "cpp",
     "typeinfo": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "lvgl.h": "c"
   },
   "idf.flashType": "UART",
   "idf.portWin": "COM11"
