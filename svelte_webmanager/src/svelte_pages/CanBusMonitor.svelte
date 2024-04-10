@@ -67,7 +67,7 @@
                 $: entries.shift()
             }
         }
-    })(app)
+    })(app);
 
     onMount(() => {
         return M.onMount()

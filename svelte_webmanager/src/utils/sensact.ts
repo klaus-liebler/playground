@@ -1,5 +1,11 @@
-import { ApplicationId } from "../generated/flatbuffers/app";
+import { ApplicationId, Command } from "../generated/flatbuffers/app";
 import type { NotifyCanMessage } from "../generated/flatbuffers/webmanager";
+import * as flatbuffers from 'flatbuffers'
+import { CommandMessage } from "../generated/flatbuffers/websensact";
+
+export interface SensactContext {
+
+};
 
 export enum eCanMessageType 
 {
@@ -84,4 +90,16 @@ export class cCANMessageBuilderParserOld{
         return s;
 
     }
+}
+
+export async function sendCommandMessage(id: ApplicationId, cmd: Command, payload: Uint8Array) {
+    let b = new flatbuffers.Builder(1024);
+    let payloadOffset = CommandMessage.createPayloadVector(b, payload);
+    CommandMessage.startCommandMessage(b);
+    CommandMessage.addId(b, id);
+    CommandMessage.addCmd(b, cmd);
+    CommandMessage.addPayload(b, payloadOffset);
+    let x = CommandMessage.endCommandMessage(b);
+    b.finish(x);
+    let buf = b.asUint8Array();
 }
