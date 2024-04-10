@@ -23,8 +23,8 @@ extern "C" void app_main(void)
 {
     //M(spi_host_device_t spiHost, gpio_num_t mosi, gpio_num_t sclk, gpio_num_t cs, gpio_num_t dc, gpio_num_t rst, gpio_num_t bl)
     char* text;
-    asprintf(&text, "Klaus %d", 42);
-    SPILCD16::TextRenderer* tr = new TextRenderer(&lv_font_montserrat_16, Point2D(52, 100), RGB565::RED, RGB565::BLACK, text);
+    asprintf(&text, "Simon %d", 42);
+    SPILCD16::TextRenderer* tr = new TextRenderer(&lv_font_montserrat_16, Point2D(52, 100), RGB565::BLACK, RGB565::YELLOW, text);
 
     SPILCD16::M<SPI2_HOST, GPIO_NUM_7, GPIO_NUM_15, GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_NC, GPIO_NUM_18, LCD135x240> lcd;
     lcd.InitSpiAndGpio();

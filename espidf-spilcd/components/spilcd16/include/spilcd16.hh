@@ -29,10 +29,11 @@ Achtung. Wenn der Renderer mal false zurück liefert, müssen die Datenstrukture
 
 namespace SPILCD16
 {
-    
+
     constexpr size_t PIXEL_BUFFER_SIZE_IN_PIXELS = 240 * 8; // Wenn die volle Breite ausgenutzt würde, könnten 16 Zeilen "auf einen Rutsch" übertragen werden
     constexpr int SPI_Command_Mode = 0;
     constexpr int SPI_Data_Mode = 1;
+    constexpr bool POST_TRANSACTION_CALLBACK_ACTIVE{false};
 
     namespace CMD
     {
@@ -65,14 +66,14 @@ namespace SPILCD16
         constexpr uint8_t RAMRD = 0x2E;
 
         constexpr uint8_t PTLAR = 0x30;
-        constexpr uint8_t VSCRDEF = 0x33; // Vertical scrolling definition (ST7789V)
-        constexpr uint8_t TEOFF = 0x34;   // Tearing effect line off
-        constexpr uint8_t TEON = 0x35;    // Tearing effect line on
-        constexpr uint8_t Memory_Data_Access_Control = 0x36;  // Memory data access control
-        constexpr uint8_t IDMOFF = 0x38;  // Idle mode off
-        constexpr uint8_t IDMON = 0x39;   // Idle mode on
-        constexpr uint8_t RAMWRC = 0x3C;  // Memory write continue (ST7789V)
-        constexpr uint8_t RAMRDC = 0x3E;  // Memory read continue (ST7789V)
+        constexpr uint8_t VSCRDEF = 0x33;                    // Vertical scrolling definition (ST7789V)
+        constexpr uint8_t TEOFF = 0x34;                      // Tearing effect line off
+        constexpr uint8_t TEON = 0x35;                       // Tearing effect line on
+        constexpr uint8_t Memory_Data_Access_Control = 0x36; // Memory data access control
+        constexpr uint8_t IDMOFF = 0x38;                     // Idle mode off
+        constexpr uint8_t IDMON = 0x39;                      // Idle mode on
+        constexpr uint8_t RAMWRC = 0x3C;                     // Memory write continue (ST7789V)
+        constexpr uint8_t RAMRDC = 0x3E;                     // Memory read continue (ST7789V)
         constexpr uint8_t Interface_Pixel_Format = 0x3A;
 
         constexpr uint8_t RAMCTRL = 0xB0;   // RAM control
@@ -112,7 +113,6 @@ namespace SPILCD16
         constexpr uint8_t PROMACT = 0xFE;   // Program action
     };
 
-
     enum class TransactionPhase
     {
         DAT_WRITE_B0 = 0, // 0 und 1 sind Buffer-Operationen. Ansonsten: gerade Zahlen sind Commands, ungerade Zahlen sind Data
@@ -122,16 +122,14 @@ namespace SPILCD16
         CMD_RA_SET = 4,
         DAT_RA_SET = 5,
         CMD_WRITE = 6,
-        SYNC_DAT=7,
-        SYNC_CMD=8,
+        SYNC_DAT = 7,
+        SYNC_CMD = 8,
     };
-
 
     /*
         Manager befragt AsyncRenderer zunächst nach dem rechteckigen Bereich, der beschrieben werden soll. Möglicherweise sind das mehrere Bereiche. Solange GetNextOverallLimits "true" zurück gibt, gibt es auch weitere zu beschreibende Bereiche
         Dann wird die Anzahl der Pixel für diesen Bereich ausgerechnet und Render eben so oft aufgerufen, bis diesen Bereich mit den zur Verfügung stehenden Buffern beschrieben werden kann
     */
-
 
     class FilledRectRenderer : public IAsyncRenderer
     {
@@ -156,7 +154,7 @@ namespace SPILCD16
 
         void Render(uint32_t startPixel, uint16_t *buffer, size_t len) override
         {
-            //memset(buffer, 0, len);
+            // memset(buffer, 0, len);
             for (int i = 0; i < len; i++)
             {
                 buffer[i] = this->foreground;
@@ -205,7 +203,6 @@ namespace SPILCD16
         spi_transaction_t fooTransaction;
         SemaphoreHandle_t xSemaphore;
 
-
         // For Debugging purposes
         int preCbCalls = 0;
         int postCb1Calls = 0;
@@ -231,44 +228,44 @@ namespace SPILCD16
             prepareTransactionAndSend(&data, 1);
         }
 
-        void updateAndEnqueuePrepareTransactions(Point2D start, Point2D end_ex, bool considerOffsetsOfVisibleArea=true, bool polling=false)
+        void updateAndEnqueuePrepareTransactions(Point2D start, Point2D end_ex, bool considerOffsetsOfVisibleArea = true, bool polling = false)
         {
-            //Datasheet says: The address ranges are X=0 to X=239 (Efh) and Y=0 to Y=319 (13Fh).
-            //For example the whole display contents will be written [...]: XS=0 (0h) YS=0 (0h) and XE=239 (Efh), YE=319 (13Fh). 
-            //THAT MEANS: end is inclusive!
-            //As the end point is given exclusive, then we have to subtract 1
-            //Furthermore we have to consider all offsets
-            int16_t startX = start.x+(considerOffsetsOfVisibleArea?OFFSET_X:0);
-            int16_t endX = end_ex.x-1 + (considerOffsetsOfVisibleArea?OFFSET_X:0);
-            int16_t startY = start.y+(considerOffsetsOfVisibleArea?OFFSET_Y:0);
-            int16_t endY = end_ex.y-1 + (considerOffsetsOfVisibleArea?OFFSET_Y:0);
+            // Datasheet says: The address ranges are X=0 to X=239 (Efh) and Y=0 to Y=319 (13Fh).
+            // For example the whole display contents will be written [...]: XS=0 (0h) YS=0 (0h) and XE=239 (Efh), YE=319 (13Fh).
+            // THAT MEANS: end is inclusive!
+            // As the end point is given exclusive, then we have to subtract 1
+            // Furthermore we have to consider all offsets
+            int16_t startX = start.x + (considerOffsetsOfVisibleArea ? OFFSET_X : 0);
+            int16_t endX = end_ex.x - 1 + (considerOffsetsOfVisibleArea ? OFFSET_X : 0);
+            int16_t startY = start.y + (considerOffsetsOfVisibleArea ? OFFSET_Y : 0);
+            int16_t endY = end_ex.y - 1 + (considerOffsetsOfVisibleArea ? OFFSET_Y : 0);
             // Casting des Buffers auf int16* und dann direktes Schreiben geht nicht, weil weil little endian, also niederwertiges byte zuerst. Hier wird höherwertiges byte zuerst verlangt
-            PREPARE_TRANSACTIONS[1].tx_data[0] = (startX) >> 8;        // Start Col High
-            PREPARE_TRANSACTIONS[1].tx_data[1] = (startX) & 0xff;      // Start Col Low
-            PREPARE_TRANSACTIONS[1].tx_data[2] = (endX) >> 8;       // End Col High
-            PREPARE_TRANSACTIONS[1].tx_data[3] = (endX) & 0xff;     // End Col Low
-            PREPARE_TRANSACTIONS[3].tx_data[0] = (startY) >> 8;        // Start Col High
-            PREPARE_TRANSACTIONS[3].tx_data[1] = (startY) & 0xff;      // Start Col Low
-            PREPARE_TRANSACTIONS[3].tx_data[2] = (endY) >> 8;   // End Col High
-            PREPARE_TRANSACTIONS[3].tx_data[3] = (endY) & 0xff; // End Col Low
+            PREPARE_TRANSACTIONS[1].tx_data[0] = (startX) >> 8;   // Start Col High
+            PREPARE_TRANSACTIONS[1].tx_data[1] = (startX) & 0xff; // Start Col Low
+            PREPARE_TRANSACTIONS[1].tx_data[2] = (endX) >> 8;     // End Col High
+            PREPARE_TRANSACTIONS[1].tx_data[3] = (endX) & 0xff;   // End Col Low
+            PREPARE_TRANSACTIONS[3].tx_data[0] = (startY) >> 8;   // Start Col High
+            PREPARE_TRANSACTIONS[3].tx_data[1] = (startY) & 0xff; // Start Col Low
+            PREPARE_TRANSACTIONS[3].tx_data[2] = (endY) >> 8;     // End Col High
+            PREPARE_TRANSACTIONS[3].tx_data[3] = (endY) & 0xff;   // End Col Low
             for (int ti = 0; ti < 5; ti++)
             {
-                if(polling)
+                if (polling)
                     ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &PREPARE_TRANSACTIONS[ti]));
                 else
                     ESP_ERROR_CHECK(spi_device_queue_trans(spi, &PREPARE_TRANSACTIONS[ti], pdMS_TO_TICKS(100)));
             }
         }
 
-        void updateAndEnqueueBufferTransaction(int index, IAsyncRenderer *renderer, uint32_t startPixel, size_t pixelToRender, size_t pixelsInCurrentRect, bool polling=false)
+        void updateAndEnqueueBufferTransaction(int index, IAsyncRenderer *renderer, uint32_t startPixel, size_t pixelToRender, size_t pixelsInCurrentRect, bool polling = false)
         {
-            assert(index < 2);
+            index = index % 2;
             BUFFER_TRANSACTIONS[index].length = 16 * pixelToRender; // Data length, in bits
             BUFFER_TRANSACTIONS[index].rxlength = 0;
             static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user)->ResetTo(renderer, startPixel, pixelToRender, pixelsInCurrentRect);
             if (pixelToRender > 0)
             {
-                if(polling)
+                if (polling)
                     ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &BUFFER_TRANSACTIONS[index]));
                 else
                     ESP_ERROR_CHECK(spi_device_queue_trans(spi, &BUFFER_TRANSACTIONS[index], pdMS_TO_TICKS(100)));
@@ -288,25 +285,25 @@ namespace SPILCD16
             }
             memset(PREPARE_TRANSACTIONS, 0, 5 * sizeof(spi_transaction_t));
 
-            PREPARE_TRANSACTIONS[0].length = 8;//bits
+            PREPARE_TRANSACTIONS[0].length = 8; // bits
             PREPARE_TRANSACTIONS[0].user = (void *)new TransactionInfo(this, TransactionPhase::CMD_CA_SET);
             PREPARE_TRANSACTIONS[0].tx_data[0] = CMD::Column_Address_Set;
-            PREPARE_TRANSACTIONS[0].flags = SPI_TRANS_USE_TXDATA;//means: data is not in a buffer, that is pointed with tx_buffer, but it is directly in tx_data
+            PREPARE_TRANSACTIONS[0].flags = SPI_TRANS_USE_TXDATA; // means: data is not in a buffer, that is pointed with tx_buffer, but it is directly in tx_data
 
-            PREPARE_TRANSACTIONS[1].length = 8 * 4;//bits
+            PREPARE_TRANSACTIONS[1].length = 8 * 4; // bits
             PREPARE_TRANSACTIONS[1].user = (void *)new TransactionInfo(this, TransactionPhase::DAT_CA_SET);
             PREPARE_TRANSACTIONS[1].flags = SPI_TRANS_USE_TXDATA;
 
-            PREPARE_TRANSACTIONS[2].length = 8;//bits
+            PREPARE_TRANSACTIONS[2].length = 8; // bits
             PREPARE_TRANSACTIONS[2].user = (void *)new TransactionInfo(this, TransactionPhase::CMD_RA_SET);
             PREPARE_TRANSACTIONS[2].tx_data[0] = CMD::Row_Address_Set;
             PREPARE_TRANSACTIONS[2].flags = SPI_TRANS_USE_TXDATA;
 
-            PREPARE_TRANSACTIONS[3].length = 8 * 4;//bits
+            PREPARE_TRANSACTIONS[3].length = 8 * 4; // bits
             PREPARE_TRANSACTIONS[3].user = (void *)new TransactionInfo(this, TransactionPhase::DAT_RA_SET);
             PREPARE_TRANSACTIONS[3].flags = SPI_TRANS_USE_TXDATA;
 
-            PREPARE_TRANSACTIONS[4].length = 8;//bits
+            PREPARE_TRANSACTIONS[4].length = 8; // bits
             PREPARE_TRANSACTIONS[4].user = (void *)new TransactionInfo(this, TransactionPhase::CMD_WRITE);
             PREPARE_TRANSACTIONS[4].tx_data[0] = CMD::Memory_Write; // memory write
             PREPARE_TRANSACTIONS[4].flags = SPI_TRANS_USE_TXDATA;
@@ -316,8 +313,8 @@ namespace SPILCD16
             BUFFER_TRANSACTIONS[0].user = (void *)new TransactionInfo(this, TransactionPhase::DAT_WRITE_B0);
             BUFFER_TRANSACTIONS[1].tx_buffer = buffer[1];
             BUFFER_TRANSACTIONS[1].user = (void *)new TransactionInfo(this, TransactionPhase::DAT_WRITE_B1);
-            
-            memset(&fooTransaction, 0, sizeof(spi_transaction_t)); 
+
+            memset(&fooTransaction, 0, sizeof(spi_transaction_t));
         }
 
         void preCb(spi_transaction_t *t, TransactionInfo *ti)
@@ -335,7 +332,9 @@ namespace SPILCD16
         }
 
         void postCb(spi_transaction_t *t, TransactionInfo *ti)
-        { 
+        {
+            if (!POST_TRANSACTION_CALLBACK_ACTIVE)
+                return;
             if (1 < (int)ti->phase)
             {
                 // Eine Vorbereitungs-Transaktion oder eine "SYNC"-Transaktion ist fertig - das interessiert uns hier nicht
@@ -392,15 +391,15 @@ namespace SPILCD16
             ESP_LOGI(TAG, "preCb %d, postCb1 %d, postCb2 %d", this->preCbCalls, postCb1Calls, postCb2Calls);
         }
 
-        void setBackgroundColor(Color565 c){
-            this->backgroundColor=c;
+        void setBackgroundColor(Color565 c)
+        {
+            this->backgroundColor = c;
         }
 
-        void setForegroundColor(Color565 c){
-            this->foregroundColor=c;
+        void setForegroundColor(Color565 c)
+        {
+            this->foregroundColor = c;
         }
-
-
 
         esp_err_t InitSpiAndGpio()
         {
@@ -467,48 +466,47 @@ namespace SPILCD16
             assert(spi);
 
             lcd_cmd(CMD::Software_Reset);
-            //If software reset is sent during sleep in mode, it will be necessary to wait 120msec before sending sleep out command.
+            // If software reset is sent during sleep in mode, it will be necessary to wait 120msec before sending sleep out command.
             delayAtLeastMs(150);
 
             lcd_cmd(CMD::Sleep_Out);
-            //It will be necessary to wait 5msec before sending any new commands to a display module following this command to allow time for the supply voltages and clock circuits to stabilize. 
+            // It will be necessary to wait 5msec before sending any new commands to a display module following this command to allow time for the supply voltages and clock circuits to stabilize.
             delayAtLeastMs(10);
 
             lcd_cmd(CMD::Interface_Pixel_Format);
-            lcd_data(0x05);//16bit color format
-            
-            lcd_cmd(CMD::Memory_Data_Access_Control); //necessary, because not all types of reset set this value to 0x00
+            lcd_data(0x05); // 16bit color format
+
+            lcd_cmd(CMD::Memory_Data_Access_Control); // necessary, because not all types of reset set this value to 0x00
             lcd_data(0x00);
-            
-            lcd_cmd(CMD::Display_Inversion_On); //enable the color inversion mode that is necessary for in-plane switching (IPS) TFT displays.
-            
+
+            lcd_cmd(CMD::Display_Inversion_On); // enable the color inversion mode that is necessary for in-plane switching (IPS) TFT displays.
+
             lcd_cmd(CMD::Display_On);
 
-            //FilledRectRenderer rr(Point2D(0, 0), Point2D(135, 240), fillColor);
-            //DrawAsyncAsSync(&rr, false);
-            FillRectSyncPolling(Point2D(0, 0), Point2D(135, 240), fillColor);
-            FillRectSyncPolling(Point2D(0, 10), Point2D(5, 230), RGB565::RED);//links
-            FillRectSyncPolling(Point2D(130, 10), Point2D(135, 230), RGB565::RED);//rechts
-            FillRectSyncPolling(Point2D(10, 0), Point2D(125, 5), RGB565::GREEN);//oben
-            FillRectSyncPolling(Point2D(10, 235), Point2D(125, 240), RGB565::GREEN);//unten
-            
+            FilledRectRenderer rr(Point2D(0, 0), Point2D(135, 240), fillColor);
+            DrawAsyncAsSync(&rr, true);
+            // FillRectSyncPolling(Point2D(0, 0), Point2D(135, 240), fillColor);
+            // FillRectSyncPolling(Point2D(0, 10), Point2D(5, 230), RGB565::RED);//links
+            // FillRectSyncPolling(Point2D(130, 10), Point2D(135, 230), RGB565::RED);//rechts
+            // FillRectSyncPolling(Point2D(10, 0), Point2D(125, 5), RGB565::GREEN);//oben
+            // FillRectSyncPolling(Point2D(10, 235), Point2D(125, 240), RGB565::GREEN);//unten
         }
 
-        void DrawUnicode(Point2D baseline_left, uint16_t codepoint){
-            
+        void DrawUnicode(Point2D baseline_left, uint16_t codepoint)
+        {
         }
 
-        ErrorCode FillRectSyncPolling(Point2D start, Point2D end_ex, Color565 col, bool considerOffsetsOfVisibleArea=true)
+        ErrorCode FillRectSyncPolling(Point2D start, Point2D end_ex, Color565 col, bool considerOffsetsOfVisibleArea = true)
         {
 
             if (start.x >= end_ex.x || start.y >= end_ex.y)
                 return ErrorCode::GENERIC_ERROR;
             size_t pixels = (end_ex.x - start.x) * (end_ex.y - start.y);
             ESP_LOGI(TAG, "Called FillRect for %d/%d - %d/%d, aka %d pixels of %d", start.x, start.y, end_ex.x, end_ex.y, pixels, PIXEL_BUFFER_SIZE_IN_PIXELS);
-            int16_t startX = start.x+(considerOffsetsOfVisibleArea?OFFSET_X:0);
-            int16_t endX = end_ex.x-1 + (considerOffsetsOfVisibleArea?OFFSET_X:0);
-            int16_t startY = start.y+(considerOffsetsOfVisibleArea?OFFSET_Y:0);
-            int16_t endY = end_ex.y-1 + (considerOffsetsOfVisibleArea?OFFSET_Y:0);
+            int16_t startX = start.x + (considerOffsetsOfVisibleArea ? OFFSET_X : 0);
+            int16_t endX = end_ex.x - 1 + (considerOffsetsOfVisibleArea ? OFFSET_X : 0);
+            int16_t startY = start.y + (considerOffsetsOfVisibleArea ? OFFSET_Y : 0);
+            int16_t endY = end_ex.y - 1 + (considerOffsetsOfVisibleArea ? OFFSET_Y : 0);
             spi_transaction_t trans = {};
             memset(&trans, 0, sizeof(spi_transaction_t));
             trans.length = 8;
@@ -520,27 +518,27 @@ namespace SPILCD16
 
             trans.length = 8 * 4;
             trans.user = nullptr;
-            trans.tx_data[0] = (startX) >> 8;    // Start Col High
-            trans.tx_data[1] = (startX) & 0xff;  // Start Col Low
-            trans.tx_data[2] = (endX) >> 8;   // End Col High
-            trans.tx_data[3] = (endX) & 0xff; // End Col Low
+            trans.tx_data[0] = (startX) >> 8;   // Start Col High
+            trans.tx_data[1] = (startX) & 0xff; // Start Col Low
+            trans.tx_data[2] = (endX) >> 8;     // End Col High
+            trans.tx_data[3] = (endX) & 0xff;   // End Col Low
             trans.flags = SPI_TRANS_USE_TXDATA;
             gpio_set_level(dc, SPI_Data_Mode);
             ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
 
             trans.length = 8;
             trans.user = nullptr;
-            trans.tx_data[0] = CMD::Row_Address_Set;// 0x2B; // Row Address Set
+            trans.tx_data[0] = CMD::Row_Address_Set; // 0x2B; // Row Address Set
             trans.flags = SPI_TRANS_USE_TXDATA;
             gpio_set_level(dc, SPI_Command_Mode);
             ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
 
             trans.length = 8 * 4;
             trans.user = nullptr;
-            trans.tx_data[0] = (startY) >> 8;    // Start page High
-            trans.tx_data[1] = (startY) & 0xff;  // Start page Low
-            trans.tx_data[2] = (endY) >> 8;   // End page High
-            trans.tx_data[3] = (endY) & 0xff; // End page Low
+            trans.tx_data[0] = (startY) >> 8;   // Start page High
+            trans.tx_data[1] = (startY) & 0xff; // Start page Low
+            trans.tx_data[2] = (endY) >> 8;     // End page High
+            trans.tx_data[3] = (endY) & 0xff;   // End page Low
             trans.flags = SPI_TRANS_USE_TXDATA;
             gpio_set_level(dc, SPI_Data_Mode);
             ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
@@ -551,23 +549,22 @@ namespace SPILCD16
             trans.flags = SPI_TRANS_USE_TXDATA;
             gpio_set_level(dc, SPI_Command_Mode);
             ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
-           
 
             for (int i = 0; i < PIXEL_BUFFER_SIZE_IN_PIXELS; i++)
             {
                 buffer[0][i] = col;
             }
-            
-            
+
             trans.user = nullptr;
             trans.tx_buffer = buffer[0]; // finally send the line data
             trans.flags = 0;
             gpio_set_level(dc, SPI_Data_Mode);
-            while(pixels>0){
+            while (pixels > 0)
+            {
                 size_t pixelsNow = std::min(PIXEL_BUFFER_SIZE_IN_PIXELS, pixels);
                 trans.length = 16 * pixelsNow; // Data length, in bits
                 ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
-                pixels-=pixelsNow;
+                pixels -= pixelsNow;
             }
             ESP_LOGI(TAG, "FillRect finished");
             return ErrorCode::OK;
@@ -616,7 +613,7 @@ namespace SPILCD16
             if (start.x >= end_ex.x || start.y >= end_ex.y)
                 return ErrorCode::GENERIC_ERROR;
             uint32_t pixelsOfRect = start.PixelsTo(end_ex);
-            ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d with %d Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelsOfRect);
+            ESP_LOGI(TAG, "Called DrawAsync for (%d/%d) - (%d/%d) with %d Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelsOfRect);
             updateAndEnqueuePrepareTransactions(start, end_ex);
             ESP_LOGI(TAG, "Five basic transaction have been enqueued.");
             fillBothBuffersWithNewRect(renderer, pixelsOfRect, true);
@@ -625,41 +622,41 @@ namespace SPILCD16
             return ErrorCode::OK;
         }
 
-        ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea=true)
+        ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)
         {
             Point2D start;
             Point2D end_ex;
-            if (!renderer->GetNextOverallLimits(start, end_ex))
+            while (renderer->GetNextOverallLimits(start, end_ex))
             {
-                return ErrorCode::GENERIC_ERROR;
-            }
-            if (start.x >= end_ex.x || start.y >= end_ex.y)
-                return ErrorCode::GENERIC_ERROR;
-            uint32_t pixelOfRect = start.PixelsTo(end_ex);
-            ESP_LOGI(TAG, "Called DrawAsync for %d/%d - %d/%d with %lu Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelOfRect);
-            updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
-            ESP_LOGI(TAG, "Five basic transaction have been completed");
-            uint32_t pixel{0};
-            while (pixel < pixelOfRect)
-            {
-                uint32_t pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-                if (pixelsToWriteNow > 0)
+
+                if (start.x >= end_ex.x || start.y >= end_ex.y)
+                    return ErrorCode::GENERIC_ERROR;
+                uint32_t pixelOfRect = start.PixelsTo(end_ex);
+                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d with %lu Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelOfRect);
+                updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
+                ESP_LOGI(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
+                uint32_t pixel{0};
+                while (pixel < pixelOfRect)
                 {
-                    renderer->Render(pixel, buffer[0], pixelsToWriteNow);
-                    updateAndEnqueueBufferTransaction(0, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
-                    ESP_LOGI(TAG, "Buffer0 transaction has been completed with %lu pixels.", pixelsToWriteNow);
-                    pixel += pixelsToWriteNow;
+                    uint32_t pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
+                    if (pixelsToWriteNow > 0)
+                    {
+                        renderer->Render(pixel, buffer[0], pixelsToWriteNow);
+                        updateAndEnqueueBufferTransaction(0, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
+                        ESP_LOGI(TAG, "Buffer0 transaction in DrawAsyncAsSync has been completed with %lu pixels.", pixelsToWriteNow);
+                        pixel += pixelsToWriteNow;
+                    }
+                    delayMs(100);
+                    pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
+                    if (pixelsToWriteNow > 0)
+                    {
+                        renderer->Render(pixel, buffer[1], pixelsToWriteNow);
+                        updateAndEnqueueBufferTransaction(1, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
+                        ESP_LOGI(TAG, "Buffer1 transaction in DrawAsyncAsSync has been completed with %lu pixels.", pixelsToWriteNow);
+                        pixel += pixelsToWriteNow;
+                    }
+                    delayMs(100);
                 }
-                delayMs(100);
-                pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-                if (pixelsToWriteNow > 0)
-                {
-                    renderer->Render(pixel, buffer[1], pixelsToWriteNow);
-                    updateAndEnqueueBufferTransaction(1, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
-                    ESP_LOGI(TAG, "Buffer1 transaction has been completed with %lu pixels.", pixelsToWriteNow);
-                    pixel += pixelsToWriteNow;
-                }
-                delayMs(100);
             }
             ESP_LOGI(TAG, "All transactions have been enqueued");
             return ErrorCode::OK;
@@ -667,13 +664,15 @@ namespace SPILCD16
 
         static void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
         {
-            if(t->user==nullptr) return;
+            if (t->user == nullptr)
+                return;
             SPILCD16::TransactionInfo *ti = (SPILCD16::TransactionInfo *)t->user;
             ti->manager->preCb(t, ti);
         }
         static void lcd_spi_post_transfer_callback(spi_transaction_t *t)
         {
-            if(t->user==nullptr) return;
+            if (t->user == nullptr)
+                return;
             SPILCD16::TransactionInfo *ti = (SPILCD16::TransactionInfo *)t->user;
             ti->manager->postCb(t, ti);
         }

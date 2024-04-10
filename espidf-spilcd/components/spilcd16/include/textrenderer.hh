@@ -39,8 +39,9 @@ namespace SPILCD16
             end_excl.x = start.x + glyph_dsc->box_w;
             end_excl.y = pos.y + glyph_dsc->ofs_y;
             start.y = end_excl.y - glyph_dsc->box_h;
-            ESP_LOGI(TAG, "Write '%c' from (%d/%d) to (%d/%d)", *c, start.x, start.y, end_excl.x, end_excl.y);
+            ESP_LOGI(TAG, "Write '%c'@%ld from (%d/%d) to (%d/%d)", *c, glyphIndex, start.x, start.y, end_excl.x, end_excl.y);
             c++;
+            pos.x+=(glyph_dsc->adv_w/16);
             return true;
         }
 
@@ -88,6 +89,18 @@ namespace SPILCD16
             uint32_t bo = glyph_dsc->bitmap_index;
             uint8_t bits = 0, bit = 0;
             size_t i = 0;
+            if(font->dsc->bpp==4){
+                //immer zwei pixel in einem rutsch
+                
+                while (i<len)
+                {
+                    bits = bitmap[bo++];
+                    buffer[i++] = bits & 0xF0 ? foreground : background;
+                    if(i<len)buffer[i++] = bits & 0x0F ? foreground : background;
+                }
+                
+            }
+            
             for (size_t yy = 0; yy < glyph_dsc->box_h; yy++)
             {
                 for (size_t xx = 0; xx < glyph_dsc->box_w; xx++)
