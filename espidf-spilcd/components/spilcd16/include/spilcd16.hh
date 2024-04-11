@@ -13,9 +13,11 @@
 #include <algorithm>
 #include <esp_log.h>
 #include "./interfaces.hh"
+#include "RGB565.hh"
 #include "errorcodes.hh"
 #include "common-esp32.hh"
 #include <bit>
+#include "lvgl/lvgl.h"
 #define TAG "LCD"
 
 /*
@@ -126,21 +128,16 @@ namespace SPILCD16
         SYNC_CMD = 8,
     };
 
-    /*
-        Manager befragt AsyncRenderer zunächst nach dem rechteckigen Bereich, der beschrieben werden soll. Möglicherweise sind das mehrere Bereiche. Solange GetNextOverallLimits "true" zurück gibt, gibt es auch weitere zu beschreibende Bereiche
-        Dann wird die Anzahl der Pixel für diesen Bereich ausgerechnet und Render eben so oft aufgerufen, bis diesen Bereich mit den zur Verfügung stehenden Buffern beschrieben werden kann
-    */
-
     class FilledRectRenderer : public IAsyncRenderer
     {
     private:
         Point2D start;
         Point2D end_excl;
-        Color565 foreground;
+        uint16_t foreground;
         bool getOverallLimitsCalled{false};
 
     public:
-        FilledRectRenderer(Point2D start, Point2D end_excl, Color565 foreground) : start(start), end_excl(end_excl), foreground(foreground) {}
+        FilledRectRenderer(Point2D start, Point2D end_excl, Color::Color565 foreground) : start(start), end_excl(end_excl), foreground(foreground.toST7789_SPI_native()) {}
 
         bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) override
         {
@@ -154,7 +151,7 @@ namespace SPILCD16
 
         void Render(uint32_t startPixel, uint16_t *buffer, size_t len) override
         {
-            // memset(buffer, 0, len);
+            
             for (int i = 0; i < len; i++)
             {
                 buffer[i] = this->foreground;
@@ -162,6 +159,209 @@ namespace SPILCD16
         }
     };
 
+            constexpr const uint8_t opa4_table[16] = {0, 17, 34, 51,
+                                              68, 85, 102, 119,
+                                              136, 153, 170, 187,
+                                              204, 221, 238, 255};
+
+    class TextRenderer : public IAsyncRenderer
+    {
+    private:
+        const lv_font_t *font;
+        Point2D pos;
+        uint16_t colors[16];
+        char *text;
+        char *c;
+        uint32_t currentGlyphIndex{0};
+        uint32_t nextGlyphIndex{0};
+        
+        uint32_t getCodepointAndAdvancePointer(char** c){
+            uint32_t codepoint{0};
+            if(((**c) & 0b10000000)==0){//1byte
+                codepoint=**c;
+                (*c)+=1;
+            }else if(((**c) & 0b11100000)==0b11000000){//2byte
+                codepoint=(**c) & 0b00011111;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                (*c)++;
+            }else if(((**c) & 0b11110000)==0b11100000){//3byte
+                codepoint=(**c) & 0b00001111;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                (*c)++;
+            }else if(((**c) & 0b11111000)==0b11110000){//4byte
+                codepoint=(**c) & 0b00000111;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                (*c)++;
+                codepoint<<=6;
+                (*c)++;
+                codepoint|=(**c) & 0b00111111;
+                (*c)++;
+            }
+            ESP_LOGI(TAG, "Found codepoint %lu", codepoint);
+            return codepoint;
+        }
+
+    public:
+        TextRenderer(const lv_font_t *font, Point2D start, Color::Color565 foreground, Color::Color565 background, char *text_will_be_freeed_inside) : font(font), pos(start), text(text_will_be_freeed_inside), c(text_will_be_freeed_inside) {
+            for(int i=0;i<16;i++){
+                colors[i]=background.blendWith(foreground, opa4_table[i]).toST7789_SPI_native();
+            }
+            if (!c) {
+                return;
+            }
+            if(!(*c)){
+                free(text);
+                return;
+            }
+            nextGlyphIndex= GetGlyphIndex(getCodepointAndAdvancePointer(&c)); 
+        }
+
+        bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) override
+        {
+            if(!nextGlyphIndex){
+                free(text);
+                c=nullptr;
+                return false;
+            }
+            currentGlyphIndex=nextGlyphIndex;
+            nextGlyphIndex= GetGlyphIndex(getCodepointAndAdvancePointer(&c));
+            int32_t kv = GetKerningValue(currentGlyphIndex, nextGlyphIndex); 
+            
+            const lv_font_fmt_txt_glyph_dsc_t * glyph_dsc= GetGlyphDesc(currentGlyphIndex);
+            start.x = pos.x + glyph_dsc->ofs_x;
+            end_excl.x = start.x + glyph_dsc->box_w;
+            end_excl.y = pos.y + glyph_dsc->ofs_y;
+            start.y = end_excl.y - glyph_dsc->box_h;
+
+            pos.x += ((glyph_dsc->adv_w+kv) + (1 << 3)) >> 4;
+            ESP_LOGI(TAG, "Write GlyphIndex %ld from (%d/%d) to (%d/%d), kv=%li, next x=%d",currentGlyphIndex, start.x, start.y, end_excl.x, end_excl.y, kv, pos.x);
+     
+            return true;
+        }
+
+        const lv_font_fmt_txt_glyph_dsc_t * GetGlyphDesc(uint32_t glyphIndex)
+        {
+            return font->dsc->glyph_dsc + glyphIndex;
+        }
+
+        uint32_t GetGlyphIndex(uint32_t codepoint)
+        {
+            if(!codepoint) return 0; //fail fast
+            for (int mapIndex = 0; mapIndex < font->dsc->cmap_num; mapIndex++)
+            {
+                lv_font_fmt_txt_cmap_t map = font->dsc->cmaps[mapIndex];
+                if ((codepoint < map.range_start) || (map.range_start + map.range_length <= codepoint))
+                {
+                    continue;
+                }
+                switch (map.type)
+                {
+                case LV_FONT_FMT_TXT_CMAP_FORMAT0_TINY:
+                    return map.glyph_id_start + codepoint - map.range_start;
+                case LV_FONT_FMT_TXT_CMAP_SPARSE_TINY:
+                    for (int offset = 0; offset < map.list_length; offset++)
+                    {
+                        if (map.unicode_list[offset] == codepoint)
+                        {
+                            return map.glyph_id_start + offset;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+                }
+                break;
+            }
+            return 0;
+        }
+
+        int32_t GetKerningValue(uint32_t gid_left, uint32_t gid_right)
+        {
+            assert(gid_left);
+            if(!gid_right) return 0;
+            const lv_font_fmt_txt_dsc_t *fdsc = font->dsc;
+
+            int8_t value = 0;
+
+            if (fdsc->kern_classes == 0)
+            {
+                ESP_LOGW(TAG, "fdsc->kern_classes == 0 not supported");
+             
+            }
+            else if (fdsc->kern_classes == 1 && fdsc->kern_dsc)
+            {
+                /*Kern classes*/
+                const lv_font_fmt_txt_kern_classes_t *kdsc = static_cast<const lv_font_fmt_txt_kern_classes_t *>(fdsc->kern_dsc);
+                
+                uint8_t left_class = kdsc->left_class_mapping[gid_left];
+                uint8_t right_class = kdsc->right_class_mapping[gid_right];
+
+                /*If class = 0, kerning not exist for that glyph
+                 *else got the value form `class_pair_values` 2D array*/
+                if (left_class > 0 && right_class > 0)
+                {
+                    value = kdsc->class_pair_values[(left_class - 1) * kdsc->right_class_cnt + (right_class - 1)];
+                }
+            }
+            return  (value * font->dsc->kern_scale) >> 4;//kernscale==16, dann wieder durch 16 teilen, also keine Änderung
+        }
+
+        void Render(uint32_t startPixel, uint16_t *buffer, size_t len) override
+        {
+            const lv_font_fmt_txt_glyph_dsc_t * glyph_dsc= GetGlyphDesc(currentGlyphIndex);
+            size_t expected = glyph_dsc->box_h * glyph_dsc->box_w;
+            if (expected != len)
+            {
+                ESP_LOGE(TAG, "Expected len=%u, buffer len=%u", expected, len);
+            }
+            const uint8_t *bitmap = font->dsc->glyph_bitmap;
+            uint32_t bo = glyph_dsc->bitmap_index;
+            uint8_t bits = 0, bit = 0;
+            size_t i = 0;
+            if (font->dsc->bpp == 4)
+            {
+                // immer zwei pixel in einem rutsch
+                while (i < len)
+                {
+                    bits = bitmap[bo++];
+                    buffer[i++] = colors[(bits & 0xF0) >> 4];
+                    if (i < len)
+                    {
+                        buffer[i++] = colors[bits & 0x0F];
+                    }
+                }
+            }
+            else if (font->dsc->bpp == 1)
+            {
+                for (size_t yy = 0; yy < glyph_dsc->box_h; yy++)
+                {
+                    for (size_t xx = 0; xx < glyph_dsc->box_w; xx++)
+                    {
+                        if (!(bit++ & 7))
+                        {
+                            bits = bitmap[bo++];
+                        }
+                        buffer[i] = bits & 0x80 ? colors[15] : colors[0];
+                        i++;
+                        bits <<= 1;
+                    }
+                }
+            }
+        }
+    };
+    
     class TransactionInfo;
 
     class ITransactionCallback
@@ -438,7 +638,7 @@ namespace SPILCD16
             return ESP_OK;
         }
 
-        void Init_ST7789(Color565 fillColor = RGB565::BLACK)
+        void Init_ST7789(Color::Color565 fillColor = Color::BLACK)
         {
 
             spi_device_interface_config_t devcfg = {};
@@ -480,11 +680,8 @@ namespace SPILCD16
             // FillRectSyncPolling(Point2D(10, 235), Point2D(125, 240), RGB565::GREEN);//unten
         }
 
-        void DrawUnicode(Point2D baseline_left, uint16_t codepoint)
-        {
-        }
 
-        ErrorCode FillRectSyncPolling(Point2D start, Point2D end_ex, Color565 col, bool considerOffsetsOfVisibleArea = true)
+        ErrorCode FillRectSyncPolling(Point2D start, Point2D end_ex, Color::Color565 col, bool considerOffsetsOfVisibleArea = true)
         {
 
             if (start.x >= end_ex.x || start.y >= end_ex.y)
@@ -648,6 +845,23 @@ namespace SPILCD16
             }
             ESP_LOGI(TAG, "All transactions have been enqueued");
             return ErrorCode::OK;
+        }
+
+        size_t printfl(int line, bool invert, const char *format, ...){
+            va_list args_list;
+            va_start(args_list, format);
+            char *chars{nullptr};
+            int chars_len = vasprintf(&chars, format, args_list);
+            va_end(args_list);
+            if (chars_len <= 0)
+            {
+                free(chars);
+                return 0;
+            }
+            TextRenderer tr(&Roboto_regular, Point2D(52, 100), Color::BLACK, Color::YELLOW, chars);
+            DrawAsyncAsSync(&tr);
+            //free(chars); not necessary, this is done inside TextRenderer
+            return chars_len;
         }
 
         static void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
