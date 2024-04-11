@@ -1,2 +1,3 @@
 idf_component_register(
-                    INCLUDE_DIRS "include")
+    SRCS "lvgl/fonts/lv_font_montserrat_16.cc"
+    INCLUDE_DIRS "include")
