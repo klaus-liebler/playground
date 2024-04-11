@@ -241,8 +241,6 @@ namespace SPILCD16
     {
     private:
         spi_device_handle_t spi;
-        Color565 backgroundColor;
-        Color565 foregroundColor;
         uint16_t *buffer[2];
         spi_transaction_t PREPARE_TRANSACTIONS[5];
         spi_transaction_t BUFFER_TRANSACTIONS[2];
@@ -436,14 +434,6 @@ namespace SPILCD16
             ESP_LOGI(TAG, "preCb %d, postCb1 %d, postCb2 %d", this->preCbCalls, postCb1Calls, postCb2Calls);
         }
 
-        void setBackgroundColor(Color565 c){
-            this->backgroundColor=c;
-        }
-
-        void setForegroundColor(Color565 c){
-            this->foregroundColor=c;
-        }
-
         esp_err_t InitSpiAndGpio()
         {
             if (cs != GPIO_NUM_NC)
@@ -589,11 +579,10 @@ namespace SPILCD16
             trans.flags = SPI_TRANS_USE_TXDATA;
             gpio_set_level(dc, SPI_Command_Mode);
             ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &trans));
-           
-
+            uint16_t hw_col = col.toST7789_SPI_native();
             for (int i = 0; i < PIXEL_BUFFER_SIZE_IN_PIXELS; i++)
             {
-                buffer[0][i] = col;
+                buffer[0][i] = hw_col;
             }
             
             
