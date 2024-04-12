@@ -50,12 +50,12 @@ namespace Color
             return (native_value & 0b0000000000011111) << 3;
         }
 
-        Color565 blendWith(Color565& other, uint8_t opacity_of_top_color_0_255)
+        Color565 overlayWith(Color565& overlay, uint8_t opacity_of_top_color_0_255)
         {
             float alpha = ((float)opacity_of_top_color_0_255) / ((float)255);
-            uint8_t red5 = (other.R5() * alpha + R5() * (1 - alpha));
-            uint8_t green6 = (other.G6() * alpha + G6() * (1 - alpha));
-            uint8_t blue5 = (other.B5() * alpha + B5() * (1 - alpha));
+            uint8_t red5 = (overlay.R5() * alpha + R5() * (1 - alpha));
+            uint8_t green6 = (overlay.G6() * alpha + G6() * (1 - alpha));
+            uint8_t blue5 = (overlay.B5() * alpha + B5() * (1 - alpha));
 
             Color565 c = Color565((red5 << 11) | (green6 << 5) | (blue5));
             ESP_LOGI(TAG, "alpha:%f, rgb888:(%d/%d/%d), rgb565:%04X", alpha, R8(), G8(), B8(), native_value);

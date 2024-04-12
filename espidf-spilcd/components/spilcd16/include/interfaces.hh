@@ -29,9 +29,13 @@ namespace SPILCD16
          * Methode liefert zurück, welcher Bereich auf dem LCD zu beschreiben ist.
          * Aufrufer muss sich dann darum kümmern, dass dieser Bereich auf durch eine entsprechende Anzahl an Render-Aufrufen auch wirklich beschrieben wird
          * Funktion returniert false, wenn es keine vollzuschreibenden Bereiche mehr gibt
+         * bufferSizePixels ist lediglich informativ, damit der asyncRenderer sich bei Bedarf darauf optimieren kann
          */
-        virtual bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) = 0;
-        virtual void Render(uint32_t startPixel, uint16_t *buffer, size_t len) = 0;
+        virtual bool GetNextOverallLimits(size_t bufferSizePixels, Point2D &start, Point2D &end_excl) = 0;
+        //Die Render-Funktion fragt immer ganze Zeilen ab. Diese sorgt dafür, dass er Buffer ggf nicht vollständig genutzt werden könnte,
+        //aber vereinfacht die Implementiertungen massiv!
+        //Startline ist relativ zum angegebenen start-Point2D
+        virtual void Render(uint16_t startline, uint16_t linesCount, uint16_t *buffer) = 0;
     };
 
 }

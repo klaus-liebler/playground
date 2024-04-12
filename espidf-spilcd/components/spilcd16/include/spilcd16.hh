@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <string.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -18,6 +18,7 @@
 #include "common-esp32.hh"
 #include <bit>
 #include "lvgl/lvgl.h"
+#include "text_utils.hh"
 #define TAG "LCD"
 
 /*
@@ -139,7 +140,7 @@ namespace SPILCD16
     public:
         FilledRectRenderer(Point2D start, Point2D end_excl, Color::Color565 foreground) : start(start), end_excl(end_excl), foreground(foreground.toST7789_SPI_native()) {}
 
-        bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) override
+        bool GetNextOverallLimits(size_t bufferSize, Point2D &start, Point2D &end_excl) override
         {
             if (getOverallLimitsCalled)
                 return false;
@@ -149,21 +150,19 @@ namespace SPILCD16
             return true;
         }
 
-        void Render(uint32_t startPixel, uint16_t *buffer, size_t len) override
+        void Render(uint16_t startline, uint16_t linesCount, uint16_t *buffer) override
         {
             
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < (end_excl.x-start.x)*linesCount; i++)
             {
                 buffer[i] = this->foreground;
             }
         }
     };
 
-            constexpr const uint8_t opa4_table[16] = {0, 17, 34, 51,
-                                              68, 85, 102, 119,
-                                              136, 153, 170, 187,
-                                              204, 221, 238, 255};
+           
 
+     
     class TextRenderer : public IAsyncRenderer
     {
     private:
@@ -175,48 +174,11 @@ namespace SPILCD16
         uint32_t currentGlyphIndex{0};
         uint32_t nextGlyphIndex{0};
         
-        uint32_t getCodepointAndAdvancePointer(char** c){
-            uint32_t codepoint{0};
-            if(((**c) & 0b10000000)==0){//1byte
-                codepoint=**c;
-                (*c)+=1;
-            }else if(((**c) & 0b11100000)==0b11000000){//2byte
-                codepoint=(**c) & 0b00011111;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                (*c)++;
-            }else if(((**c) & 0b11110000)==0b11100000){//3byte
-                codepoint=(**c) & 0b00001111;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                (*c)++;
-            }else if(((**c) & 0b11111000)==0b11110000){//4byte
-                codepoint=(**c) & 0b00000111;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                (*c)++;
-                codepoint<<=6;
-                (*c)++;
-                codepoint|=(**c) & 0b00111111;
-                (*c)++;
-            }
-            ESP_LOGI(TAG, "Found codepoint %lu", codepoint);
-            return codepoint;
-        }
 
     public:
         TextRenderer(const lv_font_t *font, Point2D start, Color::Color565 foreground, Color::Color565 background, char *text_will_be_freeed_inside) : font(font), pos(start), text(text_will_be_freeed_inside), c(text_will_be_freeed_inside) {
             for(int i=0;i<16;i++){
-                colors[i]=background.blendWith(foreground, opa4_table[i]).toST7789_SPI_native();
+                colors[i]=background.overlayWith(foreground, opa4_table[i]).toST7789_SPI_native();
             }
             if (!c) {
                 return;
@@ -228,7 +190,7 @@ namespace SPILCD16
             nextGlyphIndex= GetGlyphIndex(getCodepointAndAdvancePointer(&c)); 
         }
 
-        bool GetNextOverallLimits(Point2D &start, Point2D &end_excl) override
+        bool GetNextOverallLimits(size_t bufferSize, Point2D &start, Point2D &end_excl) override
         {
             if(!nextGlyphIndex){
                 free(text);
@@ -318,13 +280,12 @@ namespace SPILCD16
             return  (value * font->dsc->kern_scale) >> 4;//kernscale==16, dann wieder durch 16 teilen, also keine Änderung
         }
 
-        void Render(uint32_t startPixel, uint16_t *buffer, size_t len) override
+        void Render(uint16_t startLine, uint16_t numberOfLines, uint16_t *buffer) override
         {
             const lv_font_fmt_txt_glyph_dsc_t * glyph_dsc= GetGlyphDesc(currentGlyphIndex);
-            size_t expected = glyph_dsc->box_h * glyph_dsc->box_w;
-            if (expected != len)
+            if (glyph_dsc->box_h != numberOfLines)
             {
-                ESP_LOGE(TAG, "Expected len=%u, buffer len=%u", expected, len);
+                ESP_LOGE(TAG, "Expected len=%u, buffer len=%u", glyph_dsc->box_h, numberOfLines);
             }
             const uint8_t *bitmap = font->dsc->glyph_bitmap;
             uint32_t bo = glyph_dsc->bitmap_index;
@@ -333,11 +294,11 @@ namespace SPILCD16
             if (font->dsc->bpp == 4)
             {
                 // immer zwei pixel in einem rutsch
-                while (i < len)
+                while (i < glyph_dsc->box_w*numberOfLines)
                 {
                     bits = bitmap[bo++];
                     buffer[i++] = colors[(bits & 0xF0) >> 4];
-                    if (i < len)
+                    if (i < glyph_dsc->box_w*numberOfLines)
                     {
                         buffer[i++] = colors[bits & 0x0F];
                     }
@@ -377,16 +338,18 @@ namespace SPILCD16
         ITransactionCallback *manager;
         TransactionPhase phase;
         IAsyncRenderer *renderer;
-        uint32_t startPixel; // max value =240*320=76.800, which is too large for uint16_t
-        uint32_t pixel2render;
-        uint32_t pixelsInCurrentRect;
+        uint16_t startLine; // max value =240*320=76.800, which is too large for uint16_t
+        uint16_t numberOfPixelInOneLine;
+        uint16_t numberOfLinesTotal;
+        uint16_t numberOfLinesPerCall;
         TransactionInfo(ITransactionCallback *manager, TransactionPhase phase) : manager(manager), phase(phase) {}
-        void ResetTo(IAsyncRenderer *renderer, uint32_t startPixel, uint32_t pixel2render, uint32_t pixelsInCurrentRect)
+        void ResetTo(IAsyncRenderer *renderer,  uint16_t startLine,uint16_t numberOfPixelInOneLine,uint16_t numberOfLinesTotal, uint16_t numberOfLinesPerCall)
         {
             this->renderer = renderer;
-            this->startPixel = startPixel;
-            this->pixel2render = pixel2render;
-            this->pixelsInCurrentRect = pixelsInCurrentRect;
+            this->startLine = startLine;
+            this->numberOfPixelInOneLine = numberOfPixelInOneLine;
+            this->numberOfLinesTotal=numberOfLinesTotal;
+            this->numberOfLinesPerCall = numberOfLinesPerCall;
         }
     };
 
@@ -455,13 +418,13 @@ namespace SPILCD16
             }
         }
 
-        void updateAndEnqueueBufferTransaction(int index, IAsyncRenderer *renderer, uint32_t startPixel, size_t pixelToRender, size_t pixelsInCurrentRect, bool polling = false)
+        void updateAndEnqueueBufferTransaction(int index, IAsyncRenderer *renderer, uint16_t startline, uint16_t lineLengthPixel, uint16_t linesCountTotal, uint16_t linesCountInOneCall, bool polling = false)
         {
             index = index % 2;
-            BUFFER_TRANSACTIONS[index].length = 16 * pixelToRender; // Data length, in bits
+            BUFFER_TRANSACTIONS[index].length = 16 * lineLengthPixel*linesCountInOneCall; // Data length, in bits
             BUFFER_TRANSACTIONS[index].rxlength = 0;
-            static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user)->ResetTo(renderer, startPixel, pixelToRender, pixelsInCurrentRect);
-            if (pixelToRender > 0)
+            static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user)->ResetTo(renderer, startline, lineLengthPixel, linesCountTotal, linesCountInOneCall);
+            if (linesCountInOneCall > 0)
             {
                 if (polling)
                     ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &BUFFER_TRANSACTIONS[index]));
@@ -540,20 +503,20 @@ namespace SPILCD16
                 return;
             }
             TransactionInfo *other_ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[(int)(ti->phase) == 0 ? 1 : 0].user);
-            if (other_ti->startPixel + other_ti->pixel2render == ti->pixelsInCurrentRect)
+            if (other_ti->startLine + other_ti->numberOfLinesPerCall == ti->numberOfLinesTotal)
             {
                 // die andere Transaktion wird gleich dafür sorgen, dass dass Rect fertig übertragen wird - diese Transaktion ist also der vorletzte Schritt
                 // nichts machen, sonst gerät alles durcheinander, warte, bis die andere fertig ist und versuche dann, zum nächsten Rect zu gehen (s.u.)
                 return;
             }
             IAsyncRenderer *renderer = ti->renderer;
-            if (ti->startPixel + ti->pixel2render == ti->pixelsInCurrentRect)
+            if (ti->startLine + ti->numberOfLinesPerCall == ti->numberOfLinesTotal)
             {
                 // diese Transaktion sorgte dafür, dass dass Rect fertig übertragen wird - diese Transaktion ist also der LETZTE Schritt
                 // wir versuchen, zum nächsten Rect zu wechseln
                 Point2D start;
                 Point2D end_ex;
-                if (!renderer->GetNextOverallLimits(start, end_ex))
+                if (!renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
                 {
                     // Es gibt kein weiteres Rect --> wir müssen keine neue Datentransaktion auflegen
                     // wir sind komplett fertig!!!!
@@ -566,9 +529,8 @@ namespace SPILCD16
                     // unsinnige Koordinaten des Rechtecks --> auch einfach aufhören
                     return;
                 }
-                uint32_t pixelsOfRect = start.PixelsTo(end_ex);
                 updateAndEnqueuePrepareTransactions(start, end_ex); //
-                fillBothBuffersWithNewRect(renderer, pixelsOfRect, false);
+                fillBothBuffersWithNewRect(renderer, end_ex.y-start.y, end_ex.x-start.x, false);
                 return;
             }
 
@@ -576,12 +538,12 @@ namespace SPILCD16
             uint16_t *nextBuf = this->buffer[(int)ti->phase == 0 ? 1 : 0];
             postCb1Calls++;
 
-            uint32_t nextStartPixel{ti->startPixel + ti->pixel2render};
-            uint32_t nextPixelsToRender = std::min(ti->pixelsInCurrentRect - nextStartPixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-            assert(nextPixelsToRender > 0); // Denn ansonsten hätte das oben schon erkannt werden müssen
+            uint16_t nextStartLine{(uint16_t)(ti->startLine + ti->numberOfLinesPerCall)};
+            uint32_t nextNumberOfLinesPerCall = std::min((uint16_t)(ti->numberOfLinesTotal - nextStartLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/ti->numberOfPixelInOneLine));
+            assert(nextNumberOfLinesPerCall > 0); // Denn ansonsten hätte das oben schon erkannt werden müssen
 
-            renderer->Render(nextStartPixel, nextBuf, nextPixelsToRender);
-            updateAndEnqueueBufferTransaction(nextPhase, renderer, nextStartPixel, nextPixelsToRender, ti->pixelsInCurrentRect);
+            renderer->Render(nextStartLine, nextNumberOfLinesPerCall, nextBuf);
+            updateAndEnqueueBufferTransaction(nextPhase, renderer, nextStartLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, nextNumberOfLinesPerCall);
         }
 
         void Loop()
@@ -755,32 +717,32 @@ namespace SPILCD16
             return ErrorCode::OK;
         }
 
-        void fillBothBuffersWithNewRect(IAsyncRenderer *renderer, uint32_t pixelsOfRect, bool logoutputEnabled)
+        void fillBothBuffersWithNewRect(IAsyncRenderer *renderer, uint16_t linesTotal, uint16_t lineLengthPixel, bool logoutputEnabled)
         {
-            uint32_t startPixel{0};
-            uint32_t pixelsToWriteNow{0};
-            pixelsToWriteNow = std::min(pixelsOfRect - startPixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-            if (pixelsToWriteNow > 0)
+            uint16_t startLine{0};
+            uint16_t linesInOneCall{0};
+            linesInOneCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
+            if (linesInOneCall > 0)
             {
-                renderer->Render(startPixel, buffer[0], pixelsToWriteNow);
+                renderer->Render(startLine, linesInOneCall, buffer[0]);
                 if (logoutputEnabled)
-                    ESP_LOGI(TAG, "Buffer0 transaction will be enqueued with %lu pixels. ", pixelsToWriteNow);
-                updateAndEnqueueBufferTransaction(0, renderer, startPixel, pixelsToWriteNow, pixelsOfRect);
-                startPixel += pixelsToWriteNow;
+                    ESP_LOGI(TAG, "Buffer0 transaction will be enqueued with %u lines. ", linesInOneCall);
+                updateAndEnqueueBufferTransaction(0, renderer, startLine, lineLengthPixel, linesTotal, linesInOneCall);
+                startLine += linesInOneCall;
             }
 
-            pixelsToWriteNow = std::min(pixelsOfRect - startPixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-            if (pixelsToWriteNow > 0)
+            linesInOneCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
+            if (linesInOneCall > 0)
             {
-                renderer->Render(startPixel, buffer[1], pixelsToWriteNow);
+                renderer->Render(startLine, linesInOneCall, buffer[1]);
                 if (logoutputEnabled)
-                    ESP_LOGI(TAG, "Buffer1 transaction will be enqueued with %lu pixels. ", pixelsToWriteNow);
-                updateAndEnqueueBufferTransaction(1, renderer, startPixel, pixelsToWriteNow, pixelsOfRect);
-                startPixel += pixelsToWriteNow;
+                    ESP_LOGI(TAG, "Buffer1 transaction will be enqueued with %u lines. ", linesInOneCall);
+                updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, linesInOneCall);
+                startLine += linesInOneCall;
             }
             else
             {
-                updateAndEnqueueBufferTransaction(1, renderer, startPixel, 0, pixelsOfRect);
+                updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, 0);
             }
         }
 
@@ -790,7 +752,7 @@ namespace SPILCD16
             xSemaphoreTake(xSemaphore, portMAX_DELAY);
             Point2D start;
             Point2D end_ex;
-            if (!renderer->GetNextOverallLimits(start, end_ex))
+            if (!renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
             {
                 // es gibt nicht mal ein erstes Rechteck vom Renderer - das kann doch nicht sein!
                 return ErrorCode::GENERIC_ERROR;
@@ -811,34 +773,35 @@ namespace SPILCD16
         {
             Point2D start;
             Point2D end_ex;
-            while (renderer->GetNextOverallLimits(start, end_ex))
+            while (renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
             {
 
                 if (start.x >= end_ex.x || start.y >= end_ex.y)
                     return ErrorCode::GENERIC_ERROR;
-                uint32_t pixelOfRect = start.PixelsTo(end_ex);
-                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d with %lu Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelOfRect);
+                uint16_t linesTotal = end_ex.y-start.y;
+                uint16_t lineLengthPixel = end_ex.x-start.x;
+                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d with %u lines", start.x, start.y, end_ex.x, end_ex.y, linesTotal);
                 updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
                 ESP_LOGI(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
-                uint32_t pixel{0};
-                while (pixel < pixelOfRect)
+                uint16_t startLine{0};
+                while (startLine < linesTotal)
                 {
-                    uint32_t pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-                    if (pixelsToWriteNow > 0)
+                    uint16_t linesInCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
+                    if (linesInCall > 0)
                     {
-                        renderer->Render(pixel, buffer[0], pixelsToWriteNow);
-                        updateAndEnqueueBufferTransaction(0, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
-                        ESP_LOGI(TAG, "Buffer0 transaction in DrawAsyncAsSync has been completed with %lu pixels.", pixelsToWriteNow);
-                        pixel += pixelsToWriteNow;
+                        renderer->Render(startLine, linesInCall, buffer[0]);
+                        updateAndEnqueueBufferTransaction(0, renderer, startLine, lineLengthPixel, linesTotal, linesInCall, true);
+                        ESP_LOGI(TAG, "Buffer0 transaction in DrawAsyncAsSync has been completed with %u lines.", linesInCall);
+                        startLine += linesInCall;
                     }
                     delayMs(100);
-                    pixelsToWriteNow = std::min(pixelOfRect - pixel, (uint32_t)PIXEL_BUFFER_SIZE_IN_PIXELS);
-                    if (pixelsToWriteNow > 0)
+                    linesInCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
+                    if (linesInCall > 0)
                     {
-                        renderer->Render(pixel, buffer[1], pixelsToWriteNow);
-                        updateAndEnqueueBufferTransaction(1, renderer, pixel, pixelsToWriteNow, pixelOfRect, true);
-                        ESP_LOGI(TAG, "Buffer1 transaction in DrawAsyncAsSync has been completed with %lu pixels.", pixelsToWriteNow);
-                        pixel += pixelsToWriteNow;
+                        renderer->Render(startLine, linesInCall, buffer[1]);
+                        updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, linesInCall, true);
+                        ESP_LOGI(TAG, "Buffer1 transaction in DrawAsyncAsSync has been completed with %u lines.", linesInCall);
+                        startLine += linesInCall;
                     }
                     delayMs(100);
                 }
