@@ -58,7 +58,7 @@ namespace Color
             uint8_t blue5 = (overlay.B5() * alpha + B5() * (1 - alpha));
 
             Color565 c = Color565((red5 << 11) | (green6 << 5) | (blue5));
-            ESP_LOGI(TAG, "alpha:%f, rgb888:(%d/%d/%d), rgb565:%04X", alpha, R8(), G8(), B8(), native_value);
+            ESP_LOGI(TAG, "alpha:%f, rgb888:(%d/%d/%d), rgb565:%04X", alpha, c.R8(), c.G8(), c.B8(), c.native_value);
             return c;
         }
 

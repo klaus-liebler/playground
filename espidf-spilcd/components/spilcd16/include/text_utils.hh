@@ -73,6 +73,7 @@ namespace SPILCD16
 
     uint32_t getCodepointAndAdvancePointer(char **c)
     {
+        //if((**c)==0) return 0; not necessary; is first case!
         uint32_t codepoint{0};
         if (((**c) & 0b10000000) == 0)
         { // 1byte

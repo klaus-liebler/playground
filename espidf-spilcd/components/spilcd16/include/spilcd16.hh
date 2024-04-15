@@ -28,12 +28,12 @@ Achtung. Wenn der Renderer mal false zurück liefert, müssen die Datenstrukture
 
 */
 
-#define LCD135x240 135, 240, 52, 40
+#define LCD135x240(lines) 135, 240, 52, 40, (135*lines)
 
 namespace SPILCD16
 {
 
-    constexpr size_t PIXEL_BUFFER_SIZE_IN_PIXELS = 240 * 8; // Wenn die volle Breite ausgenutzt würde, könnten 16 Zeilen "auf einen Rutsch" übertragen werden
+
     constexpr int SPI_Command_Mode = 0;
     constexpr int SPI_Data_Mode = 1;
     constexpr bool POST_TRANSACTION_CALLBACK_ACTIVE{false};
@@ -69,10 +69,11 @@ namespace SPILCD16
         constexpr uint8_t RAMRD = 0x2E;
 
         constexpr uint8_t PTLAR = 0x30;
-        constexpr uint8_t VSCRDEF = 0x33;                    // Vertical scrolling definition (ST7789V)
+        constexpr uint8_t Vertical_scrolling_definition = 0x33;                    // Vertical scrolling definition (ST7789V)
         constexpr uint8_t TEOFF = 0x34;                      // Tearing effect line off
         constexpr uint8_t TEON = 0x35;                       // Tearing effect line on
         constexpr uint8_t Memory_Data_Access_Control = 0x36; // Memory data access control
+        constexpr uint8_t Vertical_Scrolling_Start_Address =0x37;
         constexpr uint8_t IDMOFF = 0x38;                     // Idle mode off
         constexpr uint8_t IDMON = 0x39;                      // Idle mode on
         constexpr uint8_t RAMWRC = 0x3C;                     // Memory write continue (ST7789V)
@@ -353,7 +354,7 @@ namespace SPILCD16
         }
     };
 
-    template <spi_host_device_t spiHost, gpio_num_t mosi, gpio_num_t sclk, gpio_num_t cs, gpio_num_t dc, gpio_num_t rst, gpio_num_t bl, uint16_t WIDTH, uint16_t HEIGHT, int16_t OFFSET_X, int16_t OFFSET_Y>
+    template <spi_host_device_t spiHost, gpio_num_t mosi, gpio_num_t sclk, gpio_num_t cs, gpio_num_t dc, gpio_num_t rst, gpio_num_t bl, uint16_t WIDTH, uint16_t HEIGHT, int16_t OFFSET_X, int16_t OFFSET_Y, size_t PIXEL_BUFFER_SIZE_IN_PIXELS>
     class M : public ITransactionCallback
     {
     private:
@@ -361,8 +362,10 @@ namespace SPILCD16
         uint16_t *buffer[2];
         spi_transaction_t PREPARE_TRANSACTIONS[5];
         spi_transaction_t BUFFER_TRANSACTIONS[2];
-        spi_transaction_t fooTransaction;
+        spi_transaction_t initTemplateTransaction;
         SemaphoreHandle_t xSemaphore;
+        uint16_t fixedTop{0};
+        uint16_t fixedBottom{0};
 
         // For Debugging purposes
         int preCbCalls = 0;
@@ -371,9 +374,9 @@ namespace SPILCD16
 
         void prepareTransactionAndSend(const uint8_t *data, size_t len_in_bytes)
         {
-            fooTransaction.length = len_in_bytes * 8;
-            fooTransaction.tx_buffer = data;
-            ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &fooTransaction));
+            initTemplateTransaction.length = len_in_bytes * 8;
+            initTemplateTransaction.tx_buffer = data;
+            ESP_ERROR_CHECK(spi_device_polling_transmit(spi, &initTemplateTransaction));
             return;
         }
 
@@ -387,6 +390,12 @@ namespace SPILCD16
         {
             gpio_set_level(dc, SPI_Data_Mode);
             prepareTransactionAndSend(&data, 1);
+        }
+
+        void lcd_data(const uint8_t* data, size_t len)
+        {
+            gpio_set_level(dc, SPI_Data_Mode);
+            prepareTransactionAndSend(data, len);
         }
 
         void updateAndEnqueuePrepareTransactions(Point2D start, Point2D end_ex, bool considerOffsetsOfVisibleArea = true, bool polling = false)
@@ -420,10 +429,11 @@ namespace SPILCD16
 
         void updateAndEnqueueBufferTransaction(int index, IAsyncRenderer *renderer, uint16_t startline, uint16_t lineLengthPixel, uint16_t linesCountTotal, uint16_t linesCountInOneCall, bool polling = false)
         {
-            index = index % 2;
             BUFFER_TRANSACTIONS[index].length = 16 * lineLengthPixel*linesCountInOneCall; // Data length, in bits
             BUFFER_TRANSACTIONS[index].rxlength = 0;
-            static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user)->ResetTo(renderer, startline, lineLengthPixel, linesCountTotal, linesCountInOneCall);
+            auto ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user);
+            ti->ResetTo(renderer, startline, lineLengthPixel, linesCountTotal, linesCountInOneCall);
+            ESP_LOGI(TAG, "updateAndEnqueueBufferTransaction index=%i, startline=%u, lineLengthPixel=%u, linesCountTotal=%u, linesCountInOneCall=%u", index, ti->startLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, ti->numberOfLinesPerCall);
             if (linesCountInOneCall > 0)
             {
                 if (polling)
@@ -475,7 +485,7 @@ namespace SPILCD16
             BUFFER_TRANSACTIONS[1].tx_buffer = buffer[1];
             BUFFER_TRANSACTIONS[1].user = (void *)new TransactionInfo(this, TransactionPhase::DAT_WRITE_B1);
 
-            memset(&fooTransaction, 0, sizeof(spi_transaction_t));
+            memset(&initTemplateTransaction, 0, sizeof(spi_transaction_t));
         }
 
         void preCb(spi_transaction_t *t, TransactionInfo *ti)
@@ -605,7 +615,7 @@ namespace SPILCD16
 
             spi_device_interface_config_t devcfg = {};
             memset(&devcfg, 0, sizeof(devcfg));
-            devcfg.clock_speed_hz = SPI_MASTER_FREQ_10M; // 10 * 1000 * 1000; //Clock out at 10 MHz
+            devcfg.clock_speed_hz = SPI_MASTER_FREQ_13M; //datasheet says: Serial clock cycle (Write) = 66ns -->15.15MHz -->next value 16MHz is out of spec...
             devcfg.mode = cs == GPIO_NUM_NC ? 3 : 0;
             devcfg.spics_io_num = cs;
             devcfg.queue_size = 7;
@@ -749,6 +759,10 @@ namespace SPILCD16
         ErrorCode DrawAsync(IAsyncRenderer *renderer)
         {
 
+            if(!POST_TRANSACTION_CALLBACK_ACTIVE){
+                ESP_LOGE(TAG, "!POST_TRANSACTION_CALLBACK_ACTIVE");
+                return ErrorCode::INVALID_STATE;
+            }
             xSemaphoreTake(xSemaphore, portMAX_DELAY);
             Point2D start;
             Point2D end_ex;
@@ -769,8 +783,40 @@ namespace SPILCD16
             return ErrorCode::OK;
         }
 
+        ErrorCode prepareVerticalStrolling(uint16_t fixedTop, uint16_t fixedBottom){
+            if(fixedBottom+fixedTop>=HEIGHT){
+                return ErrorCode::INVALID_ARGUMENT_VALUES;
+            }
+            this->fixedTop=fixedTop;
+            this->fixedBottom=fixedBottom;
+            uint16_t TFA=fixedTop+OFFSET_Y;
+            uint16_t VSA=HEIGHT-fixedTop-fixedBottom;
+            uint16_t BFA=320-TFA-VSA;
+            ESP_LOGI(TAG, "defineVerticalStrolling TFA=%d, VSA=%d, BFA=%d", TFA, VSA, BFA);
+            const uint16_t data[] ={std::byteswap(TFA), std::byteswap(VSA), std::byteswap(BFA)};
+            lcd_cmd(CMD::Vertical_scrolling_definition);
+            lcd_data((const uint8_t*)data, sizeof(uint16_t)*sizeof(data));
+            return ErrorCode::OK;
+        }
+
+        ErrorCode doVerticalStrolling(uint16_t lineOnTop_0_to_HEIGHT_OF_SCROLL_AREA){
+            //Since the value of the vertical scrolling start address is absolute (with reference to the frame memory), it must not enter the fixed area (defined by Vertical Scrolling Definition (33h)- otherwise undesirable image will be displayed on the panel) 
+            if(lineOnTop_0_to_HEIGHT_OF_SCROLL_AREA>=HEIGHT-fixedBottom-fixedTop){
+                return ErrorCode::INVALID_ARGUMENT_VALUES;
+            }
+            uint16_t value = lineOnTop_0_to_HEIGHT_OF_SCROLL_AREA+OFFSET_Y+fixedTop;
+            const uint16_t data[] ={std::byteswap(value)};
+            lcd_cmd(CMD::Vertical_Scrolling_Start_Address);
+            lcd_data((const uint8_t*)data, sizeof(uint16_t)*sizeof(data));
+            return ErrorCode::OK;
+        }
+        
         ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)
         {
+            if(POST_TRANSACTION_CALLBACK_ACTIVE){
+                ESP_LOGE(TAG, "POST_TRANSACTION_CALLBACK_ACTIVE");
+                return ErrorCode::INVALID_STATE;
+            }
             Point2D start;
             Point2D end_ex;
             while (renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
@@ -780,30 +826,20 @@ namespace SPILCD16
                     return ErrorCode::GENERIC_ERROR;
                 uint16_t linesTotal = end_ex.y-start.y;
                 uint16_t lineLengthPixel = end_ex.x-start.x;
-                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d with %u lines", start.x, start.y, end_ex.x, end_ex.y, linesTotal);
+                uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
+                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
                 updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
-                ESP_LOGI(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
+                ESP_LOGD(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
                 uint16_t startLine{0};
+                uint8_t bufferIndex=0;
                 while (startLine < linesTotal)
                 {
-                    uint16_t linesInCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
-                    if (linesInCall > 0)
-                    {
-                        renderer->Render(startLine, linesInCall, buffer[0]);
-                        updateAndEnqueueBufferTransaction(0, renderer, startLine, lineLengthPixel, linesTotal, linesInCall, true);
-                        ESP_LOGI(TAG, "Buffer0 transaction in DrawAsyncAsSync has been completed with %u lines.", linesInCall);
-                        startLine += linesInCall;
-                    }
-                    delayMs(100);
-                    linesInCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
-                    if (linesInCall > 0)
-                    {
-                        renderer->Render(startLine, linesInCall, buffer[1]);
-                        updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, linesInCall, true);
-                        ESP_LOGI(TAG, "Buffer1 transaction in DrawAsyncAsSync has been completed with %u lines.", linesInCall);
-                        startLine += linesInCall;
-                    }
-                    delayMs(100);
+                    uint16_t linesInNextCall = std::min((uint16_t)(linesTotal - startLine), linesMaxPerCall);
+                    renderer->Render(startLine, linesInNextCall, buffer[bufferIndex]);
+                    updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
+                    ESP_LOGI(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
+                    startLine += linesInNextCall;
+                    delayMs(10);
                 }
             }
             ESP_LOGI(TAG, "All transactions have been enqueued");
