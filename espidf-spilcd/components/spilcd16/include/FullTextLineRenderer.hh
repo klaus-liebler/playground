@@ -11,6 +11,7 @@
 #include "interfaces.hh"
 #include "lvgl/lvgl.h"
 #include "text_utils.hh"
+using namespace display;
 namespace SPILCD16
 {
     template <uint8_t LINE_HEIGHT_PIXELS, uint8_t LINE_WIDTH_PIXELS, uint8_t PADDING_LEFT, uint8_t PADDING_RIGHT>
@@ -78,8 +79,9 @@ namespace SPILCD16
             uint16_t posX = PADDING_LEFT-GetGlyphDesc(currentGlyphIndex)->ofs_x;
             uint16_t endX{0};
 
-            while (currentGlyphIndex)
+            while (currentCodepoint)
             {
+                
                 nextCodepoint = getCodepointAndAdvancePointer(&chars);
                 int32_t kv;
                 if(nextCodepoint=='\t'){
@@ -87,23 +89,29 @@ namespace SPILCD16
                     nextCodepoint = getCodepointAndAdvancePointer(&chars);
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv=0;
-                    ESP_LOGI(TAG, "Tab detected! glyphBeforeTabulator=%d", glyphBeforeTabulator);
+                    ESP_LOGI(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphBeforeTabulator, nextCodepoint);
                 
                 } else{
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv = GetKerningValue(font, currentGlyphIndex, nextGlyphIndex);
                 }
+                auto dsc=GetGlyphDesc(currentGlyphIndex);
+                if(currentCodepoint>0xFF){
+                    ESP_LOGI(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%i", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
+                }
 
                 GlyphHelper gh = {};
-                gh.glyph_dsc = GetGlyphDesc(currentGlyphIndex);
+                gh.glyph_dsc = dsc;
                 gh.startX = posX + gh.glyph_dsc->ofs_x;
                 gh.startY = baselineY - gh.glyph_dsc->ofs_y - gh.glyph_dsc->box_h;
                 endX = gh.startX + gh.glyph_dsc->box_w;
                 if (endX >= LINE_WIDTH_PIXELS)
                 {
+                    ESP_LOGW(TAG, "NOT push GlyphIndex=%lu, posX=%d endX=%d, startX=%d, startY=%d", currentGlyphIndex, posX, endX, gh.startX, gh.startY);
                     break; // Damit ist sicher gestellt, dass man bei der Ausgabe keinerlei überprüfung machen muss, ob irgendwelche Grenzen überschritten werden -->einfach glyphs zeichnen und gut!
+                }else{
+                    ESP_LOGI(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%lu, startX=%d, startY=%d", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX, gh.startY);
                 }
-                ESP_LOGI(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%lu, startX=%d, startY=%d", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX, gh.startY);
                 posX += ((gh.glyph_dsc->adv_w + kv) + (1 << 3)) >> 4;
                 glyphs.push_back(gh);
                 currentCodepoint=nextCodepoint;
@@ -114,7 +122,7 @@ namespace SPILCD16
             int offset = LINE_WIDTH_PIXELS-PADDING_RIGHT-endX;
             while(offset>0 && i>glyphBeforeTabulator){
                 glyphs.at(i).startX+=offset;
-                ESP_LOGI(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
                 i--;
             }
         }
@@ -125,15 +133,25 @@ namespace SPILCD16
         {
            
         }
+
         
         
         size_t printfl(uint8_t line, Color::Color565 foreground, Color::Color565 background, const char *format, ...)
         {
             va_list args_list;
             va_start(args_list, format);
+            size_t ret = printfl(line, foreground, background, format, args_list);
+            va_end(args_list);
+            return ret;
+        }
+
+        size_t printfl(uint8_t line, Color::Color565 foreground, Color::Color565 background, const char *format, va_list args_list)
+        {
             char *chars{nullptr};
             int chars_len = vasprintf(&chars, format, args_list);
-            va_end(args_list);
+            ESP_LOGI(TAG, "Printing '%s' to line %d", chars, line);
+            ESP_LOG_BUFFER_HEX_LEVEL(TAG, chars, chars_len, ESP_LOG_INFO);
+            
             if (chars_len <= 0)
             {
                 free(chars);

@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 #include <lvgl/lvgl.h>
+#define TAG "TXTUTIL"
+#include <esp_log.h>
 namespace SPILCD16
 {
     constexpr const uint8_t opa4_table[16] = {0, 17, 34, 51,
@@ -23,11 +25,15 @@ namespace SPILCD16
             {
             case LV_FONT_FMT_TXT_CMAP_FORMAT0_TINY:
                 return map.glyph_id_start + codepoint - map.range_start;
+                
             case LV_FONT_FMT_TXT_CMAP_SPARSE_TINY:
+                ESP_LOGD(TAG, "Search %lu a LV_FONT_FMT_TXT_CMAP_SPARSE_TINY cmap", codepoint);
+                
                 for (int offset = 0; offset < map.list_length; offset++)
                 {
-                    if (map.unicode_list[offset] == codepoint)
+                    if (map.range_start+map.unicode_list[offset] == codepoint)
                     {
+                        ESP_LOGD(TAG, "Success for codepoint %lu in offset %i", codepoint , offset);
                         return map.glyph_id_start + offset;
                     }
                 }
@@ -118,3 +124,4 @@ namespace SPILCD16
         return codepoint;
     }
 }
+#undef TAG

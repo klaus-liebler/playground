@@ -28,6 +28,8 @@ Achtung. Wenn der Renderer mal false zurück liefert, müssen die Datenstrukture
 
 */
 
+using namespace display;
+
 #define LCD135x240(lines) 135, 240, 52, 40, (135*lines)
 
 namespace SPILCD16
@@ -141,6 +143,10 @@ namespace SPILCD16
     public:
         FilledRectRenderer(Point2D start, Point2D end_excl, Color::Color565 foreground) : start(start), end_excl(end_excl), foreground(foreground.toST7789_SPI_native()) {}
 
+        void Reset(){
+            getOverallLimitsCalled=false;
+        }
+        
         bool GetNextOverallLimits(size_t bufferSize, Point2D &start, Point2D &end_excl) override
         {
             if (getOverallLimitsCalled)
@@ -355,7 +361,7 @@ namespace SPILCD16
     };
 
     template <spi_host_device_t spiHost, gpio_num_t mosi, gpio_num_t sclk, gpio_num_t cs, gpio_num_t dc, gpio_num_t rst, gpio_num_t bl, uint16_t WIDTH, uint16_t HEIGHT, int16_t OFFSET_X, int16_t OFFSET_Y, size_t PIXEL_BUFFER_SIZE_IN_PIXELS>
-    class M : public ITransactionCallback
+    class M : public ITransactionCallback, public IRendererHost
     {
     private:
         spi_device_handle_t spi;
@@ -433,7 +439,7 @@ namespace SPILCD16
             BUFFER_TRANSACTIONS[index].rxlength = 0;
             auto ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user);
             ti->ResetTo(renderer, startline, lineLengthPixel, linesCountTotal, linesCountInOneCall);
-            ESP_LOGI(TAG, "updateAndEnqueueBufferTransaction index=%i, startline=%u, lineLengthPixel=%u, linesCountTotal=%u, linesCountInOneCall=%u", index, ti->startLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, ti->numberOfLinesPerCall);
+            ESP_LOGD(TAG, "updateAndEnqueueBufferTransaction index=%i, startline=%u, lineLengthPixel=%u, linesCountTotal=%u, linesCountInOneCall=%u", index, ti->startLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, ti->numberOfLinesPerCall);
             if (linesCountInOneCall > 0)
             {
                 if (polling)
@@ -792,7 +798,7 @@ namespace SPILCD16
             uint16_t TFA=fixedTop+OFFSET_Y;
             uint16_t VSA=HEIGHT-fixedTop-fixedBottom;
             uint16_t BFA=320-TFA-VSA;
-            ESP_LOGI(TAG, "defineVerticalStrolling TFA=%d, VSA=%d, BFA=%d", TFA, VSA, BFA);
+            ESP_LOGD(TAG, "defineVerticalStrolling TFA=%d, VSA=%d, BFA=%d", TFA, VSA, BFA);
             const uint16_t data[] ={std::byteswap(TFA), std::byteswap(VSA), std::byteswap(BFA)};
             lcd_cmd(CMD::Vertical_scrolling_definition);
             lcd_data((const uint8_t*)data, sizeof(uint16_t)*sizeof(data));
@@ -827,7 +833,7 @@ namespace SPILCD16
                 uint16_t linesTotal = end_ex.y-start.y;
                 uint16_t lineLengthPixel = end_ex.x-start.x;
                 uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
-                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
+                ESP_LOGD(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
                 updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
                 ESP_LOGD(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
                 uint16_t startLine{0};
@@ -837,16 +843,17 @@ namespace SPILCD16
                     uint16_t linesInNextCall = std::min((uint16_t)(linesTotal - startLine), linesMaxPerCall);
                     renderer->Render(startLine, linesInNextCall, buffer[bufferIndex]);
                     updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
-                    ESP_LOGI(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
+                    ESP_LOGD(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
                     startLine += linesInNextCall;
                     delayMs(10);
                 }
             }
-            ESP_LOGI(TAG, "All transactions have been enqueued");
+            ESP_LOGD(TAG, "All transactions have been enqueued");
             return ErrorCode::OK;
         }
 
         size_t printfl(int line, bool invert, const char *format, ...){
+            
             va_list args_list;
             va_start(args_list, format);
             char *chars{nullptr};

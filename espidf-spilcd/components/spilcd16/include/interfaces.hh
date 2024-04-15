@@ -1,7 +1,21 @@
 #pragma once
 #include <cstdint>
-namespace SPILCD16
+#include <errorcodes.hh>
+namespace display
 {
+    class FullLineWriter
+    {
+    public:
+        virtual size_t printfl(int line, bool invert, const char *format, ...) = 0;
+        virtual void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1) = 0;
+        virtual void SetStartline(uint8_t startline) = 0;
+        virtual void Scroll(int textLines) = 0;
+        virtual uint8_t GetShownLines() = 0;
+        virtual uint8_t GetAvailableLines() = 0;
+    };
+
+
+
     class Point2D
     {
     public:
@@ -20,8 +34,6 @@ namespace SPILCD16
         Point2D() : x(0), y(0) {}
     };
 
-
-
     class IAsyncRenderer
     {
     public:
@@ -32,10 +44,17 @@ namespace SPILCD16
          * bufferSizePixels ist lediglich informativ, damit der asyncRenderer sich bei Bedarf darauf optimieren kann
          */
         virtual bool GetNextOverallLimits(size_t bufferSizePixels, Point2D &start, Point2D &end_excl) = 0;
-        //Die Render-Funktion fragt immer ganze Zeilen ab. Diese sorgt dafür, dass er Buffer ggf nicht vollständig genutzt werden könnte,
-        //aber vereinfacht die Implementiertungen massiv!
-        //Startline ist relativ zum angegebenen start-Point2D
+        // Die Render-Funktion fragt immer ganze Zeilen ab. Diese sorgt dafür, dass er Buffer ggf nicht vollständig genutzt werden könnte,
+        // aber vereinfacht die Implementiertungen massiv!
+        // Startline ist relativ zum angegebenen start-Point2D
         virtual void Render(uint16_t startline, uint16_t linesCount, uint16_t *buffer) = 0;
+    };
+
+    class IRendererHost{
+        public:
+        virtual ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)=0;
+        virtual ErrorCode prepareVerticalStrolling(uint16_t fixedTop, uint16_t fixedBottom)=0;
+        virtual ErrorCode doVerticalStrolling(uint16_t lineOnTop_0_to_HEIGHT_OF_SCROLL_AREA)=0;
     };
 
 }
