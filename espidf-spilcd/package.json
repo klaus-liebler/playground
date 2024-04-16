@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "fonteditor-core": "^2.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
+}

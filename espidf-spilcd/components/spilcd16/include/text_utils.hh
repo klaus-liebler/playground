@@ -43,7 +43,7 @@ namespace SPILCD16
             }
             break;
         }
-        return 0;
+        return GetGlyphIndex(font, ' ');//if glyph is not found, return the glyph of "space"
     }
 
     int32_t GetKerningValue(const lv_font_t *font, uint32_t gid_left, uint32_t gid_right)

@@ -89,7 +89,7 @@ namespace SPILCD16
                     nextCodepoint = getCodepointAndAdvancePointer(&chars);
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv=0;
-                    ESP_LOGI(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphBeforeTabulator, nextCodepoint);
+                    ESP_LOGD(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphBeforeTabulator, nextCodepoint);
                 
                 } else{
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
@@ -97,7 +97,7 @@ namespace SPILCD16
                 }
                 auto dsc=GetGlyphDesc(currentGlyphIndex);
                 if(currentCodepoint>0xFF){
-                    ESP_LOGI(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%i", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
+                    ESP_LOGD(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%i", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
                 }
 
                 GlyphHelper gh = {};
@@ -110,7 +110,7 @@ namespace SPILCD16
                     ESP_LOGW(TAG, "NOT push GlyphIndex=%lu, posX=%d endX=%d, startX=%d, startY=%d", currentGlyphIndex, posX, endX, gh.startX, gh.startY);
                     break; // Damit ist sicher gestellt, dass man bei der Ausgabe keinerlei überprüfung machen muss, ob irgendwelche Grenzen überschritten werden -->einfach glyphs zeichnen und gut!
                 }else{
-                    ESP_LOGI(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%lu, startX=%d, startY=%d", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX, gh.startY);
+                    ESP_LOGD(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%lu, startX=%d, startY=%d", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX, gh.startY);
                 }
                 posX += ((gh.glyph_dsc->adv_w + kv) + (1 << 3)) >> 4;
                 glyphs.push_back(gh);

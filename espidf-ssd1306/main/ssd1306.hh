@@ -10,16 +10,7 @@
 
 #include <stdio.h>
 
-class FullLineWriter
-{
-public:
-    virtual size_t printfl(int line, bool invert, const char *format, ...) = 0;
-    virtual void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1) = 0;
-    virtual void SetStartline(uint8_t startline) = 0;
-    virtual void Scroll(int textLines) = 0;
-    virtual uint8_t GetShownLines() = 0;
-    virtual uint8_t GetAvailableLines() = 0;
-};
+
 
 namespace ssd1306
 {

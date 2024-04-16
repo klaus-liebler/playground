@@ -3,20 +3,10 @@
 #include <cstdint>
 #include <cstdio>
 #include <vector>
-#include <interfaces.hh>
-#define TAG "MENU"
-#include <esp_log.h>
-#include "symbols.h"
-
-using namespace display;
+#include <ssd1306.hh>
 
 namespace menu
 {
-     inline size_t modulo(const int i, const int n)
-    {
-        return (i % n + n) % n;
-    }
-    
     enum class MenuItemResult
     {
         NO_ACTION,
@@ -48,7 +38,7 @@ namespace menu
 
     public:
         MenuItem(const char *const name) : name(name) {}
-        virtual void RenderCompact(FullLineWriter *lw, int line, bool invert) = 0;
+        virtual void RenderCompact(FullLineWriter *lw, int page_modulo_inside, bool invert) = 0;
         virtual void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines){};
         virtual OnOpenFullscreenResult OnOpenFullscreen() { return OnOpenFullscreenResult::OK; } // This is the normal case
         virtual void OnCloseFullscreen() { return; }                                             // This is the normal case
@@ -115,11 +105,11 @@ namespace menu
         {
             if (*value)
             {
-                lw->printfl(line, invert, "%s\t" LV_SYMBOL_OK, name);
+                lw->printfl(line, invert, "%s\t\x1b\x10", name);
             }
             else
             {
-                lw->printfl(line, invert, "%s\t" LV_SYMBOL_CLOSE, name);
+                lw->printfl(line, invert, "%s\t\x1b\xf", name);
             }
         }
 
@@ -132,11 +122,11 @@ namespace menu
             }
             if (*value)
             {
-                lw->printfl(1, true, LV_SYMBOL_OK);
+                lw->printfl(1, true, "\x1b\x10");
             }
             else
             {
-                lw->printfl(1, true, LV_SYMBOL_CLOSE);
+                lw->printfl(1, true, "\x1b\xf");
             }
         }
 
@@ -213,7 +203,7 @@ namespace menu
     class ReturnItem : public MenuItem
     {
     public:
-        ReturnItem() : MenuItem(LV_SYMBOL_UP LV_SYMBOL_UP LV_SYMBOL_UP LV_SYMBOL_UP) {}
+        ReturnItem() : MenuItem("\x1b\x2\x1b\x2\x1b\x2\x1b\x2") {}
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             lw->printfl(line, invert, "%s", name);
@@ -245,12 +235,12 @@ namespace menu
         FolderItem(const char *const name, const std::vector<MenuItem *> *const content) : MenuItem(name), content(content) {}
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
-            lw->printfl(line, invert, "%s\t" LV_SYMBOL_RIGHT, name);
+            lw->printfl(line, invert, "%s\t\x1b\x3", name);
         }
 
         MenuItem *GetContent(int uncorrected_index)
         {
-            return content->at(modulo(uncorrected_index, content->size()));
+            return content->at(ssd1306::modulo(uncorrected_index, content->size()));
         }
 
         void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
@@ -264,7 +254,7 @@ namespace menu
                 int menu_idx = selected_menu - 1;
                 for (int textline = 0; textline < availableLines; textline++)
                 {
-                    int corr_menu_idx = modulo(menu_idx, content->size());
+                    int corr_menu_idx = ssd1306::modulo(menu_idx, content->size());
                     MenuItem *itm = content->at(corr_menu_idx);
                     itm->RenderCompact(lw, textline, menu_idx == selected_menu);
                     menu_idx++;
@@ -272,10 +262,10 @@ namespace menu
             }
             else if (movement == +1)
             {
-                ESP_LOGI(TAG, "Update ram %d with %s and ram %d with %s and ram %d with %s",
-                         modulo(selected_line, availableLines), GetContent(selected_menu)->GetName(),
-                         modulo(selected_line + 1, availableLines), GetContent(selected_menu + 1)->GetName(),
-                         modulo(selected_line + (availableLines - 1), availableLines), GetContent(selected_menu + availableLines - 1)->GetName());
+                ESP_LOGI(TAG, "Update ram %d with %s and %d with %s and %d with %s",
+                         ssd1306::modulo(selected_line, availableLines), GetContent(selected_menu)->GetName(),
+                         ssd1306::modulo(selected_line + 1, availableLines), GetContent(selected_menu + 1)->GetName(),
+                         ssd1306::modulo(selected_line + (availableLines - 1), availableLines), GetContent(selected_menu + availableLines - 1)->GetName());
                 if (shownLines == availableLines)
                 {
                     lw->printfl(selected_line - 1, false, " "); // delete first line on display (needs at least a space character; otherwise nothing will be printed)
@@ -284,24 +274,23 @@ namespace menu
                 GetContent(selected_menu + 1)->RenderCompact(lw, selected_line + 1, true); // redraw next line as selected
                 lw->Scroll(+1);
                 GetContent(selected_menu + availableLines - 1)->RenderCompact(lw, selected_line + availableLines - 1, false);
-                selected_line = modulo(++selected_line, availableLines);
-                selected_menu = modulo(++selected_menu, content->size());
+                selected_line = ssd1306::modulo(++selected_line, availableLines);
+                selected_menu = ssd1306::modulo(++selected_menu, content->size());
                 movement = 0;
             }
         }
 
-        //OBSOLETE
         void RenderFullScreen32(FullLineWriter *lw, bool initial, uint8_t textLines)
         {
             if (initial)
             {
-                ESP_LOGI(TAG, "RenderFullScreen32: Menu Full update");
+                ESP_LOGI(TAG, "Menu Full update");
                 lw->ClearScreenAndResetStartline(false, 16);
                 selected_line = 3;
                 int menu_idx = selected_menu - 3;
                 for (int page = 0; page < 8; page++)
                 {
-                    int corr_menu_idx = modulo(menu_idx, content->size());
+                    int corr_menu_idx = ssd1306::modulo(menu_idx, content->size());
                     MenuItem *itm = content->at(corr_menu_idx);
                     itm->RenderCompact(lw, page, menu_idx == selected_menu);
                     menu_idx++;
@@ -309,16 +298,16 @@ namespace menu
             }
             else if (movement == +1)
             {
-                ESP_LOGD(TAG, "RenderFullScreen32: Update ram %d with %s and %d with %s and %d with %s",
-                         modulo(selected_line, textLines), GetContent(selected_menu)->GetName(),
-                         modulo(selected_line + 1, textLines), GetContent(selected_menu + 1)->GetName(),
-                         modulo(selected_line + textLines - 1, textLines), GetContent(selected_menu + 5)->GetName());
+                ESP_LOGD(TAG, "Update ram %d with %s and %d with %s and %d with %s",
+                         ssd1306::modulo(selected_line, textLines), GetContent(selected_menu)->GetName(),
+                         ssd1306::modulo(selected_line + 1, textLines), GetContent(selected_menu + 1)->GetName(),
+                         ssd1306::modulo(selected_line + textLines - 1, textLines), GetContent(selected_menu + 5)->GetName());
                 GetContent(selected_menu)->RenderCompact(lw, selected_line, false);
                 GetContent(selected_menu + 1)->RenderCompact(lw, selected_line + 1, true);
                 lw->Scroll(1);
                 GetContent(selected_menu + 5)->RenderCompact(lw, selected_line + 5, false);
-                selected_line = modulo(++selected_line, textLines);
-                selected_menu = modulo(++selected_menu, content->size());
+                selected_line = ssd1306::modulo(++selected_line, textLines);
+                selected_menu = ssd1306::modulo(++selected_menu, content->size());
                 movement = 0;
             }
         }
@@ -353,12 +342,12 @@ namespace menu
         OptionItem(const char *name, std::vector<const char *> *options, MenuItemChanged<int> *cb = nullptr) : MenuItem(name), options(options), cb(cb) {}
         void RenderCompact(FullLineWriter *lw, int page, bool invert) override
         {
-            lw->printfl(page, invert, "%s\t%s", name, GetSelectedOptionName());
+            lw->printfl(page, invert, "%s\t %s", name, GetSelectedOptionName());
         }
 
         const char *GetSelectedOptionName(int offset = 0)
         {
-            auto name = options->at(modulo(selected_option + offset, options->size()));
+            auto name = options->at(ssd1306::modulo(selected_option + offset, options->size()));
             return name;
         }
 
@@ -377,7 +366,7 @@ namespace menu
                 int option_idx = selected_option - 1;
                 for (int textline = 0; textline < availableLines; textline++)
                 {
-                    const char *itm = options->at(modulo(option_idx, options->size()));
+                    const char *itm = options->at(ssd1306::modulo(option_idx, options->size()));
                     if (option_idx == selected_option)
                     {
                         lw->printfl(textline, true, "\x1b\xe %s", itm);
@@ -396,8 +385,8 @@ namespace menu
                 lw->printfl(selected_line + 1, true, "\x1b\xe %s", GetSelectedOptionName(+1)); // redraw next line as selected
                 lw->Scroll(+1);
                 lw->printfl(selected_line + availableLines - 1, false, "   %s", GetSelectedOptionName(availableLines - 1));
-                selected_line = modulo(++selected_line, availableLines);
-                selected_option = modulo(++selected_option, options->size());
+                selected_line = ssd1306::modulo(++selected_line, availableLines);
+                selected_option = ssd1306::modulo(++selected_option, options->size());
                 if (cb)
                     cb->ValueChanged(this, selected_option);
                 movement = 0;
@@ -427,8 +416,8 @@ namespace menu
         FolderItem *root;
         FullLineWriter *lw;
         std::vector<MenuItem *> path;
-        uint8_t shownLines;
-        uint8_t availableLines;
+        uint8_t shownLines{2};
+        uint8_t availableLines{4};
 
     public:
         MenuManagement(FolderItem *root, FullLineWriter *lw) : root(root), lw(lw), shownLines(lw->GetShownLines()), availableLines(lw->GetAvailableLines()) {}
@@ -502,4 +491,3 @@ namespace menu
         }
     };
 }
-#undef TAG

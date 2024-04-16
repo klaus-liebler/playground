@@ -845,7 +845,7 @@ namespace SPILCD16
                     updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
                     ESP_LOGD(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
                     startLine += linesInNextCall;
-                    delayMs(10);
+                    //delayMs(10);
                 }
             }
             ESP_LOGD(TAG, "All transactions have been enqueued");
