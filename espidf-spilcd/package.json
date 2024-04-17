@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "fonteditor-core": "^2.3.3"
+
   },
   "devDependencies": {
-    "@types/node": "^20.12.7"
+    "@types/node": "^20.12.7",
+    "fonteditor-core": "^2.3.3",
+    "lv_font_conv": "^1.5.2"
   }
 }

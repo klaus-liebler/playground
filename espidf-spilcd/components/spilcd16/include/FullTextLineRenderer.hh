@@ -68,7 +68,7 @@ namespace SPILCD16
 
         void PopulateGlyphs(char *chars)
         {
-            int baselineY = (LINE_HEIGHT_PIXELS + font->line_height) * 0.5; // font soll in der Mitte der LINE stehen
+            int baselineY = (LINE_HEIGHT_PIXELS + font->line_height-4) * 0.5; // font soll in der Mitte der LINE stehen
             ESP_LOGD(TAG, "Baseline=%d", baselineY);
             uint32_t currentCodepoint = getCodepointAndAdvancePointer(&chars);
             uint32_t currentGlyphIndex=GetGlyphIndex(font, currentCodepoint);

@@ -248,7 +248,7 @@ typedef struct   {
 
 
 
-extern lv_font_t Roboto_regular;
+extern lv_font_t roboto_fontawesome;
 
 
 

@@ -144,7 +144,7 @@ private:
 public:
     LineWriterToSpiLcsAdapter(IRendererHost *host, uint8_t lineHeight) : host(host), lineHeight(lineHeight) {
         frr = new FilledRectRenderer(Point2D(0,0), Point2D(240, 320), Color::YELLOW);
-        ftlr= new FullTextlineRenderer<LINE_HEIGHT_PIXELS, LINE_WIDTH_PIXELS, PADDING_LEFT, PADDING_RIGHT>(&Roboto_regular);
+        ftlr= new FullTextlineRenderer<LINE_HEIGHT_PIXELS, LINE_WIDTH_PIXELS, PADDING_LEFT, PADDING_RIGHT>(&roboto_fontawesome);
 
     }
     size_t printfl(int line, bool invert, const char *format, ...) override

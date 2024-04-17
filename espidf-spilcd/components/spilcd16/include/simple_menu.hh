@@ -6,9 +6,10 @@
 #include <interfaces.hh>
 #define TAG "MENU"
 #include <esp_log.h>
-#include "symbols.h"
+#include "glyps.hh"
 
 using namespace display;
+
 
 namespace menu
 {
@@ -115,11 +116,11 @@ namespace menu
         {
             if (*value)
             {
-                lw->printfl(line, invert, "%s\t" LV_SYMBOL_OK, name);
+                lw->printfl(line, invert, "%s\t" G_SQUARE_CHECK, name);
             }
             else
             {
-                lw->printfl(line, invert, "%s\t" LV_SYMBOL_CLOSE, name);
+                lw->printfl(line, invert, "%s\t" G_SQUARE_XMARK, name);
             }
         }
 
@@ -132,11 +133,11 @@ namespace menu
             }
             if (*value)
             {
-                lw->printfl(1, true, LV_SYMBOL_OK);
+                lw->printfl(1, true, G_SQUARE_CHECK);
             }
             else
             {
-                lw->printfl(1, true, LV_SYMBOL_CLOSE);
+                lw->printfl(1, true, G_SQUARE_XMARK);
             }
         }
 
@@ -213,7 +214,7 @@ namespace menu
     class ReturnItem : public MenuItem
     {
     public:
-        ReturnItem() : MenuItem(LV_SYMBOL_UP LV_SYMBOL_UP LV_SYMBOL_UP LV_SYMBOL_UP) {}
+        ReturnItem() : MenuItem(G_ARROW_TURN_UP G_ARROW_TURN_UP G_ARROW_TURN_UP G_ARROW_TURN_UP) {}
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             lw->printfl(line, invert, "%s", name);
@@ -245,7 +246,7 @@ namespace menu
         FolderItem(const char *const name, const std::vector<MenuItem *> *const content) : MenuItem(name), content(content) {}
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
-            lw->printfl(line, invert, "%s\t" LV_SYMBOL_RIGHT, name);
+            lw->printfl(line, invert, "%s\t" G_CHEVRON_RIGHT, name);
         }
 
         MenuItem *GetContent(int uncorrected_index)

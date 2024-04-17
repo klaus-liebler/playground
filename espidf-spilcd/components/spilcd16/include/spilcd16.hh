@@ -864,7 +864,7 @@ namespace SPILCD16
                 free(chars);
                 return 0;
             }
-            TextRenderer tr(&Roboto_regular, Point2D(52, 100), Color::BLACK, Color::YELLOW, chars);
+            TextRenderer tr(&roboto_fontawesome, Point2D(52, 100), Color::BLACK, Color::YELLOW, chars);
             DrawAsyncAsSync(&tr);
             //free(chars); not necessary, this is done inside TextRenderer
             return chars_len;
