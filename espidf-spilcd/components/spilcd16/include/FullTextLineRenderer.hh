@@ -74,23 +74,24 @@ namespace SPILCD16
             uint32_t currentGlyphIndex=GetGlyphIndex(font, currentCodepoint);
             uint32_t nextCodepoint{0};
             uint32_t nextGlyphIndex{0};
-            size_t glyphBeforeTabulator{UINT32_MAX};
+            //two tabs are supported. First tab is centered and center-aligned
+            //second tab is right and right-aligned
+            size_t glyphBeforeTabulator[2]={UINT32_MAX, UINT32_MAX};
             
             uint16_t posX = PADDING_LEFT-GetGlyphDesc(currentGlyphIndex)->ofs_x;
             uint16_t endX{0};
-
+            uint8_t tabIndex=0;
             while (currentCodepoint)
             {
                 
                 nextCodepoint = getCodepointAndAdvancePointer(&chars);
                 int32_t kv;
                 if(nextCodepoint=='\t'){
-                    glyphBeforeTabulator=glyphs.size();
+                    glyphBeforeTabulator[(tabIndex%2)++]=glyphs.size();
                     nextCodepoint = getCodepointAndAdvancePointer(&chars);
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv=0;
-                    ESP_LOGD(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphBeforeTabulator, nextCodepoint);
-                
+                    ESP_LOGI(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
                 } else{
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv = GetKerningValue(font, currentGlyphIndex, nextGlyphIndex);
@@ -119,12 +120,36 @@ namespace SPILCD16
             }
 
             int i=glyphs.size()-1;
+            //Erst rechtsbündigen tabluator
             int offset = LINE_WIDTH_PIXELS-PADDING_RIGHT-endX;
-            while(offset>0 && i>glyphBeforeTabulator){
-                glyphs.at(i).startX+=offset;
-                ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
-                i--;
+            if(glyphBeforeTabulator[1]!=UINT32_MAX && offset>0){
+                while(i>glyphBeforeTabulator[1]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+                first
             }
+            
+            if(glyphBeforeTabulator[0]!=UINT32_MAX && glyphBeforeTabulator[0]!=glyphBeforeTabulator[1]){
+                GlyphHelper* g1 =&glyphs.at(glyphBeforeTabulator[0]+1);
+                GlyphHelper* g2 =&glyphs.at(glyphBeforeTabulator[1]);
+                
+                uint16_t startOfBlock=g1->startX;
+                uint16_t endOfBlock =g2->startX+g2->glyph_dsc->box_w;
+                assert(endOfBlock>startOfBlock);
+                uint16_t widthOfCenteredChars=endOfBlock-startOfBlock;
+                uint16_t startPos = (LINE_HEIGHT_PIXELS/2)-(widthOfCenteredChars/2)
+                offset=startPos-g1->startX;
+                assert(offset>0);
+                while(i>glyphBeforeTabulator[0]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+
+            }
+            offset=
         }
 
     public:
