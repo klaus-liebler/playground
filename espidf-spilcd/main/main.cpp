@@ -171,17 +171,17 @@ public:
         ESP_LOGE(TAG, "SetStartline not supported");
     }
     void Scroll(int textLines) override{
-        int step_px = 2;
-        int count = 12;
+        int step_px = 4;
+        int count = 6;
         ESP_LOGD(TAG, "Scoll count=%d, step_px=%d, old startline_px=%d", count, step_px, startline_px);
         for (int i = 0; i < count; i++)
         {
             startline_px += step_px;
             startline_px = (startline_px + 240) % 240;
             host->doVerticalStrolling(startline_px);
-            vTaskDelay(pdMS_TO_TICKS(50));
+            vTaskDelay(pdMS_TO_TICKS(20));
         }
-        ESP_LOGI(TAG, "New startline_px=%d", startline_px);
+        ESP_LOGD(TAG, "New startline_px=%d", startline_px);
     }
     uint8_t GetShownLines() override
     {

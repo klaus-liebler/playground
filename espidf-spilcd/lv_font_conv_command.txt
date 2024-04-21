@@ -1,0 +1,1 @@
+lv_font_conv --force-fast-kern-format --font Roboto-Regular.ttf -r 0x20-0xFF --font fa-solid-900_kl.ttf -r 57344-58680  --size 16 --format lvgl --bpp 4 --no-compress -o roboto_fontawesome.cc

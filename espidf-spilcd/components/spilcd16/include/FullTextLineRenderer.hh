@@ -174,8 +174,7 @@ namespace SPILCD16
         {
             char *chars{nullptr};
             int chars_len = vasprintf(&chars, format, args_list);
-            ESP_LOGI(TAG, "Printing '%s' to line %d", chars, line);
-            ESP_LOG_BUFFER_HEX_LEVEL(TAG, chars, chars_len, ESP_LOG_INFO);
+            ESP_LOGD(TAG, "Printing '%s' to line %d", chars, line);
             
             if (chars_len <= 0)
             {

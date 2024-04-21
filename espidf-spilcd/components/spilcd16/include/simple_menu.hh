@@ -67,6 +67,7 @@ namespace menu
         int value_min;
         int value_max;
         MenuItemChanged<int> *cb;
+        static int valueTmp;
 
     public:
         IntegerItem(const char *const name, int *value, int value_min, int value_max, MenuItemChanged<int> *cb = nullptr) : MenuItem(name), value(value), value_min(value_min), value_max(value_max), cb(cb) {}
@@ -75,31 +76,36 @@ namespace menu
             lw->printfl(line, invert, "%s\t%d", name, *value);
         }
 
+        MenuItemResult Select(MenuItem **toOpen) override {
+            *value=valueTmp;
+             if (cb)
+                cb->ValueChanged(this, *value);
+            return MenuItemResult::CLOSE_MYSELF;
+        }
+
         void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
         {
             if (initial)
             {
+                valueTmp=*value;
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%d", *value);
+            lw->printfl(1, true, "%d (%s)", valueTmp, valueTmp==*value?"orig":"changed");
         }
         MenuItemResult Up() override
         {
-            (*value)++;
-            if ((*value) > value_max)
-                *value = value_min;
-            if (cb)
-                cb->ValueChanged(this, *value);
+            valueTmp++;
+            if (valueTmp > value_max)
+                valueTmp = value_min;
+           
             return MenuItemResult::REDRAW;
         }
         MenuItemResult Down() override
         {
-            (*value)--;
-            if ((*value) < value_min)
-                *value = value_max;
-            if (cb)
-                cb->ValueChanged(this, *value);
+            valueTmp--;
+            if (valueTmp < value_min)
+                valueTmp = value_max;
             return MenuItemResult::REDRAW;
         }
     };
@@ -109,6 +115,7 @@ namespace menu
     private:
         bool *value;
         MenuItemChanged<bool> *cb;
+        static bool valueTmp;
 
     public:
         BoolItem(const char *const name, bool *value, MenuItemChanged<bool> *cb = nullptr) : MenuItem(name), value(value), cb(cb) {}
