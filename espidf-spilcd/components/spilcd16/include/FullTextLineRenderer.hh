@@ -86,12 +86,20 @@ namespace SPILCD16
                 
                 nextCodepoint = getCodepointAndAdvancePointer(&chars);
                 int32_t kv;
-                if(nextCodepoint=='\t'){
-                    glyphBeforeTabulator[(tabIndex%2)++]=glyphs.size();
+                if(nextCodepoint=='\t' && tabIndex<2){
+                    glyphBeforeTabulator[tabIndex++]=glyphs.size();
                     nextCodepoint = getCodepointAndAdvancePointer(&chars);
+                    if(nextCodepoint=='\t' && tabIndex<2){
+                        glyphBeforeTabulator[tabIndex++]=glyphs.size();
+                        nextCodepoint = getCodepointAndAdvancePointer(&chars);
+                        ESP_LOGI(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
+                    else{
+                        ESP_LOGI(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv=0;
-                    ESP_LOGI(TAG, "Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    
                 } else{
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv = GetKerningValue(font, currentGlyphIndex, nextGlyphIndex);
@@ -128,7 +136,6 @@ namespace SPILCD16
                     ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
                     i--;
                 }
-                first
             }
             
             if(glyphBeforeTabulator[0]!=UINT32_MAX && glyphBeforeTabulator[0]!=glyphBeforeTabulator[1]){
@@ -139,7 +146,7 @@ namespace SPILCD16
                 uint16_t endOfBlock =g2->startX+g2->glyph_dsc->box_w;
                 assert(endOfBlock>startOfBlock);
                 uint16_t widthOfCenteredChars=endOfBlock-startOfBlock;
-                uint16_t startPos = (LINE_HEIGHT_PIXELS/2)-(widthOfCenteredChars/2)
+                uint16_t startPos = (LINE_HEIGHT_PIXELS/2)-(widthOfCenteredChars/2);
                 offset=startPos-g1->startX;
                 assert(offset>0);
                 while(i>glyphBeforeTabulator[0]){
@@ -149,7 +156,7 @@ namespace SPILCD16
                 }
 
             }
-            offset=
+            
         }
 
     public:
