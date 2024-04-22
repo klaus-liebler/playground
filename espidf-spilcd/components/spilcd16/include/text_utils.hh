@@ -3,7 +3,7 @@
 #include <lvgl/lvgl.h>
 #define TAG "TXTUTIL"
 #include <esp_log.h>
-namespace SPILCD16
+namespace spilcd16
 {
     constexpr const uint8_t opa4_table[16] = {0, 17, 34, 51,
                                               68, 85, 102, 119,

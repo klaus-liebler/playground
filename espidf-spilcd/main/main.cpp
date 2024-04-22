@@ -17,7 +17,7 @@
 
 #include <RGB565.hh>
 #define TAG "MAIN"
-using namespace SPILCD16;
+using namespace spilcd16;
 using namespace menu;
 using namespace display;
 
@@ -78,6 +78,14 @@ std::vector<const char *> option4_items = {
     "Opt5",
 };
 
+std::vector<const char *> option6_items = {
+    G_CAMERA "Cam",
+    G_BOOK "Book",
+    G_FILM "Film",
+    G_FIRE "Fire",
+    G_BICYCLE "Bike",
+};
+
 std::vector<MenuItem *> root_items = {
     new IntegerItem("Integer0", &Integer0, 0, 10, &int_cb),
     new FixedPointItem<4>("Fixed1", &Fixed1, 0, 1, &float_cb),
@@ -85,7 +93,8 @@ std::vector<MenuItem *> root_items = {
     new BoolItem("Bool3", &Bool3, &bool_cb),
     new OptionItem("Option4", &option4_items, &int_cb),
     new IntegerItem("Integer5", &Integer5, 0, 10, &int_cb),
-    new PlaceholderItem("Placeholder6--"),
+    new OptionItem("Option6", &option6_items, &int_cb),
+    new PlaceholderItem("Ph7\t***\tPh7"),
 };
 
 enum class ButtonPressResult
@@ -196,7 +205,7 @@ public:
 extern "C" void app_main(void)
 {
     // M(spi_host_device_t spiHost, gpio_num_t mosi, gpio_num_t sclk, gpio_num_t cs, gpio_num_t dc, gpio_num_t rst, gpio_num_t bl)
-    SPILCD16::M<SPI2_HOST, GPIO_NUM_7, GPIO_NUM_15, GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_NC, GPIO_NUM_18, LCD135x240(12)> lcd;
+    spilcd16::M<SPI2_HOST, GPIO_NUM_7, GPIO_NUM_15, GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_NC, GPIO_NUM_18, LCD135x240(12)> lcd;
     lcd.InitSpiAndGpio();
     lcd.Init_ST7789(Color::YELLOW);
     //auto r = new FullTextlineRenderer<24, 135, 5, 5>(&Roboto_regular);

@@ -91,7 +91,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%d (%s)", valueTmp, valueTmp==*value?"orig":"changed");
+            lw->printfl(1, true, "%d (previous=%s)", valueTmp, *value);
         }
         MenuItemResult Up() override
         {
@@ -153,16 +153,12 @@ namespace menu
 
         MenuItemResult Up() override
         {
-            *value = !(*value);
-            if (cb)
-                cb->ValueChanged(this, *value);
+            valueTmp = !valueTmp;
             return MenuItemResult::REDRAW;
         }
         MenuItemResult Down() override
         {
-            *value = !(*value);
-            if (cb)
-                cb->ValueChanged(this, *value);
+            valueTmp = !valueTmp;
             return MenuItemResult::REDRAW;
         }
     };
@@ -198,7 +194,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%.2f", valueTmp/(float)UNITS_PER_INTEGER);
+            lw->printfl(1, true, "%.2f (previous=%.2f)", valueTmp/(float)UNITS_PER_INTEGER, (*value)/(float)UNITS_PER_INTEGER);
         }
 
          MenuItemResult Select(MenuItem **toOpen) override {
@@ -275,7 +271,7 @@ namespace menu
         {
             if (initial)
             {
-                ESP_LOGI(TAG, "Menu Full update selected_menu=%u, shownLines=%d availableLines=%d", selected_menu, shownLines, availableLines);
+                ESP_LOGD(TAG, "Menu Full update selected_menu=%u, shownLines=%d availableLines=%d", selected_menu, shownLines, availableLines);
                 lw->ClearScreenAndResetStartline(false, shownLines == availableLines ? 0 : 3, 4);
                 // Bei zwei sichtbaren Zeilen wird von der selected_menu - 1 nur ein viertel und von der selected_menu+1 dafür drei viertel dargestellt
                 selected_line = 1;
@@ -290,7 +286,7 @@ namespace menu
             }
             else if (movement == +1)
             {
-                ESP_LOGI(TAG, "Update ram %d with %s and ram %d with %s and ram %d with %s",
+                ESP_LOGD(TAG, "Update ram %d with %s and ram %d with %s and ram %d with %s",
                          modulo(selected_line, availableLines), GetContent(selected_menu)->GetName(),
                          modulo(selected_line + 1, availableLines), GetContent(selected_menu + 1)->GetName(),
                          modulo(selected_line + (availableLines - 1), availableLines), GetContent(selected_menu + availableLines - 1)->GetName());

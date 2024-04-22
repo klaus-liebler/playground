@@ -12,7 +12,7 @@
 #include "lvgl/lvgl.h"
 #include "text_utils.hh"
 using namespace display;
-namespace SPILCD16
+namespace spilcd16
 {
     template <uint8_t LINE_HEIGHT_PIXELS, uint8_t LINE_WIDTH_PIXELS, uint8_t PADDING_LEFT, uint8_t PADDING_RIGHT>
     class FullTextlineRenderer : public IAsyncRenderer
@@ -92,10 +92,10 @@ namespace SPILCD16
                     if(nextCodepoint=='\t' && tabIndex<2){
                         glyphBeforeTabulator[tabIndex++]=glyphs.size();
                         nextCodepoint = getCodepointAndAdvancePointer(&chars);
-                        ESP_LOGI(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                        ESP_LOGD(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
                     }
                     else{
-                        ESP_LOGI(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                        ESP_LOGD(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
                     }
                     nextGlyphIndex = GetGlyphIndex(font, nextCodepoint);
                     kv=0;
@@ -139,14 +139,15 @@ namespace SPILCD16
             }
             
             if(glyphBeforeTabulator[0]!=UINT32_MAX && glyphBeforeTabulator[0]!=glyphBeforeTabulator[1]){
-                GlyphHelper* g1 =&glyphs.at(glyphBeforeTabulator[0]+1);
+                GlyphHelper* g1 =&glyphs.at(glyphBeforeTabulator[0]+1);//""
                 GlyphHelper* g2 =&glyphs.at(glyphBeforeTabulator[1]);
                 
                 uint16_t startOfBlock=g1->startX;
                 uint16_t endOfBlock =g2->startX+g2->glyph_dsc->box_w;
+                ESP_LOGD(TAG, "Two separate tabs -->we need to center some glyphs, startOfBlock=%d, endOfBlock=%d", startOfBlock, endOfBlock);
                 assert(endOfBlock>startOfBlock);
                 uint16_t widthOfCenteredChars=endOfBlock-startOfBlock;
-                uint16_t startPos = (LINE_HEIGHT_PIXELS/2)-(widthOfCenteredChars/2);
+                uint16_t startPos = (LINE_WIDTH_PIXELS/2)-(widthOfCenteredChars/2);
                 offset=startPos-g1->startX;
                 assert(offset>0);
                 while(i>glyphBeforeTabulator[0]){

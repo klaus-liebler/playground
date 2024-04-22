@@ -32,7 +32,7 @@ using namespace display;
 
 #define LCD135x240(lines) 135, 240, 52, 40, (135*lines)
 
-namespace SPILCD16
+namespace spilcd16
 {
 
 
@@ -167,9 +167,6 @@ namespace SPILCD16
         }
     };
 
-           
-
-     
     class TextRenderer : public IAsyncRenderer
     {
     private:
@@ -874,14 +871,14 @@ namespace SPILCD16
         {
             if (t->user == nullptr)
                 return;
-            SPILCD16::TransactionInfo *ti = (SPILCD16::TransactionInfo *)t->user;
+            spilcd16::TransactionInfo *ti = (spilcd16::TransactionInfo *)t->user;
             ti->manager->preCb(t, ti);
         }
         static void lcd_spi_post_transfer_callback(spi_transaction_t *t)
         {
             if (t->user == nullptr)
                 return;
-            SPILCD16::TransactionInfo *ti = (SPILCD16::TransactionInfo *)t->user;
+            spilcd16::TransactionInfo *ti = (spilcd16::TransactionInfo *)t->user;
             ti->manager->postCb(t, ti);
         }
     };
