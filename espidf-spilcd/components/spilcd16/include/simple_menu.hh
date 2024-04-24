@@ -91,7 +91,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%d (previous=%s)", valueTmp, *value);
+            lw->printfl(1, true, "%d [%d]", valueTmp, *value);
         }
         MenuItemResult Up() override
         {
@@ -194,7 +194,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%.2f (previous=%.2f)", valueTmp/(float)UNITS_PER_INTEGER, (*value)/(float)UNITS_PER_INTEGER);
+            lw->printfl(1, true, "%.2f [%.2f]", valueTmp/(float)UNITS_PER_INTEGER, (*value)/(float)UNITS_PER_INTEGER);
         }
 
          MenuItemResult Select(MenuItem **toOpen) override {

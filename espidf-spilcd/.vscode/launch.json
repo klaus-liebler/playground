@@ -2,9 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "espidf",
-      "name": "Launch",
-      "request": "launch"
+"name": "ts-node",
+      "type": "node",
+      "request": "launch",
+      "args": ["${relativeFile}"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceRoot}",
+      "internalConsoleOptions": "openOnSessionStart"
     }
   ]
 }

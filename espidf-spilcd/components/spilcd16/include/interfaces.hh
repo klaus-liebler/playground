@@ -52,7 +52,7 @@ namespace display
 
     class IRendererHost{
         public:
-        virtual ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)=0;
+        virtual ErrorCode Draw(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)=0;
         virtual ErrorCode prepareVerticalStrolling(uint16_t fixedTop, uint16_t fixedBottom)=0;
         virtual ErrorCode doVerticalStrolling(uint16_t lineOnTop_0_to_HEIGHT_OF_SCROLL_AREA)=0;
     };

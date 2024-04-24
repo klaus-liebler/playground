@@ -38,7 +38,6 @@ namespace spilcd16
 
     constexpr int SPI_Command_Mode = 0;
     constexpr int SPI_Data_Mode = 1;
-    constexpr bool POST_TRANSACTION_CALLBACK_ACTIVE{false};
 
     namespace CMD
     {
@@ -162,7 +161,7 @@ namespace spilcd16
             
             for (int i = 0; i < (end_excl.x-start.x)*linesCount; i++)
             {
-                buffer[i] = this->foreground;
+                //TODO:buffer[i] = this->foreground;
             }
         }
     };
@@ -333,7 +332,6 @@ namespace spilcd16
     {
     public:
         virtual void preCb(spi_transaction_t *t, TransactionInfo *) = 0;
-        virtual void postCb(spi_transaction_t *t, TransactionInfo *) = 0;
     };
 
     class TransactionInfo
@@ -342,18 +340,18 @@ namespace spilcd16
         ITransactionCallback *manager;
         TransactionPhase phase;
         IAsyncRenderer *renderer;
-        uint16_t startLine; // max value =240*320=76.800, which is too large for uint16_t
-        uint16_t numberOfPixelInOneLine;
-        uint16_t numberOfLinesTotal;
-        uint16_t numberOfLinesPerCall;
+        uint16_t startLine;//relativ zur nullten linie des rechteckigen bereichs
+        uint16_t lineLengthPixel;
+        uint16_t linesCountTotal;
+        uint16_t numberOfLinesInBuffer;
         TransactionInfo(ITransactionCallback *manager, TransactionPhase phase) : manager(manager), phase(phase) {}
         void ResetTo(IAsyncRenderer *renderer,  uint16_t startLine,uint16_t numberOfPixelInOneLine,uint16_t numberOfLinesTotal, uint16_t numberOfLinesPerCall)
         {
             this->renderer = renderer;
             this->startLine = startLine;
-            this->numberOfPixelInOneLine = numberOfPixelInOneLine;
-            this->numberOfLinesTotal=numberOfLinesTotal;
-            this->numberOfLinesPerCall = numberOfLinesPerCall;
+            this->lineLengthPixel = numberOfPixelInOneLine;
+            this->linesCountTotal=numberOfLinesTotal;
+            this->numberOfLinesInBuffer = numberOfLinesPerCall;
         }
     };
 
@@ -366,7 +364,6 @@ namespace spilcd16
         spi_transaction_t PREPARE_TRANSACTIONS[5];
         spi_transaction_t BUFFER_TRANSACTIONS[2];
         spi_transaction_t initTemplateTransaction;
-        SemaphoreHandle_t xSemaphore;
         uint16_t fixedTop{0};
         uint16_t fixedBottom{0};
 
@@ -436,7 +433,7 @@ namespace spilcd16
             BUFFER_TRANSACTIONS[index].rxlength = 0;
             auto ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[index].user);
             ti->ResetTo(renderer, startline, lineLengthPixel, linesCountTotal, linesCountInOneCall);
-            ESP_LOGD(TAG, "updateAndEnqueueBufferTransaction index=%i, startline=%u, lineLengthPixel=%u, linesCountTotal=%u, linesCountInOneCall=%u", index, ti->startLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, ti->numberOfLinesPerCall);
+            ESP_LOGD(TAG, "updateAndEnqueueBufferTransaction index=%i, startline=%u, lineLengthPixel=%u, linesCountTotal=%u, linesCountInOneCall=%u", index, ti->startLine, ti->lineLengthPixel, ti->linesCountTotal, ti->numberOfLinesInBuffer);
             if (linesCountInOneCall > 0)
             {
                 if (polling)
@@ -449,9 +446,6 @@ namespace spilcd16
     public:
         M()
         {
-            xSemaphore = xSemaphoreCreateBinary();
-            xSemaphoreGive(xSemaphore);
-
             for (int i = 0; i < 2; i++)
             {
                 buffer[i] = (uint16_t *)heap_caps_malloc(PIXEL_BUFFER_SIZE_IN_PIXELS * 2, MALLOC_CAP_DMA);
@@ -504,7 +498,7 @@ namespace spilcd16
             }
             preCbCalls++;
         }
-
+/*
         void postCb(spi_transaction_t *t, TransactionInfo *ti)
         {
             if (!POST_TRANSACTION_CALLBACK_ACTIVE)
@@ -515,15 +509,20 @@ namespace spilcd16
                 postCb2Calls++;
                 return;
             }
-            TransactionInfo *other_ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[(int)(ti->phase) == 0 ? 1 : 0].user);
-            if (other_ti->startLine + other_ti->numberOfLinesPerCall == ti->numberOfLinesTotal)
+            int otherPhase = (int)ti->phase == 0 ? 1 : 0;
+            TransactionInfo *other_ti = static_cast<TransactionInfo *>(BUFFER_TRANSACTIONS[otherPhase].user);
+            uint16_t *other_buf = this->buffer[(int)ti->phase == 0 ? 1 : 0];
+            assert(other_buf);
+            assert(other_ti);
+            if (other_ti->startLine + other_ti->numberOfLinesInBuffer == ti->linesCountTotal)
             {
                 // die andere Transaktion wird gleich dafür sorgen, dass dass Rect fertig übertragen wird - diese Transaktion ist also der vorletzte Schritt
                 // nichts machen, sonst gerät alles durcheinander, warte, bis die andere fertig ist und versuche dann, zum nächsten Rect zu gehen (s.u.)
                 return;
             }
             IAsyncRenderer *renderer = ti->renderer;
-            if (ti->startLine + ti->numberOfLinesPerCall == ti->numberOfLinesTotal)
+            assert(renderer);
+            if (ti->startLine + ti->numberOfLinesInBuffer == ti->linesCountTotal)
             {
                 // diese Transaktion sorgte dafür, dass dass Rect fertig übertragen wird - diese Transaktion ist also der LETZTE Schritt
                 // wir versuchen, zum nächsten Rect zu wechseln
@@ -540,6 +539,7 @@ namespace spilcd16
                 if (start.x >= end_ex.x || start.y >= end_ex.y)
                 {
                     // unsinnige Koordinaten des Rechtecks --> auch einfach aufhören
+                    xSemaphoreGive(xSemaphore);
                     return;
                 }
                 updateAndEnqueuePrepareTransactions(start, end_ex); //
@@ -547,18 +547,20 @@ namespace spilcd16
                 return;
             }
 
-            int nextPhase = (int)ti->phase == 0 ? 1 : 0;
-            uint16_t *nextBuf = this->buffer[(int)ti->phase == 0 ? 1 : 0];
+            
+           
             postCb1Calls++;
 
-            uint16_t nextStartLine{(uint16_t)(ti->startLine + ti->numberOfLinesPerCall)};
-            uint32_t nextNumberOfLinesPerCall = std::min((uint16_t)(ti->numberOfLinesTotal - nextStartLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/ti->numberOfPixelInOneLine));
-            assert(nextNumberOfLinesPerCall > 0); // Denn ansonsten hätte das oben schon erkannt werden müssen
-
-            renderer->Render(nextStartLine, nextNumberOfLinesPerCall, nextBuf);
-            updateAndEnqueueBufferTransaction(nextPhase, renderer, nextStartLine, ti->numberOfPixelInOneLine, ti->numberOfLinesTotal, nextNumberOfLinesPerCall);
+            uint16_t nextStartLine{(uint16_t)(ti->startLine + ti->numberOfLinesInBuffer)};
+            uint16_t maxLinesInBuffer=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/ti->lineLengthPixel);
+            assert(ti->linesCountTotal>nextStartLine);
+            uint16_t nextNumberOfLinesInBuffer = std::min((uint16_t)(ti->linesCountTotal - nextStartLine), maxLinesInBuffer);
+            assert(nextNumberOfLinesInBuffer > 0); // Denn ansonsten hätte das oben schon erkannt werden müssen
+            assert(renderer);
+            renderer->Render(nextStartLine, nextNumberOfLinesInBuffer, other_buf);
+            updateAndEnqueueBufferTransaction(otherPhase, renderer, nextStartLine, ti->lineLengthPixel, ti->linesCountTotal, nextNumberOfLinesInBuffer);
         }
-
+*/
         void Loop()
         {
             ESP_LOGI(TAG, "preCb %d, postCb1 %d, postCb2 %d", this->preCbCalls, postCb1Calls, postCb2Calls);
@@ -615,7 +617,6 @@ namespace spilcd16
 
         void Init_ST7789(Color::Color565 fillColor = Color::BLACK)
         {
-
             spi_device_interface_config_t devcfg = {};
             memset(&devcfg, 0, sizeof(devcfg));
             devcfg.clock_speed_hz = SPI_MASTER_FREQ_13M; //datasheet says: Serial clock cycle (Write) = 66ns -->15.15MHz -->next value 16MHz is out of spec...
@@ -623,8 +624,6 @@ namespace spilcd16
             devcfg.spics_io_num = cs;
             devcfg.queue_size = 7;
             devcfg.pre_cb = M::lcd_spi_pre_transfer_callback;
-            devcfg.post_cb = M::lcd_spi_post_transfer_callback;
-
             ESP_ERROR_CHECK(spi_bus_add_device(spiHost, &devcfg, &spi));
             assert(spi);
 
@@ -647,14 +646,8 @@ namespace spilcd16
             lcd_cmd(CMD::Display_On);
 
             FilledRectRenderer rr(Point2D(0, 0), Point2D(135, 240), fillColor);
-            DrawAsyncAsSync(&rr, true);
-            // FillRectSyncPolling(Point2D(0, 0), Point2D(135, 240), fillColor);
-            // FillRectSyncPolling(Point2D(0, 10), Point2D(5, 230), RGB565::RED);//links
-            // FillRectSyncPolling(Point2D(130, 10), Point2D(135, 230), RGB565::RED);//rechts
-            // FillRectSyncPolling(Point2D(10, 0), Point2D(125, 5), RGB565::GREEN);//oben
-            // FillRectSyncPolling(Point2D(10, 235), Point2D(125, 240), RGB565::GREEN);//unten
+            Draw(&rr, true);
         }
-
 
         ErrorCode FillRectSyncPolling(Point2D start, Point2D end_ex, Color::Color565 col, bool considerOffsetsOfVisibleArea = true)
         {
@@ -733,40 +726,42 @@ namespace spilcd16
         void fillBothBuffersWithNewRect(IAsyncRenderer *renderer, uint16_t linesTotal, uint16_t lineLengthPixel, bool logoutputEnabled)
         {
             uint16_t startLine{0};
-            uint16_t linesInOneCall{0};
-            linesInOneCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
-            if (linesInOneCall > 0)
+            uint16_t maxLinesInBuffer=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
+            uint16_t linesInBuffer{0};
+            
+            linesInBuffer = std::min((uint16_t)(linesTotal - startLine), maxLinesInBuffer);
+            if (linesInBuffer > 0)
             {
-                renderer->Render(startLine, linesInOneCall, buffer[0]);
+                renderer->Render(startLine, linesInBuffer, buffer[0]);
                 if (logoutputEnabled)
-                    ESP_LOGI(TAG, "Buffer0 transaction will be enqueued with %u lines. ", linesInOneCall);
-                updateAndEnqueueBufferTransaction(0, renderer, startLine, lineLengthPixel, linesTotal, linesInOneCall);
-                startLine += linesInOneCall;
+                    ESP_LOGI(TAG, "Buffer0 transaction will be enqueued with %u lines. ", linesInBuffer);
+                updateAndEnqueueBufferTransaction(0, renderer, startLine, lineLengthPixel, linesTotal, linesInBuffer);
+                startLine += linesInBuffer;
             }
 
-            linesInOneCall = std::min((uint16_t)(linesTotal - startLine), (uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel));
-            if (linesInOneCall > 0)
+            linesInBuffer = std::min((uint16_t)(linesTotal - startLine), maxLinesInBuffer);
+            if (linesInBuffer > 0)
             {
-                renderer->Render(startLine, linesInOneCall, buffer[1]);
+                renderer->Render(startLine, linesInBuffer, buffer[1]);
                 if (logoutputEnabled)
-                    ESP_LOGI(TAG, "Buffer1 transaction will be enqueued with %u lines. ", linesInOneCall);
-                updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, linesInOneCall);
-                startLine += linesInOneCall;
+                    ESP_LOGI(TAG, "Buffer1 transaction will be enqueued with %u lines. ", linesInBuffer);
+                updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, linesInBuffer);
+                startLine += linesInBuffer;
             }
             else
             {
                 updateAndEnqueueBufferTransaction(1, renderer, startLine, lineLengthPixel, linesTotal, 0);
             }
         }
-
-        ErrorCode DrawAsync(IAsyncRenderer *renderer)
+/*
+        ErrorCode DrawAsync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)
         {
 
             if(!POST_TRANSACTION_CALLBACK_ACTIVE){
                 ESP_LOGE(TAG, "!POST_TRANSACTION_CALLBACK_ACTIVE");
                 return ErrorCode::INVALID_STATE;
             }
-            xSemaphoreTake(xSemaphore, portMAX_DELAY);
+
             Point2D start;
             Point2D end_ex;
             if (!renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
@@ -776,13 +771,46 @@ namespace spilcd16
             }
             if (start.x >= end_ex.x || start.y >= end_ex.y)
                 return ErrorCode::GENERIC_ERROR;
-            uint32_t pixelsOfRect = start.PixelsTo(end_ex);
-            ESP_LOGI(TAG, "Called DrawAsync for (%d/%d) - (%d/%d) with %d Pixels", start.x, start.y, end_ex.x, end_ex.y, pixelsOfRect);
-            updateAndEnqueuePrepareTransactions(start, end_ex);
+            xSemaphoreTake(xSemaphore, portMAX_DELAY);
+
+            uint16_t linesTotal = end_ex.y-start.y;
+            uint16_t lineLengthPixel = end_ex.x-start.x;
+            uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
+            ESP_LOGI(TAG, "Called DrawAsync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
+            updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea);
             ESP_LOGI(TAG, "Five basic transaction have been enqueued.");
-            fillBothBuffersWithNewRect(renderer, pixelsOfRect, true);
+            fillBothBuffersWithNewRect(renderer, linesTotal, lineLengthPixel, true);
 
             ESP_LOGI(TAG, "All initial transactions have been enqueued");
+            return ErrorCode::OK;
+        }
+*/
+        ErrorCode Draw(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)
+        {
+            Point2D start;
+            Point2D end_ex;
+            while (renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
+            {
+                uint16_t linesTotal = end_ex.y-start.y;
+                uint16_t lineLengthPixel = end_ex.x-start.x;
+                uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
+                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
+                updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
+                ESP_LOGD(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
+                uint16_t startLine{0};
+                uint8_t bufferIndex=0;
+                while (startLine < linesTotal)
+                {
+                    uint16_t linesInNextCall = std::min((uint16_t)(linesTotal - startLine), linesMaxPerCall);
+                    renderer->Render(startLine, linesInNextCall, buffer[bufferIndex]);
+                    updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
+                    ESP_LOGD(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
+                    startLine += linesInNextCall;
+                    bufferIndex++;
+                    bufferIndex%=2;
+                }
+            }
+            ESP_LOGD(TAG, "All transactions have been enqueued");
             return ErrorCode::OK;
         }
 
@@ -814,41 +842,7 @@ namespace spilcd16
             return ErrorCode::OK;
         }
         
-        ErrorCode DrawAsyncAsSync(IAsyncRenderer *renderer, bool considerOffsetsOfVisibleArea = true)
-        {
-            if(POST_TRANSACTION_CALLBACK_ACTIVE){
-                ESP_LOGE(TAG, "POST_TRANSACTION_CALLBACK_ACTIVE");
-                return ErrorCode::INVALID_STATE;
-            }
-            Point2D start;
-            Point2D end_ex;
-            while (renderer->GetNextOverallLimits(PIXEL_BUFFER_SIZE_IN_PIXELS, start, end_ex))
-            {
-
-                if (start.x >= end_ex.x || start.y >= end_ex.y)
-                    return ErrorCode::GENERIC_ERROR;
-                uint16_t linesTotal = end_ex.y-start.y;
-                uint16_t lineLengthPixel = end_ex.x-start.x;
-                uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
-                ESP_LOGD(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
-                updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
-                ESP_LOGD(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
-                uint16_t startLine{0};
-                uint8_t bufferIndex=0;
-                while (startLine < linesTotal)
-                {
-                    uint16_t linesInNextCall = std::min((uint16_t)(linesTotal - startLine), linesMaxPerCall);
-                    renderer->Render(startLine, linesInNextCall, buffer[bufferIndex]);
-                    updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
-                    ESP_LOGD(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
-                    startLine += linesInNextCall;
-                    //delayMs(10);
-                }
-            }
-            ESP_LOGD(TAG, "All transactions have been enqueued");
-            return ErrorCode::OK;
-        }
-
+/*     
         size_t printfl(int line, bool invert, const char *format, ...){
             
             va_list args_list;
@@ -862,10 +856,11 @@ namespace spilcd16
                 return 0;
             }
             TextRenderer tr(&roboto_fontawesome, Point2D(52, 100), Color::BLACK, Color::YELLOW, chars);
-            DrawAsyncAsSync(&tr);
+            DrawAsync(&tr);
             //free(chars); not necessary, this is done inside TextRenderer
             return chars_len;
         }
+        */
 
         static void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
         {
@@ -874,15 +869,7 @@ namespace spilcd16
             spilcd16::TransactionInfo *ti = (spilcd16::TransactionInfo *)t->user;
             ti->manager->preCb(t, ti);
         }
-        static void lcd_spi_post_transfer_callback(spi_transaction_t *t)
-        {
-            if (t->user == nullptr)
-                return;
-            spilcd16::TransactionInfo *ti = (spilcd16::TransactionInfo *)t->user;
-            ti->manager->postCb(t, ti);
-        }
     };
-
 };
 
 #undef TAG

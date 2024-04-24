@@ -152,7 +152,7 @@ private:
 
 public:
     LineWriterToSpiLcsAdapter(IRendererHost *host, uint8_t lineHeight) : host(host), lineHeight(lineHeight) {
-        frr = new FilledRectRenderer(Point2D(0,0), Point2D(240, 320), Color::YELLOW);
+        frr = new FilledRectRenderer(Point2D(0,0), Point2D(240, 320), Color::GREEN);
         ftlr= new FullTextlineRenderer<LINE_HEIGHT_PIXELS, LINE_WIDTH_PIXELS, PADDING_LEFT, PADDING_RIGHT>(&roboto_fontawesome);
 
     }
@@ -163,7 +163,7 @@ public:
         line=(line+GetAvailableLines())%GetAvailableLines();
         size_t ret = ftlr->printfl(line, invert?Color::BLACK:Color::YELLOW, invert?Color::YELLOW:Color::BLACK, format, args_list);
         va_end(args_list);
-        host->DrawAsyncAsSync(ftlr, true);
+        host->Draw(ftlr, true);
         return ret;
         
     }
@@ -173,12 +173,13 @@ public:
         host->doVerticalStrolling(0);
         startline_px=0;
         frr->Reset();
-        host->DrawAsyncAsSync(frr, false);
+        host->Draw(frr, false);
     }
     void SetStartline(uint8_t startline) override//TODO check whether this function is really needed
     {
         ESP_LOGE(TAG, "SetStartline not supported");
     }
+    
     void Scroll(int textLines) override{
         int step_px = 4;
         int count = 6;
@@ -213,7 +214,6 @@ extern "C" void app_main(void)
     //lcd.DrawAsyncAsSync(r, true);
 
     auto adapter = new LineWriterToSpiLcsAdapter<24, 135,5,5>(&lcd, 24);
-
     auto root_folder = new FolderItem("root", &root_items);
     auto m = new menu::MenuManagement(root_folder, adapter);
     m->Init();

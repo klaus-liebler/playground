@@ -1,1341 +1,1341 @@
 #pragma once
 #include <cstdint>
 namespace glyph{
-//created 1713387835682 
-   constexpr const char* G_FAUCET = "\xee\x80\x80"; // 57344
-   constexpr const char* G_FAUCET_DRIP = "\xee\x80\x81"; // 57345
-   constexpr const char* G_HOUSE_CHIMNEY_WINDOW = "\xee\x80\x82"; // 57346
-   constexpr const char* G_HOUSE_SIGNAL = "\xee\x80\x83"; // 57347
-   constexpr const char* G_TEMPERATURE_ARROW_DOWN = "\xee\x80\x84"; // 57348
-   constexpr const char* G_TEMPERATURE_ARROW_UP = "\xee\x80\x85"; // 57349
-   constexpr const char* G_TRAILER = "\xee\x80\x86"; // 57350
-   constexpr const char* G_BACTERIA = "\xee\x80\x87"; // 57351
-   constexpr const char* G_BACTERIUM = "\xee\x80\x88"; // 57352
-   constexpr const char* G_BOX_TISSUE = "\xee\x80\x89"; // 57353
-   constexpr const char* G_HAND_HOLDING_MEDICAL = "\xee\x80\x8a"; // 57354
-   constexpr const char* G_HAND_SPARKLES = "\xee\x80\x8b"; // 57355
-   constexpr const char* G_HANDS_BUBBLES = "\xee\x80\x8c"; // 57356
-   constexpr const char* G_HANDSHAKE_SIMPLE_SLASH = "\xee\x80\x8d"; // 57357
-   constexpr const char* G_HANDSHAKE_SLASH = "\xee\x80\x8e"; // 57358
-   constexpr const char* G_HEAD_SIDE_COUGH = "\xee\x80\x8f"; // 57359
-   constexpr const char* G_HEAD_SIDE_COUGH_SLASH = "\xee\x80\x90"; // 57360
-   constexpr const char* G_HEAD_SIDE_MASK = "\xee\x80\x91"; // 57361
-   constexpr const char* G_HEAD_SIDE_VIRUS = "\xee\x80\x92"; // 57362
-   constexpr const char* G_HOUSE_CHIMNEY_USER = "\xee\x80\x93"; // 57363
-   constexpr const char* G_HOUSE_LAPTOP = "\xee\x80\x94"; // 57364
-   constexpr const char* G_LUNGS_VIRUS = "\xee\x80\x95"; // 57365
-   constexpr const char* G_PEOPLE_ARROWS = "\xee\x80\x96"; // 57366
-   constexpr const char* G_PLANE_SLASH = "\xee\x80\x97"; // 57367
-   constexpr const char* G_PUMP_MEDICAL = "\xee\x80\x98"; // 57368
-   constexpr const char* G_PUMP_SOAP = "\xee\x80\x99"; // 57369
-   constexpr const char* G_SHIELD_VIRUS = "\xee\x80\x9a"; // 57370
-   constexpr const char* G_SINK = "\xee\x80\x9b"; // 57371
-   constexpr const char* G_SOAP = "\xee\x80\x9c"; // 57372
-   constexpr const char* G_STOPWATCH_20 = "\xee\x80\x9d"; // 57373
-   constexpr const char* G_SHOP_SLASH = "\xee\x80\x9e"; // 57374
-   constexpr const char* G_STORE_SLASH = "\xee\x80\x9f"; // 57375
-   constexpr const char* G_TOILET_PAPER_SLASH = "\xee\x80\xa0"; // 57376
-   constexpr const char* G_USERS_SLASH = "\xee\x80\xa1"; // 57377
-   constexpr const char* G_VIRUS = "\xee\x80\xa2"; // 57378
-   constexpr const char* G_VIRUS_SLASH = "\xee\x80\xa3"; // 57379
-   constexpr const char* G_VIRUSES = "\xee\x80\xa4"; // 57380
-   constexpr const char* G_VEST = "\xee\x80\xa5"; // 57381
-   constexpr const char* G_VEST_PATCHES = "\xee\x80\xa6"; // 57382
-   constexpr const char* G_ARROW_TREND_DOWN = "\xee\x80\xa7"; // 57383
-   constexpr const char* G_ARROW_TREND_UP = "\xee\x80\xa8"; // 57384
-   constexpr const char* G_ARROW_UP_FROM_BRACKET = "\xee\x80\xa9"; // 57385
-   constexpr const char* G_AUSTRAL_SIGN = "\xee\x80\xaa"; // 57386
-   constexpr const char* G_BAHT_SIGN = "\xee\x80\xab"; // 57387
-   constexpr const char* G_BITCOIN_SIGN = "\xee\x80\xac"; // 57388
-   constexpr const char* G_BOLT_LIGHTNING = "\xee\x80\xad"; // 57389
-   constexpr const char* G_BOOK_BOOKMARK = "\xee\x80\xae"; // 57390
-   constexpr const char* G_CAMERA_ROTATE = "\xee\x80\xaf"; // 57391
-   constexpr const char* G_CEDI_SIGN = "\xee\x80\xb0"; // 57392
-   constexpr const char* G_CHART_COLUMN = "\xee\x80\xb1"; // 57393
-   constexpr const char* G_CHART_GANTT = "\xee\x80\xb2"; // 57394
-   constexpr const char* G_CLAPPERBOARD = "\xee\x80\xb3"; // 57395
-   constexpr const char* G_CLOVER = "\xee\x80\xb4"; // 57396
-   constexpr const char* G_CODE_COMPARE = "\xee\x80\xb5"; // 57397
-   constexpr const char* G_CODE_FORK = "\xee\x80\xb6"; // 57398
-   constexpr const char* G_CODE_PULL_REQUEST = "\xee\x80\xb7"; // 57399
-   constexpr const char* G_COLON_SIGN = "\xee\x80\xb8"; // 57400
-   constexpr const char* G_CRUZEIRO_SIGN = "\xee\x80\xb9"; // 57401
-   constexpr const char* G_DISPLAY = "\xee\x80\xba"; // 57402
-   constexpr const char* G_DONG_SIGN = "\xee\x80\xbb"; // 57403
-   constexpr const char* G_ELEVATOR = "\xee\x80\xbc"; // 57404
-   constexpr const char* G_FILTER_CIRCLE_XMARK = "\xee\x80\xbd"; // 57405
-   constexpr const char* G_FLORIN_SIGN = "\xee\x80\xbe"; // 57406
-   constexpr const char* G_FOLDER_CLOSED = "\xee\x80\xbf"; // 57407
-   constexpr const char* G_FRANC_SIGN = "\xee\x81\x80"; // 57408
-   constexpr const char* G_GUARANI_SIGN = "\xee\x81\x81"; // 57409
-   constexpr const char* G_GUN = "\xee\x81\x82"; // 57410
-   constexpr const char* G_HANDS_CLAPPING = "\xee\x81\x83"; // 57411
-   constexpr const char* G_HOUSE_USER = "\xee\x81\x84"; // 57412
-   constexpr const char* G_INDIAN_RUPEE_SIGN = "\xee\x81\x85"; // 57413
-   constexpr const char* G_KIP_SIGN = "\xee\x81\x86"; // 57414
-   constexpr const char* G_LARI_SIGN = "\xee\x81\x87"; // 57415
-   constexpr const char* G_LITECOIN_SIGN = "\xee\x81\x88"; // 57416
-   constexpr const char* G_MANAT_SIGN = "\xee\x81\x89"; // 57417
-   constexpr const char* G_MASK_FACE = "\xee\x81\x8a"; // 57418
-   constexpr const char* G_MILL_SIGN = "\xee\x81\x8b"; // 57419
-   constexpr const char* G_MONEY_BILLS = "\xee\x81\x8c"; // 57420
-   constexpr const char* G_NAIRA_SIGN = "\xee\x81\x8d"; // 57421
-   constexpr const char* G_NOTDEF = "\xee\x81\x8e"; // 57422
-   constexpr const char* G_PANORAMA = "\xee\x81\x8f"; // 57423
-   constexpr const char* G_PESETA_SIGN = "\xee\x81\x90"; // 57424
-   constexpr const char* G_PESO_SIGN = "\xee\x81\x91"; // 57425
-   constexpr const char* G_PLANE_UP = "\xee\x81\x92"; // 57426
-   constexpr const char* G_RUPIAH_SIGN = "\xee\x81\x93"; // 57427
-   constexpr const char* G_STAIRS = "\xee\x81\x94"; // 57428
-   constexpr const char* G_TIMELINE = "\xee\x81\x95"; // 57429
-   constexpr const char* G_TRUCK_FRONT = "\xee\x81\x96"; // 57430
-   constexpr const char* G_TURKISH_LIRA_SIGN = "\xee\x81\x97"; // 57431
-   constexpr const char* G_VAULT = "\xee\x81\x98"; // 57432
-   constexpr const char* G_WAND_MAGIC_SPARKLES = "\xee\x81\x99"; // 57433
-   constexpr const char* G_WHEAT_AWN = "\xee\x81\x9a"; // 57434
-   constexpr const char* G_WHEELCHAIR_MOVE = "\xee\x81\x9b"; // 57435
-   constexpr const char* G_BANGLADESHI_TAKA_SIGN = "\xee\x81\x9c"; // 57436
-   constexpr const char* G_BOWL_RICE = "\xee\x81\x9d"; // 57437
-   constexpr const char* G_PERSON_PREGNANT = "\xee\x81\x9e"; // 57438
-   constexpr const char* G_HOUSE_CHIMNEY = "\xee\x81\x9f"; // 57439
-   constexpr const char* G_HOUSE_CRACK = "\xee\x81\xa0"; // 57440
-   constexpr const char* G_HOUSE_MEDICAL = "\xee\x81\xa1"; // 57441
-   constexpr const char* G_CENT_SIGN = "\xee\x81\xa2"; // 57442
-   constexpr const char* G_PLUS_MINUS = "\xee\x81\xa3"; // 57443
-   constexpr const char* G_SAILBOAT = "\xee\x81\xa4"; // 57444
-   constexpr const char* G_SECTION = "\xee\x81\xa5"; // 57445
-   constexpr const char* G_SHRIMP = "\xee\x81\xa6"; // 57446
-   constexpr const char* G_BRAZILIAN_REAL_SIGN = "\xee\x81\xa7"; // 57447
-   constexpr const char* G_CHART_SIMPLE = "\xee\x81\xa8"; // 57448
-   constexpr const char* G_DIAGRAM_NEXT = "\xee\x81\xa9"; // 57449
-   constexpr const char* G_DIAGRAM_PREDECESSOR = "\xee\x81\xaa"; // 57450
-   constexpr const char* G_DIAGRAM_SUCCESSOR = "\xee\x81\xab"; // 57451
-   constexpr const char* G_EARTH_OCEANIA = "\xee\x81\xac"; // 57452
-   constexpr const char* G_BUG_SLASH = "\xee\x81\xad"; // 57453
-   constexpr const char* G_FILE_CIRCLE_PLUS = "\xee\x81\xae"; // 57454
-   constexpr const char* G_SHOP_LOCK = "\xee\x81\xaf"; // 57455
-   constexpr const char* G_VIRUS_COVID = "\xee\x81\xb0"; // 57456
-   constexpr const char* G_VIRUS_COVID_SLASH = "\xee\x81\xb1"; // 57457
-   constexpr const char* G_ANCHOR_CIRCLE_CHECK = "\xee\x81\xb2"; // 57458
-   constexpr const char* G_ANCHOR_CIRCLE_EXCLAMATION = "\xee\x81\xb3"; // 57459
-   constexpr const char* G_ANCHOR_CIRCLE_XMARK = "\xee\x81\xb4"; // 57460
-   constexpr const char* G_ANCHOR_LOCK = "\xee\x81\xb5"; // 57461
-   constexpr const char* G_ARROW_DOWN_UP_ACROSS_LINE = "\xee\x81\xb6"; // 57462
-   constexpr const char* G_ARROW_DOWN_UP_LOCK = "\xee\x81\xb7"; // 57463
-   constexpr const char* G_ARROW_RIGHT_TO_CITY = "\xee\x81\xb8"; // 57464
-   constexpr const char* G_ARROW_UP_FROM_GROUND_WATER = "\xee\x81\xb9"; // 57465
-   constexpr const char* G_ARROW_UP_FROM_WATER_PUMP = "\xee\x81\xba"; // 57466
-   constexpr const char* G_ARROW_UP_RIGHT_DOTS = "\xee\x81\xbb"; // 57467
-   constexpr const char* G_ARROWS_DOWN_TO_LINE = "\xee\x81\xbc"; // 57468
-   constexpr const char* G_ARROWS_DOWN_TO_PEOPLE = "\xee\x81\xbd"; // 57469
-   constexpr const char* G_ARROWS_LEFT_RIGHT_TO_LINE = "\xee\x81\xbe"; // 57470
-   constexpr const char* G_ARROWS_SPIN = "\xee\x81\xbf"; // 57471
-   constexpr const char* G_ARROWS_SPLIT_UP_AND_LEFT = "\xee\x82\x80"; // 57472
-   constexpr const char* G_ARROWS_TO_CIRCLE = "\xee\x82\x81"; // 57473
-   constexpr const char* G_ARROWS_TO_DOT = "\xee\x82\x82"; // 57474
-   constexpr const char* G_ARROWS_TO_EYE = "\xee\x82\x83"; // 57475
-   constexpr const char* G_ARROWS_TURN_RIGHT = "\xee\x82\x84"; // 57476
-   constexpr const char* G_ARROWS_TURN_TO_DOTS = "\xee\x82\x85"; // 57477
-   constexpr const char* G_ARROWS_UP_TO_LINE = "\xee\x82\x86"; // 57478
-   constexpr const char* G_BORE_HOLE = "\xee\x82\x87"; // 57479
-   constexpr const char* G_BOTTLE_DROPLET = "\xee\x82\x88"; // 57480
-   constexpr const char* G_BOTTLE_WATER = "\xee\x82\x89"; // 57481
-   constexpr const char* G_BOWL_FOOD = "\xee\x82\x8a"; // 57482
-   constexpr const char* G_BOXES_PACKING = "\xee\x82\x8b"; // 57483
-   constexpr const char* G_BRIDGE = "\xee\x82\x8c"; // 57484
-   constexpr const char* G_BRIDGE_CIRCLE_CHECK = "\xee\x82\x8d"; // 57485
-   constexpr const char* G_BRIDGE_CIRCLE_EXCLAMATION = "\xee\x82\x8e"; // 57486
-   constexpr const char* G_BRIDGE_CIRCLE_XMARK = "\xee\x82\x8f"; // 57487
-   constexpr const char* G_BRIDGE_LOCK = "\xee\x82\x90"; // 57488
-   constexpr const char* G_BRIDGE_WATER = "\xee\x82\x91"; // 57489
-   constexpr const char* G_BUCKET = "\xee\x82\x92"; // 57490
-   constexpr const char* G_BUGS = "\xee\x82\x93"; // 57491
-   constexpr const char* G_BUILDING_CIRCLE_ARROW_RIGHT = "\xee\x82\x94"; // 57492
-   constexpr const char* G_BUILDING_CIRCLE_CHECK = "\xee\x82\x95"; // 57493
-   constexpr const char* G_BUILDING_CIRCLE_EXCLAMATION = "\xee\x82\x96"; // 57494
-   constexpr const char* G_BUILDING_CIRCLE_XMARK = "\xee\x82\x97"; // 57495
-   constexpr const char* G_BUILDING_FLAG = "\xee\x82\x98"; // 57496
-   constexpr const char* G_BUILDING_LOCK = "\xee\x82\x99"; // 57497
-   constexpr const char* G_BUILDING_NGO = "\xee\x82\x9a"; // 57498
-   constexpr const char* G_BUILDING_SHIELD = "\xee\x82\x9b"; // 57499
-   constexpr const char* G_BUILDING_UN = "\xee\x82\x9c"; // 57500
-   constexpr const char* G_BUILDING_USER = "\xee\x82\x9d"; // 57501
-   constexpr const char* G_BUILDING_WHEAT = "\xee\x82\x9e"; // 57502
-   constexpr const char* G_BURST = "\xee\x82\x9f"; // 57503
-   constexpr const char* G_CAR_ON = "\xee\x82\xa0"; // 57504
-   constexpr const char* G_CAR_TUNNEL = "\xee\x82\xa1"; // 57505
-   constexpr const char* G_CHILD_COMBATANT = "\xee\x82\xa2"; // 57506
-   constexpr const char* G_CHILDREN = "\xee\x82\xa3"; // 57507
-   constexpr const char* G_CIRCLE_NODES = "\xee\x82\xa4"; // 57508
-   constexpr const char* G_CLIPBOARD_QUESTION = "\xee\x82\xa5"; // 57509
-   constexpr const char* G_CLOUD_SHOWERS_WATER = "\xee\x82\xa6"; // 57510
-   constexpr const char* G_COMPUTER = "\xee\x82\xa7"; // 57511
-   constexpr const char* G_CUBES_STACKED = "\xee\x82\xa8"; // 57512
-   constexpr const char* G_ENVELOPE_CIRCLE_CHECK = "\xee\x82\xa9"; // 57513
-   constexpr const char* G_EXPLOSION = "\xee\x82\xaa"; // 57514
-   constexpr const char* G_FERRY = "\xee\x82\xab"; // 57515
-   constexpr const char* G_FILE_CIRCLE_EXCLAMATION = "\xee\x82\xac"; // 57516
-   constexpr const char* G_FILE_CIRCLE_MINUS = "\xee\x82\xad"; // 57517
-   constexpr const char* G_FILE_CIRCLE_QUESTION = "\xee\x82\xae"; // 57518
-   constexpr const char* G_FILE_SHIELD = "\xee\x82\xaf"; // 57519
-   constexpr const char* G_FIRE_BURNER = "\xee\x82\xb0"; // 57520
-   constexpr const char* G_FISH_FINS = "\xee\x82\xb1"; // 57521
-   constexpr const char* G_FLASK_VIAL = "\xee\x82\xb2"; // 57522
-   constexpr const char* G_GLASS_WATER = "\xee\x82\xb3"; // 57523
-   constexpr const char* G_GLASS_WATER_DROPLET = "\xee\x82\xb4"; // 57524
-   constexpr const char* G_GROUP_ARROWS_ROTATE = "\xee\x82\xb5"; // 57525
-   constexpr const char* G_HAND_HOLDING_HAND = "\xee\x82\xb6"; // 57526
-   constexpr const char* G_HANDCUFFS = "\xee\x82\xb7"; // 57527
-   constexpr const char* G_HANDS_BOUND = "\xee\x82\xb8"; // 57528
-   constexpr const char* G_HANDS_HOLDING_CHILD = "\xee\x82\xb9"; // 57529
-   constexpr const char* G_HANDS_HOLDING_CIRCLE = "\xee\x82\xba"; // 57530
-   constexpr const char* G_HEART_CIRCLE_BOLT = "\xee\x82\xbb"; // 57531
-   constexpr const char* G_HEART_CIRCLE_CHECK = "\xee\x82\xbc"; // 57532
-   constexpr const char* G_HEART_CIRCLE_EXCLAMATION = "\xee\x82\xbd"; // 57533
-   constexpr const char* G_HEART_CIRCLE_MINUS = "\xee\x82\xbe"; // 57534
-   constexpr const char* G_HEART_CIRCLE_PLUS = "\xee\x82\xbf"; // 57535
-   constexpr const char* G_HEART_CIRCLE_XMARK = "\xee\x83\x80"; // 57536
-   constexpr const char* G_HELICOPTER_SYMBOL = "\xee\x83\x81"; // 57537
-   constexpr const char* G_HELMET_UN = "\xee\x83\x82"; // 57538
-   constexpr const char* G_HILL_AVALANCHE = "\xee\x83\x83"; // 57539
-   constexpr const char* G_HILL_ROCKSLIDE = "\xee\x83\x84"; // 57540
-   constexpr const char* G_HOUSE_CIRCLE_CHECK = "\xee\x83\x85"; // 57541
-   constexpr const char* G_HOUSE_CIRCLE_EXCLAMATION = "\xee\x83\x86"; // 57542
-   constexpr const char* G_HOUSE_CIRCLE_XMARK = "\xee\x83\x87"; // 57543
-   constexpr const char* G_HOUSE_FIRE = "\xee\x83\x88"; // 57544
-   constexpr const char* G_HOUSE_FLAG = "\xee\x83\x89"; // 57545
-   constexpr const char* G_HOUSE_FLOOD_WATER = "\xee\x83\x8a"; // 57546
-   constexpr const char* G_HOUSE_FLOOD_WATER_CIRCLE_ARROW_RIGHT = "\xee\x83\x8b"; // 57547
-   constexpr const char* G_HOUSE_LOCK = "\xee\x83\x8c"; // 57548
-   constexpr const char* G_HOUSE_MEDICAL_CIRCLE_CHECK = "\xee\x83\x8d"; // 57549
-   constexpr const char* G_HOUSE_MEDICAL_CIRCLE_EXCLAMATION = "\xee\x83\x8e"; // 57550
-   constexpr const char* G_HOUSE_MEDICAL_CIRCLE_XMARK = "\xee\x83\x8f"; // 57551
-   constexpr const char* G_HOUSE_MEDICAL_FLAG = "\xee\x83\x90"; // 57552
-   constexpr const char* G_HOUSE_TSUNAMI = "\xee\x83\x91"; // 57553
-   constexpr const char* G_JAR = "\xee\x83\x92"; // 57554
-   constexpr const char* G_JAR_WHEAT = "\xee\x83\x93"; // 57555
-   constexpr const char* G_JET_FIGHTER_UP = "\xee\x83\x94"; // 57556
-   constexpr const char* G_JUG_DETERGENT = "\xee\x83\x95"; // 57557
-   constexpr const char* G_KITCHEN_SET = "\xee\x83\x96"; // 57558
-   constexpr const char* G_LAND_MINE_ON = "\xee\x83\x97"; // 57559
-   constexpr const char* G_LANDMARK_FLAG = "\xee\x83\x98"; // 57560
-   constexpr const char* G_LAPTOP_FILE = "\xee\x83\x99"; // 57561
-   constexpr const char* G_LINES_LEANING = "\xee\x83\x9a"; // 57562
-   constexpr const char* G_LOCATION_PIN_LOCK = "\xee\x83\x9b"; // 57563
-   constexpr const char* G_LOCUST = "\xee\x83\x9c"; // 57564
-   constexpr const char* G_MAGNIFYING_GLASS_ARROW_RIGHT = "\xee\x83\x9d"; // 57565
-   constexpr const char* G_MAGNIFYING_GLASS_CHART = "\xee\x83\x9e"; // 57566
-   constexpr const char* G_MARS_AND_VENUS_BURST = "\xee\x83\x9f"; // 57567
-   constexpr const char* G_MASK_VENTILATOR = "\xee\x83\xa0"; // 57568
-   constexpr const char* G_MATTRESS_PILLOW = "\xee\x83\xa1"; // 57569
-   constexpr const char* G_MOBILE_RETRO = "\xee\x83\xa2"; // 57570
-   constexpr const char* G_MONEY_BILL_TRANSFER = "\xee\x83\xa3"; // 57571
-   constexpr const char* G_MONEY_BILL_TREND_UP = "\xee\x83\xa4"; // 57572
-   constexpr const char* G_MONEY_BILL_WHEAT = "\xee\x83\xa5"; // 57573
-   constexpr const char* G_MOSQUITO = "\xee\x83\xa6"; // 57574
-   constexpr const char* G_MOSQUITO_NET = "\xee\x83\xa7"; // 57575
-   constexpr const char* G_MOUND = "\xee\x83\xa8"; // 57576
-   constexpr const char* G_MOUNTAIN_CITY = "\xee\x83\xa9"; // 57577
-   constexpr const char* G_MOUNTAIN_SUN = "\xee\x83\xaa"; // 57578
-   constexpr const char* G_OIL_WELL = "\xee\x83\xab"; // 57579
-   constexpr const char* G_PEOPLE_GROUP = "\xee\x83\xac"; // 57580
-   constexpr const char* G_PEOPLE_LINE = "\xee\x83\xad"; // 57581
-   constexpr const char* G_PEOPLE_PULLING = "\xee\x83\xae"; // 57582
-   constexpr const char* G_PEOPLE_ROBBERY = "\xee\x83\xaf"; // 57583
-   constexpr const char* G_PEOPLE_ROOF = "\xee\x83\xb0"; // 57584
-   constexpr const char* G_PERSON_ARROW_DOWN_TO_LINE = "\xee\x83\xb1"; // 57585
-   constexpr const char* G_PERSON_ARROW_UP_FROM_LINE = "\xee\x83\xb2"; // 57586
-   constexpr const char* G_PERSON_BREASTFEEDING = "\xee\x83\xb3"; // 57587
-   constexpr const char* G_PERSON_BURST = "\xee\x83\xb4"; // 57588
-   constexpr const char* G_PERSON_CANE = "\xee\x83\xb5"; // 57589
-   constexpr const char* G_PERSON_CHALKBOARD = "\xee\x83\xb6"; // 57590
-   constexpr const char* G_PERSON_CIRCLE_CHECK = "\xee\x83\xb7"; // 57591
-   constexpr const char* G_PERSON_CIRCLE_EXCLAMATION = "\xee\x83\xb8"; // 57592
-   constexpr const char* G_PERSON_CIRCLE_MINUS = "\xee\x83\xb9"; // 57593
-   constexpr const char* G_PERSON_CIRCLE_PLUS = "\xee\x83\xba"; // 57594
-   constexpr const char* G_PERSON_CIRCLE_QUESTION = "\xee\x83\xbb"; // 57595
-   constexpr const char* G_PERSON_CIRCLE_XMARK = "\xee\x83\xbc"; // 57596
-   constexpr const char* G_PERSON_DRESS_BURST = "\xee\x83\xbd"; // 57597
-   constexpr const char* G_PERSON_DROWNING = "\xee\x83\xbe"; // 57598
-   constexpr const char* G_PERSON_FALLING = "\xee\x83\xbf"; // 57599
-   constexpr const char* G_PERSON_FALLING_BURST = "\xee\x84\x80"; // 57600
-   constexpr const char* G_PERSON_HALF_DRESS = "\xee\x84\x81"; // 57601
-   constexpr const char* G_PERSON_HARASSING = "\xee\x84\x82"; // 57602
-   constexpr const char* G_PERSON_MILITARY_POINTING = "\xee\x84\x83"; // 57603
-   constexpr const char* G_PERSON_MILITARY_RIFLE = "\xee\x84\x84"; // 57604
-   constexpr const char* G_PERSON_MILITARY_TO_PERSON = "\xee\x84\x85"; // 57605
-   constexpr const char* G_PERSON_RAYS = "\xee\x84\x86"; // 57606
-   constexpr const char* G_PERSON_RIFLE = "\xee\x84\x87"; // 57607
-   constexpr const char* G_PERSON_SHELTER = "\xee\x84\x88"; // 57608
-   constexpr const char* G_PERSON_WALKING_ARROW_LOOP_LEFT = "\xee\x84\x89"; // 57609
-   constexpr const char* G_PERSON_WALKING_ARROW_RIGHT = "\xee\x84\x8a"; // 57610
-   constexpr const char* G_PERSON_WALKING_DASHED_LINE_ARROW_RIGHT = "\xee\x84\x8b"; // 57611
-   constexpr const char* G_PERSON_WALKING_LUGGAGE = "\xee\x84\x8c"; // 57612
-   constexpr const char* G_PLANE_CIRCLE_CHECK = "\xee\x84\x8d"; // 57613
-   constexpr const char* G_PLANE_CIRCLE_EXCLAMATION = "\xee\x84\x8e"; // 57614
-   constexpr const char* G_PLANE_CIRCLE_XMARK = "\xee\x84\x8f"; // 57615
-   constexpr const char* G_PLANE_LOCK = "\xee\x84\x90"; // 57616
-   constexpr const char* G_PLATE_WHEAT = "\xee\x84\x91"; // 57617
-   constexpr const char* G_PLUG_CIRCLE_BOLT = "\xee\x84\x92"; // 57618
-   constexpr const char* G_PLUG_CIRCLE_CHECK = "\xee\x84\x93"; // 57619
-   constexpr const char* G_PLUG_CIRCLE_EXCLAMATION = "\xee\x84\x94"; // 57620
-   constexpr const char* G_PLUG_CIRCLE_MINUS = "\xee\x84\x95"; // 57621
-   constexpr const char* G_PLUG_CIRCLE_PLUS = "\xee\x84\x96"; // 57622
-   constexpr const char* G_PLUG_CIRCLE_XMARK = "\xee\x84\x97"; // 57623
-   constexpr const char* G_RANKING_STAR = "\xee\x84\x98"; // 57624
-   constexpr const char* G_ROAD_BARRIER = "\xee\x84\x99"; // 57625
-   constexpr const char* G_ROAD_BRIDGE = "\xee\x84\x9a"; // 57626
-   constexpr const char* G_ROAD_CIRCLE_CHECK = "\xee\x84\x9b"; // 57627
-   constexpr const char* G_ROAD_CIRCLE_EXCLAMATION = "\xee\x84\x9c"; // 57628
-   constexpr const char* G_ROAD_CIRCLE_XMARK = "\xee\x84\x9d"; // 57629
-   constexpr const char* G_ROAD_LOCK = "\xee\x84\x9e"; // 57630
-   constexpr const char* G_ROAD_SPIKES = "\xee\x84\x9f"; // 57631
-   constexpr const char* G_RUG = "\xee\x84\xa0"; // 57632
-   constexpr const char* G_SACK_XMARK = "\xee\x84\xa1"; // 57633
-   constexpr const char* G_SCHOOL_CIRCLE_CHECK = "\xee\x84\xa2"; // 57634
-   constexpr const char* G_SCHOOL_CIRCLE_EXCLAMATION = "\xee\x84\xa3"; // 57635
-   constexpr const char* G_SCHOOL_CIRCLE_XMARK = "\xee\x84\xa4"; // 57636
-   constexpr const char* G_SCHOOL_FLAG = "\xee\x84\xa5"; // 57637
-   constexpr const char* G_SCHOOL_LOCK = "\xee\x84\xa6"; // 57638
-   constexpr const char* G_SHEET_PLASTIC = "\xee\x84\xa7"; // 57639
-   constexpr const char* G_SHIELD_CAT = "\xee\x84\xa8"; // 57640
-   constexpr const char* G_SHIELD_DOG = "\xee\x84\xa9"; // 57641
-   constexpr const char* G_SHIELD_HEART = "\xee\x84\xaa"; // 57642
-   constexpr const char* G_SQUARE_NFI = "\xee\x84\xab"; // 57643
-   constexpr const char* G_SQUARE_PERSON_CONFINED = "\xee\x84\xac"; // 57644
-   constexpr const char* G_SQUARE_VIRUS = "\xee\x84\xad"; // 57645
-   constexpr const char* G_STAFF_SNAKE = "\xee\x84\xae"; // 57646
-   constexpr const char* G_SUN_PLANT_WILT = "\xee\x84\xaf"; // 57647
-   constexpr const char* G_TARP = "\xee\x84\xb0"; // 57648
-   constexpr const char* G_TARP_DROPLET = "\xee\x84\xb1"; // 57649
-   constexpr const char* G_TENT = "\xee\x84\xb2"; // 57650
-   constexpr const char* G_TENT_ARROW_DOWN_TO_LINE = "\xee\x84\xb3"; // 57651
-   constexpr const char* G_TENT_ARROW_LEFT_RIGHT = "\xee\x84\xb4"; // 57652
-   constexpr const char* G_TENT_ARROW_TURN_LEFT = "\xee\x84\xb5"; // 57653
-   constexpr const char* G_TENT_ARROWS_DOWN = "\xee\x84\xb6"; // 57654
-   constexpr const char* G_TENTS = "\xee\x84\xb7"; // 57655
-   constexpr const char* G_TOILET_PORTABLE = "\xee\x84\xb8"; // 57656
-   constexpr const char* G_TOILETS_PORTABLE = "\xee\x84\xb9"; // 57657
-   constexpr const char* G_TOWER_CELL = "\xee\x84\xba"; // 57658
-   constexpr const char* G_TOWER_OBSERVATION = "\xee\x84\xbb"; // 57659
-   constexpr const char* G_TREE_CITY = "\xee\x84\xbc"; // 57660
-   constexpr const char* G_TROWEL = "\xee\x84\xbd"; // 57661
-   constexpr const char* G_TROWEL_BRICKS = "\xee\x84\xbe"; // 57662
-   constexpr const char* G_TRUCK_ARROW_RIGHT = "\xee\x84\xbf"; // 57663
-   constexpr const char* G_TRUCK_DROPLET = "\xee\x85\x80"; // 57664
-   constexpr const char* G_TRUCK_FIELD = "\xee\x85\x81"; // 57665
-   constexpr const char* G_TRUCK_FIELD_UN = "\xee\x85\x82"; // 57666
-   constexpr const char* G_TRUCK_PLANE = "\xee\x85\x83"; // 57667
-   constexpr const char* G_USERS_BETWEEN_LINES = "\xee\x85\x84"; // 57668
-   constexpr const char* G_USERS_LINE = "\xee\x85\x85"; // 57669
-   constexpr const char* G_USERS_RAYS = "\xee\x85\x86"; // 57670
-   constexpr const char* G_USERS_RECTANGLE = "\xee\x85\x87"; // 57671
-   constexpr const char* G_USERS_VIEWFINDER = "\xee\x85\x88"; // 57672
-   constexpr const char* G_VIAL_CIRCLE_CHECK = "\xee\x85\x89"; // 57673
-   constexpr const char* G_VIAL_VIRUS = "\xee\x85\x8a"; // 57674
-   constexpr const char* G_WHEAT_AWN_CIRCLE_EXCLAMATION = "\xee\x85\x8b"; // 57675
-   constexpr const char* G_WORM = "\xee\x85\x8c"; // 57676
-   constexpr const char* G_XMARKS_LINES = "\xee\x85\x8d"; // 57677
-   constexpr const char* G_CHILD_DRESS = "\xee\x85\x8e"; // 57678
-   constexpr const char* G_CHILD_REACHING = "\xee\x85\x8f"; // 57679
-   constexpr const char* G_FILE_CIRCLE_CHECK = "\xee\x85\x90"; // 57680
-   constexpr const char* G_FILE_CIRCLE_XMARK = "\xee\x85\x91"; // 57681
-   constexpr const char* G_PERSON_THROUGH_WINDOW = "\xee\x85\x92"; // 57682
-   constexpr const char* G_PLANT_WILT = "\xee\x85\x93"; // 57683
-   constexpr const char* G_STAPLER = "\xee\x85\x94"; // 57684
-   constexpr const char* G_TRAIN_TRAM = "\xee\x85\x95"; // 57685
-   constexpr const char* G_TABLE_CELLS_COLUMN_LOCK = "\xee\x85\x96"; // 57686
-   constexpr const char* G_TABLE_CELLS_ROW_LOCK = "\xee\x85\x97"; // 57687
-   constexpr const char* G_MARTINI_GLASS_EMPTY = "\xee\x85\x98"; // 57688
-   constexpr const char* G_MUSIC = "\xee\x85\x99"; // 57689
-   constexpr const char* G_MAGNIFYING_GLASS = "\xee\x85\x9a"; // 57690
-   constexpr const char* G_HEART = "\xee\x85\x9b"; // 57691
-   constexpr const char* G_STAR = "\xee\x85\x9c"; // 57692
-   constexpr const char* G_USER = "\xee\x85\x9d"; // 57693
-   constexpr const char* G_FILM = "\xee\x85\x9e"; // 57694
-   constexpr const char* G_TABLE_CELLS_LARGE = "\xee\x85\x9f"; // 57695
-   constexpr const char* G_TABLE_CELLS = "\xee\x85\xa0"; // 57696
-   constexpr const char* G_TABLE_LIST = "\xee\x85\xa1"; // 57697
-   constexpr const char* G_CHECK = "\xee\x85\xa2"; // 57698
-   constexpr const char* G_MAGNIFYING_GLASS_PLUS = "\xee\x85\xa3"; // 57699
-   constexpr const char* G_MAGNIFYING_GLASS_MINUS = "\xee\x85\xa4"; // 57700
-   constexpr const char* G_POWER_OFF = "\xee\x85\xa5"; // 57701
-   constexpr const char* G_SIGNAL = "\xee\x85\xa6"; // 57702
-   constexpr const char* G_GEAR = "\xee\x85\xa7"; // 57703
-   constexpr const char* G_HOUSE = "\xee\x85\xa8"; // 57704
-   constexpr const char* G_CLOCK = "\xee\x85\xa9"; // 57705
-   constexpr const char* G_ROAD = "\xee\x85\xaa"; // 57706
-   constexpr const char* G_DOWNLOAD = "\xee\x85\xab"; // 57707
-   constexpr const char* G_INBOX = "\xee\x85\xac"; // 57708
-   constexpr const char* G_ARROW_ROTATE_RIGHT = "\xee\x85\xad"; // 57709
-   constexpr const char* G_ARROWS_ROTATE = "\xee\x85\xae"; // 57710
-   constexpr const char* G_RECTANGLE_LIST = "\xee\x85\xaf"; // 57711
-   constexpr const char* G_LOCK = "\xee\x85\xb0"; // 57712
-   constexpr const char* G_FLAG = "\xee\x85\xb1"; // 57713
-   constexpr const char* G_HEADPHONES = "\xee\x85\xb2"; // 57714
-   constexpr const char* G_VOLUME_OFF = "\xee\x85\xb3"; // 57715
-   constexpr const char* G_VOLUME_LOW = "\xee\x85\xb4"; // 57716
-   constexpr const char* G_VOLUME_HIGH = "\xee\x85\xb5"; // 57717
-   constexpr const char* G_QRCODE = "\xee\x85\xb6"; // 57718
-   constexpr const char* G_BARCODE = "\xee\x85\xb7"; // 57719
-   constexpr const char* G_TAG = "\xee\x85\xb8"; // 57720
-   constexpr const char* G_TAGS = "\xee\x85\xb9"; // 57721
-   constexpr const char* G_BOOK = "\xee\x85\xba"; // 57722
-   constexpr const char* G_BOOKMARK = "\xee\x85\xbb"; // 57723
-   constexpr const char* G_PRINT = "\xee\x85\xbc"; // 57724
-   constexpr const char* G_CAMERA = "\xee\x85\xbd"; // 57725
-   constexpr const char* G_FONT = "\xee\x85\xbe"; // 57726
-   constexpr const char* G_BOLD = "\xee\x85\xbf"; // 57727
-   constexpr const char* G_ITALIC = "\xee\x86\x80"; // 57728
-   constexpr const char* G_TEXT_HEIGHT = "\xee\x86\x81"; // 57729
-   constexpr const char* G_TEXT_WIDTH = "\xee\x86\x82"; // 57730
-   constexpr const char* G_ALIGN_LEFT = "\xee\x86\x83"; // 57731
-   constexpr const char* G_ALIGN_CENTER = "\xee\x86\x84"; // 57732
-   constexpr const char* G_ALIGN_RIGHT = "\xee\x86\x85"; // 57733
-   constexpr const char* G_ALIGN_JUSTIFY = "\xee\x86\x86"; // 57734
-   constexpr const char* G_LIST = "\xee\x86\x87"; // 57735
-   constexpr const char* G_OUTDENT = "\xee\x86\x88"; // 57736
-   constexpr const char* G_INDENT = "\xee\x86\x89"; // 57737
-   constexpr const char* G_VIDEO = "\xee\x86\x8a"; // 57738
-   constexpr const char* G_IMAGE = "\xee\x86\x8b"; // 57739
-   constexpr const char* G_LOCATION_PIN = "\xee\x86\x8c"; // 57740
-   constexpr const char* G_CIRCLE_HALF_STROKE = "\xee\x86\x8d"; // 57741
-   constexpr const char* G_DROPLET = "\xee\x86\x8e"; // 57742
-   constexpr const char* G_PEN_TO_SQUARE = "\xee\x86\x8f"; // 57743
-   constexpr const char* G_ARROWS_UP_DOWN_LEFT_RIGHT = "\xee\x86\x90"; // 57744
-   constexpr const char* G_BACKWARD_STEP = "\xee\x86\x91"; // 57745
-   constexpr const char* G_BACKWARD_FAST = "\xee\x86\x92"; // 57746
-   constexpr const char* G_BACKWARD = "\xee\x86\x93"; // 57747
-   constexpr const char* G_PLAY = "\xee\x86\x94"; // 57748
-   constexpr const char* G_PAUSE = "\xee\x86\x95"; // 57749
-   constexpr const char* G_STOP = "\xee\x86\x96"; // 57750
-   constexpr const char* G_FORWARD = "\xee\x86\x97"; // 57751
-   constexpr const char* G_FORWARD_FAST = "\xee\x86\x98"; // 57752
-   constexpr const char* G_FORWARD_STEP = "\xee\x86\x99"; // 57753
-   constexpr const char* G_EJECT = "\xee\x86\x9a"; // 57754
-   constexpr const char* G_CHEVRON_LEFT = "\xee\x86\x9b"; // 57755
-   constexpr const char* G_CHEVRON_RIGHT = "\xee\x86\x9c"; // 57756
-   constexpr const char* G_CIRCLE_PLUS = "\xee\x86\x9d"; // 57757
-   constexpr const char* G_CIRCLE_MINUS = "\xee\x86\x9e"; // 57758
-   constexpr const char* G_CIRCLE_XMARK = "\xee\x86\x9f"; // 57759
-   constexpr const char* G_CIRCLE_CHECK = "\xee\x86\xa0"; // 57760
-   constexpr const char* G_CIRCLE_QUESTION = "\xee\x86\xa1"; // 57761
-   constexpr const char* G_CIRCLE_INFO = "\xee\x86\xa2"; // 57762
-   constexpr const char* G_CROSSHAIRS = "\xee\x86\xa3"; // 57763
-   constexpr const char* G_BAN = "\xee\x86\xa4"; // 57764
-   constexpr const char* G_ARROW_LEFT = "\xee\x86\xa5"; // 57765
-   constexpr const char* G_ARROW_RIGHT = "\xee\x86\xa6"; // 57766
-   constexpr const char* G_ARROW_UP = "\xee\x86\xa7"; // 57767
-   constexpr const char* G_ARROW_DOWN = "\xee\x86\xa8"; // 57768
-   constexpr const char* G_SHARE = "\xee\x86\xa9"; // 57769
-   constexpr const char* G_EXPAND = "\xee\x86\xaa"; // 57770
-   constexpr const char* G_COMPRESS = "\xee\x86\xab"; // 57771
-   constexpr const char* G_MINUS = "\xee\x86\xac"; // 57772
-   constexpr const char* G_CIRCLE_EXCLAMATION = "\xee\x86\xad"; // 57773
-   constexpr const char* G_GIFT = "\xee\x86\xae"; // 57774
-   constexpr const char* G_LEAF = "\xee\x86\xaf"; // 57775
-   constexpr const char* G_FIRE = "\xee\x86\xb0"; // 57776
-   constexpr const char* G_EYE = "\xee\x86\xb1"; // 57777
-   constexpr const char* G_EYE_SLASH = "\xee\x86\xb2"; // 57778
-   constexpr const char* G_TRIANGLE_EXCLAMATION = "\xee\x86\xb3"; // 57779
-   constexpr const char* G_PLANE = "\xee\x86\xb4"; // 57780
-   constexpr const char* G_CALENDAR_DAYS = "\xee\x86\xb5"; // 57781
-   constexpr const char* G_SHUFFLE = "\xee\x86\xb6"; // 57782
-   constexpr const char* G_COMMENT = "\xee\x86\xb7"; // 57783
-   constexpr const char* G_MAGNET = "\xee\x86\xb8"; // 57784
-   constexpr const char* G_CHEVRON_UP = "\xee\x86\xb9"; // 57785
-   constexpr const char* G_CHEVRON_DOWN = "\xee\x86\xba"; // 57786
-   constexpr const char* G_RETWEET = "\xee\x86\xbb"; // 57787
-   constexpr const char* G_CART_SHOPPING = "\xee\x86\xbc"; // 57788
-   constexpr const char* G_FOLDER = "\xee\x86\xbd"; // 57789
-   constexpr const char* G_FOLDER_OPEN = "\xee\x86\xbe"; // 57790
-   constexpr const char* G_ARROWS_UP_DOWN = "\xee\x86\xbf"; // 57791
-   constexpr const char* G_ARROWS_LEFT_RIGHT = "\xee\x87\x80"; // 57792
-   constexpr const char* G_CHART_BAR = "\xee\x87\x81"; // 57793
-   constexpr const char* G_CAMERA_RETRO = "\xee\x87\x82"; // 57794
-   constexpr const char* G_KEY = "\xee\x87\x83"; // 57795
-   constexpr const char* G_GEARS = "\xee\x87\x84"; // 57796
-   constexpr const char* G_COMMENTS = "\xee\x87\x85"; // 57797
-   constexpr const char* G_STAR_HALF = "\xee\x87\x86"; // 57798
-   constexpr const char* G_ARROW_RIGHT_FROM_BRACKET = "\xee\x87\x87"; // 57799
-   constexpr const char* G_THUMBTACK = "\xee\x87\x88"; // 57800
-   constexpr const char* G_ARROW_UP_RIGHT_FROM_SQUARE = "\xee\x87\x89"; // 57801
-   constexpr const char* G_ARROW_RIGHT_TO_BRACKET = "\xee\x87\x8a"; // 57802
-   constexpr const char* G_TROPHY = "\xee\x87\x8b"; // 57803
-   constexpr const char* G_UPLOAD = "\xee\x87\x8c"; // 57804
-   constexpr const char* G_LEMON = "\xee\x87\x8d"; // 57805
-   constexpr const char* G_PHONE = "\xee\x87\x8e"; // 57806
-   constexpr const char* G_SQUARE_PHONE = "\xee\x87\x8f"; // 57807
-   constexpr const char* G_UNLOCK = "\xee\x87\x90"; // 57808
-   constexpr const char* G_CREDIT_CARD = "\xee\x87\x91"; // 57809
-   constexpr const char* G_RSS = "\xee\x87\x92"; // 57810
-   constexpr const char* G_HARD_DRIVE = "\xee\x87\x93"; // 57811
-   constexpr const char* G_BULLHORN = "\xee\x87\x94"; // 57812
-   constexpr const char* G_CERTIFICATE = "\xee\x87\x95"; // 57813
-   constexpr const char* G_HAND_POINT_RIGHT = "\xee\x87\x96"; // 57814
-   constexpr const char* G_HAND_POINT_LEFT = "\xee\x87\x97"; // 57815
-   constexpr const char* G_HAND_POINT_UP = "\xee\x87\x98"; // 57816
-   constexpr const char* G_HAND_POINT_DOWN = "\xee\x87\x99"; // 57817
-   constexpr const char* G_CIRCLE_ARROW_LEFT = "\xee\x87\x9a"; // 57818
-   constexpr const char* G_CIRCLE_ARROW_RIGHT = "\xee\x87\x9b"; // 57819
-   constexpr const char* G_CIRCLE_ARROW_UP = "\xee\x87\x9c"; // 57820
-   constexpr const char* G_CIRCLE_ARROW_DOWN = "\xee\x87\x9d"; // 57821
-   constexpr const char* G_GLOBE = "\xee\x87\x9e"; // 57822
-   constexpr const char* G_WRENCH = "\xee\x87\x9f"; // 57823
-   constexpr const char* G_LIST_CHECK = "\xee\x87\xa0"; // 57824
-   constexpr const char* G_FILTER = "\xee\x87\xa1"; // 57825
-   constexpr const char* G_BRIEFCASE = "\xee\x87\xa2"; // 57826
-   constexpr const char* G_UP_DOWN_LEFT_RIGHT = "\xee\x87\xa3"; // 57827
-   constexpr const char* G_USERS = "\xee\x87\xa4"; // 57828
-   constexpr const char* G_LINK = "\xee\x87\xa5"; // 57829
-   constexpr const char* G_CLOUD = "\xee\x87\xa6"; // 57830
-   constexpr const char* G_FLASK = "\xee\x87\xa7"; // 57831
-   constexpr const char* G_SCISSORS = "\xee\x87\xa8"; // 57832
-   constexpr const char* G_COPY = "\xee\x87\xa9"; // 57833
-   constexpr const char* G_PAPERCLIP = "\xee\x87\xaa"; // 57834
-   constexpr const char* G_FLOPPY_DISK = "\xee\x87\xab"; // 57835
-   constexpr const char* G_SQUARE = "\xee\x87\xac"; // 57836
-   constexpr const char* G_BARS = "\xee\x87\xad"; // 57837
-   constexpr const char* G_LIST_UL = "\xee\x87\xae"; // 57838
-   constexpr const char* G_LIST_OL = "\xee\x87\xaf"; // 57839
-   constexpr const char* G_STRIKETHROUGH = "\xee\x87\xb0"; // 57840
-   constexpr const char* G_UNDERLINE = "\xee\x87\xb1"; // 57841
-   constexpr const char* G_TABLE = "\xee\x87\xb2"; // 57842
-   constexpr const char* G_WAND_MAGIC = "\xee\x87\xb3"; // 57843
-   constexpr const char* G_TRUCK = "\xee\x87\xb4"; // 57844
-   constexpr const char* G_MONEY_BILL = "\xee\x87\xb5"; // 57845
-   constexpr const char* G_CARET_DOWN = "\xee\x87\xb6"; // 57846
-   constexpr const char* G_CARET_UP = "\xee\x87\xb7"; // 57847
-   constexpr const char* G_CARET_LEFT = "\xee\x87\xb8"; // 57848
-   constexpr const char* G_CARET_RIGHT = "\xee\x87\xb9"; // 57849
-   constexpr const char* G_TABLE_COLUMNS = "\xee\x87\xba"; // 57850
-   constexpr const char* G_SORT = "\xee\x87\xbb"; // 57851
-   constexpr const char* G_SORT_DOWN = "\xee\x87\xbc"; // 57852
-   constexpr const char* G_SORT_UP = "\xee\x87\xbd"; // 57853
-   constexpr const char* G_ENVELOPE = "\xee\x87\xbe"; // 57854
-   constexpr const char* G_ARROW_ROTATE_LEFT = "\xee\x87\xbf"; // 57855
-   constexpr const char* G_GAVEL = "\xee\x88\x80"; // 57856
-   constexpr const char* G_BOLT = "\xee\x88\x81"; // 57857
-   constexpr const char* G_SITEMAP = "\xee\x88\x82"; // 57858
-   constexpr const char* G_UMBRELLA = "\xee\x88\x83"; // 57859
-   constexpr const char* G_PASTE = "\xee\x88\x84"; // 57860
-   constexpr const char* G_LIGHTBULB = "\xee\x88\x85"; // 57861
-   constexpr const char* G_ARROW_RIGHT_ARROW_LEFT = "\xee\x88\x86"; // 57862
-   constexpr const char* G_CLOUD_ARROW_DOWN = "\xee\x88\x87"; // 57863
-   constexpr const char* G_CLOUD_ARROW_UP = "\xee\x88\x88"; // 57864
-   constexpr const char* G_USER_DOCTOR = "\xee\x88\x89"; // 57865
-   constexpr const char* G_STETHOSCOPE = "\xee\x88\x8a"; // 57866
-   constexpr const char* G_SUITCASE = "\xee\x88\x8b"; // 57867
-   constexpr const char* G_BELL = "\xee\x88\x8c"; // 57868
-   constexpr const char* G_MUG_SAUCER = "\xee\x88\x8d"; // 57869
-   constexpr const char* G_HOSPITAL = "\xee\x88\x8e"; // 57870
-   constexpr const char* G_TRUCK_MEDICAL = "\xee\x88\x8f"; // 57871
-   constexpr const char* G_SUITCASE_MEDICAL = "\xee\x88\x90"; // 57872
-   constexpr const char* G_JET_FIGHTER = "\xee\x88\x91"; // 57873
-   constexpr const char* G_BEER_MUG_EMPTY = "\xee\x88\x92"; // 57874
-   constexpr const char* G_SQUARE_H = "\xee\x88\x93"; // 57875
-   constexpr const char* G_SQUARE_PLUS = "\xee\x88\x94"; // 57876
-   constexpr const char* G_ANGLES_UP = "\xee\x88\x95"; // 57877
-   constexpr const char* G_ANGLES_DOWN = "\xee\x88\x96"; // 57878
-   constexpr const char* G_ANGLE_LEFT = "\xee\x88\x97"; // 57879
-   constexpr const char* G_ANGLE_RIGHT = "\xee\x88\x98"; // 57880
-   constexpr const char* G_ANGLE_UP = "\xee\x88\x99"; // 57881
-   constexpr const char* G_ANGLE_DOWN = "\xee\x88\x9a"; // 57882
-   constexpr const char* G_LAPTOP = "\xee\x88\x9b"; // 57883
-   constexpr const char* G_TABLET_BUTTON = "\xee\x88\x9c"; // 57884
-   constexpr const char* G_MOBILE_BUTTON = "\xee\x88\x9d"; // 57885
-   constexpr const char* G_QUOTE_LEFT = "\xee\x88\x9e"; // 57886
-   constexpr const char* G_QUOTE_RIGHT = "\xee\x88\x9f"; // 57887
-   constexpr const char* G_SPINNER = "\xee\x88\xa0"; // 57888
-   constexpr const char* G_CIRCLE = "\xee\x88\xa1"; // 57889
-   constexpr const char* G_FACE_SMILE = "\xee\x88\xa2"; // 57890
-   constexpr const char* G_FACE_FROWN = "\xee\x88\xa3"; // 57891
-   constexpr const char* G_FACE_MEH = "\xee\x88\xa4"; // 57892
-   constexpr const char* G_GAMEPAD = "\xee\x88\xa5"; // 57893
-   constexpr const char* G_KEYBOARD = "\xee\x88\xa6"; // 57894
-   constexpr const char* G_FLAG_CHECKERED = "\xee\x88\xa7"; // 57895
-   constexpr const char* G_TERMINAL = "\xee\x88\xa8"; // 57896
-   constexpr const char* G_CODE = "\xee\x88\xa9"; // 57897
-   constexpr const char* G_REPLY_ALL = "\xee\x88\xaa"; // 57898
-   constexpr const char* G_LOCATION_ARROW = "\xee\x88\xab"; // 57899
-   constexpr const char* G_CROP = "\xee\x88\xac"; // 57900
-   constexpr const char* G_CODE_BRANCH = "\xee\x88\xad"; // 57901
-   constexpr const char* G_LINK_SLASH = "\xee\x88\xae"; // 57902
-   constexpr const char* G_INFO = "\xee\x88\xaf"; // 57903
-   constexpr const char* G_SUPERSCRIPT = "\xee\x88\xb0"; // 57904
-   constexpr const char* G_SUBSCRIPT = "\xee\x88\xb1"; // 57905
-   constexpr const char* G_ERASER = "\xee\x88\xb2"; // 57906
-   constexpr const char* G_PUZZLE_PIECE = "\xee\x88\xb3"; // 57907
-   constexpr const char* G_MICROPHONE = "\xee\x88\xb4"; // 57908
-   constexpr const char* G_MICROPHONE_SLASH = "\xee\x88\xb5"; // 57909
-   constexpr const char* G_SHIELD = "\xee\x88\xb6"; // 57910
-   constexpr const char* G_CALENDAR = "\xee\x88\xb7"; // 57911
-   constexpr const char* G_FIRE_EXTINGUISHER = "\xee\x88\xb8"; // 57912
-   constexpr const char* G_ROCKET = "\xee\x88\xb9"; // 57913
-   constexpr const char* G_CIRCLE_CHEVRON_LEFT = "\xee\x88\xba"; // 57914
-   constexpr const char* G_CIRCLE_CHEVRON_RIGHT = "\xee\x88\xbb"; // 57915
-   constexpr const char* G_CIRCLE_CHEVRON_UP = "\xee\x88\xbc"; // 57916
-   constexpr const char* G_CIRCLE_CHEVRON_DOWN = "\xee\x88\xbd"; // 57917
-   constexpr const char* G_ANCHOR = "\xee\x88\xbe"; // 57918
-   constexpr const char* G_UNLOCK_KEYHOLE = "\xee\x88\xbf"; // 57919
-   constexpr const char* G_BULLSEYE = "\xee\x89\x80"; // 57920
-   constexpr const char* G_ELLIPSIS = "\xee\x89\x81"; // 57921
-   constexpr const char* G_ELLIPSIS_VERTICAL = "\xee\x89\x82"; // 57922
-   constexpr const char* G_SQUARE_RSS = "\xee\x89\x83"; // 57923
-   constexpr const char* G_CIRCLE_PLAY = "\xee\x89\x84"; // 57924
-   constexpr const char* G_TICKET = "\xee\x89\x85"; // 57925
-   constexpr const char* G_SQUARE_MINUS = "\xee\x89\x86"; // 57926
-   constexpr const char* G_ARROW_TURN_UP = "\xee\x89\x87"; // 57927
-   constexpr const char* G_ARROW_TURN_DOWN = "\xee\x89\x88"; // 57928
-   constexpr const char* G_SQUARE_CHECK = "\xee\x89\x89"; // 57929
-   constexpr const char* G_SQUARE_PEN = "\xee\x89\x8a"; // 57930
-   constexpr const char* G_SQUARE_ARROW_UP_RIGHT = "\xee\x89\x8b"; // 57931
-   constexpr const char* G_SHARE_FROM_SQUARE = "\xee\x89\x8c"; // 57932
-   constexpr const char* G_COMPASS = "\xee\x89\x8d"; // 57933
-   constexpr const char* G_SQUARE_CARET_DOWN = "\xee\x89\x8e"; // 57934
-   constexpr const char* G_SQUARE_CARET_UP = "\xee\x89\x8f"; // 57935
-   constexpr const char* G_SQUARE_CARET_RIGHT = "\xee\x89\x90"; // 57936
-   constexpr const char* G_EURO_SIGN = "\xee\x89\x91"; // 57937
-   constexpr const char* G_RUPEE_SIGN = "\xee\x89\x92"; // 57938
-   constexpr const char* G_RUBLE_SIGN = "\xee\x89\x93"; // 57939
-   constexpr const char* G_WON_SIGN = "\xee\x89\x94"; // 57940
-   constexpr const char* G_FILE = "\xee\x89\x95"; // 57941
-   constexpr const char* G_FILE_LINES = "\xee\x89\x96"; // 57942
-   constexpr const char* G_ARROW_DOWN_A_Z = "\xee\x89\x97"; // 57943
-   constexpr const char* G_ARROW_UP_A_Z = "\xee\x89\x98"; // 57944
-   constexpr const char* G_ARROW_DOWN_WIDE_SHORT = "\xee\x89\x99"; // 57945
-   constexpr const char* G_ARROW_UP_WIDE_SHORT = "\xee\x89\x9a"; // 57946
-   constexpr const char* G_ARROW_DOWN_1_9 = "\xee\x89\x9b"; // 57947
-   constexpr const char* G_ARROW_UP_1_9 = "\xee\x89\x9c"; // 57948
-   constexpr const char* G_THUMBS_UP = "\xee\x89\x9d"; // 57949
-   constexpr const char* G_THUMBS_DOWN = "\xee\x89\x9e"; // 57950
-   constexpr const char* G_ARROW_DOWN_LONG = "\xee\x89\x9f"; // 57951
-   constexpr const char* G_ARROW_UP_LONG = "\xee\x89\xa0"; // 57952
-   constexpr const char* G_ARROW_LEFT_LONG = "\xee\x89\xa1"; // 57953
-   constexpr const char* G_ARROW_RIGHT_LONG = "\xee\x89\xa2"; // 57954
-   constexpr const char* G_PERSON_DRESS = "\xee\x89\xa3"; // 57955
-   constexpr const char* G_PERSON = "\xee\x89\xa4"; // 57956
-   constexpr const char* G_SUN = "\xee\x89\xa5"; // 57957
-   constexpr const char* G_MOON = "\xee\x89\xa6"; // 57958
-   constexpr const char* G_BOX_ARCHIVE = "\xee\x89\xa7"; // 57959
-   constexpr const char* G_BUG = "\xee\x89\xa8"; // 57960
-   constexpr const char* G_SQUARE_CARET_LEFT = "\xee\x89\xa9"; // 57961
-   constexpr const char* G_CIRCLE_DOT = "\xee\x89\xaa"; // 57962
-   constexpr const char* G_WHEELCHAIR = "\xee\x89\xab"; // 57963
-   constexpr const char* G_LIRA_SIGN = "\xee\x89\xac"; // 57964
-   constexpr const char* G_SHUTTLE_SPACE = "\xee\x89\xad"; // 57965
-   constexpr const char* G_SQUARE_ENVELOPE = "\xee\x89\xae"; // 57966
-   constexpr const char* G_BUILDING_COLUMNS = "\xee\x89\xaf"; // 57967
-   constexpr const char* G_GRADUATION_CAP = "\xee\x89\xb0"; // 57968
-   constexpr const char* G_LANGUAGE = "\xee\x89\xb1"; // 57969
-   constexpr const char* G_FAX = "\xee\x89\xb2"; // 57970
-   constexpr const char* G_BUILDING = "\xee\x89\xb3"; // 57971
-   constexpr const char* G_CHILD = "\xee\x89\xb4"; // 57972
-   constexpr const char* G_PAW = "\xee\x89\xb5"; // 57973
-   constexpr const char* G_CUBE = "\xee\x89\xb6"; // 57974
-   constexpr const char* G_CUBES = "\xee\x89\xb7"; // 57975
-   constexpr const char* G_RECYCLE = "\xee\x89\xb8"; // 57976
-   constexpr const char* G_CAR = "\xee\x89\xb9"; // 57977
-   constexpr const char* G_TAXI = "\xee\x89\xba"; // 57978
-   constexpr const char* G_TREE = "\xee\x89\xbb"; // 57979
-   constexpr const char* G_DATABASE = "\xee\x89\xbc"; // 57980
-   constexpr const char* G_FILE_PDF = "\xee\x89\xbd"; // 57981
-   constexpr const char* G_FILE_WORD = "\xee\x89\xbe"; // 57982
-   constexpr const char* G_FILE_EXCEL = "\xee\x89\xbf"; // 57983
-   constexpr const char* G_FILE_POWERPOINT = "\xee\x8a\x80"; // 57984
-   constexpr const char* G_FILE_IMAGE = "\xee\x8a\x81"; // 57985
-   constexpr const char* G_FILE_ZIPPER = "\xee\x8a\x82"; // 57986
-   constexpr const char* G_FILE_AUDIO = "\xee\x8a\x83"; // 57987
-   constexpr const char* G_FILE_VIDEO = "\xee\x8a\x84"; // 57988
-   constexpr const char* G_FILE_CODE = "\xee\x8a\x85"; // 57989
-   constexpr const char* G_LIFE_RING = "\xee\x8a\x86"; // 57990
-   constexpr const char* G_CIRCLE_NOTCH = "\xee\x8a\x87"; // 57991
-   constexpr const char* G_PAPER_PLANE = "\xee\x8a\x88"; // 57992
-   constexpr const char* G_CLOCK_ROTATE_LEFT = "\xee\x8a\x89"; // 57993
-   constexpr const char* G_HEADING = "\xee\x8a\x8a"; // 57994
-   constexpr const char* G_SLIDERS = "\xee\x8a\x8b"; // 57995
-   constexpr const char* G_SHARE_NODES = "\xee\x8a\x8c"; // 57996
-   constexpr const char* G_SQUARE_SHARE_NODES = "\xee\x8a\x8d"; // 57997
-   constexpr const char* G_BOMB = "\xee\x8a\x8e"; // 57998
-   constexpr const char* G_FUTBOL = "\xee\x8a\x8f"; // 57999
-   constexpr const char* G_TTY = "\xee\x8a\x90"; // 58000
-   constexpr const char* G_BINOCULARS = "\xee\x8a\x91"; // 58001
-   constexpr const char* G_PLUG = "\xee\x8a\x92"; // 58002
-   constexpr const char* G_NEWSPAPER = "\xee\x8a\x93"; // 58003
-   constexpr const char* G_WIFI = "\xee\x8a\x94"; // 58004
-   constexpr const char* G_CALCULATOR = "\xee\x8a\x95"; // 58005
-   constexpr const char* G_BELL_SLASH = "\xee\x8a\x96"; // 58006
-   constexpr const char* G_TRASH = "\xee\x8a\x97"; // 58007
-   constexpr const char* G_EYE_DROPPER = "\xee\x8a\x98"; // 58008
-   constexpr const char* G_PAINTBRUSH = "\xee\x8a\x99"; // 58009
-   constexpr const char* G_CAKE_CANDLES = "\xee\x8a\x9a"; // 58010
-   constexpr const char* G_CHART_AREA = "\xee\x8a\x9b"; // 58011
-   constexpr const char* G_CHART_PIE = "\xee\x8a\x9c"; // 58012
-   constexpr const char* G_CHART_LINE = "\xee\x8a\x9d"; // 58013
-   constexpr const char* G_TOGGLE_OFF = "\xee\x8a\x9e"; // 58014
-   constexpr const char* G_TOGGLE_ON = "\xee\x8a\x9f"; // 58015
-   constexpr const char* G_BICYCLE = "\xee\x8a\xa0"; // 58016
-   constexpr const char* G_BUS = "\xee\x8a\xa1"; // 58017
-   constexpr const char* G_CLOSED_CAPTIONING = "\xee\x8a\xa2"; // 58018
-   constexpr const char* G_SHEKEL_SIGN = "\xee\x8a\xa3"; // 58019
-   constexpr const char* G_CART_PLUS = "\xee\x8a\xa4"; // 58020
-   constexpr const char* G_CART_ARROW_DOWN = "\xee\x8a\xa5"; // 58021
-   constexpr const char* G_DIAMOND = "\xee\x8a\xa6"; // 58022
-   constexpr const char* G_SHIP = "\xee\x8a\xa7"; // 58023
-   constexpr const char* G_USER_SECRET = "\xee\x8a\xa8"; // 58024
-   constexpr const char* G_MOTORCYCLE = "\xee\x8a\xa9"; // 58025
-   constexpr const char* G_STREET_VIEW = "\xee\x8a\xaa"; // 58026
-   constexpr const char* G_HEART_PULSE = "\xee\x8a\xab"; // 58027
-   constexpr const char* G_VENUS = "\xee\x8a\xac"; // 58028
-   constexpr const char* G_MARS = "\xee\x8a\xad"; // 58029
-   constexpr const char* G_MERCURY = "\xee\x8a\xae"; // 58030
-   constexpr const char* G_MARS_AND_VENUS = "\xee\x8a\xaf"; // 58031
-   constexpr const char* G_TRANSGENDER = "\xee\x8a\xb0"; // 58032
-   constexpr const char* G_VENUS_DOUBLE = "\xee\x8a\xb1"; // 58033
-   constexpr const char* G_MARS_DOUBLE = "\xee\x8a\xb2"; // 58034
-   constexpr const char* G_VENUS_MARS = "\xee\x8a\xb3"; // 58035
-   constexpr const char* G_MARS_STROKE = "\xee\x8a\xb4"; // 58036
-   constexpr const char* G_MARS_STROKE_UP = "\xee\x8a\xb5"; // 58037
-   constexpr const char* G_MARS_STROKE_RIGHT = "\xee\x8a\xb6"; // 58038
-   constexpr const char* G_NEUTER = "\xee\x8a\xb7"; // 58039
-   constexpr const char* G_GENDERLESS = "\xee\x8a\xb8"; // 58040
-   constexpr const char* G_SERVER = "\xee\x8a\xb9"; // 58041
-   constexpr const char* G_USER_PLUS = "\xee\x8a\xba"; // 58042
-   constexpr const char* G_USER_XMARK = "\xee\x8a\xbb"; // 58043
-   constexpr const char* G_BED = "\xee\x8a\xbc"; // 58044
-   constexpr const char* G_TRAIN = "\xee\x8a\xbd"; // 58045
-   constexpr const char* G_TRAIN_SUBWAY = "\xee\x8a\xbe"; // 58046
-   constexpr const char* G_BATTERY_FULL = "\xee\x8a\xbf"; // 58047
-   constexpr const char* G_BATTERY_THREE_QUARTERS = "\xee\x8b\x80"; // 58048
-   constexpr const char* G_BATTERY_HALF = "\xee\x8b\x81"; // 58049
-   constexpr const char* G_BATTERY_QUARTER = "\xee\x8b\x82"; // 58050
-   constexpr const char* G_BATTERY_EMPTY = "\xee\x8b\x83"; // 58051
-   constexpr const char* G_ARROW_POINTER = "\xee\x8b\x84"; // 58052
-   constexpr const char* G_I_CURSOR = "\xee\x8b\x85"; // 58053
-   constexpr const char* G_OBJECT_GROUP = "\xee\x8b\x86"; // 58054
-   constexpr const char* G_OBJECT_UNGROUP = "\xee\x8b\x87"; // 58055
-   constexpr const char* G_NOTE_STICKY = "\xee\x8b\x88"; // 58056
-   constexpr const char* G_CLONE = "\xee\x8b\x89"; // 58057
-   constexpr const char* G_SCALE_BALANCED = "\xee\x8b\x8a"; // 58058
-   constexpr const char* G_HOURGLASS_START = "\xee\x8b\x8b"; // 58059
-   constexpr const char* G_HOURGLASS_HALF = "\xee\x8b\x8c"; // 58060
-   constexpr const char* G_HOURGLASS_END = "\xee\x8b\x8d"; // 58061
-   constexpr const char* G_HOURGLASS = "\xee\x8b\x8e"; // 58062
-   constexpr const char* G_HAND_BACK_FIST = "\xee\x8b\x8f"; // 58063
-   constexpr const char* G_HAND = "\xee\x8b\x90"; // 58064
-   constexpr const char* G_HAND_SCISSORS = "\xee\x8b\x91"; // 58065
-   constexpr const char* G_HAND_LIZARD = "\xee\x8b\x92"; // 58066
-   constexpr const char* G_HAND_SPOCK = "\xee\x8b\x93"; // 58067
-   constexpr const char* G_HAND_POINTER = "\xee\x8b\x94"; // 58068
-   constexpr const char* G_HAND_PEACE = "\xee\x8b\x95"; // 58069
-   constexpr const char* G_TRADEMARK = "\xee\x8b\x96"; // 58070
-   constexpr const char* G_TV = "\xee\x8b\x97"; // 58071
-   constexpr const char* G_CALENDAR_PLUS = "\xee\x8b\x98"; // 58072
-   constexpr const char* G_CALENDAR_MINUS = "\xee\x8b\x99"; // 58073
-   constexpr const char* G_CALENDAR_XMARK = "\xee\x8b\x9a"; // 58074
-   constexpr const char* G_CALENDAR_CHECK = "\xee\x8b\x9b"; // 58075
-   constexpr const char* G_INDUSTRY = "\xee\x8b\x9c"; // 58076
-   constexpr const char* G_MAP_PIN = "\xee\x8b\x9d"; // 58077
-   constexpr const char* G_SIGNS_POST = "\xee\x8b\x9e"; // 58078
-   constexpr const char* G_MAP = "\xee\x8b\x9f"; // 58079
-   constexpr const char* G_MESSAGE = "\xee\x8b\xa0"; // 58080
-   constexpr const char* G_CIRCLE_PAUSE = "\xee\x8b\xa1"; // 58081
-   constexpr const char* G_CIRCLE_STOP = "\xee\x8b\xa2"; // 58082
-   constexpr const char* G_BAG_SHOPPING = "\xee\x8b\xa3"; // 58083
-   constexpr const char* G_BASKET_SHOPPING = "\xee\x8b\xa4"; // 58084
-   constexpr const char* G_UNIVERSAL_ACCESS = "\xee\x8b\xa5"; // 58085
-   constexpr const char* G_PERSON_WALKING_WITH_CANE = "\xee\x8b\xa6"; // 58086
-   constexpr const char* G_AUDIO_DESCRIPTION = "\xee\x8b\xa7"; // 58087
-   constexpr const char* G_PHONE_VOLUME = "\xee\x8b\xa8"; // 58088
-   constexpr const char* G_BRAILLE = "\xee\x8b\xa9"; // 58089
-   constexpr const char* G_EAR_LISTEN = "\xee\x8b\xaa"; // 58090
-   constexpr const char* G_HANDS_ASL_INTERPRETING = "\xee\x8b\xab"; // 58091
-   constexpr const char* G_EAR_DEAF = "\xee\x8b\xac"; // 58092
-   constexpr const char* G_HANDS = "\xee\x8b\xad"; // 58093
-   constexpr const char* G_EYE_LOW_VISION = "\xee\x8b\xae"; // 58094
-   constexpr const char* G_FONT_AWESOME = "\xee\x8b\xaf"; // 58095
-   constexpr const char* G_HANDSHAKE = "\xee\x8b\xb0"; // 58096
-   constexpr const char* G_ENVELOPE_OPEN = "\xee\x8b\xb1"; // 58097
-   constexpr const char* G_ADDRESS_BOOK = "\xee\x8b\xb2"; // 58098
-   constexpr const char* G_ADDRESS_CARD = "\xee\x8b\xb3"; // 58099
-   constexpr const char* G_CIRCLE_USER = "\xee\x8b\xb4"; // 58100
-   constexpr const char* G_ID_BADGE = "\xee\x8b\xb5"; // 58101
-   constexpr const char* G_ID_CARD = "\xee\x8b\xb6"; // 58102
-   constexpr const char* G_TEMPERATURE_FULL = "\xee\x8b\xb7"; // 58103
-   constexpr const char* G_TEMPERATURE_THREE_QUARTERS = "\xee\x8b\xb8"; // 58104
-   constexpr const char* G_TEMPERATURE_HALF = "\xee\x8b\xb9"; // 58105
-   constexpr const char* G_TEMPERATURE_QUARTER = "\xee\x8b\xba"; // 58106
-   constexpr const char* G_TEMPERATURE_EMPTY = "\xee\x8b\xbb"; // 58107
-   constexpr const char* G_SHOWER = "\xee\x8b\xbc"; // 58108
-   constexpr const char* G_BATH = "\xee\x8b\xbd"; // 58109
-   constexpr const char* G_PODCAST = "\xee\x8b\xbe"; // 58110
-   constexpr const char* G_WINDOW_MAXIMIZE = "\xee\x8b\xbf"; // 58111
-   constexpr const char* G_WINDOW_MINIMIZE = "\xee\x8c\x80"; // 58112
-   constexpr const char* G_WINDOW_RESTORE = "\xee\x8c\x81"; // 58113
-   constexpr const char* G_SQUARE_XMARK = "\xee\x8c\x82"; // 58114
-   constexpr const char* G_MICROCHIP = "\xee\x8c\x83"; // 58115
-   constexpr const char* G_SNOWFLAKE = "\xee\x8c\x84"; // 58116
-   constexpr const char* G_SPOON = "\xee\x8c\x85"; // 58117
-   constexpr const char* G_UTENSILS = "\xee\x8c\x86"; // 58118
-   constexpr const char* G_ROTATE_LEFT = "\xee\x8c\x87"; // 58119
-   constexpr const char* G_TRASH_CAN = "\xee\x8c\x88"; // 58120
-   constexpr const char* G_ROTATE = "\xee\x8c\x89"; // 58121
-   constexpr const char* G_STOPWATCH = "\xee\x8c\x8a"; // 58122
-   constexpr const char* G_RIGHT_FROM_BRACKET = "\xee\x8c\x8b"; // 58123
-   constexpr const char* G_RIGHT_TO_BRACKET = "\xee\x8c\x8c"; // 58124
-   constexpr const char* G_ROTATE_RIGHT = "\xee\x8c\x8d"; // 58125
-   constexpr const char* G_POO = "\xee\x8c\x8e"; // 58126
-   constexpr const char* G_IMAGES = "\xee\x8c\x8f"; // 58127
-   constexpr const char* G_PENCIL = "\xee\x8c\x90"; // 58128
-   constexpr const char* G_PEN = "\xee\x8c\x91"; // 58129
-   constexpr const char* G_PEN_CLIP = "\xee\x8c\x92"; // 58130
-   constexpr const char* G_DOWN_LONG = "\xee\x8c\x93"; // 58131
-   constexpr const char* G_LEFT_LONG = "\xee\x8c\x94"; // 58132
-   constexpr const char* G_RIGHT_LONG = "\xee\x8c\x95"; // 58133
-   constexpr const char* G_UP_LONG = "\xee\x8c\x96"; // 58134
-   constexpr const char* G_FILE_PEN = "\xee\x8c\x97"; // 58135
-   constexpr const char* G_MAXIMIZE = "\xee\x8c\x98"; // 58136
-   constexpr const char* G_CLIPBOARD = "\xee\x8c\x99"; // 58137
-   constexpr const char* G_LEFT_RIGHT = "\xee\x8c\x9a"; // 58138
-   constexpr const char* G_UP_DOWN = "\xee\x8c\x9b"; // 58139
-   constexpr const char* G_CIRCLE_DOWN = "\xee\x8c\x9c"; // 58140
-   constexpr const char* G_CIRCLE_LEFT = "\xee\x8c\x9d"; // 58141
-   constexpr const char* G_CIRCLE_RIGHT = "\xee\x8c\x9e"; // 58142
-   constexpr const char* G_CIRCLE_UP = "\xee\x8c\x9f"; // 58143
-   constexpr const char* G_UP_RIGHT_FROM_SQUARE = "\xee\x8c\xa0"; // 58144
-   constexpr const char* G_SQUARE_UP_RIGHT = "\xee\x8c\xa1"; // 58145
-   constexpr const char* G_RIGHT_LEFT = "\xee\x8c\xa2"; // 58146
-   constexpr const char* G_REPEAT = "\xee\x8c\xa3"; // 58147
-   constexpr const char* G_CODE_COMMIT = "\xee\x8c\xa4"; // 58148
-   constexpr const char* G_CODE_MERGE = "\xee\x8c\xa5"; // 58149
-   constexpr const char* G_DESKTOP = "\xee\x8c\xa6"; // 58150
-   constexpr const char* G_GEM = "\xee\x8c\xa7"; // 58151
-   constexpr const char* G_TURN_DOWN = "\xee\x8c\xa8"; // 58152
-   constexpr const char* G_TURN_UP = "\xee\x8c\xa9"; // 58153
-   constexpr const char* G_LOCK_OPEN = "\xee\x8c\xaa"; // 58154
-   constexpr const char* G_LOCATION_DOT = "\xee\x8c\xab"; // 58155
-   constexpr const char* G_MICROPHONE_LINES = "\xee\x8c\xac"; // 58156
-   constexpr const char* G_MOBILE_SCREEN_BUTTON = "\xee\x8c\xad"; // 58157
-   constexpr const char* G_MOBILE = "\xee\x8c\xae"; // 58158
-   constexpr const char* G_MOBILE_SCREEN = "\xee\x8c\xaf"; // 58159
-   constexpr const char* G_MONEY_BILL_1 = "\xee\x8c\xb0"; // 58160
-   constexpr const char* G_PHONE_SLASH = "\xee\x8c\xb1"; // 58161
-   constexpr const char* G_IMAGE_PORTRAIT = "\xee\x8c\xb2"; // 58162
-   constexpr const char* G_REPLY = "\xee\x8c\xb3"; // 58163
-   constexpr const char* G_SHIELD_HALVED = "\xee\x8c\xb4"; // 58164
-   constexpr const char* G_TABLET_SCREEN_BUTTON = "\xee\x8c\xb5"; // 58165
-   constexpr const char* G_TABLET = "\xee\x8c\xb6"; // 58166
-   constexpr const char* G_TICKET_SIMPLE = "\xee\x8c\xb7"; // 58167
-   constexpr const char* G_USER_LARGE = "\xee\x8c\xb8"; // 58168
-   constexpr const char* G_RECTANGLE_XMARK = "\xee\x8c\xb9"; // 58169
-   constexpr const char* G_DOWN_LEFT_AND_UP_RIGHT_TO_CENTER = "\xee\x8c\xba"; // 58170
-   constexpr const char* G_UP_RIGHT_AND_DOWN_LEFT_FROM_CENTER = "\xee\x8c\xbb"; // 58171
-   constexpr const char* G_BASEBALL_BAT_BALL = "\xee\x8c\xbc"; // 58172
-   constexpr const char* G_BASEBALL = "\xee\x8c\xbd"; // 58173
-   constexpr const char* G_BASKETBALL = "\xee\x8c\xbe"; // 58174
-   constexpr const char* G_BOWLING_BALL = "\xee\x8c\xbf"; // 58175
-   constexpr const char* G_CHESS = "\xee\x8d\x80"; // 58176
-   constexpr const char* G_CHESS_BISHOP = "\xee\x8d\x81"; // 58177
-   constexpr const char* G_CHESS_BOARD = "\xee\x8d\x82"; // 58178
-   constexpr const char* G_CHESS_KING = "\xee\x8d\x83"; // 58179
-   constexpr const char* G_CHESS_KNIGHT = "\xee\x8d\x84"; // 58180
-   constexpr const char* G_CHESS_PAWN = "\xee\x8d\x85"; // 58181
-   constexpr const char* G_CHESS_QUEEN = "\xee\x8d\x86"; // 58182
-   constexpr const char* G_CHESS_ROOK = "\xee\x8d\x87"; // 58183
-   constexpr const char* G_DUMBBELL = "\xee\x8d\x88"; // 58184
-   constexpr const char* G_FOOTBALL = "\xee\x8d\x89"; // 58185
-   constexpr const char* G_GOLF_BALL_TEE = "\xee\x8d\x8a"; // 58186
-   constexpr const char* G_HOCKEY_PUCK = "\xee\x8d\x8b"; // 58187
-   constexpr const char* G_BROOM_BALL = "\xee\x8d\x8c"; // 58188
-   constexpr const char* G_SQUARE_FULL = "\xee\x8d\x8d"; // 58189
-   constexpr const char* G_TABLE_TENNIS_PADDLE_BALL = "\xee\x8d\x8e"; // 58190
-   constexpr const char* G_VOLLEYBALL = "\xee\x8d\x8f"; // 58191
-   constexpr const char* G_HAND_DOTS = "\xee\x8d\x90"; // 58192
-   constexpr const char* G_BANDAGE = "\xee\x8d\x91"; // 58193
-   constexpr const char* G_BOX = "\xee\x8d\x92"; // 58194
-   constexpr const char* G_BOXES_STACKED = "\xee\x8d\x93"; // 58195
-   constexpr const char* G_BRIEFCASE_MEDICAL = "\xee\x8d\x94"; // 58196
-   constexpr const char* G_FIRE_FLAME_SIMPLE = "\xee\x8d\x95"; // 58197
-   constexpr const char* G_CAPSULES = "\xee\x8d\x96"; // 58198
-   constexpr const char* G_CLIPBOARD_CHECK = "\xee\x8d\x97"; // 58199
-   constexpr const char* G_CLIPBOARD_LIST = "\xee\x8d\x98"; // 58200
-   constexpr const char* G_PERSON_DOTS_FROM_LINE = "\xee\x8d\x99"; // 58201
-   constexpr const char* G_DNA = "\xee\x8d\x9a"; // 58202
-   constexpr const char* G_DOLLY = "\xee\x8d\x9b"; // 58203
-   constexpr const char* G_CART_FLATBED = "\xee\x8d\x9c"; // 58204
-   constexpr const char* G_FILE_MEDICAL = "\xee\x8d\x9d"; // 58205
-   constexpr const char* G_FILE_WAVEFORM = "\xee\x8d\x9e"; // 58206
-   constexpr const char* G_KIT_MEDICAL = "\xee\x8d\x9f"; // 58207
-   constexpr const char* G_CIRCLE_H = "\xee\x8d\xa0"; // 58208
-   constexpr const char* G_ID_CARD_CLIP = "\xee\x8d\xa1"; // 58209
-   constexpr const char* G_NOTES_MEDICAL = "\xee\x8d\xa2"; // 58210
-   constexpr const char* G_PALLET = "\xee\x8d\xa3"; // 58211
-   constexpr const char* G_PILLS = "\xee\x8d\xa4"; // 58212
-   constexpr const char* G_PRESCRIPTION_BOTTLE = "\xee\x8d\xa5"; // 58213
-   constexpr const char* G_PRESCRIPTION_BOTTLE_MEDICAL = "\xee\x8d\xa6"; // 58214
-   constexpr const char* G_BED_PULSE = "\xee\x8d\xa7"; // 58215
-   constexpr const char* G_TRUCK_FAST = "\xee\x8d\xa8"; // 58216
-   constexpr const char* G_SMOKING = "\xee\x8d\xa9"; // 58217
-   constexpr const char* G_SYRINGE = "\xee\x8d\xaa"; // 58218
-   constexpr const char* G_TABLETS = "\xee\x8d\xab"; // 58219
-   constexpr const char* G_THERMOMETER = "\xee\x8d\xac"; // 58220
-   constexpr const char* G_VIAL = "\xee\x8d\xad"; // 58221
-   constexpr const char* G_VIALS = "\xee\x8d\xae"; // 58222
-   constexpr const char* G_WAREHOUSE = "\xee\x8d\xaf"; // 58223
-   constexpr const char* G_WEIGHT_SCALE = "\xee\x8d\xb0"; // 58224
-   constexpr const char* G_X_RAY = "\xee\x8d\xb1"; // 58225
-   constexpr const char* G_BOX_OPEN = "\xee\x8d\xb2"; // 58226
-   constexpr const char* G_COMMENT_DOTS = "\xee\x8d\xb3"; // 58227
-   constexpr const char* G_COMMENT_SLASH = "\xee\x8d\xb4"; // 58228
-   constexpr const char* G_COUCH = "\xee\x8d\xb5"; // 58229
-   constexpr const char* G_CIRCLE_DOLLAR_TO_SLOT = "\xee\x8d\xb6"; // 58230
-   constexpr const char* G_DOVE = "\xee\x8d\xb7"; // 58231
-   constexpr const char* G_HAND_HOLDING = "\xee\x8d\xb8"; // 58232
-   constexpr const char* G_HAND_HOLDING_HEART = "\xee\x8d\xb9"; // 58233
-   constexpr const char* G_HAND_HOLDING_DOLLAR = "\xee\x8d\xba"; // 58234
-   constexpr const char* G_HAND_HOLDING_DROPLET = "\xee\x8d\xbb"; // 58235
-   constexpr const char* G_HANDS_HOLDING = "\xee\x8d\xbc"; // 58236
-   constexpr const char* G_HANDSHAKE_ANGLE = "\xee\x8d\xbd"; // 58237
-   constexpr const char* G_HANDSHAKE_SIMPLE = "\xee\x8d\xbe"; // 58238
-   constexpr const char* G_PARACHUTE_BOX = "\xee\x8d\xbf"; // 58239
-   constexpr const char* G_PEOPLE_CARRY_BOX = "\xee\x8e\x80"; // 58240
-   constexpr const char* G_PIGGY_BANK = "\xee\x8e\x81"; // 58241
-   constexpr const char* G_RIBBON = "\xee\x8e\x82"; // 58242
-   constexpr const char* G_ROUTE = "\xee\x8e\x83"; // 58243
-   constexpr const char* G_SEEDLING = "\xee\x8e\x84"; // 58244
-   constexpr const char* G_SIGN_HANGING = "\xee\x8e\x85"; // 58245
-   constexpr const char* G_FACE_SMILE_WINK = "\xee\x8e\x86"; // 58246
-   constexpr const char* G_TAPE = "\xee\x8e\x87"; // 58247
-   constexpr const char* G_TRUCK_RAMP_BOX = "\xee\x8e\x88"; // 58248
-   constexpr const char* G_TRUCK_MOVING = "\xee\x8e\x89"; // 58249
-   constexpr const char* G_VIDEO_SLASH = "\xee\x8e\x8a"; // 58250
-   constexpr const char* G_WINE_GLASS = "\xee\x8e\x8b"; // 58251
-   constexpr const char* G_USER_LARGE_SLASH = "\xee\x8e\x8c"; // 58252
-   constexpr const char* G_USER_ASTRONAUT = "\xee\x8e\x8d"; // 58253
-   constexpr const char* G_USER_CHECK = "\xee\x8e\x8e"; // 58254
-   constexpr const char* G_USER_CLOCK = "\xee\x8e\x8f"; // 58255
-   constexpr const char* G_USER_GEAR = "\xee\x8e\x90"; // 58256
-   constexpr const char* G_USER_PEN = "\xee\x8e\x91"; // 58257
-   constexpr const char* G_USER_GROUP = "\xee\x8e\x92"; // 58258
-   constexpr const char* G_USER_GRADUATE = "\xee\x8e\x93"; // 58259
-   constexpr const char* G_USER_LOCK = "\xee\x8e\x94"; // 58260
-   constexpr const char* G_USER_MINUS = "\xee\x8e\x95"; // 58261
-   constexpr const char* G_USER_NINJA = "\xee\x8e\x96"; // 58262
-   constexpr const char* G_USER_SHIELD = "\xee\x8e\x97"; // 58263
-   constexpr const char* G_USER_SLASH = "\xee\x8e\x98"; // 58264
-   constexpr const char* G_USER_TAG = "\xee\x8e\x99"; // 58265
-   constexpr const char* G_USER_TIE = "\xee\x8e\x9a"; // 58266
-   constexpr const char* G_USERS_GEAR = "\xee\x8e\x9b"; // 58267
-   constexpr const char* G_SCALE_UNBALANCED = "\xee\x8e\x9c"; // 58268
-   constexpr const char* G_SCALE_UNBALANCED_FLIP = "\xee\x8e\x9d"; // 58269
-   constexpr const char* G_BLENDER = "\xee\x8e\x9e"; // 58270
-   constexpr const char* G_BOOK_OPEN = "\xee\x8e\x9f"; // 58271
-   constexpr const char* G_TOWER_BROADCAST = "\xee\x8e\xa0"; // 58272
-   constexpr const char* G_BROOM = "\xee\x8e\xa1"; // 58273
-   constexpr const char* G_CHALKBOARD = "\xee\x8e\xa2"; // 58274
-   constexpr const char* G_CHALKBOARD_USER = "\xee\x8e\xa3"; // 58275
-   constexpr const char* G_CHURCH = "\xee\x8e\xa4"; // 58276
-   constexpr const char* G_COINS = "\xee\x8e\xa5"; // 58277
-   constexpr const char* G_COMPACT_DISC = "\xee\x8e\xa6"; // 58278
-   constexpr const char* G_CROW = "\xee\x8e\xa7"; // 58279
-   constexpr const char* G_CROWN = "\xee\x8e\xa8"; // 58280
-   constexpr const char* G_DICE = "\xee\x8e\xa9"; // 58281
-   constexpr const char* G_DICE_FIVE = "\xee\x8e\xaa"; // 58282
-   constexpr const char* G_DICE_FOUR = "\xee\x8e\xab"; // 58283
-   constexpr const char* G_DICE_ONE = "\xee\x8e\xac"; // 58284
-   constexpr const char* G_DICE_SIX = "\xee\x8e\xad"; // 58285
-   constexpr const char* G_DICE_THREE = "\xee\x8e\xae"; // 58286
-   constexpr const char* G_DICE_TWO = "\xee\x8e\xaf"; // 58287
-   constexpr const char* G_DOOR_CLOSED = "\xee\x8e\xb0"; // 58288
-   constexpr const char* G_DOOR_OPEN = "\xee\x8e\xb1"; // 58289
-   constexpr const char* G_FEATHER = "\xee\x8e\xb2"; // 58290
-   constexpr const char* G_FROG = "\xee\x8e\xb3"; // 58291
-   constexpr const char* G_GAS_PUMP = "\xee\x8e\xb4"; // 58292
-   constexpr const char* G_GLASSES = "\xee\x8e\xb5"; // 58293
-   constexpr const char* G_GREATER_THAN_EQUAL = "\xee\x8e\xb6"; // 58294
-   constexpr const char* G_HELICOPTER = "\xee\x8e\xb7"; // 58295
-   constexpr const char* G_INFINITY = "\xee\x8e\xb8"; // 58296
-   constexpr const char* G_KIWI_BIRD = "\xee\x8e\xb9"; // 58297
-   constexpr const char* G_LESS_THAN_EQUAL = "\xee\x8e\xba"; // 58298
-   constexpr const char* G_MEMORY = "\xee\x8e\xbb"; // 58299
-   constexpr const char* G_MICROPHONE_LINES_SLASH = "\xee\x8e\xbc"; // 58300
-   constexpr const char* G_MONEY_BILL_WAVE = "\xee\x8e\xbd"; // 58301
-   constexpr const char* G_MONEY_BILL_1_WAVE = "\xee\x8e\xbe"; // 58302
-   constexpr const char* G_MONEY_CHECK = "\xee\x8e\xbf"; // 58303
-   constexpr const char* G_MONEY_CHECK_DOLLAR = "\xee\x8f\x80"; // 58304
-   constexpr const char* G_NOT_EQUAL = "\xee\x8f\x81"; // 58305
-   constexpr const char* G_PALETTE = "\xee\x8f\x82"; // 58306
-   constexpr const char* G_SQUARE_PARKING = "\xee\x8f\x83"; // 58307
-   constexpr const char* G_DIAGRAM_PROJECT = "\xee\x8f\x84"; // 58308
-   constexpr const char* G_RECEIPT = "\xee\x8f\x85"; // 58309
-   constexpr const char* G_ROBOT = "\xee\x8f\x86"; // 58310
-   constexpr const char* G_RULER = "\xee\x8f\x87"; // 58311
-   constexpr const char* G_RULER_COMBINED = "\xee\x8f\x88"; // 58312
-   constexpr const char* G_RULER_HORIZONTAL = "\xee\x8f\x89"; // 58313
-   constexpr const char* G_RULER_VERTICAL = "\xee\x8f\x8a"; // 58314
-   constexpr const char* G_SCHOOL = "\xee\x8f\x8b"; // 58315
-   constexpr const char* G_SCREWDRIVER = "\xee\x8f\x8c"; // 58316
-   constexpr const char* G_SHOE_PRINTS = "\xee\x8f\x8d"; // 58317
-   constexpr const char* G_SKULL = "\xee\x8f\x8e"; // 58318
-   constexpr const char* G_BAN_SMOKING = "\xee\x8f\x8f"; // 58319
-   constexpr const char* G_STORE = "\xee\x8f\x90"; // 58320
-   constexpr const char* G_SHOP = "\xee\x8f\x91"; // 58321
-   constexpr const char* G_BARS_STAGGERED = "\xee\x8f\x92"; // 58322
-   constexpr const char* G_STROOPWAFEL = "\xee\x8f\x93"; // 58323
-   constexpr const char* G_TOOLBOX = "\xee\x8f\x94"; // 58324
-   constexpr const char* G_SHIRT = "\xee\x8f\x95"; // 58325
-   constexpr const char* G_PERSON_WALKING = "\xee\x8f\x96"; // 58326
-   constexpr const char* G_WALLET = "\xee\x8f\x97"; // 58327
-   constexpr const char* G_FACE_ANGRY = "\xee\x8f\x98"; // 58328
-   constexpr const char* G_ARCHWAY = "\xee\x8f\x99"; // 58329
-   constexpr const char* G_BOOK_ATLAS = "\xee\x8f\x9a"; // 58330
-   constexpr const char* G_AWARD = "\xee\x8f\x9b"; // 58331
-   constexpr const char* G_DELETE_LEFT = "\xee\x8f\x9c"; // 58332
-   constexpr const char* G_BEZIER_CURVE = "\xee\x8f\x9d"; // 58333
-   constexpr const char* G_BONG = "\xee\x8f\x9e"; // 58334
-   constexpr const char* G_BRUSH = "\xee\x8f\x9f"; // 58335
-   constexpr const char* G_BUS_SIMPLE = "\xee\x8f\xa0"; // 58336
-   constexpr const char* G_CANNABIS = "\xee\x8f\xa1"; // 58337
-   constexpr const char* G_CHECK_DOUBLE = "\xee\x8f\xa2"; // 58338
-   constexpr const char* G_MARTINI_GLASS_CITRUS = "\xee\x8f\xa3"; // 58339
-   constexpr const char* G_BELL_CONCIERGE = "\xee\x8f\xa4"; // 58340
-   constexpr const char* G_COOKIE = "\xee\x8f\xa5"; // 58341
-   constexpr const char* G_COOKIE_BITE = "\xee\x8f\xa6"; // 58342
-   constexpr const char* G_CROP_SIMPLE = "\xee\x8f\xa7"; // 58343
-   constexpr const char* G_TACHOGRAPH_DIGITAL = "\xee\x8f\xa8"; // 58344
-   constexpr const char* G_FACE_DIZZY = "\xee\x8f\xa9"; // 58345
-   constexpr const char* G_COMPASS_DRAFTING = "\xee\x8f\xaa"; // 58346
-   constexpr const char* G_DRUM = "\xee\x8f\xab"; // 58347
-   constexpr const char* G_DRUM_STEELPAN = "\xee\x8f\xac"; // 58348
-   constexpr const char* G_FEATHER_POINTED = "\xee\x8f\xad"; // 58349
-   constexpr const char* G_FILE_CONTRACT = "\xee\x8f\xae"; // 58350
-   constexpr const char* G_FILE_ARROW_DOWN = "\xee\x8f\xaf"; // 58351
-   constexpr const char* G_FILE_EXPORT = "\xee\x8f\xb0"; // 58352
-   constexpr const char* G_FILE_IMPORT = "\xee\x8f\xb1"; // 58353
-   constexpr const char* G_FILE_INVOICE = "\xee\x8f\xb2"; // 58354
-   constexpr const char* G_FILE_INVOICE_DOLLAR = "\xee\x8f\xb3"; // 58355
-   constexpr const char* G_FILE_PRESCRIPTION = "\xee\x8f\xb4"; // 58356
-   constexpr const char* G_FILE_SIGNATURE = "\xee\x8f\xb5"; // 58357
-   constexpr const char* G_FILE_ARROW_UP = "\xee\x8f\xb6"; // 58358
-   constexpr const char* G_FILL = "\xee\x8f\xb7"; // 58359
-   constexpr const char* G_FILL_DRIP = "\xee\x8f\xb8"; // 58360
-   constexpr const char* G_FINGERPRINT = "\xee\x8f\xb9"; // 58361
-   constexpr const char* G_FISH = "\xee\x8f\xba"; // 58362
-   constexpr const char* G_FACE_FLUSHED = "\xee\x8f\xbb"; // 58363
-   constexpr const char* G_FACE_FROWN_OPEN = "\xee\x8f\xbc"; // 58364
-   constexpr const char* G_MARTINI_GLASS = "\xee\x8f\xbd"; // 58365
-   constexpr const char* G_EARTH_AFRICA = "\xee\x8f\xbe"; // 58366
-   constexpr const char* G_EARTH_AMERICAS = "\xee\x8f\xbf"; // 58367
-   constexpr const char* G_EARTH_ASIA = "\xee\x90\x80"; // 58368
-   constexpr const char* G_FACE_GRIMACE = "\xee\x90\x81"; // 58369
-   constexpr const char* G_FACE_GRIN = "\xee\x90\x82"; // 58370
-   constexpr const char* G_FACE_GRIN_WIDE = "\xee\x90\x83"; // 58371
-   constexpr const char* G_FACE_GRIN_BEAM = "\xee\x90\x84"; // 58372
-   constexpr const char* G_FACE_GRIN_BEAM_SWEAT = "\xee\x90\x85"; // 58373
-   constexpr const char* G_FACE_GRIN_HEARTS = "\xee\x90\x86"; // 58374
-   constexpr const char* G_FACE_GRIN_SQUINT = "\xee\x90\x87"; // 58375
-   constexpr const char* G_FACE_GRIN_SQUINT_TEARS = "\xee\x90\x88"; // 58376
-   constexpr const char* G_FACE_GRIN_STARS = "\xee\x90\x89"; // 58377
-   constexpr const char* G_FACE_GRIN_TEARS = "\xee\x90\x8a"; // 58378
-   constexpr const char* G_FACE_GRIN_TONGUE = "\xee\x90\x8b"; // 58379
-   constexpr const char* G_FACE_GRIN_TONGUE_SQUINT = "\xee\x90\x8c"; // 58380
-   constexpr const char* G_FACE_GRIN_TONGUE_WINK = "\xee\x90\x8d"; // 58381
-   constexpr const char* G_FACE_GRIN_WINK = "\xee\x90\x8e"; // 58382
-   constexpr const char* G_GRIP = "\xee\x90\x8f"; // 58383
-   constexpr const char* G_GRIP_VERTICAL = "\xee\x90\x90"; // 58384
-   constexpr const char* G_HEADPHONES_SIMPLE = "\xee\x90\x91"; // 58385
-   constexpr const char* G_HEADSET = "\xee\x90\x92"; // 58386
-   constexpr const char* G_HIGHLIGHTER = "\xee\x90\x93"; // 58387
-   constexpr const char* G_HOT_TUB_PERSON = "\xee\x90\x94"; // 58388
-   constexpr const char* G_HOTEL = "\xee\x90\x95"; // 58389
-   constexpr const char* G_JOINT = "\xee\x90\x96"; // 58390
-   constexpr const char* G_FACE_KISS = "\xee\x90\x97"; // 58391
-   constexpr const char* G_FACE_KISS_BEAM = "\xee\x90\x98"; // 58392
-   constexpr const char* G_FACE_KISS_WINK_HEART = "\xee\x90\x99"; // 58393
-   constexpr const char* G_FACE_LAUGH = "\xee\x90\x9a"; // 58394
-   constexpr const char* G_FACE_LAUGH_BEAM = "\xee\x90\x9b"; // 58395
-   constexpr const char* G_FACE_LAUGH_SQUINT = "\xee\x90\x9c"; // 58396
-   constexpr const char* G_FACE_LAUGH_WINK = "\xee\x90\x9d"; // 58397
-   constexpr const char* G_CART_FLATBED_SUITCASE = "\xee\x90\x9e"; // 58398
-   constexpr const char* G_MAP_LOCATION = "\xee\x90\x9f"; // 58399
-   constexpr const char* G_MAP_LOCATION_DOT = "\xee\x90\xa0"; // 58400
-   constexpr const char* G_MARKER = "\xee\x90\xa1"; // 58401
-   constexpr const char* G_MEDAL = "\xee\x90\xa2"; // 58402
-   constexpr const char* G_FACE_MEH_BLANK = "\xee\x90\xa3"; // 58403
-   constexpr const char* G_FACE_ROLLING_EYES = "\xee\x90\xa4"; // 58404
-   constexpr const char* G_MONUMENT = "\xee\x90\xa5"; // 58405
-   constexpr const char* G_MORTAR_PESTLE = "\xee\x90\xa6"; // 58406
-   constexpr const char* G_PAINT_ROLLER = "\xee\x90\xa7"; // 58407
-   constexpr const char* G_PASSPORT = "\xee\x90\xa8"; // 58408
-   constexpr const char* G_PEN_FANCY = "\xee\x90\xa9"; // 58409
-   constexpr const char* G_PEN_NIB = "\xee\x90\xaa"; // 58410
-   constexpr const char* G_PEN_RULER = "\xee\x90\xab"; // 58411
-   constexpr const char* G_PLANE_ARRIVAL = "\xee\x90\xac"; // 58412
-   constexpr const char* G_PLANE_DEPARTURE = "\xee\x90\xad"; // 58413
-   constexpr const char* G_PRESCRIPTION = "\xee\x90\xae"; // 58414
-   constexpr const char* G_FACE_SAD_CRY = "\xee\x90\xaf"; // 58415
-   constexpr const char* G_FACE_SAD_TEAR = "\xee\x90\xb0"; // 58416
-   constexpr const char* G_VAN_SHUTTLE = "\xee\x90\xb1"; // 58417
-   constexpr const char* G_SIGNATURE = "\xee\x90\xb2"; // 58418
-   constexpr const char* G_FACE_SMILE_BEAM = "\xee\x90\xb3"; // 58419
-   constexpr const char* G_SOLAR_PANEL = "\xee\x90\xb4"; // 58420
-   constexpr const char* G_SPA = "\xee\x90\xb5"; // 58421
-   constexpr const char* G_SPLOTCH = "\xee\x90\xb6"; // 58422
-   constexpr const char* G_SPRAY_CAN = "\xee\x90\xb7"; // 58423
-   constexpr const char* G_STAMP = "\xee\x90\xb8"; // 58424
-   constexpr const char* G_STAR_HALF_STROKE = "\xee\x90\xb9"; // 58425
-   constexpr const char* G_SUITCASE_ROLLING = "\xee\x90\xba"; // 58426
-   constexpr const char* G_FACE_SURPRISE = "\xee\x90\xbb"; // 58427
-   constexpr const char* G_SWATCHBOOK = "\xee\x90\xbc"; // 58428
-   constexpr const char* G_PERSON_SWIMMING = "\xee\x90\xbd"; // 58429
-   constexpr const char* G_WATER_LADDER = "\xee\x90\xbe"; // 58430
-   constexpr const char* G_DROPLET_SLASH = "\xee\x90\xbf"; // 58431
-   constexpr const char* G_FACE_TIRED = "\xee\x91\x80"; // 58432
-   constexpr const char* G_TOOTH = "\xee\x91\x81"; // 58433
-   constexpr const char* G_UMBRELLA_BEACH = "\xee\x91\x82"; // 58434
-   constexpr const char* G_VECTOR_SQUARE = "\xee\x91\x83"; // 58435
-   constexpr const char* G_WEIGHT_HANGING = "\xee\x91\x84"; // 58436
-   constexpr const char* G_WINE_GLASS_EMPTY = "\xee\x91\x85"; // 58437
-   constexpr const char* G_SPRAY_CAN_SPARKLES = "\xee\x91\x86"; // 58438
-   constexpr const char* G_APPLE_WHOLE = "\xee\x91\x87"; // 58439
-   constexpr const char* G_ATOM = "\xee\x91\x88"; // 58440
-   constexpr const char* G_BONE = "\xee\x91\x89"; // 58441
-   constexpr const char* G_BOOK_OPEN_READER = "\xee\x91\x8a"; // 58442
-   constexpr const char* G_BRAIN = "\xee\x91\x8b"; // 58443
-   constexpr const char* G_CAR_REAR = "\xee\x91\x8c"; // 58444
-   constexpr const char* G_CAR_BATTERY = "\xee\x91\x8d"; // 58445
-   constexpr const char* G_CAR_BURST = "\xee\x91\x8e"; // 58446
-   constexpr const char* G_CAR_SIDE = "\xee\x91\x8f"; // 58447
-   constexpr const char* G_CHARGING_STATION = "\xee\x91\x90"; // 58448
-   constexpr const char* G_DIAMOND_TURN_RIGHT = "\xee\x91\x91"; // 58449
-   constexpr const char* G_DRAW_POLYGON = "\xee\x91\x92"; // 58450
-   constexpr const char* G_LAPTOP_CODE = "\xee\x91\x93"; // 58451
-   constexpr const char* G_LAYER_GROUP = "\xee\x91\x94"; // 58452
-   constexpr const char* G_LOCATION_CROSSHAIRS = "\xee\x91\x95"; // 58453
-   constexpr const char* G_LUNGS = "\xee\x91\x96"; // 58454
-   constexpr const char* G_MICROSCOPE = "\xee\x91\x97"; // 58455
-   constexpr const char* G_OIL_CAN = "\xee\x91\x98"; // 58456
-   constexpr const char* G_POOP = "\xee\x91\x99"; // 58457
-   constexpr const char* G_SHAPES = "\xee\x91\x9a"; // 58458
-   constexpr const char* G_STAR_OF_LIFE = "\xee\x91\x9b"; // 58459
-   constexpr const char* G_GAUGE = "\xee\x91\x9c"; // 58460
-   constexpr const char* G_GAUGE_HIGH = "\xee\x91\x9d"; // 58461
-   constexpr const char* G_GAUGE_SIMPLE = "\xee\x91\x9e"; // 58462
-   constexpr const char* G_GAUGE_SIMPLE_HIGH = "\xee\x91\x9f"; // 58463
-   constexpr const char* G_TEETH = "\xee\x91\xa0"; // 58464
-   constexpr const char* G_TEETH_OPEN = "\xee\x91\xa1"; // 58465
-   constexpr const char* G_MASKS_THEATER = "\xee\x91\xa2"; // 58466
-   constexpr const char* G_TRAFFIC_LIGHT = "\xee\x91\xa3"; // 58467
-   constexpr const char* G_TRUCK_MONSTER = "\xee\x91\xa4"; // 58468
-   constexpr const char* G_TRUCK_PICKUP = "\xee\x91\xa5"; // 58469
-   constexpr const char* G_RECTANGLE_AD = "\xee\x91\xa6"; // 58470
-   constexpr const char* G_ANKH = "\xee\x91\xa7"; // 58471
-   constexpr const char* G_BOOK_BIBLE = "\xee\x91\xa8"; // 58472
-   constexpr const char* G_BUSINESS_TIME = "\xee\x91\xa9"; // 58473
-   constexpr const char* G_CITY = "\xee\x91\xaa"; // 58474
-   constexpr const char* G_COMMENT_DOLLAR = "\xee\x91\xab"; // 58475
-   constexpr const char* G_COMMENTS_DOLLAR = "\xee\x91\xac"; // 58476
-   constexpr const char* G_CROSS = "\xee\x91\xad"; // 58477
-   constexpr const char* G_DHARMACHAKRA = "\xee\x91\xae"; // 58478
-   constexpr const char* G_ENVELOPE_OPEN_TEXT = "\xee\x91\xaf"; // 58479
-   constexpr const char* G_FOLDER_MINUS = "\xee\x91\xb0"; // 58480
-   constexpr const char* G_FOLDER_PLUS = "\xee\x91\xb1"; // 58481
-   constexpr const char* G_FILTER_CIRCLE_DOLLAR = "\xee\x91\xb2"; // 58482
-   constexpr const char* G_GOPURAM = "\xee\x91\xb3"; // 58483
-   constexpr const char* G_HAMSA = "\xee\x91\xb4"; // 58484
-   constexpr const char* G_BAHAI = "\xee\x91\xb5"; // 58485
-   constexpr const char* G_JEDI = "\xee\x91\xb6"; // 58486
-   constexpr const char* G_BOOK_JOURNAL_WHILLS = "\xee\x91\xb7"; // 58487
-   constexpr const char* G_KAABA = "\xee\x91\xb8"; // 58488
-   constexpr const char* G_KHANDA = "\xee\x91\xb9"; // 58489
-   constexpr const char* G_LANDMARK = "\xee\x91\xba"; // 58490
-   constexpr const char* G_ENVELOPES_BULK = "\xee\x91\xbb"; // 58491
-   constexpr const char* G_MENORAH = "\xee\x91\xbc"; // 58492
-   constexpr const char* G_MOSQUE = "\xee\x91\xbd"; // 58493
-   constexpr const char* G_OM = "\xee\x91\xbe"; // 58494
-   constexpr const char* G_SPAGHETTI_MONSTER_FLYING = "\xee\x91\xbf"; // 58495
-   constexpr const char* G_PEACE = "\xee\x92\x80"; // 58496
-   constexpr const char* G_PLACE_OF_WORSHIP = "\xee\x92\x81"; // 58497
-   constexpr const char* G_SQUARE_POLL_VERTICAL = "\xee\x92\x82"; // 58498
-   constexpr const char* G_SQUARE_POLL_HORIZONTAL = "\xee\x92\x83"; // 58499
-   constexpr const char* G_PERSON_PRAYING = "\xee\x92\x84"; // 58500
-   constexpr const char* G_HANDS_PRAYING = "\xee\x92\x85"; // 58501
-   constexpr const char* G_BOOK_QURAN = "\xee\x92\x86"; // 58502
-   constexpr const char* G_MAGNIFYING_GLASS_DOLLAR = "\xee\x92\x87"; // 58503
-   constexpr const char* G_MAGNIFYING_GLASS_LOCATION = "\xee\x92\x88"; // 58504
-   constexpr const char* G_SOCKS = "\xee\x92\x89"; // 58505
-   constexpr const char* G_SQUARE_ROOT_VARIABLE = "\xee\x92\x8a"; // 58506
-   constexpr const char* G_STAR_AND_CRESCENT = "\xee\x92\x8b"; // 58507
-   constexpr const char* G_STAR_OF_DAVID = "\xee\x92\x8c"; // 58508
-   constexpr const char* G_SYNAGOGUE = "\xee\x92\x8d"; // 58509
-   constexpr const char* G_SCROLL_TORAH = "\xee\x92\x8e"; // 58510
-   constexpr const char* G_TORII_GATE = "\xee\x92\x8f"; // 58511
-   constexpr const char* G_VIHARA = "\xee\x92\x90"; // 58512
-   constexpr const char* G_VOLUME_XMARK = "\xee\x92\x91"; // 58513
-   constexpr const char* G_YIN_YANG = "\xee\x92\x92"; // 58514
-   constexpr const char* G_BLENDER_PHONE = "\xee\x92\x93"; // 58515
-   constexpr const char* G_BOOK_SKULL = "\xee\x92\x94"; // 58516
-   constexpr const char* G_CAMPGROUND = "\xee\x92\x95"; // 58517
-   constexpr const char* G_CAT = "\xee\x92\x96"; // 58518
-   constexpr const char* G_CHAIR = "\xee\x92\x97"; // 58519
-   constexpr const char* G_CLOUD_MOON = "\xee\x92\x98"; // 58520
-   constexpr const char* G_CLOUD_SUN = "\xee\x92\x99"; // 58521
-   constexpr const char* G_COW = "\xee\x92\x9a"; // 58522
-   constexpr const char* G_DICE_D20 = "\xee\x92\x9b"; // 58523
-   constexpr const char* G_DICE_D6 = "\xee\x92\x9c"; // 58524
-   constexpr const char* G_DOG = "\xee\x92\x9d"; // 58525
-   constexpr const char* G_DRAGON = "\xee\x92\x9e"; // 58526
-   constexpr const char* G_DRUMSTICK_BITE = "\xee\x92\x9f"; // 58527
-   constexpr const char* G_DUNGEON = "\xee\x92\xa0"; // 58528
-   constexpr const char* G_FILE_CSV = "\xee\x92\xa1"; // 58529
-   constexpr const char* G_HAND_FIST = "\xee\x92\xa2"; // 58530
-   constexpr const char* G_GHOST = "\xee\x92\xa3"; // 58531
-   constexpr const char* G_HAMMER = "\xee\x92\xa4"; // 58532
-   constexpr const char* G_HANUKIAH = "\xee\x92\xa5"; // 58533
-   constexpr const char* G_HAT_WIZARD = "\xee\x92\xa6"; // 58534
-   constexpr const char* G_PERSON_HIKING = "\xee\x92\xa7"; // 58535
-   constexpr const char* G_HIPPO = "\xee\x92\xa8"; // 58536
-   constexpr const char* G_HORSE = "\xee\x92\xa9"; // 58537
-   constexpr const char* G_HOUSE_CHIMNEY_CRACK = "\xee\x92\xaa"; // 58538
-   constexpr const char* G_HRYVNIA_SIGN = "\xee\x92\xab"; // 58539
-   constexpr const char* G_MASK = "\xee\x92\xac"; // 58540
-   constexpr const char* G_MOUNTAIN = "\xee\x92\xad"; // 58541
-   constexpr const char* G_NETWORK_WIRED = "\xee\x92\xae"; // 58542
-   constexpr const char* G_OTTER = "\xee\x92\xaf"; // 58543
-   constexpr const char* G_RING = "\xee\x92\xb0"; // 58544
-   constexpr const char* G_PERSON_RUNNING = "\xee\x92\xb1"; // 58545
-   constexpr const char* G_SCROLL = "\xee\x92\xb2"; // 58546
-   constexpr const char* G_SKULL_CROSSBONES = "\xee\x92\xb3"; // 58547
-   constexpr const char* G_SLASH = "\xee\x92\xb4"; // 58548
-   constexpr const char* G_SPIDER = "\xee\x92\xb5"; // 58549
-   constexpr const char* G_TOILET_PAPER = "\xee\x92\xb6"; // 58550
-   constexpr const char* G_TRACTOR = "\xee\x92\xb7"; // 58551
-   constexpr const char* G_USER_INJURED = "\xee\x92\xb8"; // 58552
-   constexpr const char* G_VR_CARDBOARD = "\xee\x92\xb9"; // 58553
-   constexpr const char* G_WAND_SPARKLES = "\xee\x92\xba"; // 58554
-   constexpr const char* G_WIND = "\xee\x92\xbb"; // 58555
-   constexpr const char* G_WINE_BOTTLE = "\xee\x92\xbc"; // 58556
-   constexpr const char* G_CLOUD_MEATBALL = "\xee\x92\xbd"; // 58557
-   constexpr const char* G_CLOUD_MOON_RAIN = "\xee\x92\xbe"; // 58558
-   constexpr const char* G_CLOUD_RAIN = "\xee\x92\xbf"; // 58559
-   constexpr const char* G_CLOUD_SHOWERS_HEAVY = "\xee\x93\x80"; // 58560
-   constexpr const char* G_CLOUD_SUN_RAIN = "\xee\x93\x81"; // 58561
-   constexpr const char* G_DEMOCRAT = "\xee\x93\x82"; // 58562
-   constexpr const char* G_FLAG_USA = "\xee\x93\x83"; // 58563
-   constexpr const char* G_HURRICANE = "\xee\x93\x84"; // 58564
-   constexpr const char* G_LANDMARK_DOME = "\xee\x93\x85"; // 58565
-   constexpr const char* G_METEOR = "\xee\x93\x86"; // 58566
-   constexpr const char* G_PERSON_BOOTH = "\xee\x93\x87"; // 58567
-   constexpr const char* G_POO_STORM = "\xee\x93\x88"; // 58568
-   constexpr const char* G_RAINBOW = "\xee\x93\x89"; // 58569
-   constexpr const char* G_REPUBLICAN = "\xee\x93\x8a"; // 58570
-   constexpr const char* G_SMOG = "\xee\x93\x8b"; // 58571
-   constexpr const char* G_TEMPERATURE_HIGH = "\xee\x93\x8c"; // 58572
-   constexpr const char* G_TEMPERATURE_LOW = "\xee\x93\x8d"; // 58573
-   constexpr const char* G_CLOUD_BOLT = "\xee\x93\x8e"; // 58574
-   constexpr const char* G_TORNADO = "\xee\x93\x8f"; // 58575
-   constexpr const char* G_VOLCANO = "\xee\x93\x90"; // 58576
-   constexpr const char* G_CHECK_TO_SLOT = "\xee\x93\x91"; // 58577
-   constexpr const char* G_WATER = "\xee\x93\x92"; // 58578
-   constexpr const char* G_BABY = "\xee\x93\x93"; // 58579
-   constexpr const char* G_BABY_CARRIAGE = "\xee\x93\x94"; // 58580
-   constexpr const char* G_BIOHAZARD = "\xee\x93\x95"; // 58581
-   constexpr const char* G_BLOG = "\xee\x93\x96"; // 58582
-   constexpr const char* G_CALENDAR_DAY = "\xee\x93\x97"; // 58583
-   constexpr const char* G_CALENDAR_WEEK = "\xee\x93\x98"; // 58584
-   constexpr const char* G_CANDY_CANE = "\xee\x93\x99"; // 58585
-   constexpr const char* G_CARROT = "\xee\x93\x9a"; // 58586
-   constexpr const char* G_CASH_REGISTER = "\xee\x93\x9b"; // 58587
-   constexpr const char* G_MINIMIZE = "\xee\x93\x9c"; // 58588
-   constexpr const char* G_DUMPSTER = "\xee\x93\x9d"; // 58589
-   constexpr const char* G_DUMPSTER_FIRE = "\xee\x93\x9e"; // 58590
-   constexpr const char* G_ETHERNET = "\xee\x93\x9f"; // 58591
-   constexpr const char* G_GIFTS = "\xee\x93\xa0"; // 58592
-   constexpr const char* G_CHAMPAGNE_GLASSES = "\xee\x93\xa1"; // 58593
-   constexpr const char* G_WHISKEY_GLASS = "\xee\x93\xa2"; // 58594
-   constexpr const char* G_EARTH_EUROPE = "\xee\x93\xa3"; // 58595
-   constexpr const char* G_GRIP_LINES = "\xee\x93\xa4"; // 58596
-   constexpr const char* G_GRIP_LINES_VERTICAL = "\xee\x93\xa5"; // 58597
-   constexpr const char* G_GUITAR = "\xee\x93\xa6"; // 58598
-   constexpr const char* G_HEART_CRACK = "\xee\x93\xa7"; // 58599
-   constexpr const char* G_HOLLY_BERRY = "\xee\x93\xa8"; // 58600
-   constexpr const char* G_HORSE_HEAD = "\xee\x93\xa9"; // 58601
-   constexpr const char* G_ICICLES = "\xee\x93\xaa"; // 58602
-   constexpr const char* G_IGLOO = "\xee\x93\xab"; // 58603
-   constexpr const char* G_MITTEN = "\xee\x93\xac"; // 58604
-   constexpr const char* G_MUG_HOT = "\xee\x93\xad"; // 58605
-   constexpr const char* G_RADIATION = "\xee\x93\xae"; // 58606
-   constexpr const char* G_CIRCLE_RADIATION = "\xee\x93\xaf"; // 58607
-   constexpr const char* G_RESTROOM = "\xee\x93\xb0"; // 58608
-   constexpr const char* G_SATELLITE = "\xee\x93\xb1"; // 58609
-   constexpr const char* G_SATELLITE_DISH = "\xee\x93\xb2"; // 58610
-   constexpr const char* G_SD_CARD = "\xee\x93\xb3"; // 58611
-   constexpr const char* G_SIM_CARD = "\xee\x93\xb4"; // 58612
-   constexpr const char* G_PERSON_SKATING = "\xee\x93\xb5"; // 58613
-   constexpr const char* G_PERSON_SKIING = "\xee\x93\xb6"; // 58614
-   constexpr const char* G_PERSON_SKIING_NORDIC = "\xee\x93\xb7"; // 58615
-   constexpr const char* G_SLEIGH = "\xee\x93\xb8"; // 58616
-   constexpr const char* G_COMMENT_SMS = "\xee\x93\xb9"; // 58617
-   constexpr const char* G_PERSON_SNOWBOARDING = "\xee\x93\xba"; // 58618
-   constexpr const char* G_SNOWMAN = "\xee\x93\xbb"; // 58619
-   constexpr const char* G_SNOWPLOW = "\xee\x93\xbc"; // 58620
-   constexpr const char* G_TENGE_SIGN = "\xee\x93\xbd"; // 58621
-   constexpr const char* G_TOILET = "\xee\x93\xbe"; // 58622
-   constexpr const char* G_SCREWDRIVER_WRENCH = "\xee\x93\xbf"; // 58623
-   constexpr const char* G_CABLE_CAR = "\xee\x94\x80"; // 58624
-   constexpr const char* G_FIRE_FLAME_CURVED = "\xee\x94\x81"; // 58625
-   constexpr const char* G_BACON = "\xee\x94\x82"; // 58626
-   constexpr const char* G_BOOK_MEDICAL = "\xee\x94\x83"; // 58627
-   constexpr const char* G_BREAD_SLICE = "\xee\x94\x84"; // 58628
-   constexpr const char* G_CHEESE = "\xee\x94\x85"; // 58629
-   constexpr const char* G_HOUSE_CHIMNEY_MEDICAL = "\xee\x94\x86"; // 58630
-   constexpr const char* G_CLIPBOARD_USER = "\xee\x94\x87"; // 58631
-   constexpr const char* G_COMMENT_MEDICAL = "\xee\x94\x88"; // 58632
-   constexpr const char* G_CRUTCH = "\xee\x94\x89"; // 58633
-   constexpr const char* G_DISEASE = "\xee\x94\x8a"; // 58634
-   constexpr const char* G_EGG = "\xee\x94\x8b"; // 58635
-   constexpr const char* G_FOLDER_TREE = "\xee\x94\x8c"; // 58636
-   constexpr const char* G_BURGER = "\xee\x94\x8d"; // 58637
-   constexpr const char* G_HAND_MIDDLE_FINGER = "\xee\x94\x8e"; // 58638
-   constexpr const char* G_HELMET_SAFETY = "\xee\x94\x8f"; // 58639
-   constexpr const char* G_HOSPITAL_USER = "\xee\x94\x90"; // 58640
-   constexpr const char* G_HOTDOG = "\xee\x94\x91"; // 58641
-   constexpr const char* G_ICE_CREAM = "\xee\x94\x92"; // 58642
-   constexpr const char* G_LAPTOP_MEDICAL = "\xee\x94\x93"; // 58643
-   constexpr const char* G_PAGER = "\xee\x94\x94"; // 58644
-   constexpr const char* G_PEPPER_HOT = "\xee\x94\x95"; // 58645
-   constexpr const char* G_PIZZA_SLICE = "\xee\x94\x96"; // 58646
-   constexpr const char* G_SACK_DOLLAR = "\xee\x94\x97"; // 58647
-   constexpr const char* G_BOOK_TANAKH = "\xee\x94\x98"; // 58648
-   constexpr const char* G_BARS_PROGRESS = "\xee\x94\x99"; // 58649
-   constexpr const char* G_TRASH_ARROW_UP = "\xee\x94\x9a"; // 58650
-   constexpr const char* G_TRASH_CAN_ARROW_UP = "\xee\x94\x9b"; // 58651
-   constexpr const char* G_USER_NURSE = "\xee\x94\x9c"; // 58652
-   constexpr const char* G_WAVE_SQUARE = "\xee\x94\x9d"; // 58653
-   constexpr const char* G_PERSON_BIKING = "\xee\x94\x9e"; // 58654
-   constexpr const char* G_BORDER_ALL = "\xee\x94\x9f"; // 58655
-   constexpr const char* G_BORDER_NONE = "\xee\x94\xa0"; // 58656
-   constexpr const char* G_BORDER_TOP_LEFT = "\xee\x94\xa1"; // 58657
-   constexpr const char* G_PERSON_DIGGING = "\xee\x94\xa2"; // 58658
-   constexpr const char* G_FAN = "\xee\x94\xa3"; // 58659
-   constexpr const char* G_ICONS = "\xee\x94\xa4"; // 58660
-   constexpr const char* G_PHONE_FLIP = "\xee\x94\xa5"; // 58661
-   constexpr const char* G_SQUARE_PHONE_FLIP = "\xee\x94\xa6"; // 58662
-   constexpr const char* G_PHOTO_FILM = "\xee\x94\xa7"; // 58663
-   constexpr const char* G_TEXT_SLASH = "\xee\x94\xa8"; // 58664
-   constexpr const char* G_ARROW_DOWN_Z_A = "\xee\x94\xa9"; // 58665
-   constexpr const char* G_ARROW_UP_Z_A = "\xee\x94\xaa"; // 58666
-   constexpr const char* G_ARROW_DOWN_SHORT_WIDE = "\xee\x94\xab"; // 58667
-   constexpr const char* G_ARROW_UP_SHORT_WIDE = "\xee\x94\xac"; // 58668
-   constexpr const char* G_ARROW_DOWN_9_1 = "\xee\x94\xad"; // 58669
-   constexpr const char* G_ARROW_UP_9_1 = "\xee\x94\xae"; // 58670
-   constexpr const char* G_SPELL_CHECK = "\xee\x94\xaf"; // 58671
-   constexpr const char* G_VOICEMAIL = "\xee\x94\xb0"; // 58672
-   constexpr const char* G_HAT_COWBOY = "\xee\x94\xb1"; // 58673
-   constexpr const char* G_HAT_COWBOY_SIDE = "\xee\x94\xb2"; // 58674
-   constexpr const char* G_COMPUTER_MOUSE = "\xee\x94\xb3"; // 58675
-   constexpr const char* G_RADIO = "\xee\x94\xb4"; // 58676
-   constexpr const char* G_RECORD_VINYL = "\xee\x94\xb5"; // 58677
-   constexpr const char* G_WALKIE_TALKIE = "\xee\x94\xb6"; // 58678
-   constexpr const char* G_CARAVAN = "\xee\x94\xb7"; // 58679
+//created 1713899322197 
+   #define G_FAUCET "\xee\x80\x80"
+   #define G_FAUCET_DRIP "\xee\x80\x81"
+   #define G_HOUSE_CHIMNEY_WINDOW "\xee\x80\x82"
+   #define G_HOUSE_SIGNAL "\xee\x80\x83"
+   #define G_TEMPERATURE_ARROW_DOWN "\xee\x80\x84"
+   #define G_TEMPERATURE_ARROW_UP "\xee\x80\x85"
+   #define G_TRAILER "\xee\x80\x86"
+   #define G_BACTERIA "\xee\x80\x87"
+   #define G_BACTERIUM "\xee\x80\x88"
+   #define G_BOX_TISSUE "\xee\x80\x89"
+   #define G_HAND_HOLDING_MEDICAL "\xee\x80\x8a"
+   #define G_HAND_SPARKLES "\xee\x80\x8b"
+   #define G_HANDS_BUBBLES "\xee\x80\x8c"
+   #define G_HANDSHAKE_SIMPLE_SLASH "\xee\x80\x8d"
+   #define G_HANDSHAKE_SLASH "\xee\x80\x8e"
+   #define G_HEAD_SIDE_COUGH "\xee\x80\x8f"
+   #define G_HEAD_SIDE_COUGH_SLASH "\xee\x80\x90"
+   #define G_HEAD_SIDE_MASK "\xee\x80\x91"
+   #define G_HEAD_SIDE_VIRUS "\xee\x80\x92"
+   #define G_HOUSE_CHIMNEY_USER "\xee\x80\x93"
+   #define G_HOUSE_LAPTOP "\xee\x80\x94"
+   #define G_LUNGS_VIRUS "\xee\x80\x95"
+   #define G_PEOPLE_ARROWS "\xee\x80\x96"
+   #define G_PLANE_SLASH "\xee\x80\x97"
+   #define G_PUMP_MEDICAL "\xee\x80\x98"
+   #define G_PUMP_SOAP "\xee\x80\x99"
+   #define G_SHIELD_VIRUS "\xee\x80\x9a"
+   #define G_SINK "\xee\x80\x9b"
+   #define G_SOAP "\xee\x80\x9c"
+   #define G_STOPWATCH_20 "\xee\x80\x9d"
+   #define G_SHOP_SLASH "\xee\x80\x9e"
+   #define G_STORE_SLASH "\xee\x80\x9f"
+   #define G_TOILET_PAPER_SLASH "\xee\x80\xa0"
+   #define G_USERS_SLASH "\xee\x80\xa1"
+   #define G_VIRUS "\xee\x80\xa2"
+   #define G_VIRUS_SLASH "\xee\x80\xa3"
+   #define G_VIRUSES "\xee\x80\xa4"
+   #define G_VEST "\xee\x80\xa5"
+   #define G_VEST_PATCHES "\xee\x80\xa6"
+   #define G_ARROW_TREND_DOWN "\xee\x80\xa7"
+   #define G_ARROW_TREND_UP "\xee\x80\xa8"
+   #define G_ARROW_UP_FROM_BRACKET "\xee\x80\xa9"
+   #define G_AUSTRAL_SIGN "\xee\x80\xaa"
+   #define G_BAHT_SIGN "\xee\x80\xab"
+   #define G_BITCOIN_SIGN "\xee\x80\xac"
+   #define G_BOLT_LIGHTNING "\xee\x80\xad"
+   #define G_BOOK_BOOKMARK "\xee\x80\xae"
+   #define G_CAMERA_ROTATE "\xee\x80\xaf"
+   #define G_CEDI_SIGN "\xee\x80\xb0"
+   #define G_CHART_COLUMN "\xee\x80\xb1"
+   #define G_CHART_GANTT "\xee\x80\xb2"
+   #define G_CLAPPERBOARD "\xee\x80\xb3"
+   #define G_CLOVER "\xee\x80\xb4"
+   #define G_CODE_COMPARE "\xee\x80\xb5"
+   #define G_CODE_FORK "\xee\x80\xb6"
+   #define G_CODE_PULL_REQUEST "\xee\x80\xb7"
+   #define G_COLON_SIGN "\xee\x80\xb8"
+   #define G_CRUZEIRO_SIGN "\xee\x80\xb9"
+   #define G_DISPLAY "\xee\x80\xba"
+   #define G_DONG_SIGN "\xee\x80\xbb"
+   #define G_ELEVATOR "\xee\x80\xbc"
+   #define G_FILTER_CIRCLE_XMARK "\xee\x80\xbd"
+   #define G_FLORIN_SIGN "\xee\x80\xbe"
+   #define G_FOLDER_CLOSED "\xee\x80\xbf"
+   #define G_FRANC_SIGN "\xee\x81\x80"
+   #define G_GUARANI_SIGN "\xee\x81\x81"
+   #define G_GUN "\xee\x81\x82"
+   #define G_HANDS_CLAPPING "\xee\x81\x83"
+   #define G_HOUSE_USER "\xee\x81\x84"
+   #define G_INDIAN_RUPEE_SIGN "\xee\x81\x85"
+   #define G_KIP_SIGN "\xee\x81\x86"
+   #define G_LARI_SIGN "\xee\x81\x87"
+   #define G_LITECOIN_SIGN "\xee\x81\x88"
+   #define G_MANAT_SIGN "\xee\x81\x89"
+   #define G_MASK_FACE "\xee\x81\x8a"
+   #define G_MILL_SIGN "\xee\x81\x8b"
+   #define G_MONEY_BILLS "\xee\x81\x8c"
+   #define G_NAIRA_SIGN "\xee\x81\x8d"
+   #define G_NOTDEF "\xee\x81\x8e"
+   #define G_PANORAMA "\xee\x81\x8f"
+   #define G_PESETA_SIGN "\xee\x81\x90"
+   #define G_PESO_SIGN "\xee\x81\x91"
+   #define G_PLANE_UP "\xee\x81\x92"
+   #define G_RUPIAH_SIGN "\xee\x81\x93"
+   #define G_STAIRS "\xee\x81\x94"
+   #define G_TIMELINE "\xee\x81\x95"
+   #define G_TRUCK_FRONT "\xee\x81\x96"
+   #define G_TURKISH_LIRA_SIGN "\xee\x81\x97"
+   #define G_VAULT "\xee\x81\x98"
+   #define G_WAND_MAGIC_SPARKLES "\xee\x81\x99"
+   #define G_WHEAT_AWN "\xee\x81\x9a"
+   #define G_WHEELCHAIR_MOVE "\xee\x81\x9b"
+   #define G_BANGLADESHI_TAKA_SIGN "\xee\x81\x9c"
+   #define G_BOWL_RICE "\xee\x81\x9d"
+   #define G_PERSON_PREGNANT "\xee\x81\x9e"
+   #define G_HOUSE_CHIMNEY "\xee\x81\x9f"
+   #define G_HOUSE_CRACK "\xee\x81\xa0"
+   #define G_HOUSE_MEDICAL "\xee\x81\xa1"
+   #define G_CENT_SIGN "\xee\x81\xa2"
+   #define G_PLUS_MINUS "\xee\x81\xa3"
+   #define G_SAILBOAT "\xee\x81\xa4"
+   #define G_SECTION "\xee\x81\xa5"
+   #define G_SHRIMP "\xee\x81\xa6"
+   #define G_BRAZILIAN_REAL_SIGN "\xee\x81\xa7"
+   #define G_CHART_SIMPLE "\xee\x81\xa8"
+   #define G_DIAGRAM_NEXT "\xee\x81\xa9"
+   #define G_DIAGRAM_PREDECESSOR "\xee\x81\xaa"
+   #define G_DIAGRAM_SUCCESSOR "\xee\x81\xab"
+   #define G_EARTH_OCEANIA "\xee\x81\xac"
+   #define G_BUG_SLASH "\xee\x81\xad"
+   #define G_FILE_CIRCLE_PLUS "\xee\x81\xae"
+   #define G_SHOP_LOCK "\xee\x81\xaf"
+   #define G_VIRUS_COVID "\xee\x81\xb0"
+   #define G_VIRUS_COVID_SLASH "\xee\x81\xb1"
+   #define G_ANCHOR_CIRCLE_CHECK "\xee\x81\xb2"
+   #define G_ANCHOR_CIRCLE_EXCLAMATION "\xee\x81\xb3"
+   #define G_ANCHOR_CIRCLE_XMARK "\xee\x81\xb4"
+   #define G_ANCHOR_LOCK "\xee\x81\xb5"
+   #define G_ARROW_DOWN_UP_ACROSS_LINE "\xee\x81\xb6"
+   #define G_ARROW_DOWN_UP_LOCK "\xee\x81\xb7"
+   #define G_ARROW_RIGHT_TO_CITY "\xee\x81\xb8"
+   #define G_ARROW_UP_FROM_GROUND_WATER "\xee\x81\xb9"
+   #define G_ARROW_UP_FROM_WATER_PUMP "\xee\x81\xba"
+   #define G_ARROW_UP_RIGHT_DOTS "\xee\x81\xbb"
+   #define G_ARROWS_DOWN_TO_LINE "\xee\x81\xbc"
+   #define G_ARROWS_DOWN_TO_PEOPLE "\xee\x81\xbd"
+   #define G_ARROWS_LEFT_RIGHT_TO_LINE "\xee\x81\xbe"
+   #define G_ARROWS_SPIN "\xee\x81\xbf"
+   #define G_ARROWS_SPLIT_UP_AND_LEFT "\xee\x82\x80"
+   #define G_ARROWS_TO_CIRCLE "\xee\x82\x81"
+   #define G_ARROWS_TO_DOT "\xee\x82\x82"
+   #define G_ARROWS_TO_EYE "\xee\x82\x83"
+   #define G_ARROWS_TURN_RIGHT "\xee\x82\x84"
+   #define G_ARROWS_TURN_TO_DOTS "\xee\x82\x85"
+   #define G_ARROWS_UP_TO_LINE "\xee\x82\x86"
+   #define G_BORE_HOLE "\xee\x82\x87"
+   #define G_BOTTLE_DROPLET "\xee\x82\x88"
+   #define G_BOTTLE_WATER "\xee\x82\x89"
+   #define G_BOWL_FOOD "\xee\x82\x8a"
+   #define G_BOXES_PACKING "\xee\x82\x8b"
+   #define G_BRIDGE "\xee\x82\x8c"
+   #define G_BRIDGE_CIRCLE_CHECK "\xee\x82\x8d"
+   #define G_BRIDGE_CIRCLE_EXCLAMATION "\xee\x82\x8e"
+   #define G_BRIDGE_CIRCLE_XMARK "\xee\x82\x8f"
+   #define G_BRIDGE_LOCK "\xee\x82\x90"
+   #define G_BRIDGE_WATER "\xee\x82\x91"
+   #define G_BUCKET "\xee\x82\x92"
+   #define G_BUGS "\xee\x82\x93"
+   #define G_BUILDING_CIRCLE_ARROW_RIGHT "\xee\x82\x94"
+   #define G_BUILDING_CIRCLE_CHECK "\xee\x82\x95"
+   #define G_BUILDING_CIRCLE_EXCLAMATION "\xee\x82\x96"
+   #define G_BUILDING_CIRCLE_XMARK "\xee\x82\x97"
+   #define G_BUILDING_FLAG "\xee\x82\x98"
+   #define G_BUILDING_LOCK "\xee\x82\x99"
+   #define G_BUILDING_NGO "\xee\x82\x9a"
+   #define G_BUILDING_SHIELD "\xee\x82\x9b"
+   #define G_BUILDING_UN "\xee\x82\x9c"
+   #define G_BUILDING_USER "\xee\x82\x9d"
+   #define G_BUILDING_WHEAT "\xee\x82\x9e"
+   #define G_BURST "\xee\x82\x9f"
+   #define G_CAR_ON "\xee\x82\xa0"
+   #define G_CAR_TUNNEL "\xee\x82\xa1"
+   #define G_CHILD_COMBATANT "\xee\x82\xa2"
+   #define G_CHILDREN "\xee\x82\xa3"
+   #define G_CIRCLE_NODES "\xee\x82\xa4"
+   #define G_CLIPBOARD_QUESTION "\xee\x82\xa5"
+   #define G_CLOUD_SHOWERS_WATER "\xee\x82\xa6"
+   #define G_COMPUTER "\xee\x82\xa7"
+   #define G_CUBES_STACKED "\xee\x82\xa8"
+   #define G_ENVELOPE_CIRCLE_CHECK "\xee\x82\xa9"
+   #define G_EXPLOSION "\xee\x82\xaa"
+   #define G_FERRY "\xee\x82\xab"
+   #define G_FILE_CIRCLE_EXCLAMATION "\xee\x82\xac"
+   #define G_FILE_CIRCLE_MINUS "\xee\x82\xad"
+   #define G_FILE_CIRCLE_QUESTION "\xee\x82\xae"
+   #define G_FILE_SHIELD "\xee\x82\xaf"
+   #define G_FIRE_BURNER "\xee\x82\xb0"
+   #define G_FISH_FINS "\xee\x82\xb1"
+   #define G_FLASK_VIAL "\xee\x82\xb2"
+   #define G_GLASS_WATER "\xee\x82\xb3"
+   #define G_GLASS_WATER_DROPLET "\xee\x82\xb4"
+   #define G_GROUP_ARROWS_ROTATE "\xee\x82\xb5"
+   #define G_HAND_HOLDING_HAND "\xee\x82\xb6"
+   #define G_HANDCUFFS "\xee\x82\xb7"
+   #define G_HANDS_BOUND "\xee\x82\xb8"
+   #define G_HANDS_HOLDING_CHILD "\xee\x82\xb9"
+   #define G_HANDS_HOLDING_CIRCLE "\xee\x82\xba"
+   #define G_HEART_CIRCLE_BOLT "\xee\x82\xbb"
+   #define G_HEART_CIRCLE_CHECK "\xee\x82\xbc"
+   #define G_HEART_CIRCLE_EXCLAMATION "\xee\x82\xbd"
+   #define G_HEART_CIRCLE_MINUS "\xee\x82\xbe"
+   #define G_HEART_CIRCLE_PLUS "\xee\x82\xbf"
+   #define G_HEART_CIRCLE_XMARK "\xee\x83\x80"
+   #define G_HELICOPTER_SYMBOL "\xee\x83\x81"
+   #define G_HELMET_UN "\xee\x83\x82"
+   #define G_HILL_AVALANCHE "\xee\x83\x83"
+   #define G_HILL_ROCKSLIDE "\xee\x83\x84"
+   #define G_HOUSE_CIRCLE_CHECK "\xee\x83\x85"
+   #define G_HOUSE_CIRCLE_EXCLAMATION "\xee\x83\x86"
+   #define G_HOUSE_CIRCLE_XMARK "\xee\x83\x87"
+   #define G_HOUSE_FIRE "\xee\x83\x88"
+   #define G_HOUSE_FLAG "\xee\x83\x89"
+   #define G_HOUSE_FLOOD_WATER "\xee\x83\x8a"
+   #define G_HOUSE_FLOOD_WATER_CIRCLE_ARROW_RIGHT "\xee\x83\x8b"
+   #define G_HOUSE_LOCK "\xee\x83\x8c"
+   #define G_HOUSE_MEDICAL_CIRCLE_CHECK "\xee\x83\x8d"
+   #define G_HOUSE_MEDICAL_CIRCLE_EXCLAMATION "\xee\x83\x8e"
+   #define G_HOUSE_MEDICAL_CIRCLE_XMARK "\xee\x83\x8f"
+   #define G_HOUSE_MEDICAL_FLAG "\xee\x83\x90"
+   #define G_HOUSE_TSUNAMI "\xee\x83\x91"
+   #define G_JAR "\xee\x83\x92"
+   #define G_JAR_WHEAT "\xee\x83\x93"
+   #define G_JET_FIGHTER_UP "\xee\x83\x94"
+   #define G_JUG_DETERGENT "\xee\x83\x95"
+   #define G_KITCHEN_SET "\xee\x83\x96"
+   #define G_LAND_MINE_ON "\xee\x83\x97"
+   #define G_LANDMARK_FLAG "\xee\x83\x98"
+   #define G_LAPTOP_FILE "\xee\x83\x99"
+   #define G_LINES_LEANING "\xee\x83\x9a"
+   #define G_LOCATION_PIN_LOCK "\xee\x83\x9b"
+   #define G_LOCUST "\xee\x83\x9c"
+   #define G_MAGNIFYING_GLASS_ARROW_RIGHT "\xee\x83\x9d"
+   #define G_MAGNIFYING_GLASS_CHART "\xee\x83\x9e"
+   #define G_MARS_AND_VENUS_BURST "\xee\x83\x9f"
+   #define G_MASK_VENTILATOR "\xee\x83\xa0"
+   #define G_MATTRESS_PILLOW "\xee\x83\xa1"
+   #define G_MOBILE_RETRO "\xee\x83\xa2"
+   #define G_MONEY_BILL_TRANSFER "\xee\x83\xa3"
+   #define G_MONEY_BILL_TREND_UP "\xee\x83\xa4"
+   #define G_MONEY_BILL_WHEAT "\xee\x83\xa5"
+   #define G_MOSQUITO "\xee\x83\xa6"
+   #define G_MOSQUITO_NET "\xee\x83\xa7"
+   #define G_MOUND "\xee\x83\xa8"
+   #define G_MOUNTAIN_CITY "\xee\x83\xa9"
+   #define G_MOUNTAIN_SUN "\xee\x83\xaa"
+   #define G_OIL_WELL "\xee\x83\xab"
+   #define G_PEOPLE_GROUP "\xee\x83\xac"
+   #define G_PEOPLE_LINE "\xee\x83\xad"
+   #define G_PEOPLE_PULLING "\xee\x83\xae"
+   #define G_PEOPLE_ROBBERY "\xee\x83\xaf"
+   #define G_PEOPLE_ROOF "\xee\x83\xb0"
+   #define G_PERSON_ARROW_DOWN_TO_LINE "\xee\x83\xb1"
+   #define G_PERSON_ARROW_UP_FROM_LINE "\xee\x83\xb2"
+   #define G_PERSON_BREASTFEEDING "\xee\x83\xb3"
+   #define G_PERSON_BURST "\xee\x83\xb4"
+   #define G_PERSON_CANE "\xee\x83\xb5"
+   #define G_PERSON_CHALKBOARD "\xee\x83\xb6"
+   #define G_PERSON_CIRCLE_CHECK "\xee\x83\xb7"
+   #define G_PERSON_CIRCLE_EXCLAMATION "\xee\x83\xb8"
+   #define G_PERSON_CIRCLE_MINUS "\xee\x83\xb9"
+   #define G_PERSON_CIRCLE_PLUS "\xee\x83\xba"
+   #define G_PERSON_CIRCLE_QUESTION "\xee\x83\xbb"
+   #define G_PERSON_CIRCLE_XMARK "\xee\x83\xbc"
+   #define G_PERSON_DRESS_BURST "\xee\x83\xbd"
+   #define G_PERSON_DROWNING "\xee\x83\xbe"
+   #define G_PERSON_FALLING "\xee\x83\xbf"
+   #define G_PERSON_FALLING_BURST "\xee\x84\x80"
+   #define G_PERSON_HALF_DRESS "\xee\x84\x81"
+   #define G_PERSON_HARASSING "\xee\x84\x82"
+   #define G_PERSON_MILITARY_POINTING "\xee\x84\x83"
+   #define G_PERSON_MILITARY_RIFLE "\xee\x84\x84"
+   #define G_PERSON_MILITARY_TO_PERSON "\xee\x84\x85"
+   #define G_PERSON_RAYS "\xee\x84\x86"
+   #define G_PERSON_RIFLE "\xee\x84\x87"
+   #define G_PERSON_SHELTER "\xee\x84\x88"
+   #define G_PERSON_WALKING_ARROW_LOOP_LEFT "\xee\x84\x89"
+   #define G_PERSON_WALKING_ARROW_RIGHT "\xee\x84\x8a"
+   #define G_PERSON_WALKING_DASHED_LINE_ARROW_RIGHT "\xee\x84\x8b"
+   #define G_PERSON_WALKING_LUGGAGE "\xee\x84\x8c"
+   #define G_PLANE_CIRCLE_CHECK "\xee\x84\x8d"
+   #define G_PLANE_CIRCLE_EXCLAMATION "\xee\x84\x8e"
+   #define G_PLANE_CIRCLE_XMARK "\xee\x84\x8f"
+   #define G_PLANE_LOCK "\xee\x84\x90"
+   #define G_PLATE_WHEAT "\xee\x84\x91"
+   #define G_PLUG_CIRCLE_BOLT "\xee\x84\x92"
+   #define G_PLUG_CIRCLE_CHECK "\xee\x84\x93"
+   #define G_PLUG_CIRCLE_EXCLAMATION "\xee\x84\x94"
+   #define G_PLUG_CIRCLE_MINUS "\xee\x84\x95"
+   #define G_PLUG_CIRCLE_PLUS "\xee\x84\x96"
+   #define G_PLUG_CIRCLE_XMARK "\xee\x84\x97"
+   #define G_RANKING_STAR "\xee\x84\x98"
+   #define G_ROAD_BARRIER "\xee\x84\x99"
+   #define G_ROAD_BRIDGE "\xee\x84\x9a"
+   #define G_ROAD_CIRCLE_CHECK "\xee\x84\x9b"
+   #define G_ROAD_CIRCLE_EXCLAMATION "\xee\x84\x9c"
+   #define G_ROAD_CIRCLE_XMARK "\xee\x84\x9d"
+   #define G_ROAD_LOCK "\xee\x84\x9e"
+   #define G_ROAD_SPIKES "\xee\x84\x9f"
+   #define G_RUG "\xee\x84\xa0"
+   #define G_SACK_XMARK "\xee\x84\xa1"
+   #define G_SCHOOL_CIRCLE_CHECK "\xee\x84\xa2"
+   #define G_SCHOOL_CIRCLE_EXCLAMATION "\xee\x84\xa3"
+   #define G_SCHOOL_CIRCLE_XMARK "\xee\x84\xa4"
+   #define G_SCHOOL_FLAG "\xee\x84\xa5"
+   #define G_SCHOOL_LOCK "\xee\x84\xa6"
+   #define G_SHEET_PLASTIC "\xee\x84\xa7"
+   #define G_SHIELD_CAT "\xee\x84\xa8"
+   #define G_SHIELD_DOG "\xee\x84\xa9"
+   #define G_SHIELD_HEART "\xee\x84\xaa"
+   #define G_SQUARE_NFI "\xee\x84\xab"
+   #define G_SQUARE_PERSON_CONFINED "\xee\x84\xac"
+   #define G_SQUARE_VIRUS "\xee\x84\xad"
+   #define G_STAFF_SNAKE "\xee\x84\xae"
+   #define G_SUN_PLANT_WILT "\xee\x84\xaf"
+   #define G_TARP "\xee\x84\xb0"
+   #define G_TARP_DROPLET "\xee\x84\xb1"
+   #define G_TENT "\xee\x84\xb2"
+   #define G_TENT_ARROW_DOWN_TO_LINE "\xee\x84\xb3"
+   #define G_TENT_ARROW_LEFT_RIGHT "\xee\x84\xb4"
+   #define G_TENT_ARROW_TURN_LEFT "\xee\x84\xb5"
+   #define G_TENT_ARROWS_DOWN "\xee\x84\xb6"
+   #define G_TENTS "\xee\x84\xb7"
+   #define G_TOILET_PORTABLE "\xee\x84\xb8"
+   #define G_TOILETS_PORTABLE "\xee\x84\xb9"
+   #define G_TOWER_CELL "\xee\x84\xba"
+   #define G_TOWER_OBSERVATION "\xee\x84\xbb"
+   #define G_TREE_CITY "\xee\x84\xbc"
+   #define G_TROWEL "\xee\x84\xbd"
+   #define G_TROWEL_BRICKS "\xee\x84\xbe"
+   #define G_TRUCK_ARROW_RIGHT "\xee\x84\xbf"
+   #define G_TRUCK_DROPLET "\xee\x85\x80"
+   #define G_TRUCK_FIELD "\xee\x85\x81"
+   #define G_TRUCK_FIELD_UN "\xee\x85\x82"
+   #define G_TRUCK_PLANE "\xee\x85\x83"
+   #define G_USERS_BETWEEN_LINES "\xee\x85\x84"
+   #define G_USERS_LINE "\xee\x85\x85"
+   #define G_USERS_RAYS "\xee\x85\x86"
+   #define G_USERS_RECTANGLE "\xee\x85\x87"
+   #define G_USERS_VIEWFINDER "\xee\x85\x88"
+   #define G_VIAL_CIRCLE_CHECK "\xee\x85\x89"
+   #define G_VIAL_VIRUS "\xee\x85\x8a"
+   #define G_WHEAT_AWN_CIRCLE_EXCLAMATION "\xee\x85\x8b"
+   #define G_WORM "\xee\x85\x8c"
+   #define G_XMARKS_LINES "\xee\x85\x8d"
+   #define G_CHILD_DRESS "\xee\x85\x8e"
+   #define G_CHILD_REACHING "\xee\x85\x8f"
+   #define G_FILE_CIRCLE_CHECK "\xee\x85\x90"
+   #define G_FILE_CIRCLE_XMARK "\xee\x85\x91"
+   #define G_PERSON_THROUGH_WINDOW "\xee\x85\x92"
+   #define G_PLANT_WILT "\xee\x85\x93"
+   #define G_STAPLER "\xee\x85\x94"
+   #define G_TRAIN_TRAM "\xee\x85\x95"
+   #define G_TABLE_CELLS_COLUMN_LOCK "\xee\x85\x96"
+   #define G_TABLE_CELLS_ROW_LOCK "\xee\x85\x97"
+   #define G_MARTINI_GLASS_EMPTY "\xee\x85\x98"
+   #define G_MUSIC "\xee\x85\x99"
+   #define G_MAGNIFYING_GLASS "\xee\x85\x9a"
+   #define G_HEART "\xee\x85\x9b"
+   #define G_STAR "\xee\x85\x9c"
+   #define G_USER "\xee\x85\x9d"
+   #define G_FILM "\xee\x85\x9e"
+   #define G_TABLE_CELLS_LARGE "\xee\x85\x9f"
+   #define G_TABLE_CELLS "\xee\x85\xa0"
+   #define G_TABLE_LIST "\xee\x85\xa1"
+   #define G_CHECK "\xee\x85\xa2"
+   #define G_MAGNIFYING_GLASS_PLUS "\xee\x85\xa3"
+   #define G_MAGNIFYING_GLASS_MINUS "\xee\x85\xa4"
+   #define G_POWER_OFF "\xee\x85\xa5"
+   #define G_SIGNAL "\xee\x85\xa6"
+   #define G_GEAR "\xee\x85\xa7"
+   #define G_HOUSE "\xee\x85\xa8"
+   #define G_CLOCK "\xee\x85\xa9"
+   #define G_ROAD "\xee\x85\xaa"
+   #define G_DOWNLOAD "\xee\x85\xab"
+   #define G_INBOX "\xee\x85\xac"
+   #define G_ARROW_ROTATE_RIGHT "\xee\x85\xad"
+   #define G_ARROWS_ROTATE "\xee\x85\xae"
+   #define G_RECTANGLE_LIST "\xee\x85\xaf"
+   #define G_LOCK "\xee\x85\xb0"
+   #define G_FLAG "\xee\x85\xb1"
+   #define G_HEADPHONES "\xee\x85\xb2"
+   #define G_VOLUME_OFF "\xee\x85\xb3"
+   #define G_VOLUME_LOW "\xee\x85\xb4"
+   #define G_VOLUME_HIGH "\xee\x85\xb5"
+   #define G_QRCODE "\xee\x85\xb6"
+   #define G_BARCODE "\xee\x85\xb7"
+   #define G_TAG "\xee\x85\xb8"
+   #define G_TAGS "\xee\x85\xb9"
+   #define G_BOOK "\xee\x85\xba"
+   #define G_BOOKMARK "\xee\x85\xbb"
+   #define G_PRINT "\xee\x85\xbc"
+   #define G_CAMERA "\xee\x85\xbd"
+   #define G_FONT "\xee\x85\xbe"
+   #define G_BOLD "\xee\x85\xbf"
+   #define G_ITALIC "\xee\x86\x80"
+   #define G_TEXT_HEIGHT "\xee\x86\x81"
+   #define G_TEXT_WIDTH "\xee\x86\x82"
+   #define G_ALIGN_LEFT "\xee\x86\x83"
+   #define G_ALIGN_CENTER "\xee\x86\x84"
+   #define G_ALIGN_RIGHT "\xee\x86\x85"
+   #define G_ALIGN_JUSTIFY "\xee\x86\x86"
+   #define G_LIST "\xee\x86\x87"
+   #define G_OUTDENT "\xee\x86\x88"
+   #define G_INDENT "\xee\x86\x89"
+   #define G_VIDEO "\xee\x86\x8a"
+   #define G_IMAGE "\xee\x86\x8b"
+   #define G_LOCATION_PIN "\xee\x86\x8c"
+   #define G_CIRCLE_HALF_STROKE "\xee\x86\x8d"
+   #define G_DROPLET "\xee\x86\x8e"
+   #define G_PEN_TO_SQUARE "\xee\x86\x8f"
+   #define G_ARROWS_UP_DOWN_LEFT_RIGHT "\xee\x86\x90"
+   #define G_BACKWARD_STEP "\xee\x86\x91"
+   #define G_BACKWARD_FAST "\xee\x86\x92"
+   #define G_BACKWARD "\xee\x86\x93"
+   #define G_PLAY "\xee\x86\x94"
+   #define G_PAUSE "\xee\x86\x95"
+   #define G_STOP "\xee\x86\x96"
+   #define G_FORWARD "\xee\x86\x97"
+   #define G_FORWARD_FAST "\xee\x86\x98"
+   #define G_FORWARD_STEP "\xee\x86\x99"
+   #define G_EJECT "\xee\x86\x9a"
+   #define G_CHEVRON_LEFT "\xee\x86\x9b"
+   #define G_CHEVRON_RIGHT "\xee\x86\x9c"
+   #define G_CIRCLE_PLUS "\xee\x86\x9d"
+   #define G_CIRCLE_MINUS "\xee\x86\x9e"
+   #define G_CIRCLE_XMARK "\xee\x86\x9f"
+   #define G_CIRCLE_CHECK "\xee\x86\xa0"
+   #define G_CIRCLE_QUESTION "\xee\x86\xa1"
+   #define G_CIRCLE_INFO "\xee\x86\xa2"
+   #define G_CROSSHAIRS "\xee\x86\xa3"
+   #define G_BAN "\xee\x86\xa4"
+   #define G_ARROW_LEFT "\xee\x86\xa5"
+   #define G_ARROW_RIGHT "\xee\x86\xa6"
+   #define G_ARROW_UP "\xee\x86\xa7"
+   #define G_ARROW_DOWN "\xee\x86\xa8"
+   #define G_SHARE "\xee\x86\xa9"
+   #define G_EXPAND "\xee\x86\xaa"
+   #define G_COMPRESS "\xee\x86\xab"
+   #define G_MINUS "\xee\x86\xac"
+   #define G_CIRCLE_EXCLAMATION "\xee\x86\xad"
+   #define G_GIFT "\xee\x86\xae"
+   #define G_LEAF "\xee\x86\xaf"
+   #define G_FIRE "\xee\x86\xb0"
+   #define G_EYE "\xee\x86\xb1"
+   #define G_EYE_SLASH "\xee\x86\xb2"
+   #define G_TRIANGLE_EXCLAMATION "\xee\x86\xb3"
+   #define G_PLANE "\xee\x86\xb4"
+   #define G_CALENDAR_DAYS "\xee\x86\xb5"
+   #define G_SHUFFLE "\xee\x86\xb6"
+   #define G_COMMENT "\xee\x86\xb7"
+   #define G_MAGNET "\xee\x86\xb8"
+   #define G_CHEVRON_UP "\xee\x86\xb9"
+   #define G_CHEVRON_DOWN "\xee\x86\xba"
+   #define G_RETWEET "\xee\x86\xbb"
+   #define G_CART_SHOPPING "\xee\x86\xbc"
+   #define G_FOLDER "\xee\x86\xbd"
+   #define G_FOLDER_OPEN "\xee\x86\xbe"
+   #define G_ARROWS_UP_DOWN "\xee\x86\xbf"
+   #define G_ARROWS_LEFT_RIGHT "\xee\x87\x80"
+   #define G_CHART_BAR "\xee\x87\x81"
+   #define G_CAMERA_RETRO "\xee\x87\x82"
+   #define G_KEY "\xee\x87\x83"
+   #define G_GEARS "\xee\x87\x84"
+   #define G_COMMENTS "\xee\x87\x85"
+   #define G_STAR_HALF "\xee\x87\x86"
+   #define G_ARROW_RIGHT_FROM_BRACKET "\xee\x87\x87"
+   #define G_THUMBTACK "\xee\x87\x88"
+   #define G_ARROW_UP_RIGHT_FROM_SQUARE "\xee\x87\x89"
+   #define G_ARROW_RIGHT_TO_BRACKET "\xee\x87\x8a"
+   #define G_TROPHY "\xee\x87\x8b"
+   #define G_UPLOAD "\xee\x87\x8c"
+   #define G_LEMON "\xee\x87\x8d"
+   #define G_PHONE "\xee\x87\x8e"
+   #define G_SQUARE_PHONE "\xee\x87\x8f"
+   #define G_UNLOCK "\xee\x87\x90"
+   #define G_CREDIT_CARD "\xee\x87\x91"
+   #define G_RSS "\xee\x87\x92"
+   #define G_HARD_DRIVE "\xee\x87\x93"
+   #define G_BULLHORN "\xee\x87\x94"
+   #define G_CERTIFICATE "\xee\x87\x95"
+   #define G_HAND_POINT_RIGHT "\xee\x87\x96"
+   #define G_HAND_POINT_LEFT "\xee\x87\x97"
+   #define G_HAND_POINT_UP "\xee\x87\x98"
+   #define G_HAND_POINT_DOWN "\xee\x87\x99"
+   #define G_CIRCLE_ARROW_LEFT "\xee\x87\x9a"
+   #define G_CIRCLE_ARROW_RIGHT "\xee\x87\x9b"
+   #define G_CIRCLE_ARROW_UP "\xee\x87\x9c"
+   #define G_CIRCLE_ARROW_DOWN "\xee\x87\x9d"
+   #define G_GLOBE "\xee\x87\x9e"
+   #define G_WRENCH "\xee\x87\x9f"
+   #define G_LIST_CHECK "\xee\x87\xa0"
+   #define G_FILTER "\xee\x87\xa1"
+   #define G_BRIEFCASE "\xee\x87\xa2"
+   #define G_UP_DOWN_LEFT_RIGHT "\xee\x87\xa3"
+   #define G_USERS "\xee\x87\xa4"
+   #define G_LINK "\xee\x87\xa5"
+   #define G_CLOUD "\xee\x87\xa6"
+   #define G_FLASK "\xee\x87\xa7"
+   #define G_SCISSORS "\xee\x87\xa8"
+   #define G_COPY "\xee\x87\xa9"
+   #define G_PAPERCLIP "\xee\x87\xaa"
+   #define G_FLOPPY_DISK "\xee\x87\xab"
+   #define G_SQUARE "\xee\x87\xac"
+   #define G_BARS "\xee\x87\xad"
+   #define G_LIST_UL "\xee\x87\xae"
+   #define G_LIST_OL "\xee\x87\xaf"
+   #define G_STRIKETHROUGH "\xee\x87\xb0"
+   #define G_UNDERLINE "\xee\x87\xb1"
+   #define G_TABLE "\xee\x87\xb2"
+   #define G_WAND_MAGIC "\xee\x87\xb3"
+   #define G_TRUCK "\xee\x87\xb4"
+   #define G_MONEY_BILL "\xee\x87\xb5"
+   #define G_CARET_DOWN "\xee\x87\xb6"
+   #define G_CARET_UP "\xee\x87\xb7"
+   #define G_CARET_LEFT "\xee\x87\xb8"
+   #define G_CARET_RIGHT "\xee\x87\xb9"
+   #define G_TABLE_COLUMNS "\xee\x87\xba"
+   #define G_SORT "\xee\x87\xbb"
+   #define G_SORT_DOWN "\xee\x87\xbc"
+   #define G_SORT_UP "\xee\x87\xbd"
+   #define G_ENVELOPE "\xee\x87\xbe"
+   #define G_ARROW_ROTATE_LEFT "\xee\x87\xbf"
+   #define G_GAVEL "\xee\x88\x80"
+   #define G_BOLT "\xee\x88\x81"
+   #define G_SITEMAP "\xee\x88\x82"
+   #define G_UMBRELLA "\xee\x88\x83"
+   #define G_PASTE "\xee\x88\x84"
+   #define G_LIGHTBULB "\xee\x88\x85"
+   #define G_ARROW_RIGHT_ARROW_LEFT "\xee\x88\x86"
+   #define G_CLOUD_ARROW_DOWN "\xee\x88\x87"
+   #define G_CLOUD_ARROW_UP "\xee\x88\x88"
+   #define G_USER_DOCTOR "\xee\x88\x89"
+   #define G_STETHOSCOPE "\xee\x88\x8a"
+   #define G_SUITCASE "\xee\x88\x8b"
+   #define G_BELL "\xee\x88\x8c"
+   #define G_MUG_SAUCER "\xee\x88\x8d"
+   #define G_HOSPITAL "\xee\x88\x8e"
+   #define G_TRUCK_MEDICAL "\xee\x88\x8f"
+   #define G_SUITCASE_MEDICAL "\xee\x88\x90"
+   #define G_JET_FIGHTER "\xee\x88\x91"
+   #define G_BEER_MUG_EMPTY "\xee\x88\x92"
+   #define G_SQUARE_H "\xee\x88\x93"
+   #define G_SQUARE_PLUS "\xee\x88\x94"
+   #define G_ANGLES_UP "\xee\x88\x95"
+   #define G_ANGLES_DOWN "\xee\x88\x96"
+   #define G_ANGLE_LEFT "\xee\x88\x97"
+   #define G_ANGLE_RIGHT "\xee\x88\x98"
+   #define G_ANGLE_UP "\xee\x88\x99"
+   #define G_ANGLE_DOWN "\xee\x88\x9a"
+   #define G_LAPTOP "\xee\x88\x9b"
+   #define G_TABLET_BUTTON "\xee\x88\x9c"
+   #define G_MOBILE_BUTTON "\xee\x88\x9d"
+   #define G_QUOTE_LEFT "\xee\x88\x9e"
+   #define G_QUOTE_RIGHT "\xee\x88\x9f"
+   #define G_SPINNER "\xee\x88\xa0"
+   #define G_CIRCLE "\xee\x88\xa1"
+   #define G_FACE_SMILE "\xee\x88\xa2"
+   #define G_FACE_FROWN "\xee\x88\xa3"
+   #define G_FACE_MEH "\xee\x88\xa4"
+   #define G_GAMEPAD "\xee\x88\xa5"
+   #define G_KEYBOARD "\xee\x88\xa6"
+   #define G_FLAG_CHECKERED "\xee\x88\xa7"
+   #define G_TERMINAL "\xee\x88\xa8"
+   #define G_CODE "\xee\x88\xa9"
+   #define G_REPLY_ALL "\xee\x88\xaa"
+   #define G_LOCATION_ARROW "\xee\x88\xab"
+   #define G_CROP "\xee\x88\xac"
+   #define G_CODE_BRANCH "\xee\x88\xad"
+   #define G_LINK_SLASH "\xee\x88\xae"
+   #define G_INFO "\xee\x88\xaf"
+   #define G_SUPERSCRIPT "\xee\x88\xb0"
+   #define G_SUBSCRIPT "\xee\x88\xb1"
+   #define G_ERASER "\xee\x88\xb2"
+   #define G_PUZZLE_PIECE "\xee\x88\xb3"
+   #define G_MICROPHONE "\xee\x88\xb4"
+   #define G_MICROPHONE_SLASH "\xee\x88\xb5"
+   #define G_SHIELD "\xee\x88\xb6"
+   #define G_CALENDAR "\xee\x88\xb7"
+   #define G_FIRE_EXTINGUISHER "\xee\x88\xb8"
+   #define G_ROCKET "\xee\x88\xb9"
+   #define G_CIRCLE_CHEVRON_LEFT "\xee\x88\xba"
+   #define G_CIRCLE_CHEVRON_RIGHT "\xee\x88\xbb"
+   #define G_CIRCLE_CHEVRON_UP "\xee\x88\xbc"
+   #define G_CIRCLE_CHEVRON_DOWN "\xee\x88\xbd"
+   #define G_ANCHOR "\xee\x88\xbe"
+   #define G_UNLOCK_KEYHOLE "\xee\x88\xbf"
+   #define G_BULLSEYE "\xee\x89\x80"
+   #define G_ELLIPSIS "\xee\x89\x81"
+   #define G_ELLIPSIS_VERTICAL "\xee\x89\x82"
+   #define G_SQUARE_RSS "\xee\x89\x83"
+   #define G_CIRCLE_PLAY "\xee\x89\x84"
+   #define G_TICKET "\xee\x89\x85"
+   #define G_SQUARE_MINUS "\xee\x89\x86"
+   #define G_ARROW_TURN_UP "\xee\x89\x87"
+   #define G_ARROW_TURN_DOWN "\xee\x89\x88"
+   #define G_SQUARE_CHECK "\xee\x89\x89"
+   #define G_SQUARE_PEN "\xee\x89\x8a"
+   #define G_SQUARE_ARROW_UP_RIGHT "\xee\x89\x8b"
+   #define G_SHARE_FROM_SQUARE "\xee\x89\x8c"
+   #define G_COMPASS "\xee\x89\x8d"
+   #define G_SQUARE_CARET_DOWN "\xee\x89\x8e"
+   #define G_SQUARE_CARET_UP "\xee\x89\x8f"
+   #define G_SQUARE_CARET_RIGHT "\xee\x89\x90"
+   #define G_EURO_SIGN "\xee\x89\x91"
+   #define G_RUPEE_SIGN "\xee\x89\x92"
+   #define G_RUBLE_SIGN "\xee\x89\x93"
+   #define G_WON_SIGN "\xee\x89\x94"
+   #define G_FILE "\xee\x89\x95"
+   #define G_FILE_LINES "\xee\x89\x96"
+   #define G_ARROW_DOWN_A_Z "\xee\x89\x97"
+   #define G_ARROW_UP_A_Z "\xee\x89\x98"
+   #define G_ARROW_DOWN_WIDE_SHORT "\xee\x89\x99"
+   #define G_ARROW_UP_WIDE_SHORT "\xee\x89\x9a"
+   #define G_ARROW_DOWN_1_9 "\xee\x89\x9b"
+   #define G_ARROW_UP_1_9 "\xee\x89\x9c"
+   #define G_THUMBS_UP "\xee\x89\x9d"
+   #define G_THUMBS_DOWN "\xee\x89\x9e"
+   #define G_ARROW_DOWN_LONG "\xee\x89\x9f"
+   #define G_ARROW_UP_LONG "\xee\x89\xa0"
+   #define G_ARROW_LEFT_LONG "\xee\x89\xa1"
+   #define G_ARROW_RIGHT_LONG "\xee\x89\xa2"
+   #define G_PERSON_DRESS "\xee\x89\xa3"
+   #define G_PERSON "\xee\x89\xa4"
+   #define G_SUN "\xee\x89\xa5"
+   #define G_MOON "\xee\x89\xa6"
+   #define G_BOX_ARCHIVE "\xee\x89\xa7"
+   #define G_BUG "\xee\x89\xa8"
+   #define G_SQUARE_CARET_LEFT "\xee\x89\xa9"
+   #define G_CIRCLE_DOT "\xee\x89\xaa"
+   #define G_WHEELCHAIR "\xee\x89\xab"
+   #define G_LIRA_SIGN "\xee\x89\xac"
+   #define G_SHUTTLE_SPACE "\xee\x89\xad"
+   #define G_SQUARE_ENVELOPE "\xee\x89\xae"
+   #define G_BUILDING_COLUMNS "\xee\x89\xaf"
+   #define G_GRADUATION_CAP "\xee\x89\xb0"
+   #define G_LANGUAGE "\xee\x89\xb1"
+   #define G_FAX "\xee\x89\xb2"
+   #define G_BUILDING "\xee\x89\xb3"
+   #define G_CHILD "\xee\x89\xb4"
+   #define G_PAW "\xee\x89\xb5"
+   #define G_CUBE "\xee\x89\xb6"
+   #define G_CUBES "\xee\x89\xb7"
+   #define G_RECYCLE "\xee\x89\xb8"
+   #define G_CAR "\xee\x89\xb9"
+   #define G_TAXI "\xee\x89\xba"
+   #define G_TREE "\xee\x89\xbb"
+   #define G_DATABASE "\xee\x89\xbc"
+   #define G_FILE_PDF "\xee\x89\xbd"
+   #define G_FILE_WORD "\xee\x89\xbe"
+   #define G_FILE_EXCEL "\xee\x89\xbf"
+   #define G_FILE_POWERPOINT "\xee\x8a\x80"
+   #define G_FILE_IMAGE "\xee\x8a\x81"
+   #define G_FILE_ZIPPER "\xee\x8a\x82"
+   #define G_FILE_AUDIO "\xee\x8a\x83"
+   #define G_FILE_VIDEO "\xee\x8a\x84"
+   #define G_FILE_CODE "\xee\x8a\x85"
+   #define G_LIFE_RING "\xee\x8a\x86"
+   #define G_CIRCLE_NOTCH "\xee\x8a\x87"
+   #define G_PAPER_PLANE "\xee\x8a\x88"
+   #define G_CLOCK_ROTATE_LEFT "\xee\x8a\x89"
+   #define G_HEADING "\xee\x8a\x8a"
+   #define G_SLIDERS "\xee\x8a\x8b"
+   #define G_SHARE_NODES "\xee\x8a\x8c"
+   #define G_SQUARE_SHARE_NODES "\xee\x8a\x8d"
+   #define G_BOMB "\xee\x8a\x8e"
+   #define G_FUTBOL "\xee\x8a\x8f"
+   #define G_TTY "\xee\x8a\x90"
+   #define G_BINOCULARS "\xee\x8a\x91"
+   #define G_PLUG "\xee\x8a\x92"
+   #define G_NEWSPAPER "\xee\x8a\x93"
+   #define G_WIFI "\xee\x8a\x94"
+   #define G_CALCULATOR "\xee\x8a\x95"
+   #define G_BELL_SLASH "\xee\x8a\x96"
+   #define G_TRASH "\xee\x8a\x97"
+   #define G_EYE_DROPPER "\xee\x8a\x98"
+   #define G_PAINTBRUSH "\xee\x8a\x99"
+   #define G_CAKE_CANDLES "\xee\x8a\x9a"
+   #define G_CHART_AREA "\xee\x8a\x9b"
+   #define G_CHART_PIE "\xee\x8a\x9c"
+   #define G_CHART_LINE "\xee\x8a\x9d"
+   #define G_TOGGLE_OFF "\xee\x8a\x9e"
+   #define G_TOGGLE_ON "\xee\x8a\x9f"
+   #define G_BICYCLE "\xee\x8a\xa0"
+   #define G_BUS "\xee\x8a\xa1"
+   #define G_CLOSED_CAPTIONING "\xee\x8a\xa2"
+   #define G_SHEKEL_SIGN "\xee\x8a\xa3"
+   #define G_CART_PLUS "\xee\x8a\xa4"
+   #define G_CART_ARROW_DOWN "\xee\x8a\xa5"
+   #define G_DIAMOND "\xee\x8a\xa6"
+   #define G_SHIP "\xee\x8a\xa7"
+   #define G_USER_SECRET "\xee\x8a\xa8"
+   #define G_MOTORCYCLE "\xee\x8a\xa9"
+   #define G_STREET_VIEW "\xee\x8a\xaa"
+   #define G_HEART_PULSE "\xee\x8a\xab"
+   #define G_VENUS "\xee\x8a\xac"
+   #define G_MARS "\xee\x8a\xad"
+   #define G_MERCURY "\xee\x8a\xae"
+   #define G_MARS_AND_VENUS "\xee\x8a\xaf"
+   #define G_TRANSGENDER "\xee\x8a\xb0"
+   #define G_VENUS_DOUBLE "\xee\x8a\xb1"
+   #define G_MARS_DOUBLE "\xee\x8a\xb2"
+   #define G_VENUS_MARS "\xee\x8a\xb3"
+   #define G_MARS_STROKE "\xee\x8a\xb4"
+   #define G_MARS_STROKE_UP "\xee\x8a\xb5"
+   #define G_MARS_STROKE_RIGHT "\xee\x8a\xb6"
+   #define G_NEUTER "\xee\x8a\xb7"
+   #define G_GENDERLESS "\xee\x8a\xb8"
+   #define G_SERVER "\xee\x8a\xb9"
+   #define G_USER_PLUS "\xee\x8a\xba"
+   #define G_USER_XMARK "\xee\x8a\xbb"
+   #define G_BED "\xee\x8a\xbc"
+   #define G_TRAIN "\xee\x8a\xbd"
+   #define G_TRAIN_SUBWAY "\xee\x8a\xbe"
+   #define G_BATTERY_FULL "\xee\x8a\xbf"
+   #define G_BATTERY_THREE_QUARTERS "\xee\x8b\x80"
+   #define G_BATTERY_HALF "\xee\x8b\x81"
+   #define G_BATTERY_QUARTER "\xee\x8b\x82"
+   #define G_BATTERY_EMPTY "\xee\x8b\x83"
+   #define G_ARROW_POINTER "\xee\x8b\x84"
+   #define G_I_CURSOR "\xee\x8b\x85"
+   #define G_OBJECT_GROUP "\xee\x8b\x86"
+   #define G_OBJECT_UNGROUP "\xee\x8b\x87"
+   #define G_NOTE_STICKY "\xee\x8b\x88"
+   #define G_CLONE "\xee\x8b\x89"
+   #define G_SCALE_BALANCED "\xee\x8b\x8a"
+   #define G_HOURGLASS_START "\xee\x8b\x8b"
+   #define G_HOURGLASS_HALF "\xee\x8b\x8c"
+   #define G_HOURGLASS_END "\xee\x8b\x8d"
+   #define G_HOURGLASS "\xee\x8b\x8e"
+   #define G_HAND_BACK_FIST "\xee\x8b\x8f"
+   #define G_HAND "\xee\x8b\x90"
+   #define G_HAND_SCISSORS "\xee\x8b\x91"
+   #define G_HAND_LIZARD "\xee\x8b\x92"
+   #define G_HAND_SPOCK "\xee\x8b\x93"
+   #define G_HAND_POINTER "\xee\x8b\x94"
+   #define G_HAND_PEACE "\xee\x8b\x95"
+   #define G_TRADEMARK "\xee\x8b\x96"
+   #define G_TV "\xee\x8b\x97"
+   #define G_CALENDAR_PLUS "\xee\x8b\x98"
+   #define G_CALENDAR_MINUS "\xee\x8b\x99"
+   #define G_CALENDAR_XMARK "\xee\x8b\x9a"
+   #define G_CALENDAR_CHECK "\xee\x8b\x9b"
+   #define G_INDUSTRY "\xee\x8b\x9c"
+   #define G_MAP_PIN "\xee\x8b\x9d"
+   #define G_SIGNS_POST "\xee\x8b\x9e"
+   #define G_MAP "\xee\x8b\x9f"
+   #define G_MESSAGE "\xee\x8b\xa0"
+   #define G_CIRCLE_PAUSE "\xee\x8b\xa1"
+   #define G_CIRCLE_STOP "\xee\x8b\xa2"
+   #define G_BAG_SHOPPING "\xee\x8b\xa3"
+   #define G_BASKET_SHOPPING "\xee\x8b\xa4"
+   #define G_UNIVERSAL_ACCESS "\xee\x8b\xa5"
+   #define G_PERSON_WALKING_WITH_CANE "\xee\x8b\xa6"
+   #define G_AUDIO_DESCRIPTION "\xee\x8b\xa7"
+   #define G_PHONE_VOLUME "\xee\x8b\xa8"
+   #define G_BRAILLE "\xee\x8b\xa9"
+   #define G_EAR_LISTEN "\xee\x8b\xaa"
+   #define G_HANDS_ASL_INTERPRETING "\xee\x8b\xab"
+   #define G_EAR_DEAF "\xee\x8b\xac"
+   #define G_HANDS "\xee\x8b\xad"
+   #define G_EYE_LOW_VISION "\xee\x8b\xae"
+   #define G_FONT_AWESOME "\xee\x8b\xaf"
+   #define G_HANDSHAKE "\xee\x8b\xb0"
+   #define G_ENVELOPE_OPEN "\xee\x8b\xb1"
+   #define G_ADDRESS_BOOK "\xee\x8b\xb2"
+   #define G_ADDRESS_CARD "\xee\x8b\xb3"
+   #define G_CIRCLE_USER "\xee\x8b\xb4"
+   #define G_ID_BADGE "\xee\x8b\xb5"
+   #define G_ID_CARD "\xee\x8b\xb6"
+   #define G_TEMPERATURE_FULL "\xee\x8b\xb7"
+   #define G_TEMPERATURE_THREE_QUARTERS "\xee\x8b\xb8"
+   #define G_TEMPERATURE_HALF "\xee\x8b\xb9"
+   #define G_TEMPERATURE_QUARTER "\xee\x8b\xba"
+   #define G_TEMPERATURE_EMPTY "\xee\x8b\xbb"
+   #define G_SHOWER "\xee\x8b\xbc"
+   #define G_BATH "\xee\x8b\xbd"
+   #define G_PODCAST "\xee\x8b\xbe"
+   #define G_WINDOW_MAXIMIZE "\xee\x8b\xbf"
+   #define G_WINDOW_MINIMIZE "\xee\x8c\x80"
+   #define G_WINDOW_RESTORE "\xee\x8c\x81"
+   #define G_SQUARE_XMARK "\xee\x8c\x82"
+   #define G_MICROCHIP "\xee\x8c\x83"
+   #define G_SNOWFLAKE "\xee\x8c\x84"
+   #define G_SPOON "\xee\x8c\x85"
+   #define G_UTENSILS "\xee\x8c\x86"
+   #define G_ROTATE_LEFT "\xee\x8c\x87"
+   #define G_TRASH_CAN "\xee\x8c\x88"
+   #define G_ROTATE "\xee\x8c\x89"
+   #define G_STOPWATCH "\xee\x8c\x8a"
+   #define G_RIGHT_FROM_BRACKET "\xee\x8c\x8b"
+   #define G_RIGHT_TO_BRACKET "\xee\x8c\x8c"
+   #define G_ROTATE_RIGHT "\xee\x8c\x8d"
+   #define G_POO "\xee\x8c\x8e"
+   #define G_IMAGES "\xee\x8c\x8f"
+   #define G_PENCIL "\xee\x8c\x90"
+   #define G_PEN "\xee\x8c\x91"
+   #define G_PEN_CLIP "\xee\x8c\x92"
+   #define G_DOWN_LONG "\xee\x8c\x93"
+   #define G_LEFT_LONG "\xee\x8c\x94"
+   #define G_RIGHT_LONG "\xee\x8c\x95"
+   #define G_UP_LONG "\xee\x8c\x96"
+   #define G_FILE_PEN "\xee\x8c\x97"
+   #define G_MAXIMIZE "\xee\x8c\x98"
+   #define G_CLIPBOARD "\xee\x8c\x99"
+   #define G_LEFT_RIGHT "\xee\x8c\x9a"
+   #define G_UP_DOWN "\xee\x8c\x9b"
+   #define G_CIRCLE_DOWN "\xee\x8c\x9c"
+   #define G_CIRCLE_LEFT "\xee\x8c\x9d"
+   #define G_CIRCLE_RIGHT "\xee\x8c\x9e"
+   #define G_CIRCLE_UP "\xee\x8c\x9f"
+   #define G_UP_RIGHT_FROM_SQUARE "\xee\x8c\xa0"
+   #define G_SQUARE_UP_RIGHT "\xee\x8c\xa1"
+   #define G_RIGHT_LEFT "\xee\x8c\xa2"
+   #define G_REPEAT "\xee\x8c\xa3"
+   #define G_CODE_COMMIT "\xee\x8c\xa4"
+   #define G_CODE_MERGE "\xee\x8c\xa5"
+   #define G_DESKTOP "\xee\x8c\xa6"
+   #define G_GEM "\xee\x8c\xa7"
+   #define G_TURN_DOWN "\xee\x8c\xa8"
+   #define G_TURN_UP "\xee\x8c\xa9"
+   #define G_LOCK_OPEN "\xee\x8c\xaa"
+   #define G_LOCATION_DOT "\xee\x8c\xab"
+   #define G_MICROPHONE_LINES "\xee\x8c\xac"
+   #define G_MOBILE_SCREEN_BUTTON "\xee\x8c\xad"
+   #define G_MOBILE "\xee\x8c\xae"
+   #define G_MOBILE_SCREEN "\xee\x8c\xaf"
+   #define G_MONEY_BILL_1 "\xee\x8c\xb0"
+   #define G_PHONE_SLASH "\xee\x8c\xb1"
+   #define G_IMAGE_PORTRAIT "\xee\x8c\xb2"
+   #define G_REPLY "\xee\x8c\xb3"
+   #define G_SHIELD_HALVED "\xee\x8c\xb4"
+   #define G_TABLET_SCREEN_BUTTON "\xee\x8c\xb5"
+   #define G_TABLET "\xee\x8c\xb6"
+   #define G_TICKET_SIMPLE "\xee\x8c\xb7"
+   #define G_USER_LARGE "\xee\x8c\xb8"
+   #define G_RECTANGLE_XMARK "\xee\x8c\xb9"
+   #define G_DOWN_LEFT_AND_UP_RIGHT_TO_CENTER "\xee\x8c\xba"
+   #define G_UP_RIGHT_AND_DOWN_LEFT_FROM_CENTER "\xee\x8c\xbb"
+   #define G_BASEBALL_BAT_BALL "\xee\x8c\xbc"
+   #define G_BASEBALL "\xee\x8c\xbd"
+   #define G_BASKETBALL "\xee\x8c\xbe"
+   #define G_BOWLING_BALL "\xee\x8c\xbf"
+   #define G_CHESS "\xee\x8d\x80"
+   #define G_CHESS_BISHOP "\xee\x8d\x81"
+   #define G_CHESS_BOARD "\xee\x8d\x82"
+   #define G_CHESS_KING "\xee\x8d\x83"
+   #define G_CHESS_KNIGHT "\xee\x8d\x84"
+   #define G_CHESS_PAWN "\xee\x8d\x85"
+   #define G_CHESS_QUEEN "\xee\x8d\x86"
+   #define G_CHESS_ROOK "\xee\x8d\x87"
+   #define G_DUMBBELL "\xee\x8d\x88"
+   #define G_FOOTBALL "\xee\x8d\x89"
+   #define G_GOLF_BALL_TEE "\xee\x8d\x8a"
+   #define G_HOCKEY_PUCK "\xee\x8d\x8b"
+   #define G_BROOM_BALL "\xee\x8d\x8c"
+   #define G_SQUARE_FULL "\xee\x8d\x8d"
+   #define G_TABLE_TENNIS_PADDLE_BALL "\xee\x8d\x8e"
+   #define G_VOLLEYBALL "\xee\x8d\x8f"
+   #define G_HAND_DOTS "\xee\x8d\x90"
+   #define G_BANDAGE "\xee\x8d\x91"
+   #define G_BOX "\xee\x8d\x92"
+   #define G_BOXES_STACKED "\xee\x8d\x93"
+   #define G_BRIEFCASE_MEDICAL "\xee\x8d\x94"
+   #define G_FIRE_FLAME_SIMPLE "\xee\x8d\x95"
+   #define G_CAPSULES "\xee\x8d\x96"
+   #define G_CLIPBOARD_CHECK "\xee\x8d\x97"
+   #define G_CLIPBOARD_LIST "\xee\x8d\x98"
+   #define G_PERSON_DOTS_FROM_LINE "\xee\x8d\x99"
+   #define G_DNA "\xee\x8d\x9a"
+   #define G_DOLLY "\xee\x8d\x9b"
+   #define G_CART_FLATBED "\xee\x8d\x9c"
+   #define G_FILE_MEDICAL "\xee\x8d\x9d"
+   #define G_FILE_WAVEFORM "\xee\x8d\x9e"
+   #define G_KIT_MEDICAL "\xee\x8d\x9f"
+   #define G_CIRCLE_H "\xee\x8d\xa0"
+   #define G_ID_CARD_CLIP "\xee\x8d\xa1"
+   #define G_NOTES_MEDICAL "\xee\x8d\xa2"
+   #define G_PALLET "\xee\x8d\xa3"
+   #define G_PILLS "\xee\x8d\xa4"
+   #define G_PRESCRIPTION_BOTTLE "\xee\x8d\xa5"
+   #define G_PRESCRIPTION_BOTTLE_MEDICAL "\xee\x8d\xa6"
+   #define G_BED_PULSE "\xee\x8d\xa7"
+   #define G_TRUCK_FAST "\xee\x8d\xa8"
+   #define G_SMOKING "\xee\x8d\xa9"
+   #define G_SYRINGE "\xee\x8d\xaa"
+   #define G_TABLETS "\xee\x8d\xab"
+   #define G_THERMOMETER "\xee\x8d\xac"
+   #define G_VIAL "\xee\x8d\xad"
+   #define G_VIALS "\xee\x8d\xae"
+   #define G_WAREHOUSE "\xee\x8d\xaf"
+   #define G_WEIGHT_SCALE "\xee\x8d\xb0"
+   #define G_X_RAY "\xee\x8d\xb1"
+   #define G_BOX_OPEN "\xee\x8d\xb2"
+   #define G_COMMENT_DOTS "\xee\x8d\xb3"
+   #define G_COMMENT_SLASH "\xee\x8d\xb4"
+   #define G_COUCH "\xee\x8d\xb5"
+   #define G_CIRCLE_DOLLAR_TO_SLOT "\xee\x8d\xb6"
+   #define G_DOVE "\xee\x8d\xb7"
+   #define G_HAND_HOLDING "\xee\x8d\xb8"
+   #define G_HAND_HOLDING_HEART "\xee\x8d\xb9"
+   #define G_HAND_HOLDING_DOLLAR "\xee\x8d\xba"
+   #define G_HAND_HOLDING_DROPLET "\xee\x8d\xbb"
+   #define G_HANDS_HOLDING "\xee\x8d\xbc"
+   #define G_HANDSHAKE_ANGLE "\xee\x8d\xbd"
+   #define G_HANDSHAKE_SIMPLE "\xee\x8d\xbe"
+   #define G_PARACHUTE_BOX "\xee\x8d\xbf"
+   #define G_PEOPLE_CARRY_BOX "\xee\x8e\x80"
+   #define G_PIGGY_BANK "\xee\x8e\x81"
+   #define G_RIBBON "\xee\x8e\x82"
+   #define G_ROUTE "\xee\x8e\x83"
+   #define G_SEEDLING "\xee\x8e\x84"
+   #define G_SIGN_HANGING "\xee\x8e\x85"
+   #define G_FACE_SMILE_WINK "\xee\x8e\x86"
+   #define G_TAPE "\xee\x8e\x87"
+   #define G_TRUCK_RAMP_BOX "\xee\x8e\x88"
+   #define G_TRUCK_MOVING "\xee\x8e\x89"
+   #define G_VIDEO_SLASH "\xee\x8e\x8a"
+   #define G_WINE_GLASS "\xee\x8e\x8b"
+   #define G_USER_LARGE_SLASH "\xee\x8e\x8c"
+   #define G_USER_ASTRONAUT "\xee\x8e\x8d"
+   #define G_USER_CHECK "\xee\x8e\x8e"
+   #define G_USER_CLOCK "\xee\x8e\x8f"
+   #define G_USER_GEAR "\xee\x8e\x90"
+   #define G_USER_PEN "\xee\x8e\x91"
+   #define G_USER_GROUP "\xee\x8e\x92"
+   #define G_USER_GRADUATE "\xee\x8e\x93"
+   #define G_USER_LOCK "\xee\x8e\x94"
+   #define G_USER_MINUS "\xee\x8e\x95"
+   #define G_USER_NINJA "\xee\x8e\x96"
+   #define G_USER_SHIELD "\xee\x8e\x97"
+   #define G_USER_SLASH "\xee\x8e\x98"
+   #define G_USER_TAG "\xee\x8e\x99"
+   #define G_USER_TIE "\xee\x8e\x9a"
+   #define G_USERS_GEAR "\xee\x8e\x9b"
+   #define G_SCALE_UNBALANCED "\xee\x8e\x9c"
+   #define G_SCALE_UNBALANCED_FLIP "\xee\x8e\x9d"
+   #define G_BLENDER "\xee\x8e\x9e"
+   #define G_BOOK_OPEN "\xee\x8e\x9f"
+   #define G_TOWER_BROADCAST "\xee\x8e\xa0"
+   #define G_BROOM "\xee\x8e\xa1"
+   #define G_CHALKBOARD "\xee\x8e\xa2"
+   #define G_CHALKBOARD_USER "\xee\x8e\xa3"
+   #define G_CHURCH "\xee\x8e\xa4"
+   #define G_COINS "\xee\x8e\xa5"
+   #define G_COMPACT_DISC "\xee\x8e\xa6"
+   #define G_CROW "\xee\x8e\xa7"
+   #define G_CROWN "\xee\x8e\xa8"
+   #define G_DICE "\xee\x8e\xa9"
+   #define G_DICE_FIVE "\xee\x8e\xaa"
+   #define G_DICE_FOUR "\xee\x8e\xab"
+   #define G_DICE_ONE "\xee\x8e\xac"
+   #define G_DICE_SIX "\xee\x8e\xad"
+   #define G_DICE_THREE "\xee\x8e\xae"
+   #define G_DICE_TWO "\xee\x8e\xaf"
+   #define G_DOOR_CLOSED "\xee\x8e\xb0"
+   #define G_DOOR_OPEN "\xee\x8e\xb1"
+   #define G_FEATHER "\xee\x8e\xb2"
+   #define G_FROG "\xee\x8e\xb3"
+   #define G_GAS_PUMP "\xee\x8e\xb4"
+   #define G_GLASSES "\xee\x8e\xb5"
+   #define G_GREATER_THAN_EQUAL "\xee\x8e\xb6"
+   #define G_HELICOPTER "\xee\x8e\xb7"
+   #define G_INFINITY "\xee\x8e\xb8"
+   #define G_KIWI_BIRD "\xee\x8e\xb9"
+   #define G_LESS_THAN_EQUAL "\xee\x8e\xba"
+   #define G_MEMORY "\xee\x8e\xbb"
+   #define G_MICROPHONE_LINES_SLASH "\xee\x8e\xbc"
+   #define G_MONEY_BILL_WAVE "\xee\x8e\xbd"
+   #define G_MONEY_BILL_1_WAVE "\xee\x8e\xbe"
+   #define G_MONEY_CHECK "\xee\x8e\xbf"
+   #define G_MONEY_CHECK_DOLLAR "\xee\x8f\x80"
+   #define G_NOT_EQUAL "\xee\x8f\x81"
+   #define G_PALETTE "\xee\x8f\x82"
+   #define G_SQUARE_PARKING "\xee\x8f\x83"
+   #define G_DIAGRAM_PROJECT "\xee\x8f\x84"
+   #define G_RECEIPT "\xee\x8f\x85"
+   #define G_ROBOT "\xee\x8f\x86"
+   #define G_RULER "\xee\x8f\x87"
+   #define G_RULER_COMBINED "\xee\x8f\x88"
+   #define G_RULER_HORIZONTAL "\xee\x8f\x89"
+   #define G_RULER_VERTICAL "\xee\x8f\x8a"
+   #define G_SCHOOL "\xee\x8f\x8b"
+   #define G_SCREWDRIVER "\xee\x8f\x8c"
+   #define G_SHOE_PRINTS "\xee\x8f\x8d"
+   #define G_SKULL "\xee\x8f\x8e"
+   #define G_BAN_SMOKING "\xee\x8f\x8f"
+   #define G_STORE "\xee\x8f\x90"
+   #define G_SHOP "\xee\x8f\x91"
+   #define G_BARS_STAGGERED "\xee\x8f\x92"
+   #define G_STROOPWAFEL "\xee\x8f\x93"
+   #define G_TOOLBOX "\xee\x8f\x94"
+   #define G_SHIRT "\xee\x8f\x95"
+   #define G_PERSON_WALKING "\xee\x8f\x96"
+   #define G_WALLET "\xee\x8f\x97"
+   #define G_FACE_ANGRY "\xee\x8f\x98"
+   #define G_ARCHWAY "\xee\x8f\x99"
+   #define G_BOOK_ATLAS "\xee\x8f\x9a"
+   #define G_AWARD "\xee\x8f\x9b"
+   #define G_DELETE_LEFT "\xee\x8f\x9c"
+   #define G_BEZIER_CURVE "\xee\x8f\x9d"
+   #define G_BONG "\xee\x8f\x9e"
+   #define G_BRUSH "\xee\x8f\x9f"
+   #define G_BUS_SIMPLE "\xee\x8f\xa0"
+   #define G_CANNABIS "\xee\x8f\xa1"
+   #define G_CHECK_DOUBLE "\xee\x8f\xa2"
+   #define G_MARTINI_GLASS_CITRUS "\xee\x8f\xa3"
+   #define G_BELL_CONCIERGE "\xee\x8f\xa4"
+   #define G_COOKIE "\xee\x8f\xa5"
+   #define G_COOKIE_BITE "\xee\x8f\xa6"
+   #define G_CROP_SIMPLE "\xee\x8f\xa7"
+   #define G_TACHOGRAPH_DIGITAL "\xee\x8f\xa8"
+   #define G_FACE_DIZZY "\xee\x8f\xa9"
+   #define G_COMPASS_DRAFTING "\xee\x8f\xaa"
+   #define G_DRUM "\xee\x8f\xab"
+   #define G_DRUM_STEELPAN "\xee\x8f\xac"
+   #define G_FEATHER_POINTED "\xee\x8f\xad"
+   #define G_FILE_CONTRACT "\xee\x8f\xae"
+   #define G_FILE_ARROW_DOWN "\xee\x8f\xaf"
+   #define G_FILE_EXPORT "\xee\x8f\xb0"
+   #define G_FILE_IMPORT "\xee\x8f\xb1"
+   #define G_FILE_INVOICE "\xee\x8f\xb2"
+   #define G_FILE_INVOICE_DOLLAR "\xee\x8f\xb3"
+   #define G_FILE_PRESCRIPTION "\xee\x8f\xb4"
+   #define G_FILE_SIGNATURE "\xee\x8f\xb5"
+   #define G_FILE_ARROW_UP "\xee\x8f\xb6"
+   #define G_FILL "\xee\x8f\xb7"
+   #define G_FILL_DRIP "\xee\x8f\xb8"
+   #define G_FINGERPRINT "\xee\x8f\xb9"
+   #define G_FISH "\xee\x8f\xba"
+   #define G_FACE_FLUSHED "\xee\x8f\xbb"
+   #define G_FACE_FROWN_OPEN "\xee\x8f\xbc"
+   #define G_MARTINI_GLASS "\xee\x8f\xbd"
+   #define G_EARTH_AFRICA "\xee\x8f\xbe"
+   #define G_EARTH_AMERICAS "\xee\x8f\xbf"
+   #define G_EARTH_ASIA "\xee\x90\x80"
+   #define G_FACE_GRIMACE "\xee\x90\x81"
+   #define G_FACE_GRIN "\xee\x90\x82"
+   #define G_FACE_GRIN_WIDE "\xee\x90\x83"
+   #define G_FACE_GRIN_BEAM "\xee\x90\x84"
+   #define G_FACE_GRIN_BEAM_SWEAT "\xee\x90\x85"
+   #define G_FACE_GRIN_HEARTS "\xee\x90\x86"
+   #define G_FACE_GRIN_SQUINT "\xee\x90\x87"
+   #define G_FACE_GRIN_SQUINT_TEARS "\xee\x90\x88"
+   #define G_FACE_GRIN_STARS "\xee\x90\x89"
+   #define G_FACE_GRIN_TEARS "\xee\x90\x8a"
+   #define G_FACE_GRIN_TONGUE "\xee\x90\x8b"
+   #define G_FACE_GRIN_TONGUE_SQUINT "\xee\x90\x8c"
+   #define G_FACE_GRIN_TONGUE_WINK "\xee\x90\x8d"
+   #define G_FACE_GRIN_WINK "\xee\x90\x8e"
+   #define G_GRIP "\xee\x90\x8f"
+   #define G_GRIP_VERTICAL "\xee\x90\x90"
+   #define G_HEADPHONES_SIMPLE "\xee\x90\x91"
+   #define G_HEADSET "\xee\x90\x92"
+   #define G_HIGHLIGHTER "\xee\x90\x93"
+   #define G_HOT_TUB_PERSON "\xee\x90\x94"
+   #define G_HOTEL "\xee\x90\x95"
+   #define G_JOINT "\xee\x90\x96"
+   #define G_FACE_KISS "\xee\x90\x97"
+   #define G_FACE_KISS_BEAM "\xee\x90\x98"
+   #define G_FACE_KISS_WINK_HEART "\xee\x90\x99"
+   #define G_FACE_LAUGH "\xee\x90\x9a"
+   #define G_FACE_LAUGH_BEAM "\xee\x90\x9b"
+   #define G_FACE_LAUGH_SQUINT "\xee\x90\x9c"
+   #define G_FACE_LAUGH_WINK "\xee\x90\x9d"
+   #define G_CART_FLATBED_SUITCASE "\xee\x90\x9e"
+   #define G_MAP_LOCATION "\xee\x90\x9f"
+   #define G_MAP_LOCATION_DOT "\xee\x90\xa0"
+   #define G_MARKER "\xee\x90\xa1"
+   #define G_MEDAL "\xee\x90\xa2"
+   #define G_FACE_MEH_BLANK "\xee\x90\xa3"
+   #define G_FACE_ROLLING_EYES "\xee\x90\xa4"
+   #define G_MONUMENT "\xee\x90\xa5"
+   #define G_MORTAR_PESTLE "\xee\x90\xa6"
+   #define G_PAINT_ROLLER "\xee\x90\xa7"
+   #define G_PASSPORT "\xee\x90\xa8"
+   #define G_PEN_FANCY "\xee\x90\xa9"
+   #define G_PEN_NIB "\xee\x90\xaa"
+   #define G_PEN_RULER "\xee\x90\xab"
+   #define G_PLANE_ARRIVAL "\xee\x90\xac"
+   #define G_PLANE_DEPARTURE "\xee\x90\xad"
+   #define G_PRESCRIPTION "\xee\x90\xae"
+   #define G_FACE_SAD_CRY "\xee\x90\xaf"
+   #define G_FACE_SAD_TEAR "\xee\x90\xb0"
+   #define G_VAN_SHUTTLE "\xee\x90\xb1"
+   #define G_SIGNATURE "\xee\x90\xb2"
+   #define G_FACE_SMILE_BEAM "\xee\x90\xb3"
+   #define G_SOLAR_PANEL "\xee\x90\xb4"
+   #define G_SPA "\xee\x90\xb5"
+   #define G_SPLOTCH "\xee\x90\xb6"
+   #define G_SPRAY_CAN "\xee\x90\xb7"
+   #define G_STAMP "\xee\x90\xb8"
+   #define G_STAR_HALF_STROKE "\xee\x90\xb9"
+   #define G_SUITCASE_ROLLING "\xee\x90\xba"
+   #define G_FACE_SURPRISE "\xee\x90\xbb"
+   #define G_SWATCHBOOK "\xee\x90\xbc"
+   #define G_PERSON_SWIMMING "\xee\x90\xbd"
+   #define G_WATER_LADDER "\xee\x90\xbe"
+   #define G_DROPLET_SLASH "\xee\x90\xbf"
+   #define G_FACE_TIRED "\xee\x91\x80"
+   #define G_TOOTH "\xee\x91\x81"
+   #define G_UMBRELLA_BEACH "\xee\x91\x82"
+   #define G_VECTOR_SQUARE "\xee\x91\x83"
+   #define G_WEIGHT_HANGING "\xee\x91\x84"
+   #define G_WINE_GLASS_EMPTY "\xee\x91\x85"
+   #define G_SPRAY_CAN_SPARKLES "\xee\x91\x86"
+   #define G_APPLE_WHOLE "\xee\x91\x87"
+   #define G_ATOM "\xee\x91\x88"
+   #define G_BONE "\xee\x91\x89"
+   #define G_BOOK_OPEN_READER "\xee\x91\x8a"
+   #define G_BRAIN "\xee\x91\x8b"
+   #define G_CAR_REAR "\xee\x91\x8c"
+   #define G_CAR_BATTERY "\xee\x91\x8d"
+   #define G_CAR_BURST "\xee\x91\x8e"
+   #define G_CAR_SIDE "\xee\x91\x8f"
+   #define G_CHARGING_STATION "\xee\x91\x90"
+   #define G_DIAMOND_TURN_RIGHT "\xee\x91\x91"
+   #define G_DRAW_POLYGON "\xee\x91\x92"
+   #define G_LAPTOP_CODE "\xee\x91\x93"
+   #define G_LAYER_GROUP "\xee\x91\x94"
+   #define G_LOCATION_CROSSHAIRS "\xee\x91\x95"
+   #define G_LUNGS "\xee\x91\x96"
+   #define G_MICROSCOPE "\xee\x91\x97"
+   #define G_OIL_CAN "\xee\x91\x98"
+   #define G_POOP "\xee\x91\x99"
+   #define G_SHAPES "\xee\x91\x9a"
+   #define G_STAR_OF_LIFE "\xee\x91\x9b"
+   #define G_GAUGE "\xee\x91\x9c"
+   #define G_GAUGE_HIGH "\xee\x91\x9d"
+   #define G_GAUGE_SIMPLE "\xee\x91\x9e"
+   #define G_GAUGE_SIMPLE_HIGH "\xee\x91\x9f"
+   #define G_TEETH "\xee\x91\xa0"
+   #define G_TEETH_OPEN "\xee\x91\xa1"
+   #define G_MASKS_THEATER "\xee\x91\xa2"
+   #define G_TRAFFIC_LIGHT "\xee\x91\xa3"
+   #define G_TRUCK_MONSTER "\xee\x91\xa4"
+   #define G_TRUCK_PICKUP "\xee\x91\xa5"
+   #define G_RECTANGLE_AD "\xee\x91\xa6"
+   #define G_ANKH "\xee\x91\xa7"
+   #define G_BOOK_BIBLE "\xee\x91\xa8"
+   #define G_BUSINESS_TIME "\xee\x91\xa9"
+   #define G_CITY "\xee\x91\xaa"
+   #define G_COMMENT_DOLLAR "\xee\x91\xab"
+   #define G_COMMENTS_DOLLAR "\xee\x91\xac"
+   #define G_CROSS "\xee\x91\xad"
+   #define G_DHARMACHAKRA "\xee\x91\xae"
+   #define G_ENVELOPE_OPEN_TEXT "\xee\x91\xaf"
+   #define G_FOLDER_MINUS "\xee\x91\xb0"
+   #define G_FOLDER_PLUS "\xee\x91\xb1"
+   #define G_FILTER_CIRCLE_DOLLAR "\xee\x91\xb2"
+   #define G_GOPURAM "\xee\x91\xb3"
+   #define G_HAMSA "\xee\x91\xb4"
+   #define G_BAHAI "\xee\x91\xb5"
+   #define G_JEDI "\xee\x91\xb6"
+   #define G_BOOK_JOURNAL_WHILLS "\xee\x91\xb7"
+   #define G_KAABA "\xee\x91\xb8"
+   #define G_KHANDA "\xee\x91\xb9"
+   #define G_LANDMARK "\xee\x91\xba"
+   #define G_ENVELOPES_BULK "\xee\x91\xbb"
+   #define G_MENORAH "\xee\x91\xbc"
+   #define G_MOSQUE "\xee\x91\xbd"
+   #define G_OM "\xee\x91\xbe"
+   #define G_SPAGHETTI_MONSTER_FLYING "\xee\x91\xbf"
+   #define G_PEACE "\xee\x92\x80"
+   #define G_PLACE_OF_WORSHIP "\xee\x92\x81"
+   #define G_SQUARE_POLL_VERTICAL "\xee\x92\x82"
+   #define G_SQUARE_POLL_HORIZONTAL "\xee\x92\x83"
+   #define G_PERSON_PRAYING "\xee\x92\x84"
+   #define G_HANDS_PRAYING "\xee\x92\x85"
+   #define G_BOOK_QURAN "\xee\x92\x86"
+   #define G_MAGNIFYING_GLASS_DOLLAR "\xee\x92\x87"
+   #define G_MAGNIFYING_GLASS_LOCATION "\xee\x92\x88"
+   #define G_SOCKS "\xee\x92\x89"
+   #define G_SQUARE_ROOT_VARIABLE "\xee\x92\x8a"
+   #define G_STAR_AND_CRESCENT "\xee\x92\x8b"
+   #define G_STAR_OF_DAVID "\xee\x92\x8c"
+   #define G_SYNAGOGUE "\xee\x92\x8d"
+   #define G_SCROLL_TORAH "\xee\x92\x8e"
+   #define G_TORII_GATE "\xee\x92\x8f"
+   #define G_VIHARA "\xee\x92\x90"
+   #define G_VOLUME_XMARK "\xee\x92\x91"
+   #define G_YIN_YANG "\xee\x92\x92"
+   #define G_BLENDER_PHONE "\xee\x92\x93"
+   #define G_BOOK_SKULL "\xee\x92\x94"
+   #define G_CAMPGROUND "\xee\x92\x95"
+   #define G_CAT "\xee\x92\x96"
+   #define G_CHAIR "\xee\x92\x97"
+   #define G_CLOUD_MOON "\xee\x92\x98"
+   #define G_CLOUD_SUN "\xee\x92\x99"
+   #define G_COW "\xee\x92\x9a"
+   #define G_DICE_D20 "\xee\x92\x9b"
+   #define G_DICE_D6 "\xee\x92\x9c"
+   #define G_DOG "\xee\x92\x9d"
+   #define G_DRAGON "\xee\x92\x9e"
+   #define G_DRUMSTICK_BITE "\xee\x92\x9f"
+   #define G_DUNGEON "\xee\x92\xa0"
+   #define G_FILE_CSV "\xee\x92\xa1"
+   #define G_HAND_FIST "\xee\x92\xa2"
+   #define G_GHOST "\xee\x92\xa3"
+   #define G_HAMMER "\xee\x92\xa4"
+   #define G_HANUKIAH "\xee\x92\xa5"
+   #define G_HAT_WIZARD "\xee\x92\xa6"
+   #define G_PERSON_HIKING "\xee\x92\xa7"
+   #define G_HIPPO "\xee\x92\xa8"
+   #define G_HORSE "\xee\x92\xa9"
+   #define G_HOUSE_CHIMNEY_CRACK "\xee\x92\xaa"
+   #define G_HRYVNIA_SIGN "\xee\x92\xab"
+   #define G_MASK "\xee\x92\xac"
+   #define G_MOUNTAIN "\xee\x92\xad"
+   #define G_NETWORK_WIRED "\xee\x92\xae"
+   #define G_OTTER "\xee\x92\xaf"
+   #define G_RING "\xee\x92\xb0"
+   #define G_PERSON_RUNNING "\xee\x92\xb1"
+   #define G_SCROLL "\xee\x92\xb2"
+   #define G_SKULL_CROSSBONES "\xee\x92\xb3"
+   #define G_SLASH "\xee\x92\xb4"
+   #define G_SPIDER "\xee\x92\xb5"
+   #define G_TOILET_PAPER "\xee\x92\xb6"
+   #define G_TRACTOR "\xee\x92\xb7"
+   #define G_USER_INJURED "\xee\x92\xb8"
+   #define G_VR_CARDBOARD "\xee\x92\xb9"
+   #define G_WAND_SPARKLES "\xee\x92\xba"
+   #define G_WIND "\xee\x92\xbb"
+   #define G_WINE_BOTTLE "\xee\x92\xbc"
+   #define G_CLOUD_MEATBALL "\xee\x92\xbd"
+   #define G_CLOUD_MOON_RAIN "\xee\x92\xbe"
+   #define G_CLOUD_RAIN "\xee\x92\xbf"
+   #define G_CLOUD_SHOWERS_HEAVY "\xee\x93\x80"
+   #define G_CLOUD_SUN_RAIN "\xee\x93\x81"
+   #define G_DEMOCRAT "\xee\x93\x82"
+   #define G_FLAG_USA "\xee\x93\x83"
+   #define G_HURRICANE "\xee\x93\x84"
+   #define G_LANDMARK_DOME "\xee\x93\x85"
+   #define G_METEOR "\xee\x93\x86"
+   #define G_PERSON_BOOTH "\xee\x93\x87"
+   #define G_POO_STORM "\xee\x93\x88"
+   #define G_RAINBOW "\xee\x93\x89"
+   #define G_REPUBLICAN "\xee\x93\x8a"
+   #define G_SMOG "\xee\x93\x8b"
+   #define G_TEMPERATURE_HIGH "\xee\x93\x8c"
+   #define G_TEMPERATURE_LOW "\xee\x93\x8d"
+   #define G_CLOUD_BOLT "\xee\x93\x8e"
+   #define G_TORNADO "\xee\x93\x8f"
+   #define G_VOLCANO "\xee\x93\x90"
+   #define G_CHECK_TO_SLOT "\xee\x93\x91"
+   #define G_WATER "\xee\x93\x92"
+   #define G_BABY "\xee\x93\x93"
+   #define G_BABY_CARRIAGE "\xee\x93\x94"
+   #define G_BIOHAZARD "\xee\x93\x95"
+   #define G_BLOG "\xee\x93\x96"
+   #define G_CALENDAR_DAY "\xee\x93\x97"
+   #define G_CALENDAR_WEEK "\xee\x93\x98"
+   #define G_CANDY_CANE "\xee\x93\x99"
+   #define G_CARROT "\xee\x93\x9a"
+   #define G_CASH_REGISTER "\xee\x93\x9b"
+   #define G_MINIMIZE "\xee\x93\x9c"
+   #define G_DUMPSTER "\xee\x93\x9d"
+   #define G_DUMPSTER_FIRE "\xee\x93\x9e"
+   #define G_ETHERNET "\xee\x93\x9f"
+   #define G_GIFTS "\xee\x93\xa0"
+   #define G_CHAMPAGNE_GLASSES "\xee\x93\xa1"
+   #define G_WHISKEY_GLASS "\xee\x93\xa2"
+   #define G_EARTH_EUROPE "\xee\x93\xa3"
+   #define G_GRIP_LINES "\xee\x93\xa4"
+   #define G_GRIP_LINES_VERTICAL "\xee\x93\xa5"
+   #define G_GUITAR "\xee\x93\xa6"
+   #define G_HEART_CRACK "\xee\x93\xa7"
+   #define G_HOLLY_BERRY "\xee\x93\xa8"
+   #define G_HORSE_HEAD "\xee\x93\xa9"
+   #define G_ICICLES "\xee\x93\xaa"
+   #define G_IGLOO "\xee\x93\xab"
+   #define G_MITTEN "\xee\x93\xac"
+   #define G_MUG_HOT "\xee\x93\xad"
+   #define G_RADIATION "\xee\x93\xae"
+   #define G_CIRCLE_RADIATION "\xee\x93\xaf"
+   #define G_RESTROOM "\xee\x93\xb0"
+   #define G_SATELLITE "\xee\x93\xb1"
+   #define G_SATELLITE_DISH "\xee\x93\xb2"
+   #define G_SD_CARD "\xee\x93\xb3"
+   #define G_SIM_CARD "\xee\x93\xb4"
+   #define G_PERSON_SKATING "\xee\x93\xb5"
+   #define G_PERSON_SKIING "\xee\x93\xb6"
+   #define G_PERSON_SKIING_NORDIC "\xee\x93\xb7"
+   #define G_SLEIGH "\xee\x93\xb8"
+   #define G_COMMENT_SMS "\xee\x93\xb9"
+   #define G_PERSON_SNOWBOARDING "\xee\x93\xba"
+   #define G_SNOWMAN "\xee\x93\xbb"
+   #define G_SNOWPLOW "\xee\x93\xbc"
+   #define G_TENGE_SIGN "\xee\x93\xbd"
+   #define G_TOILET "\xee\x93\xbe"
+   #define G_SCREWDRIVER_WRENCH "\xee\x93\xbf"
+   #define G_CABLE_CAR "\xee\x94\x80"
+   #define G_FIRE_FLAME_CURVED "\xee\x94\x81"
+   #define G_BACON "\xee\x94\x82"
+   #define G_BOOK_MEDICAL "\xee\x94\x83"
+   #define G_BREAD_SLICE "\xee\x94\x84"
+   #define G_CHEESE "\xee\x94\x85"
+   #define G_HOUSE_CHIMNEY_MEDICAL "\xee\x94\x86"
+   #define G_CLIPBOARD_USER "\xee\x94\x87"
+   #define G_COMMENT_MEDICAL "\xee\x94\x88"
+   #define G_CRUTCH "\xee\x94\x89"
+   #define G_DISEASE "\xee\x94\x8a"
+   #define G_EGG "\xee\x94\x8b"
+   #define G_FOLDER_TREE "\xee\x94\x8c"
+   #define G_BURGER "\xee\x94\x8d"
+   #define G_HAND_MIDDLE_FINGER "\xee\x94\x8e"
+   #define G_HELMET_SAFETY "\xee\x94\x8f"
+   #define G_HOSPITAL_USER "\xee\x94\x90"
+   #define G_HOTDOG "\xee\x94\x91"
+   #define G_ICE_CREAM "\xee\x94\x92"
+   #define G_LAPTOP_MEDICAL "\xee\x94\x93"
+   #define G_PAGER "\xee\x94\x94"
+   #define G_PEPPER_HOT "\xee\x94\x95"
+   #define G_PIZZA_SLICE "\xee\x94\x96"
+   #define G_SACK_DOLLAR "\xee\x94\x97"
+   #define G_BOOK_TANAKH "\xee\x94\x98"
+   #define G_BARS_PROGRESS "\xee\x94\x99"
+   #define G_TRASH_ARROW_UP "\xee\x94\x9a"
+   #define G_TRASH_CAN_ARROW_UP "\xee\x94\x9b"
+   #define G_USER_NURSE "\xee\x94\x9c"
+   #define G_WAVE_SQUARE "\xee\x94\x9d"
+   #define G_PERSON_BIKING "\xee\x94\x9e"
+   #define G_BORDER_ALL "\xee\x94\x9f"
+   #define G_BORDER_NONE "\xee\x94\xa0"
+   #define G_BORDER_TOP_LEFT "\xee\x94\xa1"
+   #define G_PERSON_DIGGING "\xee\x94\xa2"
+   #define G_FAN "\xee\x94\xa3"
+   #define G_ICONS "\xee\x94\xa4"
+   #define G_PHONE_FLIP "\xee\x94\xa5"
+   #define G_SQUARE_PHONE_FLIP "\xee\x94\xa6"
+   #define G_PHOTO_FILM "\xee\x94\xa7"
+   #define G_TEXT_SLASH "\xee\x94\xa8"
+   #define G_ARROW_DOWN_Z_A "\xee\x94\xa9"
+   #define G_ARROW_UP_Z_A "\xee\x94\xaa"
+   #define G_ARROW_DOWN_SHORT_WIDE "\xee\x94\xab"
+   #define G_ARROW_UP_SHORT_WIDE "\xee\x94\xac"
+   #define G_ARROW_DOWN_9_1 "\xee\x94\xad"
+   #define G_ARROW_UP_9_1 "\xee\x94\xae"
+   #define G_SPELL_CHECK "\xee\x94\xaf"
+   #define G_VOICEMAIL "\xee\x94\xb0"
+   #define G_HAT_COWBOY "\xee\x94\xb1"
+   #define G_HAT_COWBOY_SIDE "\xee\x94\xb2"
+   #define G_COMPUTER_MOUSE "\xee\x94\xb3"
+   #define G_RADIO "\xee\x94\xb4"
+   #define G_RECORD_VINYL "\xee\x94\xb5"
+   #define G_WALKIE_TALKIE "\xee\x94\xb6"
+   #define G_CARAVAN "\xee\x94\xb7"
 }
