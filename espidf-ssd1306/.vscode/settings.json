@@ -3,7 +3,10 @@
   "idf.adapterTargetName": "esp32s3",
   "files.associations": {
     "fcntl.h": "c",
-    "cstdlib": "c"
+    "cstdlib": "c",
+    "cstdint": "cpp",
+    "cstddef": "cpp",
+    "initializer_list": "cpp"
   },
   "idf.flashType": "UART",
   "idf.portWin": "COM11"

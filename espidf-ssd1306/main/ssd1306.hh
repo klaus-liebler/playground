@@ -3,12 +3,13 @@
 #include <driver/i2c_master.h>
 #include <driver/gpio.h>
 #include "string.h" // for memset
-#define TAG "LCD"
-#include <esp_log.h>
-#include <ssd1306_fonts.hh>
+#include "klfont.hh"
 #include <ssd1306_cmd.hh>
-
+#include <interfaces.hh>
 #include <stdio.h>
+#include "text_utils.hh"
+#include <esp_log.h>
+#define TAG "LCD"
 
 
 
@@ -29,6 +30,9 @@ namespace ssd1306
     }
 
     constexpr int I2C_TICKS_TO_WAIT = 100;
+    constexpr int PADDING_LEFT{3};
+    constexpr int PADDING_RIGHT{3};
+    constexpr int LINE_WIDTH_PIXELS{128};
 
     /**
      * Allways positive; for array indices!
@@ -38,19 +42,45 @@ namespace ssd1306
         return (i % n + n) % n;
     }
 
+    struct GlyphHelper{
+        const GlyphDesc* glyph_dsc;
+        int16_t startX;
+        /*
+        p muss an der startX-Position des Bitmaps stehen
+        suppressedPixelIfBackground: so viele Pixel werden im BUffer nicht überschreiben, wenn Sie nur Hintergrund sind (wichtig beim Kerning)
+        */
+        void WriteLineToBuffer(const FontDesc *font, bool invert, uint16_t ramline, uint8_t *buffer)
+        {
+            const uint8_t *bitmap= font->glyph_bitmap->begin();
+            uint32_t bo = glyph_dsc->bitmap_index;
+            ESP_LOGI(TAG, "bitmap_base_address =0x%08X, glyph_bitmap_offset=%lu", (unsigned int)bitmap, bo);
+            for (int x = 0; x < glyph_dsc->box_w; x++) // x läuft die Breite der Bitmap entlang
+            {
+                int indexInBitmap = ramline * glyph_dsc->box_w + x;
+                uint8_t bits = bitmap[bo + indexInBitmap];  
+                ESP_LOGI(TAG, "indexInBitmap=%i, bits=0x%02X", indexInBitmap, bits);
+                if(!invert){
+                    buffer[startX+x]|=bits;
+                }else{
+                    buffer[startX+x]&=~bits;
+                }
+            }
+        }
+    };
+
     template <uint8_t WIDTH = 128, uint8_t HEIGHT = 32, uint8_t I2C_ADDRESS = 0x3C, bool EXTERNALVCC = false, bool FLIP = false>
-    class M : public FullLineWriter
+    class M : public display::FullLineWriter
     {
 
     public:
         uint8_t GetShownLines() override
         {
-            return HEIGHT / (font->h);
+            return HEIGHT / (font->line_height);
         }
 
         uint8_t GetAvailableLines() override
         {
-            return 64 / (font->h);
+            return 64 / (font->line_height);
         }
 
         void ClearScreenAndResetStartline(bool invert = false, uint8_t start_textline_nominator = 0, uint8_t start_textline_denominator = 1)
@@ -75,7 +105,7 @@ namespace ssd1306
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, data_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));
             }
 
-            SetStartline((float)(this->font->h * start_textline_nominator) / (float)start_textline_denominator);
+            SetStartline((float)(this->font->line_height * start_textline_nominator) / (float)start_textline_denominator);
         }
 
         void SetStartline(uint8_t startline)
@@ -176,9 +206,9 @@ namespace ssd1306
 
         void Scroll(int textlines)
         {
-            int step = ((this->font->h) / 4) * (textlines < 0 ? -1 : +1);
+            int step = ((this->font->line_height) / 4) * (textlines < 0 ? -1 : +1);
             int count = 4 * abs(textlines);
-            ESP_LOGI(TAG, "Scoll h=%d count=%d, step=%d, old startline=%d", this->font->h, count, step, startline);
+            ESP_LOGI(TAG, "Scoll h=%d count=%d, step=%d, old startline=%d", this->font->line_height, count, step, startline);
             for (int i = 0; i < count; i++)
             {
                 startline += step;
@@ -238,146 +268,142 @@ namespace ssd1306
             out_buf[3] = 0xB0 | page;
             ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, out_buf, 4, I2C_TICKS_TO_WAIT));
         }
-
-        const uint8_t *GetCharImage(char char_code, uint8_t ramline)
+        
+        void PopulateGlyphs(char *chars)
         {
-            char_code -= (font->ascii_offset);
-            size_t bytes_per_char = font->h * font->w / 8;
-            return (font->first_character_data + bytes_per_char * char_code) + ramline * bytes_per_char / 2;
-        }
-
-        const uint8_t *GetSymbolImage(char char_code, uint8_t ramline)
-        {
-            char_code--;
-            return font::icons16x16 + (32 * char_code) + 16 * ramline;
-        }
-    /*
-        size_t printchar_ttf(int line, SFT *sft, unsigned long cp)
-        {
-            SFT_Glyph gid; //  unsigned long gid;
-            if (sft_lookup(sft, cp, &gid) < 0){
-                ESP_LOGE(TAG, "Missing codepoint %lu", cp);
-                return 0;
-            }
-            ESP_LOGI(TAG, "lookup successful");
-            SFT_GMetrics mtx;
-            if (sft_gmetrics(sft, gid, &mtx) < 0){
-                ESP_LOGE(TAG, "Bad glyph metrics codepoint %lu", cp);
-                return 0;
-            }
+            uint32_t currentCodepoint = text_utils::getCodepointAndAdvancePointer(&chars);
+            uint32_t currentGlyphIndex=font->GetGlyphIndex(currentCodepoint);
+            uint32_t nextCodepoint{0};
+            uint32_t nextGlyphIndex{0};
+            //two tabs are supported. First tab is centered and center-aligned
+            //second tab is right and right-aligned
+            size_t glyphBeforeTabulator[2]={UINT32_MAX, UINT32_MAX};
             
-            SFT_Image img = {};
-            img.width = (mtx.minWidth + 3) & ~3;
-            img.height = mtx.minHeight;
-            
-            ESP_LOGI(TAG, "sft_gmetrics successful imgWidth=%d imgHeight=%d", img.width, img.height);
-            char pixels[img.width * img.height];
-            img.pixels = pixels;
-
-            if (sft_render(sft, gid, img) < 0){
-                ESP_LOGE(TAG, "Not renderable codepoint %lu", cp);
-                return 0;
-            }
-            ESP_LOGI(TAG, "Successfully rendered char '%c' with w=%d and h=%d  ", (char)cp, img.width, img.height);
-            for(int y=0;y<img.height;y++){
-                for(int x=0;x<img.width;x++){
-                    printf("%c",pixels[y*img.width+x]);
+            uint16_t posX = PADDING_LEFT-font->glyph_desc[currentGlyphIndex].ofs_x;
+            uint16_t endX{0};
+            uint8_t tabIndex=0;
+            while (currentCodepoint)
+            {
+                nextCodepoint = text_utils::getCodepointAndAdvancePointer(&chars);
+                int16_t kv;
+                if(nextCodepoint=='\t' && tabIndex<2){
+                    glyphBeforeTabulator[tabIndex++]=glyphs.size();
+                    nextCodepoint = text_utils::getCodepointAndAdvancePointer(&chars);
+                    if(nextCodepoint=='\t' && tabIndex<2){
+                        glyphBeforeTabulator[tabIndex++]=glyphs.size();
+                        nextCodepoint = text_utils::getCodepointAndAdvancePointer(&chars);
+                        ESP_LOGD(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
+                    else{
+                        ESP_LOGD(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
+                    nextGlyphIndex = font->GetGlyphIndex(nextCodepoint);
+                    kv=0;
+                    
+                } else{
+                    nextGlyphIndex = font->GetGlyphIndex(nextCodepoint);
+                    kv = font->GetKerningValue(currentGlyphIndex, nextGlyphIndex);
                 }
-                printf("\n");
+                auto dsc=&font->glyph_desc[currentGlyphIndex];
+                if(currentCodepoint>0xFF){
+                    ESP_LOGD(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%lu", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
+                }
+
+                GlyphHelper gh = {};
+                gh.glyph_dsc = dsc;
+                gh.startX = posX + gh.glyph_dsc->ofs_x;
+                endX = gh.startX + gh.glyph_dsc->box_w;
+                if (endX >= LINE_WIDTH_PIXELS)
+                {
+                    ESP_LOGW(TAG, "NOT push GlyphIndex=%lu, posX=%d endX=%d, startX=%d", currentGlyphIndex, posX, endX, gh.startX);
+                    break; // Damit ist sicher gestellt, dass man bei der Ausgabe keinerlei überprüfung machen muss, ob irgendwelche Grenzen überschritten werden -->einfach glyphs zeichnen und gut!
+                }else{
+                    ESP_LOGI(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%u, startX=%d,", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX);
+                }
+                //"adv_w" und "kv" are in "font units" (see "unitsPerEm" in FontDsc). If unitsPerEm=2048, then 2048 of those units means 1Em eg. normal font size eg. 16px
+                if(font->unitsPerEm==0){
+                    posX += (gh.glyph_dsc->adv_w + kv);
+                }else{
+                    posX += ((gh.glyph_dsc->adv_w + kv) + (1 << 6)) >> 7;
+                }
+                
+                glyphs.push_back(gh);
+                currentCodepoint=nextCodepoint;
+                currentGlyphIndex=nextGlyphIndex;
             }
 
-            return 0;
+            int i=glyphs.size()-1;
+            //Erst rechtsbündigen tabluator
+            int offset = LINE_WIDTH_PIXELS-PADDING_RIGHT-endX;
+            if(glyphBeforeTabulator[1]!=UINT32_MAX && offset>0){
+                while(i>glyphBeforeTabulator[1]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+            }
+            
+            if(glyphBeforeTabulator[0]!=UINT32_MAX && glyphBeforeTabulator[0]!=glyphBeforeTabulator[1]){
+                GlyphHelper* g1 =&glyphs.at(glyphBeforeTabulator[0]+1);//""
+                GlyphHelper* g2 =&glyphs.at(glyphBeforeTabulator[1]);
+                
+                uint16_t startOfBlock=g1->startX;
+                uint16_t endOfBlock =g2->startX+g2->glyph_dsc->box_w;
+                ESP_LOGD(TAG, "Two separate tabs -->we need to center some glyphs, startOfBlock=%d, endOfBlock=%d", startOfBlock, endOfBlock);
+                assert(endOfBlock>startOfBlock);
+                uint16_t widthOfCenteredChars=endOfBlock-startOfBlock;
+                uint16_t startPos = (LINE_WIDTH_PIXELS/2)-(widthOfCenteredChars/2);
+                offset=startPos-g1->startX;
+                assert(offset>0);
+                while(i>glyphBeforeTabulator[0]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+
+            }
+            
         }
-*/
+
+
+        
         size_t printfl(int line, bool invert, const char *format, ...)
         {
             va_list args_list;
             va_start(args_list, format);
+            size_t ret = printfl(line, invert, format, args_list);
+            va_end(args_list);
+            return ret;
+        }
+     
+        size_t printfl(int line, bool invert, const char *format, va_list args_list)
+        {
             char *chars{nullptr};
             int chars_len = vasprintf(&chars, format, args_list);
-            va_end(args_list);
             if (chars_len <= 0)
             {
                 free(chars);
                 return 0;
             }
-            uint8_t *out_buf = new uint8_t[WIDTH + 1];
-            for (int ramline = 0; ramline < (font->h) / 8; ramline++)
+            glyphs.clear();
+            this->PopulateGlyphs(chars);
+
+            uint8_t *out_buf = new uint8_t[WIDTH + 1];//+1 for CMD::WRITE_DAT
+            out_buf[0] = CMD::WRITE_DAT;
+            uint8_t *buf=&out_buf[1];
+
+            for (int ramline = 0; ramline < (font->line_height) / 8; ramline++)
             {
-                setWindowFullPage(ramline + line * (font->h) / 8);
-                out_buf[0] = CMD::WRITE_DAT;
-                uint8_t seg = 0;
-                uint8_t char_index = 0;
-                bool horizontalTabDetected{false};
-                out_buf[1 + seg] = invert ? 0xFF : 0x00;
-                seg++;
-                while (char_index < chars_len)
+                memset(buf, invert ? 0xFF : 0x00, WIDTH);
+                setWindowFullPage(ramline + line * (font->line_height) / 8);
+                int ghIndex = 0;
+                while (ghIndex < glyphs.size())
                 {
-                    char char_code = chars[char_index];
-                    if (char_code == 9)
-                    { // Horizontal tab -->write from right
-                        horizontalTabDetected = true;
-                        break;
-                    }
-                    const uint8_t *char_image{nullptr};
-                    size_t char_width = 8;
-                    if (char_code == 0x1B) // Escape character -->goto symbol font
-                    {
-                        char_code = chars[++char_index];
-                        // char_image = font::icons8x8_data[(uint8_t)char_code];
-                        char_image = GetSymbolImage(char_code, ramline);
-                        char_width = 16;
-                    }
-                    else
-                    {
-                        char_image = GetCharImage(char_code, ramline);
-                    }
-
-                    for (int i = 0; i < char_width; i++)
-                    {
-                        out_buf[1 + seg] = invert ? ~char_image[i] : char_image[i];
-                        seg++;
-                    }
-                    char_index++;
+                    GlyphHelper *g = &glyphs[ghIndex];
+                    g->WriteLineToBuffer(font, invert, ramline, buf);
+                    ghIndex++;
                 }
-                while (seg < WIDTH)
-                {
-                    out_buf[1 + seg] = invert ? 0xFF : 0x00;
-                    seg++;
-                }
-
-                if (horizontalTabDetected)
-                {
-                    char_index = chars_len - 1;
-                    seg = WIDTH - 2;
-                    while (char_index > 0)
-                    {
-                        char char_code = chars[char_index];
-                        if (char_code == 9)
-                        { // Horizontal tab -->write from right
-                            break;
-                        }
-                        const uint8_t *char_image{nullptr};
-                        size_t char_width = 8;
-                        if (chars[char_index - 1] == 0x1B)
-                        {
-                            char_image = GetSymbolImage(char_code, ramline);
-                            char_index -= 2;
-                            char_width = 16;
-                        }
-                        else
-                        {
-                            char_image = GetCharImage(char_code, ramline);
-                            char_index -= 1;
-                        }
-                        for (int i = char_width - 1; i >= 0; i--)
-                        {
-                            out_buf[1 + seg] = invert ? ~char_image[i] : char_image[i];
-                            seg--;
-                        }
-                    }
-                }
-
+                ESP_LOG_BUFFER_HEX(TAG, out_buf, 16);
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, out_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));
             }
             free(chars);
@@ -385,7 +411,7 @@ namespace ssd1306
             return chars_len;
         }
 
-        size_t lcdprintf(int line, uint8_t segment0_127, bool invert, const char *format, ...)
+        size_t lcdprintf_doesnotworkbecauseofmissingfont(int line, uint8_t segment0_127, bool invert, const char *format, ...)
         {
             line %= 8; // important: line can be an arbitrary integer
             if (line < 0)
@@ -405,7 +431,7 @@ namespace ssd1306
             for (uint8_t i = 0; i < buffer_len; i++)
             {
                 // display_image(line, segment0_127, font::font8x8_basic_tr[(uint8_t)buffer[i]], 8, invert);
-                update_buf(line, segment0_127, font::font8x8_data[(uint8_t)buffer[i]], 8, invert);
+                //TODO update_buf(line, segment0_127, font::font8x8_data[(uint8_t)buffer[i]], 8, invert);
                 segment0_127 = segment0_127 + 8;
             }
             flush_buf(line, 0, 128);
@@ -425,7 +451,7 @@ namespace ssd1306
         esp_err_t Init(i2c_master_bus_handle_t bus_handle, uint32_t scl_speed_hz = 400000)
         {
             ESP_ERROR_CHECK(i2c_master_probe(bus_handle, I2C_ADDRESS, 100));
-            ESP_LOGI(TAG, "Found SSD1306");
+            ESP_LOGI(TAG, "OLED SSD1306 found!");
 
             i2c_device_config_t dev_cfg = {
                 .dev_addr_length = I2C_ADDR_BIT_LEN_7,
@@ -512,7 +538,7 @@ namespace ssd1306
             this->s_chDisplayBuffer[index] |= 1 << y & 0b111;
         }
 
-        M(const font::FixedSizeFont *font, uint8_t startline = 0) : startline(startline & 0b00111111), font(font)
+        M(const FontDesc* const font, uint8_t startline = 0) : startline(startline & 0b00111111), font(font)
         {
             this->s_chDisplayBuffer = new uint8_t[128 * 8];
             memset(this->s_chDisplayBuffer, 0, 128 * 8);
@@ -525,7 +551,8 @@ namespace ssd1306
         uint8_t *s_chDisplayBuffer{nullptr};
         uint8_t *write_buf{nullptr};
         uint8_t startline;
-        const font::FixedSizeFont *font;
+        const FontDesc* const font;
+        std::vector<GlyphHelper> glyphs;
 
         inline size_t point2buffer_index(uint8_t x, uint8_t y)
         {
