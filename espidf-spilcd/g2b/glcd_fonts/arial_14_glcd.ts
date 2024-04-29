@@ -37,7 +37,7 @@
 
 
 
-export const Arial14 = [
+export default [] = [
     0x1E, 0x6C, // size
     0x0D, // width
     0x0E, // height

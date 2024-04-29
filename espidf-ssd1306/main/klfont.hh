@@ -45,12 +45,12 @@ public:
     const uint32_t maxGlyphIndexWithKerningInfo;
     const uint8_t leftKerningClassCnt;
     const uint8_t rightKerningClassCnt;
-    const uint8_t *const kern_left_class_mapping;
-    const uint8_t *const kern_right_class_mapping;
-    const int16_t *const kern_class_values;
+    const std::initializer_list<uint8_t> * kern_left_class_mapping;
+    const std::initializer_list<uint8_t> * kern_right_class_mapping;
+    const std::initializer_list<int16_t> * kern_class_values;
     const uint32_t cmapsLen;
-    const CharacterMap0Tiny *const cmaps;
-    const GlyphDesc *const glyph_desc;
+    const std::initializer_list<CharacterMap0Tiny>* cmaps;
+    const std::initializer_list<GlyphDesc>* glyph_desc;
     const std::initializer_list<uint8_t>* glyph_bitmap;
     const int8_t line_height;
     const int8_t base_line;
@@ -62,7 +62,7 @@ public:
         uint32_t glyphIndex;
         for (int mapIndex = 0; mapIndex < cmapsLen; mapIndex++)
         {
-            auto map = cmaps[mapIndex];
+            auto map = cmaps->begin()[mapIndex];
             if (map.GetGlyphIndex(codepoint, glyphIndex))
             {
                 return glyphIndex;
@@ -83,8 +83,8 @@ public:
 
 
 
-        uint8_t left_class = kern_left_class_mapping[gid_left];
-        uint8_t right_class = kern_right_class_mapping[gid_right];
+        uint8_t left_class = kern_left_class_mapping->begin()[gid_left];
+        uint8_t right_class = kern_right_class_mapping->begin()[gid_right];
 
         /*If class = 0, kerning not exist for that glyph
          *else got the value form `class_pair_values` 2D array*/
@@ -93,7 +93,7 @@ public:
             return 0;
         }
 
-        return kern_class_values[(left_class - 1) * rightKerningClassCnt + (right_class - 1)];
+        return kern_class_values->begin()[(left_class - 1) * rightKerningClassCnt + (right_class - 1)];
     }
 
     constexpr FontDesc(
@@ -101,12 +101,12 @@ public:
         const uint32_t maxGlyphIndexWithKerningInfo,
         const uint8_t leftKerningClassCnt,
         const uint8_t rightKerningClassCnt,
-        const uint8_t *const kern_left_class_mapping,
-        const uint8_t *const kern_right_class_mapping,
-        const int16_t *const kern_class_values,
+        const std::initializer_list<uint8_t>* kern_left_class_mapping,
+        const std::initializer_list<uint8_t>* kern_right_class_mapping,
+        const std::initializer_list<int16_t>* kern_class_values,
         const uint32_t cmapsLen,
-        const CharacterMap0Tiny *const cmaps,
-        const GlyphDesc *const glyph_desc,
+        const std::initializer_list<CharacterMap0Tiny>* cmaps,
+        const std::initializer_list<GlyphDesc>* glyph_desc,
         const std::initializer_list<uint8_t>* glyph_bitmap,
         const int8_t line_height,
         const int8_t base_line) : unitsPerEm(unitsPerEm),
@@ -125,9 +125,7 @@ public:
     {
     }
 };
-namespace roboto_fontawesome_16px1bpp{
-    extern const FontDesc font;
-}
-namespace arial_fontawesome_16px1bpp{
+
+namespace arial_and_symbols_16px1bpp{
     extern const FontDesc font;
 }

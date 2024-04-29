@@ -279,7 +279,7 @@ namespace ssd1306
             //second tab is right and right-aligned
             size_t glyphBeforeTabulator[2]={UINT32_MAX, UINT32_MAX};
             
-            uint16_t posX = PADDING_LEFT-font->glyph_desc[currentGlyphIndex].ofs_x;
+            uint16_t posX = PADDING_LEFT-font->glyph_desc->begin()[currentGlyphIndex].ofs_x;
             uint16_t endX{0};
             uint8_t tabIndex=0;
             while (currentCodepoint)
@@ -304,7 +304,7 @@ namespace ssd1306
                     nextGlyphIndex = font->GetGlyphIndex(nextCodepoint);
                     kv = font->GetKerningValue(currentGlyphIndex, nextGlyphIndex);
                 }
-                auto dsc=&font->glyph_desc[currentGlyphIndex];
+                auto dsc=&font->glyph_desc->begin()[currentGlyphIndex];
                 if(currentCodepoint>0xFF){
                     ESP_LOGD(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%lu", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
                 }

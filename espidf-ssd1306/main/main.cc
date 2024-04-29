@@ -48,7 +48,7 @@ extern "C" void app_main(void)
     // dev_cfg.scl_speed_hz = 100000;
     // ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle));
 
-    lcd = new ssd1306::M<128, 64>(&arial_fontawesome_16px1bpp::font);
+    lcd = new ssd1306::M<128, 64>(&arial_and_symbols_16px1bpp::font);
     lcd->Init(bus_handle);
     vTaskDelay(pdMS_TO_TICKS(100));
     lcd->printfl(0, false, "Hallo " G_VOLUME_2);
