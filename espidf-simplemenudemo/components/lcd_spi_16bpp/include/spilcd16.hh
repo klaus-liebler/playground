@@ -11,15 +11,16 @@
 #include <driver/gpio.h>
 #include <esp_heap_caps.h>
 #include <algorithm>
-#include <esp_log.h>
 #include "./interfaces.hh"
 #include "RGB565.hh"
 #include "errorcodes.hh"
 #include "common-esp32.hh"
 #include <bit>
 #include "lvgl/lvgl.h"
-#include "text_utils.hh"
+#include "lv_font_utils.hh"
+#include "unicode_utils.hh"
 #define TAG "LCD"
+#include <esp_log.h>
 
 /*
 Idee: Den Auftrag, einen bestimmten Bereich des Displays neu zu befüllen, wird asynchron über einen AsyncRenderer erledigt.
@@ -190,7 +191,7 @@ namespace spilcd16
                 free(text);
                 return;
             }
-            nextGlyphIndex= GetGlyphIndex(getCodepointAndAdvancePointer(&c)); 
+            nextGlyphIndex= GetGlyphIndex(unicode_utils::getCodepointAndAdvancePointer(&c)); 
         }
 
         bool GetNextOverallLimits(size_t bufferSize, Point2D &start, Point2D &end_excl) override
@@ -201,7 +202,7 @@ namespace spilcd16
                 return false;
             }
             currentGlyphIndex=nextGlyphIndex;
-            nextGlyphIndex= GetGlyphIndex(getCodepointAndAdvancePointer(&c));
+            nextGlyphIndex= GetGlyphIndex(unicode_utils::getCodepointAndAdvancePointer(&c));
             int32_t kv = GetKerningValue(currentGlyphIndex, nextGlyphIndex); 
             
             const lv_font_fmt_txt_glyph_dsc_t * glyph_dsc= GetGlyphDesc(currentGlyphIndex);

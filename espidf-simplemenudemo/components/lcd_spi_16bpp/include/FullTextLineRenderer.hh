@@ -4,13 +4,14 @@
 #include <algorithm>
 #include <vector>
 #include <bit>
-#include <esp_log.h>
 #include "RGB565.hh"
 #include "lvgl/lvgl.h"
-#define TAG "FTLR"
 #include "interfaces.hh"
 #include "lvgl/lvgl.h"
-#include "text_utils.hh"
+#include "lv_font_utils.hh"
+#include "unicode_utils.hh"
+#define TAG "FTLR"
+#include <esp_log.h>
 using namespace display;
 namespace spilcd16
 {
@@ -70,7 +71,7 @@ namespace spilcd16
         {
             int baselineY = (LINE_HEIGHT_PIXELS + font->line_height-4) * 0.5; // font soll in der Mitte der LINE stehen
             ESP_LOGD(TAG, "Baseline=%d", baselineY);
-            uint32_t currentCodepoint = getCodepointAndAdvancePointer(&chars);
+            uint32_t currentCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
             uint32_t currentGlyphIndex=GetGlyphIndex(font, currentCodepoint);
             uint32_t nextCodepoint{0};
             uint32_t nextGlyphIndex{0};
@@ -84,14 +85,14 @@ namespace spilcd16
             while (currentCodepoint)
             {
                 
-                nextCodepoint = getCodepointAndAdvancePointer(&chars);
+                nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
                 int32_t kv;
                 if(nextCodepoint=='\t' && tabIndex<2){
                     glyphBeforeTabulator[tabIndex++]=glyphs.size();
-                    nextCodepoint = getCodepointAndAdvancePointer(&chars);
+                    nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
                     if(nextCodepoint=='\t' && tabIndex<2){
                         glyphBeforeTabulator[tabIndex++]=glyphs.size();
-                        nextCodepoint = getCodepointAndAdvancePointer(&chars);
+                        nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
                         ESP_LOGD(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
                     }
                     else{

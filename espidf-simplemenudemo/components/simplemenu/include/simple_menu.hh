@@ -194,7 +194,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline();
                 lw->printfl(0, false, "Edit Value");
             }
-            lw->printfl(1, true, "%.2f [%.2f]", valueTmp/(float)UNITS_PER_INTEGER, (*value)/(float)UNITS_PER_INTEGER);
+            lw->printfl(1, true, "%.2f [%.2f]", valueTmp/(float)UNITS_PER_INTEGER, *value);
         }
 
          MenuItemResult Select(MenuItem **toOpen) override {
@@ -379,7 +379,7 @@ namespace menu
 
         const char *GetSelectedOptionSymbol(int offsetWrtSelectedOptionTmp = 0)
         {
-            return modulo(selectedOptionTmp+offsetWrtSelectedOptionTmp, options->size())==selectedOption?G_ANCHOR:" ";
+            return modulo(selectedOptionTmp+offsetWrtSelectedOptionTmp, options->size())==selectedOption?G_ARROW_LEFT_BOX:" ";
         }
 
         size_t GetSelectedOptionIndex()

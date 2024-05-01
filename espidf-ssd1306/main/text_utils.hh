@@ -4,14 +4,6 @@
 #include <esp_log.h>
 namespace text_utils
 {
-    constexpr const uint8_t opa4_table[16] = {0, 17, 34, 51,
-                                              68, 85, 102, 119,
-                                              136, 153, 170, 187,
-                                              204, 221, 238, 255};
-
-
-    
-
     uint32_t getCodepointAndAdvancePointer(char **c)
     {
         //if((**c)==0) return 0; not necessary; is first case!
