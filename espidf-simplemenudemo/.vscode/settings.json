@@ -17,7 +17,9 @@
     "idf.toolsPathWin": "C:\\Users\\mail\\.espressif",
     "files.associations": {
         "initializer_list": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "compare": "cpp",
+        "cstdint": "cpp"
     },
     "idf.flashType": "UART"
 }

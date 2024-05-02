@@ -1,4 +1,4 @@
-//created with glyph_extractor.ts 2024-04-30 21:53:30
+//created with glyph_extractor.ts 2024-05-02 20:59:44
 #include <cstdint>
 #include <initializer_list>
 #include "lcd_font.hh"
@@ -592,589 +592,589 @@ constexpr std::initializer_list<uint8_t> glyph_bitmap={
 };
 
 constexpr std::initializer_list<GlyphDesc> glyph_desc={
-	GlyphDesc(0, 0, 0, 0),// DummyGlyph glyphindex=0 codepoint=0
-	GlyphDesc(0, 4, 2, 0),//   glyphindex=1 codepoint=32
-	GlyphDesc(4, 3, 1, 0),// ! glyphindex=2 codepoint=33
-	GlyphDesc(6, 5, 3, 0),// " glyphindex=3 codepoint=34
-	GlyphDesc(12, 10, 8, 0),// # glyphindex=4 codepoint=35
-	GlyphDesc(28, 9, 7, 0),// $ glyphindex=5 codepoint=36
-	GlyphDesc(42, 12, 10, 0),// % glyphindex=6 codepoint=37
-	GlyphDesc(62, 10, 8, 0),// & glyphindex=7 codepoint=38
-	GlyphDesc(78, 3, 1, 0),// ' glyphindex=8 codepoint=39
-	GlyphDesc(80, 5, 3, 0),// ( glyphindex=9 codepoint=40
-	GlyphDesc(86, 5, 3, 0),// ) glyphindex=10 codepoint=41
-	GlyphDesc(92, 7, 5, 0),// * glyphindex=11 codepoint=42
-	GlyphDesc(102, 9, 7, 0),// + glyphindex=12 codepoint=43
-	GlyphDesc(116, 3, 1, 0),// , glyphindex=13 codepoint=44
-	GlyphDesc(118, 6, 4, 0),// - glyphindex=14 codepoint=45
-	GlyphDesc(126, 3, 1, 0),// . glyphindex=15 codepoint=46
-	GlyphDesc(128, 6, 4, 0),// / glyphindex=16 codepoint=47
-	GlyphDesc(136, 8, 6, 0),// 0 glyphindex=17 codepoint=48
-	GlyphDesc(148, 5, 3, 0),// 1 glyphindex=18 codepoint=49
-	GlyphDesc(154, 8, 6, 0),// 2 glyphindex=19 codepoint=50
-	GlyphDesc(166, 8, 6, 0),// 3 glyphindex=20 codepoint=51
-	GlyphDesc(178, 9, 7, 0),// 4 glyphindex=21 codepoint=52
-	GlyphDesc(192, 8, 6, 0),// 5 glyphindex=22 codepoint=53
-	GlyphDesc(204, 8, 6, 0),// 6 glyphindex=23 codepoint=54
-	GlyphDesc(216, 8, 6, 0),// 7 glyphindex=24 codepoint=55
-	GlyphDesc(228, 8, 6, 0),// 8 glyphindex=25 codepoint=56
-	GlyphDesc(240, 8, 6, 0),// 9 glyphindex=26 codepoint=57
-	GlyphDesc(252, 3, 1, 0),// : glyphindex=27 codepoint=58
-	GlyphDesc(254, 3, 1, 0),// ; glyphindex=28 codepoint=59
-	GlyphDesc(256, 8, 6, 0),// < glyphindex=29 codepoint=60
-	GlyphDesc(268, 8, 6, 0),// = glyphindex=30 codepoint=61
-	GlyphDesc(280, 8, 6, 0),// > glyphindex=31 codepoint=62
-	GlyphDesc(292, 8, 6, 0),// ? glyphindex=32 codepoint=63
-	GlyphDesc(304, 15, 13, 0),// @ glyphindex=33 codepoint=64
-	GlyphDesc(330, 11, 9, 0),// A glyphindex=34 codepoint=65
-	GlyphDesc(348, 9, 7, 0),// B glyphindex=35 codepoint=66
-	GlyphDesc(362, 10, 8, 0),// C glyphindex=36 codepoint=67
-	GlyphDesc(378, 10, 8, 0),// D glyphindex=37 codepoint=68
-	GlyphDesc(394, 9, 7, 0),// E glyphindex=38 codepoint=69
-	GlyphDesc(408, 9, 7, 0),// F glyphindex=39 codepoint=70
-	GlyphDesc(422, 11, 9, 0),// G glyphindex=40 codepoint=71
-	GlyphDesc(440, 9, 7, 0),// H glyphindex=41 codepoint=72
-	GlyphDesc(454, 3, 1, 0),// I glyphindex=42 codepoint=73
-	GlyphDesc(456, 7, 5, 0),// J glyphindex=43 codepoint=74
-	GlyphDesc(466, 10, 8, 0),// K glyphindex=44 codepoint=75
-	GlyphDesc(482, 9, 7, 0),// L glyphindex=45 codepoint=76
-	GlyphDesc(496, 11, 9, 0),// M glyphindex=46 codepoint=77
-	GlyphDesc(514, 9, 7, 0),// N glyphindex=47 codepoint=78
-	GlyphDesc(528, 11, 9, 0),// O glyphindex=48 codepoint=79
-	GlyphDesc(546, 9, 7, 0),// P glyphindex=49 codepoint=80
-	GlyphDesc(560, 11, 9, 0),// Q glyphindex=50 codepoint=81
-	GlyphDesc(578, 10, 8, 0),// R glyphindex=51 codepoint=82
-	GlyphDesc(594, 9, 7, 0),// S glyphindex=52 codepoint=83
-	GlyphDesc(608, 9, 7, 0),// T glyphindex=53 codepoint=84
-	GlyphDesc(622, 9, 7, 0),// U glyphindex=54 codepoint=85
-	GlyphDesc(636, 11, 9, 0),// V glyphindex=55 codepoint=86
-	GlyphDesc(654, 15, 13, 0),// W glyphindex=56 codepoint=87
-	GlyphDesc(680, 10, 8, 0),// X glyphindex=57 codepoint=88
-	GlyphDesc(696, 11, 9, 0),// Y glyphindex=58 codepoint=89
-	GlyphDesc(714, 10, 8, 0),// Z glyphindex=59 codepoint=90
-	GlyphDesc(730, 4, 2, 0),// [ glyphindex=60 codepoint=91
-	GlyphDesc(734, 6, 4, 0),// \ glyphindex=61 codepoint=92
-	GlyphDesc(742, 4, 2, 0),// ] glyphindex=62 codepoint=93
-	GlyphDesc(746, 7, 5, 0),// ^ glyphindex=63 codepoint=94
-	GlyphDesc(756, 10, 8, 0),// _ glyphindex=64 codepoint=95
-	GlyphDesc(772, 4, 2, 0),// ` glyphindex=65 codepoint=96
-	GlyphDesc(776, 8, 6, 0),// a glyphindex=66 codepoint=97
-	GlyphDesc(788, 8, 6, 0),// b glyphindex=67 codepoint=98
-	GlyphDesc(800, 7, 5, 0),// c glyphindex=68 codepoint=99
-	GlyphDesc(810, 8, 6, 0),// d glyphindex=69 codepoint=100
-	GlyphDesc(822, 8, 6, 0),// e glyphindex=70 codepoint=101
-	GlyphDesc(834, 6, 4, 0),// f glyphindex=71 codepoint=102
-	GlyphDesc(842, 8, 6, 0),// g glyphindex=72 codepoint=103
-	GlyphDesc(854, 8, 6, 0),// h glyphindex=73 codepoint=104
-	GlyphDesc(866, 3, 1, 0),// i glyphindex=74 codepoint=105
-	GlyphDesc(868, 4, 2, 0),// j glyphindex=75 codepoint=106
-	GlyphDesc(872, 8, 6, 0),// k glyphindex=76 codepoint=107
-	GlyphDesc(884, 3, 1, 0),// l glyphindex=77 codepoint=108
-	GlyphDesc(886, 11, 9, 0),// m glyphindex=78 codepoint=109
-	GlyphDesc(904, 8, 6, 0),// n glyphindex=79 codepoint=110
-	GlyphDesc(916, 8, 6, 0),// o glyphindex=80 codepoint=111
-	GlyphDesc(928, 8, 6, 0),// p glyphindex=81 codepoint=112
-	GlyphDesc(940, 8, 6, 0),// q glyphindex=82 codepoint=113
-	GlyphDesc(952, 6, 4, 0),// r glyphindex=83 codepoint=114
-	GlyphDesc(960, 7, 5, 0),// s glyphindex=84 codepoint=115
-	GlyphDesc(970, 6, 4, 0),// t glyphindex=85 codepoint=116
-	GlyphDesc(978, 8, 6, 0),// u glyphindex=86 codepoint=117
-	GlyphDesc(990, 9, 7, 0),// v glyphindex=87 codepoint=118
-	GlyphDesc(1004, 11, 9, 0),// w glyphindex=88 codepoint=119
-	GlyphDesc(1022, 8, 6, 0),// x glyphindex=89 codepoint=120
-	GlyphDesc(1034, 9, 7, 0),// y glyphindex=90 codepoint=121
-	GlyphDesc(1048, 8, 6, 0),// z glyphindex=91 codepoint=122
-	GlyphDesc(1060, 5, 3, 0),// { glyphindex=92 codepoint=123
-	GlyphDesc(1066, 3, 1, 0),// | glyphindex=93 codepoint=124
-	GlyphDesc(1068, 5, 3, 0),// } glyphindex=94 codepoint=125
-	GlyphDesc(1074, 9, 7, 0),// ~ glyphindex=95 codepoint=126
-	GlyphDesc(1088, 9, 7, 0),//  glyphindex=96 codepoint=127
-	GlyphDesc(1102, 16, 9, 2),// 4g glyphindex=97 codepoint=57344
-	GlyphDesc(1120, 16, 11, 1),// 4k-box glyphindex=98 codepoint=57345
-	GlyphDesc(1142, 16, 9, 2),// 4k glyphindex=99 codepoint=57346
-	GlyphDesc(1160, 16, 9, 2),// 5g glyphindex=100 codepoint=57347
-	GlyphDesc(1178, 16, 9, 2),// ab-testing glyphindex=101 codepoint=57348
-	GlyphDesc(1196, 16, 10, 1),// ac glyphindex=102 codepoint=57349
-	GlyphDesc(1216, 16, 9, 2),// add-box-multiple glyphindex=103 codepoint=57350
-	GlyphDesc(1234, 16, 9, 2),// add-box glyphindex=104 codepoint=57351
-	GlyphDesc(1252, 16, 10, 1),// add-col glyphindex=105 codepoint=57352
-	GlyphDesc(1272, 16, 9, 2),// add-grid glyphindex=106 codepoint=57353
-	GlyphDesc(1290, 16, 10, 1),// add-row glyphindex=107 codepoint=57354
-	GlyphDesc(1310, 16, 11, 1),// alert glyphindex=108 codepoint=57355
-	GlyphDesc(1332, 16, 8, 2),// align-center glyphindex=109 codepoint=57356
-	GlyphDesc(1348, 16, 8, 2),// align-justify glyphindex=110 codepoint=57357
-	GlyphDesc(1364, 16, 8, 2),// align-left glyphindex=111 codepoint=57358
-	GlyphDesc(1380, 16, 8, 2),// align-right glyphindex=112 codepoint=57359
-	GlyphDesc(1396, 16, 9, 2),// analytics glyphindex=113 codepoint=57360
-	GlyphDesc(1414, 16, 8, 2),// anchor glyphindex=114 codepoint=57361
-	GlyphDesc(1430, 16, 10, 1),// android glyphindex=115 codepoint=57362
-	GlyphDesc(1450, 16, 10, 1),// animation glyphindex=116 codepoint=57363
-	GlyphDesc(1470, 16, 10, 1),// archive glyphindex=117 codepoint=57364
-	GlyphDesc(1490, 16, 8, 2),// arrow-bar-down glyphindex=118 codepoint=57365
-	GlyphDesc(1506, 16, 8, 2),// arrow-bar-left glyphindex=119 codepoint=57366
-	GlyphDesc(1522, 16, 8, 2),// arrow-bar-right glyphindex=120 codepoint=57367
-	GlyphDesc(1538, 16, 8, 2),// arrow-bar-up glyphindex=121 codepoint=57368
-	GlyphDesc(1554, 16, 9, 2),// arrow-down-box glyphindex=122 codepoint=57369
-	GlyphDesc(1572, 16, 7, 3),// arrow-down glyphindex=123 codepoint=57370
-	GlyphDesc(1586, 16, 9, 2),// arrow-left-box glyphindex=124 codepoint=57371
-	GlyphDesc(1604, 16, 8, 2),// arrow-left glyphindex=125 codepoint=57372
-	GlyphDesc(1620, 16, 9, 2),// arrow-right-box glyphindex=126 codepoint=57373
-	GlyphDesc(1638, 16, 8, 2),// arrow-right glyphindex=127 codepoint=57374
-	GlyphDesc(1654, 16, 9, 2),// arrow-up-box glyphindex=128 codepoint=57375
-	GlyphDesc(1672, 16, 7, 3),// arrow-up glyphindex=129 codepoint=57376
-	GlyphDesc(1686, 16, 9, 2),// arrows-horizontal glyphindex=130 codepoint=57377
-	GlyphDesc(1704, 16, 5, 4),// arrows-vertical glyphindex=131 codepoint=57378
-	GlyphDesc(1714, 16, 10, 1),// art-text glyphindex=132 codepoint=57379
-	GlyphDesc(1734, 16, 11, 1),// article-multiple glyphindex=133 codepoint=57380
-	GlyphDesc(1756, 16, 9, 2),// article glyphindex=134 codepoint=57381
-	GlyphDesc(1774, 16, 10, 1),// aspect-ratio glyphindex=135 codepoint=57382
-	GlyphDesc(1794, 16, 8, 2),// at glyphindex=136 codepoint=57383
-	GlyphDesc(1810, 16, 7, 3),// attachment glyphindex=137 codepoint=57384
-	GlyphDesc(1824, 16, 10, 1),// audio-device glyphindex=138 codepoint=57385
-	GlyphDesc(1844, 16, 9, 2),// avatar glyphindex=139 codepoint=57386
-	GlyphDesc(1862, 16, 9, 2),// backburger glyphindex=140 codepoint=57387
-	GlyphDesc(1880, 16, 10, 1),// battery-1 glyphindex=141 codepoint=57388
-	GlyphDesc(1900, 16, 10, 1),// battery-2 glyphindex=142 codepoint=57389
-	GlyphDesc(1920, 16, 10, 1),// battery-charging glyphindex=143 codepoint=57390
-	GlyphDesc(1940, 16, 10, 1),// battery-full glyphindex=144 codepoint=57391
-	GlyphDesc(1960, 16, 10, 1),// battery glyphindex=145 codepoint=57392
-	GlyphDesc(1980, 16, 12, 0),// bed glyphindex=146 codepoint=57393
-	GlyphDesc(2004, 16, 7, 3),// bitcoin glyphindex=147 codepoint=57394
-	GlyphDesc(2018, 16, 7, 3),// bluetooth glyphindex=148 codepoint=57395
-	GlyphDesc(2032, 16, 11, 1),// book-open glyphindex=149 codepoint=57396
-	GlyphDesc(2054, 16, 8, 2),// book glyphindex=150 codepoint=57397
-	GlyphDesc(2070, 16, 8, 2),// bookmark glyphindex=151 codepoint=57398
-	GlyphDesc(2086, 16, 9, 2),// bookmarks glyphindex=152 codepoint=57399
-	GlyphDesc(2104, 16, 10, 1),// briefcase-account glyphindex=153 codepoint=57400
-	GlyphDesc(2124, 16, 10, 1),// briefcase-check glyphindex=154 codepoint=57401
-	GlyphDesc(2144, 16, 10, 1),// briefcase-delete glyphindex=155 codepoint=57402
-	GlyphDesc(2164, 16, 10, 1),// briefcase-download glyphindex=156 codepoint=57403
-	GlyphDesc(2184, 16, 10, 1),// briefcase-minus glyphindex=157 codepoint=57404
-	GlyphDesc(2204, 16, 10, 1),// briefcase-plus glyphindex=158 codepoint=57405
-	GlyphDesc(2224, 16, 11, 1),// briefcase-search-1 glyphindex=159 codepoint=57406
-	GlyphDesc(2246, 16, 10, 1),// briefcase-search glyphindex=160 codepoint=57407
-	GlyphDesc(2266, 16, 10, 1),// briefcase-upload glyphindex=161 codepoint=57408
-	GlyphDesc(2286, 16, 10, 1),// briefcase glyphindex=162 codepoint=57409
-	GlyphDesc(2306, 16, 10, 1),// bug glyphindex=163 codepoint=57410
-	GlyphDesc(2326, 16, 10, 1),// building-community glyphindex=164 codepoint=57411
-	GlyphDesc(2346, 16, 10, 1),// building-skyscraper glyphindex=165 codepoint=57412
-	GlyphDesc(2366, 16, 9, 2),// building glyphindex=166 codepoint=57413
-	GlyphDesc(2384, 16, 10, 1),// buildings glyphindex=167 codepoint=57414
-	GlyphDesc(2404, 16, 10, 1),// bulletlist glyphindex=168 codepoint=57415
-	GlyphDesc(2424, 16, 10, 1),// bullseye-arrow glyphindex=169 codepoint=57416
-	GlyphDesc(2444, 16, 10, 1),// bullseye glyphindex=170 codepoint=57417
-	GlyphDesc(2464, 16, 9, 2),// bus glyphindex=171 codepoint=57418
-	GlyphDesc(2482, 16, 10, 1),// cake glyphindex=172 codepoint=57419
-	GlyphDesc(2502, 16, 9, 2),// calculator glyphindex=173 codepoint=57420
-	GlyphDesc(2520, 16, 9, 2),// calendar-alert glyphindex=174 codepoint=57421
-	GlyphDesc(2538, 16, 9, 2),// calendar-arrow-left glyphindex=175 codepoint=57422
-	GlyphDesc(2556, 16, 9, 2),// calendar-arrow-right glyphindex=176 codepoint=57423
-	GlyphDesc(2574, 16, 9, 2),// calendar-check glyphindex=177 codepoint=57424
-	GlyphDesc(2592, 16, 9, 2),// calendar-export glyphindex=178 codepoint=57425
-	GlyphDesc(2610, 16, 9, 2),// calendar-grid glyphindex=179 codepoint=57426
-	GlyphDesc(2628, 16, 9, 2),// calendar-import glyphindex=180 codepoint=57427
-	GlyphDesc(2646, 16, 9, 2),// calendar-minus glyphindex=181 codepoint=57428
-	GlyphDesc(2664, 16, 9, 2),// calendar-month glyphindex=182 codepoint=57429
-	GlyphDesc(2682, 16, 11, 1),// calendar-multiple-check glyphindex=183 codepoint=57430
-	GlyphDesc(2704, 16, 11, 1),// calendar-multiple glyphindex=184 codepoint=57431
-	GlyphDesc(2726, 16, 9, 2),// calendar-plus glyphindex=185 codepoint=57432
-	GlyphDesc(2744, 16, 9, 2),// calendar-range glyphindex=186 codepoint=57433
-	GlyphDesc(2762, 16, 9, 2),// calendar-remove glyphindex=187 codepoint=57434
-	GlyphDesc(2780, 16, 9, 2),// calendar-search glyphindex=188 codepoint=57435
-	GlyphDesc(2798, 16, 12, 0),// calendar-sort-ascending glyphindex=189 codepoint=57436
-	GlyphDesc(2822, 16, 12, 0),// calendar-sort-descending glyphindex=190 codepoint=57437
-	GlyphDesc(2846, 16, 9, 2),// calendar-text glyphindex=191 codepoint=57438
-	GlyphDesc(2864, 16, 9, 2),// calendar-today glyphindex=192 codepoint=57439
-	GlyphDesc(2882, 16, 9, 2),// calendar-tomorrow glyphindex=193 codepoint=57440
-	GlyphDesc(2900, 16, 9, 2),// calendar-week-begin glyphindex=194 codepoint=57441
-	GlyphDesc(2918, 16, 9, 2),// calendar-week glyphindex=195 codepoint=57442
-	GlyphDesc(2936, 16, 9, 2),// calendar-weekend glyphindex=196 codepoint=57443
-	GlyphDesc(2954, 16, 9, 2),// calendar glyphindex=197 codepoint=57444
-	GlyphDesc(2972, 16, 11, 0),// camera-add glyphindex=198 codepoint=57445
-	GlyphDesc(2994, 16, 10, 1),// camera-alt glyphindex=199 codepoint=57446
-	GlyphDesc(3014, 16, 10, 1),// camera-face glyphindex=200 codepoint=57447
-	GlyphDesc(3034, 16, 10, 1),// camera glyphindex=201 codepoint=57448
-	GlyphDesc(3054, 16, 9, 2),// car glyphindex=202 codepoint=57449
-	GlyphDesc(3072, 16, 10, 1),// card-id glyphindex=203 codepoint=57450
-	GlyphDesc(3092, 16, 10, 1),// card-plus glyphindex=204 codepoint=57451
-	GlyphDesc(3112, 16, 10, 1),// card-stack glyphindex=205 codepoint=57452
-	GlyphDesc(3132, 16, 10, 1),// card-text glyphindex=206 codepoint=57453
-	GlyphDesc(3152, 16, 10, 1),// card glyphindex=207 codepoint=57454
-	GlyphDesc(3172, 16, 10, 1),// cart glyphindex=208 codepoint=57455
-	GlyphDesc(3192, 16, 10, 1),// cast glyphindex=209 codepoint=57456
-	GlyphDesc(3212, 16, 10, 1),// cellular-signal-0 glyphindex=210 codepoint=57457
-	GlyphDesc(3232, 16, 10, 1),// cellular-signal-1 glyphindex=211 codepoint=57458
-	GlyphDesc(3252, 16, 10, 1),// cellular-signal-2 glyphindex=212 codepoint=57459
-	GlyphDesc(3272, 16, 10, 1),// cellular-signal-3 glyphindex=213 codepoint=57460
-	GlyphDesc(3292, 16, 10, 1),// cellular-signal-off glyphindex=214 codepoint=57461
-	GlyphDesc(3312, 16, 9, 2),// chart-add glyphindex=215 codepoint=57462
-	GlyphDesc(3330, 16, 7, 3),// chart-bar glyphindex=216 codepoint=57463
-	GlyphDesc(3344, 16, 9, 2),// chart-delete glyphindex=217 codepoint=57464
-	GlyphDesc(3362, 16, 9, 2),// chart-minus glyphindex=218 codepoint=57465
-	GlyphDesc(3380, 16, 11, 1),// chart-multiple glyphindex=219 codepoint=57466
-	GlyphDesc(3402, 16, 9, 2),// chart glyphindex=220 codepoint=57467
-	GlyphDesc(3420, 16, 10, 1),// chat glyphindex=221 codepoint=57468
-	GlyphDesc(3440, 16, 11, 1),// check-double glyphindex=222 codepoint=57469
-	GlyphDesc(3462, 16, 8, 2),// check glyphindex=223 codepoint=57470
-	GlyphDesc(3478, 16, 9, 2),// checkbox-on glyphindex=224 codepoint=57471
-	GlyphDesc(3496, 16, 9, 2),// checkbox glyphindex=225 codepoint=57472
-	GlyphDesc(3514, 16, 9, 2),// checklist glyphindex=226 codepoint=57473
-	GlyphDesc(3532, 16, 10, 1),// chess glyphindex=227 codepoint=57474
-	GlyphDesc(3552, 16, 7, 3),// chevron-down glyphindex=228 codepoint=57475
-	GlyphDesc(3566, 16, 4, 4),// chevron-left glyphindex=229 codepoint=57476
-	GlyphDesc(3574, 16, 4, 4),// chevron-right glyphindex=230 codepoint=57477
-	GlyphDesc(3582, 16, 7, 3),// chevron-up glyphindex=231 codepoint=57478
-	GlyphDesc(3596, 16, 8, 2),// chevrons-horizontal glyphindex=232 codepoint=57479
-	GlyphDesc(3612, 16, 5, 4),// chevrons-vertical glyphindex=233 codepoint=57480
-	GlyphDesc(3622, 16, 9, 2),// circle glyphindex=234 codepoint=57481
-	GlyphDesc(3640, 16, 8, 2),// clipboard glyphindex=235 codepoint=57482
-	GlyphDesc(3656, 16, 9, 2),// clock glyphindex=236 codepoint=57483
-	GlyphDesc(3674, 16, 9, 2),// close-box glyphindex=237 codepoint=57484
-	GlyphDesc(3692, 16, 7, 3),// close glyphindex=238 codepoint=57485
-	GlyphDesc(3706, 16, 12, 0),// cloud-done glyphindex=239 codepoint=57486
-	GlyphDesc(3730, 16, 12, 0),// cloud-download glyphindex=240 codepoint=57487
-	GlyphDesc(3754, 16, 10, 1),// cloud-moon glyphindex=241 codepoint=57488
-	GlyphDesc(3774, 16, 11, 1),// cloud-sun glyphindex=242 codepoint=57489
-	GlyphDesc(3796, 16, 12, 0),// cloud-upload glyphindex=243 codepoint=57490
-	GlyphDesc(3820, 16, 12, 0),// cloud glyphindex=244 codepoint=57491
-	GlyphDesc(3844, 16, 9, 2),// cocktail glyphindex=245 codepoint=57492
-	GlyphDesc(3862, 16, 10, 1),// code glyphindex=246 codepoint=57493
-	GlyphDesc(3882, 16, 9, 2),// coffee-alt glyphindex=247 codepoint=57494
-	GlyphDesc(3900, 16, 9, 2),// coffee glyphindex=248 codepoint=57495
-	GlyphDesc(3918, 16, 10, 1),// coin glyphindex=249 codepoint=57496
-	GlyphDesc(3938, 16, 8, 2),// collapse glyphindex=250 codepoint=57497
-	GlyphDesc(3954, 16, 10, 1),// colors-swatch glyphindex=251 codepoint=57498
-	GlyphDesc(3974, 16, 10, 1),// command glyphindex=252 codepoint=57499
-	GlyphDesc(3994, 16, 10, 1),// comment glyphindex=253 codepoint=57500
-	GlyphDesc(4014, 16, 12, 0),// contact-delete glyphindex=254 codepoint=57501
-	GlyphDesc(4038, 16, 12, 0),// contact-multiple glyphindex=255 codepoint=57502
-	GlyphDesc(4062, 16, 12, 0),// contact-plus glyphindex=256 codepoint=57503
-	GlyphDesc(4086, 16, 12, 0),// contact glyphindex=257 codepoint=57504
-	GlyphDesc(4110, 16, 8, 2),// copy glyphindex=258 codepoint=57505
-	GlyphDesc(4126, 16, 8, 2),// corner-down-left glyphindex=259 codepoint=57506
-	GlyphDesc(4142, 16, 8, 2),// corner-down-right glyphindex=260 codepoint=57507
-	GlyphDesc(4158, 16, 8, 2),// corner-left-down glyphindex=261 codepoint=57508
-	GlyphDesc(4174, 16, 8, 2),// corner-left-up glyphindex=262 codepoint=57509
-	GlyphDesc(4190, 16, 8, 2),// corner-right-down glyphindex=263 codepoint=57510
-	GlyphDesc(4206, 16, 8, 2),// corner-right-up glyphindex=264 codepoint=57511
-	GlyphDesc(4222, 16, 8, 2),// corner-up-left glyphindex=265 codepoint=57512
-	GlyphDesc(4238, 16, 8, 2),// corner-up-right glyphindex=266 codepoint=57513
-	GlyphDesc(4254, 16, 10, 1),// credit-card-delete glyphindex=267 codepoint=57514
-	GlyphDesc(4274, 16, 10, 1),// credit-card-minus glyphindex=268 codepoint=57515
-	GlyphDesc(4294, 16, 11, 1),// credit-card-multiple glyphindex=269 codepoint=57516
-	GlyphDesc(4316, 16, 10, 1),// credit-card-plus glyphindex=270 codepoint=57517
-	GlyphDesc(4336, 16, 10, 1),// credit-card-settings glyphindex=271 codepoint=57518
-	GlyphDesc(4356, 16, 8, 2),// credit-card-wireless glyphindex=272 codepoint=57519
-	GlyphDesc(4372, 16, 10, 1),// credit-card glyphindex=273 codepoint=57520
-	GlyphDesc(4392, 16, 10, 1),// crop glyphindex=274 codepoint=57521
-	GlyphDesc(4412, 16, 10, 1),// cut glyphindex=275 codepoint=57522
-	GlyphDesc(4432, 16, 9, 2),// dashboard glyphindex=276 codepoint=57523
-	GlyphDesc(4450, 16, 10, 1),// debug-check glyphindex=277 codepoint=57524
-	GlyphDesc(4470, 16, 10, 1),// debug-off glyphindex=278 codepoint=57525
-	GlyphDesc(4490, 16, 10, 1),// debug-pause glyphindex=279 codepoint=57526
-	GlyphDesc(4510, 16, 10, 1),// debug-play glyphindex=280 codepoint=57527
-	GlyphDesc(4530, 16, 10, 1),// debug-stop glyphindex=281 codepoint=57528
-	GlyphDesc(4550, 16, 10, 1),// debug glyphindex=282 codepoint=57529
-	GlyphDesc(4570, 16, 11, 1),// delete glyphindex=283 codepoint=57530
-	GlyphDesc(4592, 16, 9, 2),// deskphone glyphindex=284 codepoint=57531
-	GlyphDesc(4610, 16, 10, 1),// device-laptop glyphindex=285 codepoint=57532
-	GlyphDesc(4630, 16, 6, 3),// device-phone glyphindex=286 codepoint=57533
-	GlyphDesc(4642, 16, 8, 2),// device-tablet glyphindex=287 codepoint=57534
-	GlyphDesc(4658, 16, 10, 1),// device-tv-smart glyphindex=288 codepoint=57535
-	GlyphDesc(4678, 16, 10, 1),// device-tv glyphindex=289 codepoint=57536
-	GlyphDesc(4698, 16, 12, 0),// device-vibrate glyphindex=290 codepoint=57537
-	GlyphDesc(4722, 16, 9, 2),// device-watch glyphindex=291 codepoint=57538
-	GlyphDesc(4740, 16, 10, 1),// devices glyphindex=292 codepoint=57539
-	GlyphDesc(4760, 16, 9, 2),// dice glyphindex=293 codepoint=57540
-	GlyphDesc(4778, 16, 7, 3),// dollar glyphindex=294 codepoint=57541
-	GlyphDesc(4792, 16, 10, 1),// downasaur glyphindex=295 codepoint=57542
-	GlyphDesc(4812, 16, 9, 2),// download glyphindex=296 codepoint=57543
-	GlyphDesc(4830, 16, 10, 1),// draft glyphindex=297 codepoint=57544
-	GlyphDesc(4850, 16, 9, 2),// drag-and-drop glyphindex=298 codepoint=57545
-	GlyphDesc(4868, 16, 9, 2),// drop-area glyphindex=299 codepoint=57546
-	GlyphDesc(4886, 16, 7, 3),// drop-full glyphindex=300 codepoint=57547
-	GlyphDesc(4900, 16, 7, 3),// drop-half glyphindex=301 codepoint=57548
-	GlyphDesc(4914, 16, 7, 3),// drop glyphindex=302 codepoint=57549
-	GlyphDesc(4928, 16, 9, 2),// duplicate-alt glyphindex=303 codepoint=57550
-	GlyphDesc(4946, 16, 9, 2),// duplicate glyphindex=304 codepoint=57551
-	GlyphDesc(4964, 16, 10, 1),// edit-box glyphindex=305 codepoint=57552
-	GlyphDesc(4984, 16, 10, 1),// edit glyphindex=306 codepoint=57553
-	GlyphDesc(5004, 16, 7, 3),// euro glyphindex=307 codepoint=57554
-	GlyphDesc(5018, 16, 8, 2),// expand glyphindex=308 codepoint=57555
-	GlyphDesc(5034, 16, 9, 2),// external-link glyphindex=309 codepoint=57556
-	GlyphDesc(5052, 16, 12, 0),// eye-closed glyphindex=310 codepoint=57557
-	GlyphDesc(5076, 16, 12, 0),// eye glyphindex=311 codepoint=57558
-	GlyphDesc(5100, 16, 9, 2),// file-alt glyphindex=312 codepoint=57559
-	GlyphDesc(5118, 16, 9, 2),// file-delete glyphindex=313 codepoint=57560
-	GlyphDesc(5136, 16, 9, 2),// file-flash glyphindex=314 codepoint=57561
-	GlyphDesc(5154, 16, 9, 2),// file-minus glyphindex=315 codepoint=57562
-	GlyphDesc(5172, 16, 9, 2),// file-multiple glyphindex=316 codepoint=57563
-	GlyphDesc(5190, 16, 10, 2),// file-off glyphindex=317 codepoint=57564
-	GlyphDesc(5210, 16, 9, 2),// file-plus glyphindex=318 codepoint=57565
-	GlyphDesc(5228, 16, 9, 2),// file glyphindex=319 codepoint=57566
-	GlyphDesc(5246, 16, 9, 2),// fill-half glyphindex=320 codepoint=57567
-	GlyphDesc(5264, 16, 9, 2),// fill glyphindex=321 codepoint=57568
-	GlyphDesc(5282, 16, 9, 2),// flag glyphindex=322 codepoint=57569
-	GlyphDesc(5300, 16, 8, 2),// flatten glyphindex=323 codepoint=57570
-	GlyphDesc(5316, 16, 9, 2),// flip-to-back glyphindex=324 codepoint=57571
-	GlyphDesc(5334, 16, 9, 2),// flip-to-front glyphindex=325 codepoint=57572
-	GlyphDesc(5352, 16, 10, 1),// float-center glyphindex=326 codepoint=57573
-	GlyphDesc(5372, 16, 10, 1),// float-left glyphindex=327 codepoint=57574
-	GlyphDesc(5392, 16, 10, 1),// float-right glyphindex=328 codepoint=57575
-	GlyphDesc(5412, 16, 10, 1),// folder-minus glyphindex=329 codepoint=57576
-	GlyphDesc(5432, 16, 10, 1),// folder-plus glyphindex=330 codepoint=57577
-	GlyphDesc(5452, 16, 10, 1),// folder-x glyphindex=331 codepoint=57578
-	GlyphDesc(5472, 16, 10, 1),// folder glyphindex=332 codepoint=57579
-	GlyphDesc(5492, 16, 8, 2),// forward glyphindex=333 codepoint=57580
-	GlyphDesc(5508, 16, 9, 2),// forwardburger glyphindex=334 codepoint=57581
-	GlyphDesc(5526, 16, 10, 1),// frame-add glyphindex=335 codepoint=57582
-	GlyphDesc(5546, 16, 10, 1),// frame-check glyphindex=336 codepoint=57583
-	GlyphDesc(5566, 16, 10, 1),// frame-delete glyphindex=337 codepoint=57584
-	GlyphDesc(5586, 16, 10, 1),// frame-minus glyphindex=338 codepoint=57585
-	GlyphDesc(5606, 16, 10, 1),// frame glyphindex=339 codepoint=57586
-	GlyphDesc(5626, 16, 10, 1),// gamepad glyphindex=340 codepoint=57587
-	GlyphDesc(5646, 16, 11, 1),// gif glyphindex=341 codepoint=57588
-	GlyphDesc(5668, 16, 10, 1),// gift glyphindex=342 codepoint=57589
-	GlyphDesc(5688, 16, 10, 1),// git-branch glyphindex=343 codepoint=57590
-	GlyphDesc(5708, 16, 10, 1),// git-commit glyphindex=344 codepoint=57591
-	GlyphDesc(5728, 16, 10, 1),// git-merge glyphindex=345 codepoint=57592
-	GlyphDesc(5748, 16, 10, 1),// git-pull-request glyphindex=346 codepoint=57593
-	GlyphDesc(5768, 16, 10, 1),// github-2 glyphindex=347 codepoint=57594
-	GlyphDesc(5788, 16, 10, 1),// github glyphindex=348 codepoint=57595
-	GlyphDesc(5808, 16, 10, 1),// gps glyphindex=349 codepoint=57596
-	GlyphDesc(5828, 16, 10, 1),// grid glyphindex=350 codepoint=57597
-	GlyphDesc(5848, 16, 9, 2),// group glyphindex=351 codepoint=57598
-	GlyphDesc(5866, 16, 9, 2),// hd glyphindex=352 codepoint=57599
-	GlyphDesc(5884, 16, 9, 2),// headphone glyphindex=353 codepoint=57600
-	GlyphDesc(5902, 16, 9, 2),// headset glyphindex=354 codepoint=57601
-	GlyphDesc(5920, 16, 11, 1),// heart glyphindex=355 codepoint=57602
-	GlyphDesc(5942, 16, 12, 0),// hidden glyphindex=356 codepoint=57603
-	GlyphDesc(5966, 16, 10, 1),// home glyphindex=357 codepoint=57604
-	GlyphDesc(5986, 16, 6, 3),// hourglass glyphindex=358 codepoint=57605
-	GlyphDesc(5998, 16, 10, 2),// hq glyphindex=359 codepoint=57606
-	GlyphDesc(6018, 16, 9, 2),// human-handsdown glyphindex=360 codepoint=57607
-	GlyphDesc(6036, 16, 9, 2),// human-handsup glyphindex=361 codepoint=57608
-	GlyphDesc(6054, 16, 11, 1),// human-height-alt glyphindex=362 codepoint=57609
-	GlyphDesc(6076, 16, 9, 2),// human-height glyphindex=363 codepoint=57610
-	GlyphDesc(6094, 16, 10, 1),// human-run glyphindex=364 codepoint=57611
-	GlyphDesc(6114, 16, 9, 2),// human glyphindex=365 codepoint=57612
-	GlyphDesc(6132, 16, 11, 1),// image-arrow-right glyphindex=366 codepoint=57613
-	GlyphDesc(6154, 16, 10, 1),// image-broken glyphindex=367 codepoint=57614
-	GlyphDesc(6174, 16, 10, 1),// image-delete glyphindex=368 codepoint=57615
-	GlyphDesc(6194, 16, 11, 1),// image-flash glyphindex=369 codepoint=57616
-	GlyphDesc(6216, 16, 10, 1),// image-frame glyphindex=370 codepoint=57617
-	GlyphDesc(6236, 16, 10, 1),// image-gallery glyphindex=371 codepoint=57618
-	GlyphDesc(6256, 16, 12, 0),// image-multiple glyphindex=372 codepoint=57619
-	GlyphDesc(6280, 16, 10, 1),// image-new glyphindex=373 codepoint=57620
-	GlyphDesc(6300, 16, 10, 1),// image-plus glyphindex=374 codepoint=57621
-	GlyphDesc(6320, 16, 10, 1),// image glyphindex=375 codepoint=57622
-	GlyphDesc(6340, 16, 9, 2),// inbox-all glyphindex=376 codepoint=57623
-	GlyphDesc(6358, 16, 9, 2),// inbox-full glyphindex=377 codepoint=57624
-	GlyphDesc(6376, 16, 9, 2),// inbox glyphindex=378 codepoint=57625
-	GlyphDesc(6394, 16, 9, 2),// info-box glyphindex=379 codepoint=57626
-	GlyphDesc(6412, 16, 9, 2),// invert glyphindex=380 codepoint=57627
-	GlyphDesc(6430, 16, 9, 2),// iso glyphindex=381 codepoint=57628
-	GlyphDesc(6448, 16, 9, 2),// kanban glyphindex=382 codepoint=57629
-	GlyphDesc(6466, 16, 9, 2),// keyboard glyphindex=383 codepoint=57630
-	GlyphDesc(6484, 16, 10, 1),// label-alt-multiple glyphindex=384 codepoint=57631
-	GlyphDesc(6504, 16, 10, 1),// label-alt glyphindex=385 codepoint=57632
-	GlyphDesc(6524, 16, 10, 1),// label-sharp glyphindex=386 codepoint=57633
-	GlyphDesc(6544, 16, 10, 1),// label glyphindex=387 codepoint=57634
-	GlyphDesc(6564, 16, 8, 2),// layout-align-bottom glyphindex=388 codepoint=57635
-	GlyphDesc(6580, 16, 8, 2),// layout-align-left glyphindex=389 codepoint=57636
-	GlyphDesc(6596, 16, 8, 2),// layout-align-right glyphindex=390 codepoint=57637
-	GlyphDesc(6612, 16, 8, 2),// layout-align-top glyphindex=391 codepoint=57638
-	GlyphDesc(6628, 16, 10, 1),// layout-columns glyphindex=392 codepoint=57639
-	GlyphDesc(6648, 16, 8, 2),// layout-distribute-horizontal glyphindex=393 codepoint=57640
-	GlyphDesc(6664, 16, 8, 2),// layout-distribute-vertical glyphindex=394 codepoint=57641
-	GlyphDesc(6680, 16, 10, 1),// layout-footer glyphindex=395 codepoint=57642
-	GlyphDesc(6700, 16, 10, 1),// layout-header glyphindex=396 codepoint=57643
-	GlyphDesc(6720, 16, 10, 1),// layout-rows glyphindex=397 codepoint=57644
-	GlyphDesc(6740, 16, 10, 1),// layout-sidebar-left glyphindex=398 codepoint=57645
-	GlyphDesc(6760, 16, 10, 1),// layout-sidebar-right glyphindex=399 codepoint=57646
-	GlyphDesc(6780, 16, 10, 1),// layout glyphindex=400 codepoint=57647
-	GlyphDesc(6800, 16, 8, 2),// lightbulb-2 glyphindex=401 codepoint=57648
-	GlyphDesc(6816, 16, 11, 1),// lightbulb-on glyphindex=402 codepoint=57649
-	GlyphDesc(6838, 16, 8, 2),// lightbulb glyphindex=403 codepoint=57650
-	GlyphDesc(6854, 16, 10, 1),// link glyphindex=404 codepoint=57651
-	GlyphDesc(6874, 16, 10, 1),// list-box glyphindex=405 codepoint=57652
-	GlyphDesc(6894, 16, 8, 2),// list glyphindex=406 codepoint=57653
-	GlyphDesc(6910, 16, 10, 1),// loader glyphindex=407 codepoint=57654
-	GlyphDesc(6930, 16, 8, 2),// lock-open glyphindex=408 codepoint=57655
-	GlyphDesc(6946, 16, 8, 2),// lock glyphindex=409 codepoint=57656
-	GlyphDesc(6962, 16, 9, 2),// login glyphindex=410 codepoint=57657
-	GlyphDesc(6980, 16, 9, 2),// logout glyphindex=411 codepoint=57658
-	GlyphDesc(6998, 16, 7, 3),// luggage glyphindex=412 codepoint=57659
-	GlyphDesc(7012, 16, 11, 1),// mail-arrow-right glyphindex=413 codepoint=57660
-	GlyphDesc(7034, 16, 10, 1),// mail-check glyphindex=414 codepoint=57661
-	GlyphDesc(7054, 16, 10, 1),// mail-delete glyphindex=415 codepoint=57662
-	GlyphDesc(7074, 16, 11, 1),// mail-flash glyphindex=416 codepoint=57663
-	GlyphDesc(7096, 16, 12, 0),// mail-multiple glyphindex=417 codepoint=57664
-	GlyphDesc(7120, 16, 10, 1),// mail-off glyphindex=418 codepoint=57665
-	GlyphDesc(7140, 16, 10, 1),// mail-unread glyphindex=419 codepoint=57666
-	GlyphDesc(7160, 16, 10, 1),// mail glyphindex=420 codepoint=57667
-	GlyphDesc(7180, 16, 10, 1),// map glyphindex=421 codepoint=57668
-	GlyphDesc(7200, 16, 9, 2),// mastodon glyphindex=422 codepoint=57669
-	GlyphDesc(7218, 16, 10, 1),// membercard glyphindex=423 codepoint=57670
-	GlyphDesc(7238, 16, 8, 2),// menu glyphindex=424 codepoint=57671
-	GlyphDesc(7254, 16, 10, 1),// message-arrow-left glyphindex=425 codepoint=57672
-	GlyphDesc(7274, 16, 10, 1),// message-arrow-right glyphindex=426 codepoint=57673
-	GlyphDesc(7294, 16, 10, 1),// message-bookmark glyphindex=427 codepoint=57674
-	GlyphDesc(7314, 16, 10, 1),// message-clock glyphindex=428 codepoint=57675
-	GlyphDesc(7334, 16, 10, 1),// message-delete glyphindex=429 codepoint=57676
-	GlyphDesc(7354, 16, 10, 1),// message-flash glyphindex=430 codepoint=57677
-	GlyphDesc(7374, 16, 10, 1),// message-image glyphindex=431 codepoint=57678
-	GlyphDesc(7394, 16, 10, 1),// message-minus glyphindex=432 codepoint=57679
-	GlyphDesc(7414, 16, 10, 1),// message-plus glyphindex=433 codepoint=57680
-	GlyphDesc(7434, 16, 10, 1),// message-processing glyphindex=434 codepoint=57681
-	GlyphDesc(7454, 16, 10, 1),// message-reply glyphindex=435 codepoint=57682
-	GlyphDesc(7474, 16, 10, 1),// message-text glyphindex=436 codepoint=57683
-	GlyphDesc(7494, 16, 10, 1),// message glyphindex=437 codepoint=57684
-	GlyphDesc(7514, 16, 8, 2),// minus glyphindex=438 codepoint=57685
-	GlyphDesc(7530, 16, 10, 1),// missed-call glyphindex=439 codepoint=57686
-	GlyphDesc(7550, 16, 10, 1),// modem glyphindex=440 codepoint=57687
-	GlyphDesc(7570, 16, 10, 1),// money glyphindex=441 codepoint=57688
-	GlyphDesc(7590, 16, 10, 1),// monitor glyphindex=442 codepoint=57689
-	GlyphDesc(7610, 16, 9, 2),// mood-happy glyphindex=443 codepoint=57690
-	GlyphDesc(7628, 16, 9, 2),// mood-neutral glyphindex=444 codepoint=57691
-	GlyphDesc(7646, 16, 9, 2),// mood-sad glyphindex=445 codepoint=57692
-	GlyphDesc(7664, 16, 10, 1),// moon-star glyphindex=446 codepoint=57693
-	GlyphDesc(7684, 16, 12, 0),// moon-stars glyphindex=447 codepoint=57694
-	GlyphDesc(7708, 16, 10, 1),// moon glyphindex=448 codepoint=57695
-	GlyphDesc(7728, 16, 11, 1),// more-horizontal glyphindex=449 codepoint=57696
-	GlyphDesc(7750, 16, 3, 5),// more-vertical glyphindex=450 codepoint=57697
-	GlyphDesc(7756, 16, 6, 3),// mouse glyphindex=451 codepoint=57698
-	GlyphDesc(7768, 16, 12, 0),// move glyphindex=452 codepoint=57699
-	GlyphDesc(7792, 16, 9, 2),// movie glyphindex=453 codepoint=57700
-	GlyphDesc(7810, 16, 9, 1),// music glyphindex=454 codepoint=57701
-	GlyphDesc(7828, 16, 6, 3),// next glyphindex=455 codepoint=57702
-	GlyphDesc(7840, 16, 9, 2),// note-delete glyphindex=456 codepoint=57703
-	GlyphDesc(7858, 16, 9, 2),// note-multiple glyphindex=457 codepoint=57704
-	GlyphDesc(7876, 16, 10, 1),// note-plus glyphindex=458 codepoint=57705
-	GlyphDesc(7896, 16, 9, 2),// note glyphindex=459 codepoint=57706
-	GlyphDesc(7914, 16, 9, 2),// notes-delete glyphindex=460 codepoint=57707
-	GlyphDesc(7932, 16, 11, 1),// notes-multiple glyphindex=461 codepoint=57708
-	GlyphDesc(7954, 16, 10, 2),// notes-plus glyphindex=462 codepoint=57709
-	GlyphDesc(7974, 16, 9, 2),// notes glyphindex=463 codepoint=57710
-	GlyphDesc(7992, 16, 9, 2),// notification-off glyphindex=464 codepoint=57711
-	GlyphDesc(8010, 16, 9, 2),// notification glyphindex=465 codepoint=57712
-	GlyphDesc(8028, 16, 9, 2),// open glyphindex=466 codepoint=57713
-	GlyphDesc(8046, 16, 8, 2),// paint-bucket glyphindex=467 codepoint=57714
-	GlyphDesc(8062, 16, 9, 2),// paperclip glyphindex=468 codepoint=57715
-	GlyphDesc(8080, 16, 7, 3),// pause glyphindex=469 codepoint=57716
-	GlyphDesc(8094, 16, 8, 2),// percent glyphindex=470 codepoint=57717
-	GlyphDesc(8110, 16, 10, 1),// picture-in-picture-alt glyphindex=471 codepoint=57718
-	GlyphDesc(8130, 16, 10, 1),// picture-in-picture glyphindex=472 codepoint=57719
-	GlyphDesc(8150, 16, 9, 2),// pin glyphindex=473 codepoint=57720
-	GlyphDesc(8168, 16, 9, 2),// pixelarticons glyphindex=474 codepoint=57721
-	GlyphDesc(8186, 16, 4, 4),// play glyphindex=475 codepoint=57722
-	GlyphDesc(8194, 16, 10, 1),// playlist glyphindex=476 codepoint=57723
-	GlyphDesc(8214, 16, 8, 2),// plus glyphindex=477 codepoint=57724
-	GlyphDesc(8230, 16, 8, 2),// power glyphindex=478 codepoint=57725
-	GlyphDesc(8246, 16, 6, 3),// prev glyphindex=479 codepoint=57726
-	GlyphDesc(8258, 16, 10, 1),// print glyphindex=480 codepoint=57727
-	GlyphDesc(8278, 16, 5, 4),// radio-handheld glyphindex=481 codepoint=57728
-	GlyphDesc(8288, 16, 9, 2),// radio-on glyphindex=482 codepoint=57729
-	GlyphDesc(8306, 16, 11, 1),// radio-signal glyphindex=483 codepoint=57730
-	GlyphDesc(8328, 16, 12, 0),// radio-tower glyphindex=484 codepoint=57731
-	GlyphDesc(8352, 16, 9, 2),// reciept-alt glyphindex=485 codepoint=57732
-	GlyphDesc(8370, 16, 9, 2),// reciept glyphindex=486 codepoint=57733
-	GlyphDesc(8388, 16, 8, 2),// redo glyphindex=487 codepoint=57734
-	GlyphDesc(8404, 16, 10, 1),// reload glyphindex=488 codepoint=57735
-	GlyphDesc(8424, 16, 9, 2),// remove-box-multiple glyphindex=489 codepoint=57736
-	GlyphDesc(8442, 16, 9, 2),// remove-box glyphindex=490 codepoint=57737
-	GlyphDesc(8460, 16, 9, 2),// repeat glyphindex=491 codepoint=57738
-	GlyphDesc(8478, 16, 10, 1),// reply-all glyphindex=492 codepoint=57739
-	GlyphDesc(8498, 16, 8, 2),// reply glyphindex=493 codepoint=57740
-	GlyphDesc(8514, 16, 9, 2),// rounded-corner glyphindex=494 codepoint=57741
-	GlyphDesc(8532, 16, 10, 1),// save glyphindex=495 codepoint=57742
-	GlyphDesc(8552, 16, 9, 2),// scale glyphindex=496 codepoint=57743
-	GlyphDesc(8570, 16, 10, 1),// script-text glyphindex=497 codepoint=57744
-	GlyphDesc(8590, 16, 10, 1),// script glyphindex=498 codepoint=57745
-	GlyphDesc(8610, 16, 10, 1),// scroll-horizontal glyphindex=499 codepoint=57746
-	GlyphDesc(8630, 16, 10, 1),// scroll-vertical glyphindex=500 codepoint=57747
-	GlyphDesc(8650, 16, 8, 2),// sd glyphindex=501 codepoint=57748
-	GlyphDesc(8666, 16, 10, 1),// search glyphindex=502 codepoint=57749
-	GlyphDesc(8686, 16, 9, 2),// section-copy glyphindex=503 codepoint=57750
-	GlyphDesc(8704, 16, 9, 2),// section-minus glyphindex=504 codepoint=57751
-	GlyphDesc(8722, 16, 9, 2),// section-plus glyphindex=505 codepoint=57752
-	GlyphDesc(8740, 16, 9, 2),// section-x glyphindex=506 codepoint=57753
-	GlyphDesc(8758, 16, 9, 2),// section glyphindex=507 codepoint=57754
-	GlyphDesc(8776, 16, 9, 2),// server glyphindex=508 codepoint=57755
-	GlyphDesc(8794, 16, 9, 2),// sharp-corner glyphindex=509 codepoint=57756
-	GlyphDesc(8812, 16, 10, 1),// shield-off glyphindex=510 codepoint=57757
-	GlyphDesc(8832, 16, 10, 1),// shield glyphindex=511 codepoint=57758
-	GlyphDesc(8852, 16, 12, 0),// ship glyphindex=512 codepoint=57759
-	GlyphDesc(8876, 16, 9, 2),// shopping-bag glyphindex=513 codepoint=57760
-	GlyphDesc(8894, 16, 10, 1),// shuffle glyphindex=514 codepoint=57761
-	GlyphDesc(8914, 16, 10, 1),// sliders-2 glyphindex=515 codepoint=57762
-	GlyphDesc(8934, 16, 9, 2),// sliders glyphindex=516 codepoint=57763
-	GlyphDesc(8952, 16, 10, 1),// sort-alphabetic glyphindex=517 codepoint=57764
-	GlyphDesc(8972, 16, 10, 1),// sort-numeric glyphindex=518 codepoint=57765
-	GlyphDesc(8992, 16, 10, 1),// sort glyphindex=519 codepoint=57766
-	GlyphDesc(9012, 16, 9, 2),// speaker glyphindex=520 codepoint=57767
-	GlyphDesc(9030, 16, 11, 1),// speed-fast glyphindex=521 codepoint=57768
-	GlyphDesc(9052, 16, 11, 1),// speed-medium glyphindex=522 codepoint=57769
-	GlyphDesc(9074, 16, 11, 1),// speed-slow glyphindex=523 codepoint=57770
-	GlyphDesc(9096, 16, 9, 2),// spotlight glyphindex=524 codepoint=57771
-	GlyphDesc(9114, 16, 10, 1),// store glyphindex=525 codepoint=57772
-	GlyphDesc(9134, 16, 10, 1),// subscriptions glyphindex=526 codepoint=57773
-	GlyphDesc(9154, 16, 9, 2),// subtitles glyphindex=527 codepoint=57774
-	GlyphDesc(9172, 16, 10, 1),// suitcase glyphindex=528 codepoint=57775
-	GlyphDesc(9192, 16, 12, 0),// sun-alt glyphindex=529 codepoint=57776
-	GlyphDesc(9216, 16, 9, 2),// sun glyphindex=530 codepoint=57777
-	GlyphDesc(9234, 16, 9, 2),// switch glyphindex=531 codepoint=57778
-	GlyphDesc(9252, 16, 8, 2),// sync glyphindex=532 codepoint=57779
-	GlyphDesc(9268, 16, 10, 1),// tab glyphindex=533 codepoint=57780
-	GlyphDesc(9288, 16, 10, 1),// table glyphindex=534 codepoint=57781
-	GlyphDesc(9308, 16, 9, 2),// tea glyphindex=535 codepoint=57782
-	GlyphDesc(9326, 16, 10, 1),// teach glyphindex=536 codepoint=57783
-	GlyphDesc(9346, 16, 9, 2),// text-add glyphindex=537 codepoint=57784
-	GlyphDesc(9364, 16, 9, 2),// text-colums glyphindex=538 codepoint=57785
-	GlyphDesc(9382, 16, 9, 2),// text-search glyphindex=539 codepoint=57786
-	GlyphDesc(9400, 16, 9, 2),// text-wrap glyphindex=540 codepoint=57787
-	GlyphDesc(9418, 16, 11, 1),// timeline glyphindex=541 codepoint=57788
-	GlyphDesc(9440, 16, 10, 1),// toggle-left glyphindex=542 codepoint=57789
-	GlyphDesc(9460, 16, 10, 1),// toggle-right glyphindex=543 codepoint=57790
-	GlyphDesc(9480, 16, 10, 1),// tournament glyphindex=544 codepoint=57791
-	GlyphDesc(9500, 16, 10, 1),// track-changes glyphindex=545 codepoint=57792
-	GlyphDesc(9520, 16, 10, 1),// trash-alt glyphindex=546 codepoint=57793
-	GlyphDesc(9540, 16, 10, 1),// trash glyphindex=547 codepoint=57794
-	GlyphDesc(9560, 16, 10, 1),// trending-down glyphindex=548 codepoint=57795
-	GlyphDesc(9580, 16, 10, 1),// trending-up glyphindex=549 codepoint=57796
-	GlyphDesc(9600, 16, 9, 2),// trending glyphindex=550 codepoint=57797
-	GlyphDesc(9618, 16, 10, 1),// trophy glyphindex=551 codepoint=57798
-	GlyphDesc(9638, 16, 12, 0),// truck glyphindex=552 codepoint=57799
-	GlyphDesc(9662, 16, 8, 2),// undo glyphindex=553 codepoint=57800
-	GlyphDesc(9678, 16, 9, 2),// ungroup glyphindex=554 codepoint=57801
-	GlyphDesc(9696, 16, 10, 1),// unlink glyphindex=555 codepoint=57802
-	GlyphDesc(9716, 16, 9, 2),// upload glyphindex=556 codepoint=57803
-	GlyphDesc(9734, 16, 11, 1),// user-minus glyphindex=557 codepoint=57804
-	GlyphDesc(9756, 16, 11, 1),// user-plus glyphindex=558 codepoint=57805
-	GlyphDesc(9778, 16, 11, 1),// user-x glyphindex=559 codepoint=57806
-	GlyphDesc(9800, 16, 8, 2),// user glyphindex=560 codepoint=57807
-	GlyphDesc(9816, 16, 12, 0),// users glyphindex=561 codepoint=57808
-	GlyphDesc(9840, 16, 10, 1),// video-off glyphindex=562 codepoint=57809
-	GlyphDesc(9860, 16, 10, 1),// video glyphindex=563 codepoint=57810
-	GlyphDesc(9880, 16, 10, 1),// view-col glyphindex=564 codepoint=57811
-	GlyphDesc(9900, 16, 10, 1),// view-list glyphindex=565 codepoint=57812
-	GlyphDesc(9920, 16, 10, 1),// viewport-narrow glyphindex=566 codepoint=57813
-	GlyphDesc(9940, 16, 10, 1),// viewport-wide glyphindex=567 codepoint=57814
-	GlyphDesc(9960, 16, 12, 0),// visible glyphindex=568 codepoint=57815
-	GlyphDesc(9984, 16, 7, 3),// volume-1 glyphindex=569 codepoint=57816
-	GlyphDesc(9998, 16, 9, 2),// volume-2 glyphindex=570 codepoint=57817
-	GlyphDesc(10016, 16, 11, 1),// volume-3 glyphindex=571 codepoint=57818
-	GlyphDesc(10038, 16, 10, 1),// volume-minus glyphindex=572 codepoint=57819
-	GlyphDesc(10058, 16, 10, 1),// volume-plus glyphindex=573 codepoint=57820
-	GlyphDesc(10078, 16, 8, 2),// volume-vibrate glyphindex=574 codepoint=57821
-	GlyphDesc(10094, 16, 9, 2),// volume-x glyphindex=575 codepoint=57822
-	GlyphDesc(10112, 16, 5, 4),// volume glyphindex=576 codepoint=57823
-	GlyphDesc(10122, 16, 10, 1),// wallet glyphindex=577 codepoint=57824
-	GlyphDesc(10142, 16, 9, 2),// warning-box glyphindex=578 codepoint=57825
-	GlyphDesc(10160, 16, 10, 1),// wind glyphindex=579 codepoint=57826
-	GlyphDesc(10180, 16, 10, 1),// zap glyphindex=580 codepoint=57827
-	GlyphDesc(10200, 16, 10, 1),// zoom-in glyphindex=581 codepoint=57828
-	GlyphDesc(10220, 16, 10, 1),// zoom-out glyphindex=582 codepoint=57829
+	GlyphDesc(0, 0, 0, 0, 0, 0, 0, 0, lcd_common::BitmapFormat::UNDEFINED),// DummyGlyph glyphindex=0 codepoint=0
+	GlyphDesc(0, 4, 2, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),//   glyphindex=1 codepoint=32
+	GlyphDesc(4, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ! glyphindex=2 codepoint=33
+	GlyphDesc(6, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// " glyphindex=3 codepoint=34
+	GlyphDesc(12, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// # glyphindex=4 codepoint=35
+	GlyphDesc(28, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// $ glyphindex=5 codepoint=36
+	GlyphDesc(42, 12, 10, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// % glyphindex=6 codepoint=37
+	GlyphDesc(62, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// & glyphindex=7 codepoint=38
+	GlyphDesc(78, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ' glyphindex=8 codepoint=39
+	GlyphDesc(80, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ( glyphindex=9 codepoint=40
+	GlyphDesc(86, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ) glyphindex=10 codepoint=41
+	GlyphDesc(92, 7, 5, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// * glyphindex=11 codepoint=42
+	GlyphDesc(102, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// + glyphindex=12 codepoint=43
+	GlyphDesc(116, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// , glyphindex=13 codepoint=44
+	GlyphDesc(118, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// - glyphindex=14 codepoint=45
+	GlyphDesc(126, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// . glyphindex=15 codepoint=46
+	GlyphDesc(128, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// / glyphindex=16 codepoint=47
+	GlyphDesc(136, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 0 glyphindex=17 codepoint=48
+	GlyphDesc(148, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 1 glyphindex=18 codepoint=49
+	GlyphDesc(154, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 2 glyphindex=19 codepoint=50
+	GlyphDesc(166, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 3 glyphindex=20 codepoint=51
+	GlyphDesc(178, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 4 glyphindex=21 codepoint=52
+	GlyphDesc(192, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 5 glyphindex=22 codepoint=53
+	GlyphDesc(204, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 6 glyphindex=23 codepoint=54
+	GlyphDesc(216, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 7 glyphindex=24 codepoint=55
+	GlyphDesc(228, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 8 glyphindex=25 codepoint=56
+	GlyphDesc(240, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 9 glyphindex=26 codepoint=57
+	GlyphDesc(252, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// : glyphindex=27 codepoint=58
+	GlyphDesc(254, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ; glyphindex=28 codepoint=59
+	GlyphDesc(256, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// < glyphindex=29 codepoint=60
+	GlyphDesc(268, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// = glyphindex=30 codepoint=61
+	GlyphDesc(280, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// > glyphindex=31 codepoint=62
+	GlyphDesc(292, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ? glyphindex=32 codepoint=63
+	GlyphDesc(304, 15, 13, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// @ glyphindex=33 codepoint=64
+	GlyphDesc(330, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// A glyphindex=34 codepoint=65
+	GlyphDesc(348, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// B glyphindex=35 codepoint=66
+	GlyphDesc(362, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// C glyphindex=36 codepoint=67
+	GlyphDesc(378, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// D glyphindex=37 codepoint=68
+	GlyphDesc(394, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// E glyphindex=38 codepoint=69
+	GlyphDesc(408, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// F glyphindex=39 codepoint=70
+	GlyphDesc(422, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// G glyphindex=40 codepoint=71
+	GlyphDesc(440, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// H glyphindex=41 codepoint=72
+	GlyphDesc(454, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// I glyphindex=42 codepoint=73
+	GlyphDesc(456, 7, 5, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// J glyphindex=43 codepoint=74
+	GlyphDesc(466, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// K glyphindex=44 codepoint=75
+	GlyphDesc(482, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// L glyphindex=45 codepoint=76
+	GlyphDesc(496, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// M glyphindex=46 codepoint=77
+	GlyphDesc(514, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// N glyphindex=47 codepoint=78
+	GlyphDesc(528, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// O glyphindex=48 codepoint=79
+	GlyphDesc(546, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// P glyphindex=49 codepoint=80
+	GlyphDesc(560, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// Q glyphindex=50 codepoint=81
+	GlyphDesc(578, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// R glyphindex=51 codepoint=82
+	GlyphDesc(594, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// S glyphindex=52 codepoint=83
+	GlyphDesc(608, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// T glyphindex=53 codepoint=84
+	GlyphDesc(622, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// U glyphindex=54 codepoint=85
+	GlyphDesc(636, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// V glyphindex=55 codepoint=86
+	GlyphDesc(654, 15, 13, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// W glyphindex=56 codepoint=87
+	GlyphDesc(680, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// X glyphindex=57 codepoint=88
+	GlyphDesc(696, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// Y glyphindex=58 codepoint=89
+	GlyphDesc(714, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// Z glyphindex=59 codepoint=90
+	GlyphDesc(730, 4, 2, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// [ glyphindex=60 codepoint=91
+	GlyphDesc(734, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// \ glyphindex=61 codepoint=92
+	GlyphDesc(742, 4, 2, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ] glyphindex=62 codepoint=93
+	GlyphDesc(746, 7, 5, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ^ glyphindex=63 codepoint=94
+	GlyphDesc(756, 10, 8, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// _ glyphindex=64 codepoint=95
+	GlyphDesc(772, 4, 2, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ` glyphindex=65 codepoint=96
+	GlyphDesc(776, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// a glyphindex=66 codepoint=97
+	GlyphDesc(788, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// b glyphindex=67 codepoint=98
+	GlyphDesc(800, 7, 5, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// c glyphindex=68 codepoint=99
+	GlyphDesc(810, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// d glyphindex=69 codepoint=100
+	GlyphDesc(822, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// e glyphindex=70 codepoint=101
+	GlyphDesc(834, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// f glyphindex=71 codepoint=102
+	GlyphDesc(842, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// g glyphindex=72 codepoint=103
+	GlyphDesc(854, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// h glyphindex=73 codepoint=104
+	GlyphDesc(866, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// i glyphindex=74 codepoint=105
+	GlyphDesc(868, 4, 2, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// j glyphindex=75 codepoint=106
+	GlyphDesc(872, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// k glyphindex=76 codepoint=107
+	GlyphDesc(884, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// l glyphindex=77 codepoint=108
+	GlyphDesc(886, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// m glyphindex=78 codepoint=109
+	GlyphDesc(904, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// n glyphindex=79 codepoint=110
+	GlyphDesc(916, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// o glyphindex=80 codepoint=111
+	GlyphDesc(928, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// p glyphindex=81 codepoint=112
+	GlyphDesc(940, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// q glyphindex=82 codepoint=113
+	GlyphDesc(952, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// r glyphindex=83 codepoint=114
+	GlyphDesc(960, 7, 5, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// s glyphindex=84 codepoint=115
+	GlyphDesc(970, 6, 4, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// t glyphindex=85 codepoint=116
+	GlyphDesc(978, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// u glyphindex=86 codepoint=117
+	GlyphDesc(990, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// v glyphindex=87 codepoint=118
+	GlyphDesc(1004, 11, 9, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// w glyphindex=88 codepoint=119
+	GlyphDesc(1022, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// x glyphindex=89 codepoint=120
+	GlyphDesc(1034, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// y glyphindex=90 codepoint=121
+	GlyphDesc(1048, 8, 6, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// z glyphindex=91 codepoint=122
+	GlyphDesc(1060, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// { glyphindex=92 codepoint=123
+	GlyphDesc(1066, 3, 1, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// | glyphindex=93 codepoint=124
+	GlyphDesc(1068, 5, 3, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// } glyphindex=94 codepoint=125
+	GlyphDesc(1074, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ~ glyphindex=95 codepoint=126
+	GlyphDesc(1088, 9, 7, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),//  glyphindex=96 codepoint=127
+	GlyphDesc(1102, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 4g glyphindex=97 codepoint=57344
+	GlyphDesc(1120, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 4k-box glyphindex=98 codepoint=57345
+	GlyphDesc(1142, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 4k glyphindex=99 codepoint=57346
+	GlyphDesc(1160, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// 5g glyphindex=100 codepoint=57347
+	GlyphDesc(1178, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ab-testing glyphindex=101 codepoint=57348
+	GlyphDesc(1196, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ac glyphindex=102 codepoint=57349
+	GlyphDesc(1216, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// add-box-multiple glyphindex=103 codepoint=57350
+	GlyphDesc(1234, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// add-box glyphindex=104 codepoint=57351
+	GlyphDesc(1252, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// add-col glyphindex=105 codepoint=57352
+	GlyphDesc(1272, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// add-grid glyphindex=106 codepoint=57353
+	GlyphDesc(1290, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// add-row glyphindex=107 codepoint=57354
+	GlyphDesc(1310, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// alert glyphindex=108 codepoint=57355
+	GlyphDesc(1332, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// align-center glyphindex=109 codepoint=57356
+	GlyphDesc(1348, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// align-justify glyphindex=110 codepoint=57357
+	GlyphDesc(1364, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// align-left glyphindex=111 codepoint=57358
+	GlyphDesc(1380, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// align-right glyphindex=112 codepoint=57359
+	GlyphDesc(1396, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// analytics glyphindex=113 codepoint=57360
+	GlyphDesc(1414, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// anchor glyphindex=114 codepoint=57361
+	GlyphDesc(1430, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// android glyphindex=115 codepoint=57362
+	GlyphDesc(1450, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// animation glyphindex=116 codepoint=57363
+	GlyphDesc(1470, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// archive glyphindex=117 codepoint=57364
+	GlyphDesc(1490, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-bar-down glyphindex=118 codepoint=57365
+	GlyphDesc(1506, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-bar-left glyphindex=119 codepoint=57366
+	GlyphDesc(1522, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-bar-right glyphindex=120 codepoint=57367
+	GlyphDesc(1538, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-bar-up glyphindex=121 codepoint=57368
+	GlyphDesc(1554, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-down-box glyphindex=122 codepoint=57369
+	GlyphDesc(1572, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-down glyphindex=123 codepoint=57370
+	GlyphDesc(1586, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-left-box glyphindex=124 codepoint=57371
+	GlyphDesc(1604, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-left glyphindex=125 codepoint=57372
+	GlyphDesc(1620, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-right-box glyphindex=126 codepoint=57373
+	GlyphDesc(1638, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-right glyphindex=127 codepoint=57374
+	GlyphDesc(1654, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-up-box glyphindex=128 codepoint=57375
+	GlyphDesc(1672, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrow-up glyphindex=129 codepoint=57376
+	GlyphDesc(1686, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrows-horizontal glyphindex=130 codepoint=57377
+	GlyphDesc(1704, 16, 5, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// arrows-vertical glyphindex=131 codepoint=57378
+	GlyphDesc(1714, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// art-text glyphindex=132 codepoint=57379
+	GlyphDesc(1734, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// article-multiple glyphindex=133 codepoint=57380
+	GlyphDesc(1756, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// article glyphindex=134 codepoint=57381
+	GlyphDesc(1774, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// aspect-ratio glyphindex=135 codepoint=57382
+	GlyphDesc(1794, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// at glyphindex=136 codepoint=57383
+	GlyphDesc(1810, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// attachment glyphindex=137 codepoint=57384
+	GlyphDesc(1824, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// audio-device glyphindex=138 codepoint=57385
+	GlyphDesc(1844, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// avatar glyphindex=139 codepoint=57386
+	GlyphDesc(1862, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// backburger glyphindex=140 codepoint=57387
+	GlyphDesc(1880, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// battery-1 glyphindex=141 codepoint=57388
+	GlyphDesc(1900, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// battery-2 glyphindex=142 codepoint=57389
+	GlyphDesc(1920, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// battery-charging glyphindex=143 codepoint=57390
+	GlyphDesc(1940, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// battery-full glyphindex=144 codepoint=57391
+	GlyphDesc(1960, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// battery glyphindex=145 codepoint=57392
+	GlyphDesc(1980, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bed glyphindex=146 codepoint=57393
+	GlyphDesc(2004, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bitcoin glyphindex=147 codepoint=57394
+	GlyphDesc(2018, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bluetooth glyphindex=148 codepoint=57395
+	GlyphDesc(2032, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// book-open glyphindex=149 codepoint=57396
+	GlyphDesc(2054, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// book glyphindex=150 codepoint=57397
+	GlyphDesc(2070, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bookmark glyphindex=151 codepoint=57398
+	GlyphDesc(2086, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bookmarks glyphindex=152 codepoint=57399
+	GlyphDesc(2104, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-account glyphindex=153 codepoint=57400
+	GlyphDesc(2124, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-check glyphindex=154 codepoint=57401
+	GlyphDesc(2144, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-delete glyphindex=155 codepoint=57402
+	GlyphDesc(2164, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-download glyphindex=156 codepoint=57403
+	GlyphDesc(2184, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-minus glyphindex=157 codepoint=57404
+	GlyphDesc(2204, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-plus glyphindex=158 codepoint=57405
+	GlyphDesc(2224, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-search-1 glyphindex=159 codepoint=57406
+	GlyphDesc(2246, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-search glyphindex=160 codepoint=57407
+	GlyphDesc(2266, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase-upload glyphindex=161 codepoint=57408
+	GlyphDesc(2286, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// briefcase glyphindex=162 codepoint=57409
+	GlyphDesc(2306, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bug glyphindex=163 codepoint=57410
+	GlyphDesc(2326, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// building-community glyphindex=164 codepoint=57411
+	GlyphDesc(2346, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// building-skyscraper glyphindex=165 codepoint=57412
+	GlyphDesc(2366, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// building glyphindex=166 codepoint=57413
+	GlyphDesc(2384, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// buildings glyphindex=167 codepoint=57414
+	GlyphDesc(2404, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bulletlist glyphindex=168 codepoint=57415
+	GlyphDesc(2424, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bullseye-arrow glyphindex=169 codepoint=57416
+	GlyphDesc(2444, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bullseye glyphindex=170 codepoint=57417
+	GlyphDesc(2464, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// bus glyphindex=171 codepoint=57418
+	GlyphDesc(2482, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cake glyphindex=172 codepoint=57419
+	GlyphDesc(2502, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calculator glyphindex=173 codepoint=57420
+	GlyphDesc(2520, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-alert glyphindex=174 codepoint=57421
+	GlyphDesc(2538, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-arrow-left glyphindex=175 codepoint=57422
+	GlyphDesc(2556, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-arrow-right glyphindex=176 codepoint=57423
+	GlyphDesc(2574, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-check glyphindex=177 codepoint=57424
+	GlyphDesc(2592, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-export glyphindex=178 codepoint=57425
+	GlyphDesc(2610, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-grid glyphindex=179 codepoint=57426
+	GlyphDesc(2628, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-import glyphindex=180 codepoint=57427
+	GlyphDesc(2646, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-minus glyphindex=181 codepoint=57428
+	GlyphDesc(2664, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-month glyphindex=182 codepoint=57429
+	GlyphDesc(2682, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-multiple-check glyphindex=183 codepoint=57430
+	GlyphDesc(2704, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-multiple glyphindex=184 codepoint=57431
+	GlyphDesc(2726, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-plus glyphindex=185 codepoint=57432
+	GlyphDesc(2744, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-range glyphindex=186 codepoint=57433
+	GlyphDesc(2762, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-remove glyphindex=187 codepoint=57434
+	GlyphDesc(2780, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-search glyphindex=188 codepoint=57435
+	GlyphDesc(2798, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-sort-ascending glyphindex=189 codepoint=57436
+	GlyphDesc(2822, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-sort-descending glyphindex=190 codepoint=57437
+	GlyphDesc(2846, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-text glyphindex=191 codepoint=57438
+	GlyphDesc(2864, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-today glyphindex=192 codepoint=57439
+	GlyphDesc(2882, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-tomorrow glyphindex=193 codepoint=57440
+	GlyphDesc(2900, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-week-begin glyphindex=194 codepoint=57441
+	GlyphDesc(2918, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-week glyphindex=195 codepoint=57442
+	GlyphDesc(2936, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar-weekend glyphindex=196 codepoint=57443
+	GlyphDesc(2954, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// calendar glyphindex=197 codepoint=57444
+	GlyphDesc(2972, 16, 11, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// camera-add glyphindex=198 codepoint=57445
+	GlyphDesc(2994, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// camera-alt glyphindex=199 codepoint=57446
+	GlyphDesc(3014, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// camera-face glyphindex=200 codepoint=57447
+	GlyphDesc(3034, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// camera glyphindex=201 codepoint=57448
+	GlyphDesc(3054, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// car glyphindex=202 codepoint=57449
+	GlyphDesc(3072, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// card-id glyphindex=203 codepoint=57450
+	GlyphDesc(3092, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// card-plus glyphindex=204 codepoint=57451
+	GlyphDesc(3112, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// card-stack glyphindex=205 codepoint=57452
+	GlyphDesc(3132, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// card-text glyphindex=206 codepoint=57453
+	GlyphDesc(3152, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// card glyphindex=207 codepoint=57454
+	GlyphDesc(3172, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cart glyphindex=208 codepoint=57455
+	GlyphDesc(3192, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cast glyphindex=209 codepoint=57456
+	GlyphDesc(3212, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cellular-signal-0 glyphindex=210 codepoint=57457
+	GlyphDesc(3232, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cellular-signal-1 glyphindex=211 codepoint=57458
+	GlyphDesc(3252, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cellular-signal-2 glyphindex=212 codepoint=57459
+	GlyphDesc(3272, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cellular-signal-3 glyphindex=213 codepoint=57460
+	GlyphDesc(3292, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cellular-signal-off glyphindex=214 codepoint=57461
+	GlyphDesc(3312, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart-add glyphindex=215 codepoint=57462
+	GlyphDesc(3330, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart-bar glyphindex=216 codepoint=57463
+	GlyphDesc(3344, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart-delete glyphindex=217 codepoint=57464
+	GlyphDesc(3362, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart-minus glyphindex=218 codepoint=57465
+	GlyphDesc(3380, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart-multiple glyphindex=219 codepoint=57466
+	GlyphDesc(3402, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chart glyphindex=220 codepoint=57467
+	GlyphDesc(3420, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chat glyphindex=221 codepoint=57468
+	GlyphDesc(3440, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// check-double glyphindex=222 codepoint=57469
+	GlyphDesc(3462, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// check glyphindex=223 codepoint=57470
+	GlyphDesc(3478, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// checkbox-on glyphindex=224 codepoint=57471
+	GlyphDesc(3496, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// checkbox glyphindex=225 codepoint=57472
+	GlyphDesc(3514, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// checklist glyphindex=226 codepoint=57473
+	GlyphDesc(3532, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chess glyphindex=227 codepoint=57474
+	GlyphDesc(3552, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevron-down glyphindex=228 codepoint=57475
+	GlyphDesc(3566, 16, 4, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevron-left glyphindex=229 codepoint=57476
+	GlyphDesc(3574, 16, 4, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevron-right glyphindex=230 codepoint=57477
+	GlyphDesc(3582, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevron-up glyphindex=231 codepoint=57478
+	GlyphDesc(3596, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevrons-horizontal glyphindex=232 codepoint=57479
+	GlyphDesc(3612, 16, 5, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// chevrons-vertical glyphindex=233 codepoint=57480
+	GlyphDesc(3622, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// circle glyphindex=234 codepoint=57481
+	GlyphDesc(3640, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// clipboard glyphindex=235 codepoint=57482
+	GlyphDesc(3656, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// clock glyphindex=236 codepoint=57483
+	GlyphDesc(3674, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// close-box glyphindex=237 codepoint=57484
+	GlyphDesc(3692, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// close glyphindex=238 codepoint=57485
+	GlyphDesc(3706, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud-done glyphindex=239 codepoint=57486
+	GlyphDesc(3730, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud-download glyphindex=240 codepoint=57487
+	GlyphDesc(3754, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud-moon glyphindex=241 codepoint=57488
+	GlyphDesc(3774, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud-sun glyphindex=242 codepoint=57489
+	GlyphDesc(3796, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud-upload glyphindex=243 codepoint=57490
+	GlyphDesc(3820, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cloud glyphindex=244 codepoint=57491
+	GlyphDesc(3844, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cocktail glyphindex=245 codepoint=57492
+	GlyphDesc(3862, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// code glyphindex=246 codepoint=57493
+	GlyphDesc(3882, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// coffee-alt glyphindex=247 codepoint=57494
+	GlyphDesc(3900, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// coffee glyphindex=248 codepoint=57495
+	GlyphDesc(3918, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// coin glyphindex=249 codepoint=57496
+	GlyphDesc(3938, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// collapse glyphindex=250 codepoint=57497
+	GlyphDesc(3954, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// colors-swatch glyphindex=251 codepoint=57498
+	GlyphDesc(3974, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// command glyphindex=252 codepoint=57499
+	GlyphDesc(3994, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// comment glyphindex=253 codepoint=57500
+	GlyphDesc(4014, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// contact-delete glyphindex=254 codepoint=57501
+	GlyphDesc(4038, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// contact-multiple glyphindex=255 codepoint=57502
+	GlyphDesc(4062, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// contact-plus glyphindex=256 codepoint=57503
+	GlyphDesc(4086, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// contact glyphindex=257 codepoint=57504
+	GlyphDesc(4110, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// copy glyphindex=258 codepoint=57505
+	GlyphDesc(4126, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-down-left glyphindex=259 codepoint=57506
+	GlyphDesc(4142, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-down-right glyphindex=260 codepoint=57507
+	GlyphDesc(4158, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-left-down glyphindex=261 codepoint=57508
+	GlyphDesc(4174, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-left-up glyphindex=262 codepoint=57509
+	GlyphDesc(4190, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-right-down glyphindex=263 codepoint=57510
+	GlyphDesc(4206, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-right-up glyphindex=264 codepoint=57511
+	GlyphDesc(4222, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-up-left glyphindex=265 codepoint=57512
+	GlyphDesc(4238, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// corner-up-right glyphindex=266 codepoint=57513
+	GlyphDesc(4254, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-delete glyphindex=267 codepoint=57514
+	GlyphDesc(4274, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-minus glyphindex=268 codepoint=57515
+	GlyphDesc(4294, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-multiple glyphindex=269 codepoint=57516
+	GlyphDesc(4316, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-plus glyphindex=270 codepoint=57517
+	GlyphDesc(4336, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-settings glyphindex=271 codepoint=57518
+	GlyphDesc(4356, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card-wireless glyphindex=272 codepoint=57519
+	GlyphDesc(4372, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// credit-card glyphindex=273 codepoint=57520
+	GlyphDesc(4392, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// crop glyphindex=274 codepoint=57521
+	GlyphDesc(4412, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// cut glyphindex=275 codepoint=57522
+	GlyphDesc(4432, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// dashboard glyphindex=276 codepoint=57523
+	GlyphDesc(4450, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug-check glyphindex=277 codepoint=57524
+	GlyphDesc(4470, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug-off glyphindex=278 codepoint=57525
+	GlyphDesc(4490, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug-pause glyphindex=279 codepoint=57526
+	GlyphDesc(4510, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug-play glyphindex=280 codepoint=57527
+	GlyphDesc(4530, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug-stop glyphindex=281 codepoint=57528
+	GlyphDesc(4550, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// debug glyphindex=282 codepoint=57529
+	GlyphDesc(4570, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// delete glyphindex=283 codepoint=57530
+	GlyphDesc(4592, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// deskphone glyphindex=284 codepoint=57531
+	GlyphDesc(4610, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-laptop glyphindex=285 codepoint=57532
+	GlyphDesc(4630, 16, 6, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-phone glyphindex=286 codepoint=57533
+	GlyphDesc(4642, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-tablet glyphindex=287 codepoint=57534
+	GlyphDesc(4658, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-tv-smart glyphindex=288 codepoint=57535
+	GlyphDesc(4678, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-tv glyphindex=289 codepoint=57536
+	GlyphDesc(4698, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-vibrate glyphindex=290 codepoint=57537
+	GlyphDesc(4722, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// device-watch glyphindex=291 codepoint=57538
+	GlyphDesc(4740, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// devices glyphindex=292 codepoint=57539
+	GlyphDesc(4760, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// dice glyphindex=293 codepoint=57540
+	GlyphDesc(4778, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// dollar glyphindex=294 codepoint=57541
+	GlyphDesc(4792, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// downasaur glyphindex=295 codepoint=57542
+	GlyphDesc(4812, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// download glyphindex=296 codepoint=57543
+	GlyphDesc(4830, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// draft glyphindex=297 codepoint=57544
+	GlyphDesc(4850, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// drag-and-drop glyphindex=298 codepoint=57545
+	GlyphDesc(4868, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// drop-area glyphindex=299 codepoint=57546
+	GlyphDesc(4886, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// drop-full glyphindex=300 codepoint=57547
+	GlyphDesc(4900, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// drop-half glyphindex=301 codepoint=57548
+	GlyphDesc(4914, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// drop glyphindex=302 codepoint=57549
+	GlyphDesc(4928, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// duplicate-alt glyphindex=303 codepoint=57550
+	GlyphDesc(4946, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// duplicate glyphindex=304 codepoint=57551
+	GlyphDesc(4964, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// edit-box glyphindex=305 codepoint=57552
+	GlyphDesc(4984, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// edit glyphindex=306 codepoint=57553
+	GlyphDesc(5004, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// euro glyphindex=307 codepoint=57554
+	GlyphDesc(5018, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// expand glyphindex=308 codepoint=57555
+	GlyphDesc(5034, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// external-link glyphindex=309 codepoint=57556
+	GlyphDesc(5052, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// eye-closed glyphindex=310 codepoint=57557
+	GlyphDesc(5076, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// eye glyphindex=311 codepoint=57558
+	GlyphDesc(5100, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-alt glyphindex=312 codepoint=57559
+	GlyphDesc(5118, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-delete glyphindex=313 codepoint=57560
+	GlyphDesc(5136, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-flash glyphindex=314 codepoint=57561
+	GlyphDesc(5154, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-minus glyphindex=315 codepoint=57562
+	GlyphDesc(5172, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-multiple glyphindex=316 codepoint=57563
+	GlyphDesc(5190, 16, 10, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-off glyphindex=317 codepoint=57564
+	GlyphDesc(5210, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file-plus glyphindex=318 codepoint=57565
+	GlyphDesc(5228, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// file glyphindex=319 codepoint=57566
+	GlyphDesc(5246, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// fill-half glyphindex=320 codepoint=57567
+	GlyphDesc(5264, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// fill glyphindex=321 codepoint=57568
+	GlyphDesc(5282, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// flag glyphindex=322 codepoint=57569
+	GlyphDesc(5300, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// flatten glyphindex=323 codepoint=57570
+	GlyphDesc(5316, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// flip-to-back glyphindex=324 codepoint=57571
+	GlyphDesc(5334, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// flip-to-front glyphindex=325 codepoint=57572
+	GlyphDesc(5352, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// float-center glyphindex=326 codepoint=57573
+	GlyphDesc(5372, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// float-left glyphindex=327 codepoint=57574
+	GlyphDesc(5392, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// float-right glyphindex=328 codepoint=57575
+	GlyphDesc(5412, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// folder-minus glyphindex=329 codepoint=57576
+	GlyphDesc(5432, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// folder-plus glyphindex=330 codepoint=57577
+	GlyphDesc(5452, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// folder-x glyphindex=331 codepoint=57578
+	GlyphDesc(5472, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// folder glyphindex=332 codepoint=57579
+	GlyphDesc(5492, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// forward glyphindex=333 codepoint=57580
+	GlyphDesc(5508, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// forwardburger glyphindex=334 codepoint=57581
+	GlyphDesc(5526, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// frame-add glyphindex=335 codepoint=57582
+	GlyphDesc(5546, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// frame-check glyphindex=336 codepoint=57583
+	GlyphDesc(5566, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// frame-delete glyphindex=337 codepoint=57584
+	GlyphDesc(5586, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// frame-minus glyphindex=338 codepoint=57585
+	GlyphDesc(5606, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// frame glyphindex=339 codepoint=57586
+	GlyphDesc(5626, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// gamepad glyphindex=340 codepoint=57587
+	GlyphDesc(5646, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// gif glyphindex=341 codepoint=57588
+	GlyphDesc(5668, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// gift glyphindex=342 codepoint=57589
+	GlyphDesc(5688, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// git-branch glyphindex=343 codepoint=57590
+	GlyphDesc(5708, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// git-commit glyphindex=344 codepoint=57591
+	GlyphDesc(5728, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// git-merge glyphindex=345 codepoint=57592
+	GlyphDesc(5748, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// git-pull-request glyphindex=346 codepoint=57593
+	GlyphDesc(5768, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// github-2 glyphindex=347 codepoint=57594
+	GlyphDesc(5788, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// github glyphindex=348 codepoint=57595
+	GlyphDesc(5808, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// gps glyphindex=349 codepoint=57596
+	GlyphDesc(5828, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// grid glyphindex=350 codepoint=57597
+	GlyphDesc(5848, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// group glyphindex=351 codepoint=57598
+	GlyphDesc(5866, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// hd glyphindex=352 codepoint=57599
+	GlyphDesc(5884, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// headphone glyphindex=353 codepoint=57600
+	GlyphDesc(5902, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// headset glyphindex=354 codepoint=57601
+	GlyphDesc(5920, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// heart glyphindex=355 codepoint=57602
+	GlyphDesc(5942, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// hidden glyphindex=356 codepoint=57603
+	GlyphDesc(5966, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// home glyphindex=357 codepoint=57604
+	GlyphDesc(5986, 16, 6, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// hourglass glyphindex=358 codepoint=57605
+	GlyphDesc(5998, 16, 10, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// hq glyphindex=359 codepoint=57606
+	GlyphDesc(6018, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human-handsdown glyphindex=360 codepoint=57607
+	GlyphDesc(6036, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human-handsup glyphindex=361 codepoint=57608
+	GlyphDesc(6054, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human-height-alt glyphindex=362 codepoint=57609
+	GlyphDesc(6076, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human-height glyphindex=363 codepoint=57610
+	GlyphDesc(6094, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human-run glyphindex=364 codepoint=57611
+	GlyphDesc(6114, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// human glyphindex=365 codepoint=57612
+	GlyphDesc(6132, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-arrow-right glyphindex=366 codepoint=57613
+	GlyphDesc(6154, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-broken glyphindex=367 codepoint=57614
+	GlyphDesc(6174, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-delete glyphindex=368 codepoint=57615
+	GlyphDesc(6194, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-flash glyphindex=369 codepoint=57616
+	GlyphDesc(6216, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-frame glyphindex=370 codepoint=57617
+	GlyphDesc(6236, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-gallery glyphindex=371 codepoint=57618
+	GlyphDesc(6256, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-multiple glyphindex=372 codepoint=57619
+	GlyphDesc(6280, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-new glyphindex=373 codepoint=57620
+	GlyphDesc(6300, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image-plus glyphindex=374 codepoint=57621
+	GlyphDesc(6320, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// image glyphindex=375 codepoint=57622
+	GlyphDesc(6340, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// inbox-all glyphindex=376 codepoint=57623
+	GlyphDesc(6358, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// inbox-full glyphindex=377 codepoint=57624
+	GlyphDesc(6376, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// inbox glyphindex=378 codepoint=57625
+	GlyphDesc(6394, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// info-box glyphindex=379 codepoint=57626
+	GlyphDesc(6412, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// invert glyphindex=380 codepoint=57627
+	GlyphDesc(6430, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// iso glyphindex=381 codepoint=57628
+	GlyphDesc(6448, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// kanban glyphindex=382 codepoint=57629
+	GlyphDesc(6466, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// keyboard glyphindex=383 codepoint=57630
+	GlyphDesc(6484, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// label-alt-multiple glyphindex=384 codepoint=57631
+	GlyphDesc(6504, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// label-alt glyphindex=385 codepoint=57632
+	GlyphDesc(6524, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// label-sharp glyphindex=386 codepoint=57633
+	GlyphDesc(6544, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// label glyphindex=387 codepoint=57634
+	GlyphDesc(6564, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-align-bottom glyphindex=388 codepoint=57635
+	GlyphDesc(6580, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-align-left glyphindex=389 codepoint=57636
+	GlyphDesc(6596, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-align-right glyphindex=390 codepoint=57637
+	GlyphDesc(6612, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-align-top glyphindex=391 codepoint=57638
+	GlyphDesc(6628, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-columns glyphindex=392 codepoint=57639
+	GlyphDesc(6648, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-distribute-horizontal glyphindex=393 codepoint=57640
+	GlyphDesc(6664, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-distribute-vertical glyphindex=394 codepoint=57641
+	GlyphDesc(6680, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-footer glyphindex=395 codepoint=57642
+	GlyphDesc(6700, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-header glyphindex=396 codepoint=57643
+	GlyphDesc(6720, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-rows glyphindex=397 codepoint=57644
+	GlyphDesc(6740, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-sidebar-left glyphindex=398 codepoint=57645
+	GlyphDesc(6760, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout-sidebar-right glyphindex=399 codepoint=57646
+	GlyphDesc(6780, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// layout glyphindex=400 codepoint=57647
+	GlyphDesc(6800, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// lightbulb-2 glyphindex=401 codepoint=57648
+	GlyphDesc(6816, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// lightbulb-on glyphindex=402 codepoint=57649
+	GlyphDesc(6838, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// lightbulb glyphindex=403 codepoint=57650
+	GlyphDesc(6854, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// link glyphindex=404 codepoint=57651
+	GlyphDesc(6874, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// list-box glyphindex=405 codepoint=57652
+	GlyphDesc(6894, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// list glyphindex=406 codepoint=57653
+	GlyphDesc(6910, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// loader glyphindex=407 codepoint=57654
+	GlyphDesc(6930, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// lock-open glyphindex=408 codepoint=57655
+	GlyphDesc(6946, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// lock glyphindex=409 codepoint=57656
+	GlyphDesc(6962, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// login glyphindex=410 codepoint=57657
+	GlyphDesc(6980, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// logout glyphindex=411 codepoint=57658
+	GlyphDesc(6998, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// luggage glyphindex=412 codepoint=57659
+	GlyphDesc(7012, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-arrow-right glyphindex=413 codepoint=57660
+	GlyphDesc(7034, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-check glyphindex=414 codepoint=57661
+	GlyphDesc(7054, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-delete glyphindex=415 codepoint=57662
+	GlyphDesc(7074, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-flash glyphindex=416 codepoint=57663
+	GlyphDesc(7096, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-multiple glyphindex=417 codepoint=57664
+	GlyphDesc(7120, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-off glyphindex=418 codepoint=57665
+	GlyphDesc(7140, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail-unread glyphindex=419 codepoint=57666
+	GlyphDesc(7160, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mail glyphindex=420 codepoint=57667
+	GlyphDesc(7180, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// map glyphindex=421 codepoint=57668
+	GlyphDesc(7200, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mastodon glyphindex=422 codepoint=57669
+	GlyphDesc(7218, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// membercard glyphindex=423 codepoint=57670
+	GlyphDesc(7238, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// menu glyphindex=424 codepoint=57671
+	GlyphDesc(7254, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-arrow-left glyphindex=425 codepoint=57672
+	GlyphDesc(7274, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-arrow-right glyphindex=426 codepoint=57673
+	GlyphDesc(7294, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-bookmark glyphindex=427 codepoint=57674
+	GlyphDesc(7314, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-clock glyphindex=428 codepoint=57675
+	GlyphDesc(7334, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-delete glyphindex=429 codepoint=57676
+	GlyphDesc(7354, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-flash glyphindex=430 codepoint=57677
+	GlyphDesc(7374, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-image glyphindex=431 codepoint=57678
+	GlyphDesc(7394, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-minus glyphindex=432 codepoint=57679
+	GlyphDesc(7414, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-plus glyphindex=433 codepoint=57680
+	GlyphDesc(7434, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-processing glyphindex=434 codepoint=57681
+	GlyphDesc(7454, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-reply glyphindex=435 codepoint=57682
+	GlyphDesc(7474, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message-text glyphindex=436 codepoint=57683
+	GlyphDesc(7494, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// message glyphindex=437 codepoint=57684
+	GlyphDesc(7514, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// minus glyphindex=438 codepoint=57685
+	GlyphDesc(7530, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// missed-call glyphindex=439 codepoint=57686
+	GlyphDesc(7550, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// modem glyphindex=440 codepoint=57687
+	GlyphDesc(7570, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// money glyphindex=441 codepoint=57688
+	GlyphDesc(7590, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// monitor glyphindex=442 codepoint=57689
+	GlyphDesc(7610, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mood-happy glyphindex=443 codepoint=57690
+	GlyphDesc(7628, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mood-neutral glyphindex=444 codepoint=57691
+	GlyphDesc(7646, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mood-sad glyphindex=445 codepoint=57692
+	GlyphDesc(7664, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// moon-star glyphindex=446 codepoint=57693
+	GlyphDesc(7684, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// moon-stars glyphindex=447 codepoint=57694
+	GlyphDesc(7708, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// moon glyphindex=448 codepoint=57695
+	GlyphDesc(7728, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// more-horizontal glyphindex=449 codepoint=57696
+	GlyphDesc(7750, 16, 3, 16, 5, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// more-vertical glyphindex=450 codepoint=57697
+	GlyphDesc(7756, 16, 6, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// mouse glyphindex=451 codepoint=57698
+	GlyphDesc(7768, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// move glyphindex=452 codepoint=57699
+	GlyphDesc(7792, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// movie glyphindex=453 codepoint=57700
+	GlyphDesc(7810, 16, 9, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// music glyphindex=454 codepoint=57701
+	GlyphDesc(7828, 16, 6, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// next glyphindex=455 codepoint=57702
+	GlyphDesc(7840, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// note-delete glyphindex=456 codepoint=57703
+	GlyphDesc(7858, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// note-multiple glyphindex=457 codepoint=57704
+	GlyphDesc(7876, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// note-plus glyphindex=458 codepoint=57705
+	GlyphDesc(7896, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// note glyphindex=459 codepoint=57706
+	GlyphDesc(7914, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notes-delete glyphindex=460 codepoint=57707
+	GlyphDesc(7932, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notes-multiple glyphindex=461 codepoint=57708
+	GlyphDesc(7954, 16, 10, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notes-plus glyphindex=462 codepoint=57709
+	GlyphDesc(7974, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notes glyphindex=463 codepoint=57710
+	GlyphDesc(7992, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notification-off glyphindex=464 codepoint=57711
+	GlyphDesc(8010, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// notification glyphindex=465 codepoint=57712
+	GlyphDesc(8028, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// open glyphindex=466 codepoint=57713
+	GlyphDesc(8046, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// paint-bucket glyphindex=467 codepoint=57714
+	GlyphDesc(8062, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// paperclip glyphindex=468 codepoint=57715
+	GlyphDesc(8080, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// pause glyphindex=469 codepoint=57716
+	GlyphDesc(8094, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// percent glyphindex=470 codepoint=57717
+	GlyphDesc(8110, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// picture-in-picture-alt glyphindex=471 codepoint=57718
+	GlyphDesc(8130, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// picture-in-picture glyphindex=472 codepoint=57719
+	GlyphDesc(8150, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// pin glyphindex=473 codepoint=57720
+	GlyphDesc(8168, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// pixelarticons glyphindex=474 codepoint=57721
+	GlyphDesc(8186, 16, 4, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// play glyphindex=475 codepoint=57722
+	GlyphDesc(8194, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// playlist glyphindex=476 codepoint=57723
+	GlyphDesc(8214, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// plus glyphindex=477 codepoint=57724
+	GlyphDesc(8230, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// power glyphindex=478 codepoint=57725
+	GlyphDesc(8246, 16, 6, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// prev glyphindex=479 codepoint=57726
+	GlyphDesc(8258, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// print glyphindex=480 codepoint=57727
+	GlyphDesc(8278, 16, 5, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// radio-handheld glyphindex=481 codepoint=57728
+	GlyphDesc(8288, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// radio-on glyphindex=482 codepoint=57729
+	GlyphDesc(8306, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// radio-signal glyphindex=483 codepoint=57730
+	GlyphDesc(8328, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// radio-tower glyphindex=484 codepoint=57731
+	GlyphDesc(8352, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// reciept-alt glyphindex=485 codepoint=57732
+	GlyphDesc(8370, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// reciept glyphindex=486 codepoint=57733
+	GlyphDesc(8388, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// redo glyphindex=487 codepoint=57734
+	GlyphDesc(8404, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// reload glyphindex=488 codepoint=57735
+	GlyphDesc(8424, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// remove-box-multiple glyphindex=489 codepoint=57736
+	GlyphDesc(8442, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// remove-box glyphindex=490 codepoint=57737
+	GlyphDesc(8460, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// repeat glyphindex=491 codepoint=57738
+	GlyphDesc(8478, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// reply-all glyphindex=492 codepoint=57739
+	GlyphDesc(8498, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// reply glyphindex=493 codepoint=57740
+	GlyphDesc(8514, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// rounded-corner glyphindex=494 codepoint=57741
+	GlyphDesc(8532, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// save glyphindex=495 codepoint=57742
+	GlyphDesc(8552, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// scale glyphindex=496 codepoint=57743
+	GlyphDesc(8570, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// script-text glyphindex=497 codepoint=57744
+	GlyphDesc(8590, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// script glyphindex=498 codepoint=57745
+	GlyphDesc(8610, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// scroll-horizontal glyphindex=499 codepoint=57746
+	GlyphDesc(8630, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// scroll-vertical glyphindex=500 codepoint=57747
+	GlyphDesc(8650, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sd glyphindex=501 codepoint=57748
+	GlyphDesc(8666, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// search glyphindex=502 codepoint=57749
+	GlyphDesc(8686, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// section-copy glyphindex=503 codepoint=57750
+	GlyphDesc(8704, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// section-minus glyphindex=504 codepoint=57751
+	GlyphDesc(8722, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// section-plus glyphindex=505 codepoint=57752
+	GlyphDesc(8740, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// section-x glyphindex=506 codepoint=57753
+	GlyphDesc(8758, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// section glyphindex=507 codepoint=57754
+	GlyphDesc(8776, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// server glyphindex=508 codepoint=57755
+	GlyphDesc(8794, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sharp-corner glyphindex=509 codepoint=57756
+	GlyphDesc(8812, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// shield-off glyphindex=510 codepoint=57757
+	GlyphDesc(8832, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// shield glyphindex=511 codepoint=57758
+	GlyphDesc(8852, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ship glyphindex=512 codepoint=57759
+	GlyphDesc(8876, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// shopping-bag glyphindex=513 codepoint=57760
+	GlyphDesc(8894, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// shuffle glyphindex=514 codepoint=57761
+	GlyphDesc(8914, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sliders-2 glyphindex=515 codepoint=57762
+	GlyphDesc(8934, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sliders glyphindex=516 codepoint=57763
+	GlyphDesc(8952, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sort-alphabetic glyphindex=517 codepoint=57764
+	GlyphDesc(8972, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sort-numeric glyphindex=518 codepoint=57765
+	GlyphDesc(8992, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sort glyphindex=519 codepoint=57766
+	GlyphDesc(9012, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// speaker glyphindex=520 codepoint=57767
+	GlyphDesc(9030, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// speed-fast glyphindex=521 codepoint=57768
+	GlyphDesc(9052, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// speed-medium glyphindex=522 codepoint=57769
+	GlyphDesc(9074, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// speed-slow glyphindex=523 codepoint=57770
+	GlyphDesc(9096, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// spotlight glyphindex=524 codepoint=57771
+	GlyphDesc(9114, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// store glyphindex=525 codepoint=57772
+	GlyphDesc(9134, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// subscriptions glyphindex=526 codepoint=57773
+	GlyphDesc(9154, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// subtitles glyphindex=527 codepoint=57774
+	GlyphDesc(9172, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// suitcase glyphindex=528 codepoint=57775
+	GlyphDesc(9192, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sun-alt glyphindex=529 codepoint=57776
+	GlyphDesc(9216, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sun glyphindex=530 codepoint=57777
+	GlyphDesc(9234, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// switch glyphindex=531 codepoint=57778
+	GlyphDesc(9252, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// sync glyphindex=532 codepoint=57779
+	GlyphDesc(9268, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// tab glyphindex=533 codepoint=57780
+	GlyphDesc(9288, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// table glyphindex=534 codepoint=57781
+	GlyphDesc(9308, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// tea glyphindex=535 codepoint=57782
+	GlyphDesc(9326, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// teach glyphindex=536 codepoint=57783
+	GlyphDesc(9346, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// text-add glyphindex=537 codepoint=57784
+	GlyphDesc(9364, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// text-colums glyphindex=538 codepoint=57785
+	GlyphDesc(9382, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// text-search glyphindex=539 codepoint=57786
+	GlyphDesc(9400, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// text-wrap glyphindex=540 codepoint=57787
+	GlyphDesc(9418, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// timeline glyphindex=541 codepoint=57788
+	GlyphDesc(9440, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// toggle-left glyphindex=542 codepoint=57789
+	GlyphDesc(9460, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// toggle-right glyphindex=543 codepoint=57790
+	GlyphDesc(9480, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// tournament glyphindex=544 codepoint=57791
+	GlyphDesc(9500, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// track-changes glyphindex=545 codepoint=57792
+	GlyphDesc(9520, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trash-alt glyphindex=546 codepoint=57793
+	GlyphDesc(9540, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trash glyphindex=547 codepoint=57794
+	GlyphDesc(9560, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trending-down glyphindex=548 codepoint=57795
+	GlyphDesc(9580, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trending-up glyphindex=549 codepoint=57796
+	GlyphDesc(9600, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trending glyphindex=550 codepoint=57797
+	GlyphDesc(9618, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// trophy glyphindex=551 codepoint=57798
+	GlyphDesc(9638, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// truck glyphindex=552 codepoint=57799
+	GlyphDesc(9662, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// undo glyphindex=553 codepoint=57800
+	GlyphDesc(9678, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// ungroup glyphindex=554 codepoint=57801
+	GlyphDesc(9696, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// unlink glyphindex=555 codepoint=57802
+	GlyphDesc(9716, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// upload glyphindex=556 codepoint=57803
+	GlyphDesc(9734, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// user-minus glyphindex=557 codepoint=57804
+	GlyphDesc(9756, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// user-plus glyphindex=558 codepoint=57805
+	GlyphDesc(9778, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// user-x glyphindex=559 codepoint=57806
+	GlyphDesc(9800, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// user glyphindex=560 codepoint=57807
+	GlyphDesc(9816, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// users glyphindex=561 codepoint=57808
+	GlyphDesc(9840, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// video-off glyphindex=562 codepoint=57809
+	GlyphDesc(9860, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// video glyphindex=563 codepoint=57810
+	GlyphDesc(9880, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// view-col glyphindex=564 codepoint=57811
+	GlyphDesc(9900, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// view-list glyphindex=565 codepoint=57812
+	GlyphDesc(9920, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// viewport-narrow glyphindex=566 codepoint=57813
+	GlyphDesc(9940, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// viewport-wide glyphindex=567 codepoint=57814
+	GlyphDesc(9960, 16, 12, 16, 0, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// visible glyphindex=568 codepoint=57815
+	GlyphDesc(9984, 16, 7, 16, 3, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-1 glyphindex=569 codepoint=57816
+	GlyphDesc(9998, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-2 glyphindex=570 codepoint=57817
+	GlyphDesc(10016, 16, 11, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-3 glyphindex=571 codepoint=57818
+	GlyphDesc(10038, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-minus glyphindex=572 codepoint=57819
+	GlyphDesc(10058, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-plus glyphindex=573 codepoint=57820
+	GlyphDesc(10078, 16, 8, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-vibrate glyphindex=574 codepoint=57821
+	GlyphDesc(10094, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume-x glyphindex=575 codepoint=57822
+	GlyphDesc(10112, 16, 5, 16, 4, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// volume glyphindex=576 codepoint=57823
+	GlyphDesc(10122, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// wallet glyphindex=577 codepoint=57824
+	GlyphDesc(10142, 16, 9, 16, 2, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// warning-box glyphindex=578 codepoint=57825
+	GlyphDesc(10160, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// wind glyphindex=579 codepoint=57826
+	GlyphDesc(10180, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// zap glyphindex=580 codepoint=57827
+	GlyphDesc(10200, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// zoom-in glyphindex=581 codepoint=57828
+	GlyphDesc(10220, 16, 10, 16, 1, 0, 0, 0, lcd_common::BitmapFormat::ONE_BPP_EIGHT_IN_A_COLUMN),// zoom-out glyphindex=582 codepoint=57829
 
 };
 
@@ -1184,19 +1184,12 @@ constexpr std::initializer_list<CharacterMap0Tiny> cmaps={
 
 };
 
-constexpr std::initializer_list<uint8_t> kern_left_class_mapping = {};
-
-constexpr std::initializer_list<uint8_t> kern_right_class_mapping = {};
-
 constexpr std::initializer_list<int16_t> kern_class_values = {};
 
 constexpr const FontDesc font = FontDesc(
-	0,
 	0, 
 	0, 
 	0,
-	&kern_left_class_mapping,
-	&kern_right_class_mapping,
 	&kern_class_values,
 	2,
 	&cmaps,

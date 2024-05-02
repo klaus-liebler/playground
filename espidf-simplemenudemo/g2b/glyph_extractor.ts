@@ -108,10 +108,10 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 				top8vec = top8vec.slice(offsetX, offsetX + w);
 				bot8vec = bot8vec.slice(offsetX, offsetX + w);
 				if (this.relocateToUnicodePrivateUseArea) {
-					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, concat(top8vec, bot8vec)));
 					relocatedCodepoint++;
 				} else {
-					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, concat(top8vec, bot8vec)));
 				}
 
 			}
@@ -142,7 +142,7 @@ export class GlcdFontProvider extends GlyphProviderResult implements IGlyphProvi
 			var bot8vec = data.slice(bitmapIndex + width, bitmapIndex + 2 * width)
 			bot8vec.forEach((v,i,a)=>{a[i]>>=2});
 				
-			var glyphDesc = new GlyphDesc(codePointFirstGlyph + i, String.fromCodePoint(codePointFirstGlyph + i), width+2, width, 16, 0, 0, 0,0, BitmapFormat.One_Bpp_Eight_In_A_Column, ToUint8Array(top8vec, bot8vec));
+			var glyphDesc = new GlyphDesc(codePointFirstGlyph + i, String.fromCodePoint(codePointFirstGlyph + i), width+2, width, 16, 0, 0, 0,0, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, ToUint8Array(top8vec, bot8vec));
 			this.glyphsDesc.push(glyphDesc)
 			bitmapIndex += (2 * width);
 		}
@@ -188,7 +188,7 @@ export class SvgDirectoryGlyphProvider extends GlyphProviderResult implements IG
 			if (debug) {
 				console.log(`offsetX=${offsetX}, w=${w}, top8vec=${toHexArray(top8vec)}, bot8vec=${toHexArray(bot8vec)}`);
 			}
-			this.glyphsDesc.push(new GlyphDesc(codePoint, fileWithoutExt, 16, w, 16, offsetX, 0, 0,0, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+			this.glyphsDesc.push(new GlyphDesc(codePoint, fileWithoutExt, 16, w, 16, offsetX, 0, 0,0, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, concat(top8vec, bot8vec)));
 
 			codePoint++;
 

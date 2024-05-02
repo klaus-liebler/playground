@@ -247,14 +247,14 @@ namespace lcd_i2c_1bpp
         void PopulateGlyphs(char *chars)
         {
             uint32_t currentCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
-            uint32_t currentGlyphIndex=font->GetGlyphIndex(currentCodepoint);
+            auto currentGlyph=font->GetGlyphDesc(currentCodepoint);
             uint32_t nextCodepoint{0};
-            uint32_t nextGlyphIndex{0};
+            const GlyphDesc* nextGlyph{nullptr};
             //two tabs are supported. First tab is centered and center-aligned
             //second tab is right and right-aligned
             size_t glyphBeforeTabulator[2]={UINT32_MAX, UINT32_MAX};
             
-            uint16_t posX = PADDING_LEFT-font->glyph_desc->begin()[currentGlyphIndex].ofs_x;
+            uint16_t posX = PADDING_LEFT-currentGlyph->ofs_x;
             uint16_t endX{0};
             uint8_t tabIndex=0;
             while (currentCodepoint)
@@ -272,28 +272,23 @@ namespace lcd_i2c_1bpp
                     else{
                         ESP_LOGD(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
                     }
-                    nextGlyphIndex = font->GetGlyphIndex(nextCodepoint);
+                    nextGlyph = font->GetGlyphDesc(nextCodepoint);
                     kv=0;
                     
                 } else{
-                    nextGlyphIndex = font->GetGlyphIndex(nextCodepoint);
-                    kv = font->GetKerningValue(currentGlyphIndex, nextGlyphIndex);
+                    nextGlyph = font->GetGlyphDesc(nextCodepoint);
+                    kv = font->GetKerningValue(currentGlyph, nextGlyph);
                 }
-                auto dsc=&font->glyph_desc->begin()[currentGlyphIndex];
-                if(currentCodepoint>0xFF){
-                    ESP_LOGD(TAG, "Special Codepoint detected %lu, glyphIndex=%lu, bitmapIndex=%lu", currentCodepoint, currentGlyphIndex, dsc->bitmap_index);
-                }
+                
 
-                GlyphHelper gh = {};
-                gh.glyph_dsc = dsc;
+                GlyphHelper gh;
+                gh.glyph_dsc = currentGlyph;
                 gh.startX = posX + gh.glyph_dsc->ofs_x;
                 endX = gh.startX + gh.glyph_dsc->box_w;
                 if (endX >= LINE_WIDTH_PIXELS)
                 {
-                    ESP_LOGW(TAG, "NOT push GlyphIndex=%lu, posX=%d endX=%d, startX=%d", currentGlyphIndex, posX, endX, gh.startX);
+                    ESP_LOGW(TAG, "NOT push GlyphIndex, posX=%d endX=%d, startX=%d", posX, endX, gh.startX);
                     break; // Damit ist sicher gestellt, dass man bei der Ausgabe keinerlei überprüfung machen muss, ob irgendwelche Grenzen überschritten werden -->einfach glyphs zeichnen und gut!
-                }else{
-                    ESP_LOGD(TAG, "push GlyphIndex=%lu, posX=%d nextIndex=%lu, kv=%u, startX=%d,", currentGlyphIndex, posX, nextGlyphIndex, kv, gh.startX);
                 }
                 //"adv_w" und "kv" are in "font units" (see "unitsPerEm" in FontDsc). If unitsPerEm=2048, then 2048 of those units means 1Em eg. normal font size eg. 16px
                 if(font->unitsPerEm==0){
@@ -304,7 +299,7 @@ namespace lcd_i2c_1bpp
                 
                 glyphs.push_back(gh);
                 currentCodepoint=nextCodepoint;
-                currentGlyphIndex=nextGlyphIndex;
+                currentGlyph=nextGlyph;
             }
 
             int i=glyphs.size()-1;
@@ -375,7 +370,7 @@ namespace lcd_i2c_1bpp
                 while (ghIndex < glyphs.size())
                 {
                     GlyphHelper *g = &glyphs[ghIndex];
-                    g->WriteLineToBuffer(font, invert, ramline, buf);
+                    g->WriteGlyphLineToBuffer1bpp(font, invert, ramline, buf);
                     ghIndex++;
                 }
                 ESP_ERROR_CHECK(i2c_master_transmit(dev_handle, out_buf, WIDTH + 1, I2C_TICKS_TO_WAIT));

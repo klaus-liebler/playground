@@ -19,8 +19,8 @@ export class CharacterMap0Tiny {
 
 export enum BitmapFormat{
     UNDEFINED,
-    One_Bpp_Eight_In_A_Column,//best for SSD1306 etc
-    Four_Bpp_Row_By_Row,//best for ST7789 etc
+    ONE_BPP_EIGHT_IN_A_COLUMN,//best for SSD1306 etc
+    FOUR_BPP_ROW_BY_ROW,//best for ST7789 etc
 }
 
 export class GlyphDesc {
@@ -28,7 +28,7 @@ export class GlyphDesc {
 
 	public toCppConstructorString(bitmap_index: number, glyphIndex:number): string {
         //        GlyphDesc(uint32_t bitmap_index, uint16_t adv_w, uint8_t box_w, uint8_t box_h, uint8_t ofs_x, uint8_t ofs_x)
-		return `\tGlyphDesc(${bitmap_index}, ${this.adv_w}, ${this.box_w}, ${this.box_h}, ${this.ofs_x}, ${this.ofs_y}, ${this.kerningClassLeft}, ${this.kerningClassRight}, ${this.bitmapFormat}),// ${this.name} glyphindex=${glyphIndex} codepoint=${this.codepointDest}\n`;
+		return `\tGlyphDesc(${bitmap_index}, ${this.adv_w}, ${this.box_w}, ${this.box_h}, ${this.ofs_x}, ${this.ofs_y}, ${this.kerningClassLeft}, ${this.kerningClassRight}, lcd_common::BitmapFormat::${BitmapFormat[this.bitmapFormat]}),// ${this.name} glyphindex=${glyphIndex} codepoint=${this.codepointDest}\n`;
 	}
 }
 
