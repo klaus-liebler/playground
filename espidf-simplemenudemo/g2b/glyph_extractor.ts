@@ -1,7 +1,7 @@
 
 import fs from "node:fs";
 import path from "node:path"
-import { GlyphProcessingInfo, GlyphProviderResult, GlyphProviderWithKerningResult, IGlyphProvider, IGlyphProviderWithKerning, PixelFormat, Range, ToUint8Array, UNICODE_PRIVATE_USE_AREA, concat, formatedTimestamp } from './utils';
+import { GlyphProcessingInfo, GlyphProviderResult, GlyphProviderWithKerningResult, IGlyphProvider, IGlyphProviderWithKerning, BitmapFormat, Range, ToUint8Array, UNICODE_PRIVATE_USE_AREA, concat, formatedTimestamp } from './utils';
 import { CharacterMap0Tiny } from './utils';
 import { GlyphDesc } from './utils';
 import * as Canvas from "canvas";
@@ -14,21 +14,12 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 	public fontUnitsPerEm: number = 0;
 	public leftKerningClassCnt: number = 0;
 	public rightKerningClassCnt: number = 0;
-	public glyphIndex2leftKerningClass: Array<number> = [];
-	public glyphIndex2rightKerningClass: Array<number> = [];
 	public leftrightKerningClass2kerningValue: Array<number> = [];
 
 	private buildClassBasedKernings(font: Font, glyphProcessingInfo: Array<GlyphProcessingInfo>) {
 
 		const gposKerning = (<any>font).position.defaultKerningTables;
 		const subtable = gposKerning[0].subtables[1];
-		var leftClasses = [];
-		var rightClasses = [];
-		glyphProcessingInfo.forEach((v, i, a) => {
-			leftClasses.push((<any>font).position.getGlyphClass(subtable.classDef1, v.glyphIndexSource));
-			rightClasses.push((<any>font).position.getGlyphClass(subtable.classDef2, v.glyphIndexSource));
-		});
-
 		var classes2kerning: Array<number> = [];
 		for (let leftClass = 0; leftClass < subtable.class1Count; leftClass++) {
 			for (let rightClass = 0; rightClass < subtable.class2Count; rightClass++) {
@@ -38,13 +29,11 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 		}
 
 		//subtable.classRecords.forEach((i)=>{classes2kerning.push(i.value1 && i.value1.xAdvance || 0)})
-		this.glyphIndex2leftKerningClass = leftClasses;
-		this.glyphIndex2rightKerningClass = rightClasses;
 		this.leftrightKerningClass2kerningValue = classes2kerning;
 		this.leftKerningClassCnt = subtable.class1Count;
 		this.rightKerningClassCnt = subtable.class2Count;
 	}
-
+	//@Obsolete
 	private buildGlyphDescriptionAndAddToBitmap(info: GlyphProcessingInfo): GlyphDesc {
 		var debug = false;
 		if (info.codepointSource == 72) {
@@ -83,6 +72,8 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 
 	Provide(): Promise<GlyphProviderWithKerningResult> {
 		var glyphIndexes: Array<GlyphProcessingInfo> = [];
+		const gposKerning = (<any>this.font).position.defaultKerningTables;
+		const subtable = gposKerning[0].subtables[1];
 
 		var relocatedCodepoint = UNICODE_PRIVATE_USE_AREA;
 		this.codepointRanges.forEach(r => {
@@ -90,6 +81,8 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 				var glyphIndexTtf = codepoint2glyphindex(this.font, codePoint);
 				if (!glyphIndexTtf) continue;
 				var g: Glyph = this.font.glyphs.get(glyphIndexTtf);
+				var leftClass=(<any>this.font).position.getGlyphClass(subtable.classDef1, glyphIndexTtf)
+				var rightClass=((<any>this.font).position.getGlyphClass(subtable.classDef2, glyphIndexTtf));
 				var canvas = Canvas.createCanvas(16, 16);
 				var ctx: any = canvas.getContext("2d");
 				g.draw(ctx, 0, 16, 16, <any>{ hinting: true });
@@ -115,10 +108,10 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 				top8vec = top8vec.slice(offsetX, offsetX + w);
 				bot8vec = bot8vec.slice(offsetX, offsetX + w);
 				if (this.relocateToUnicodePrivateUseArea) {
-					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, PixelFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
 					relocatedCodepoint++;
 				} else {
-					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, PixelFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, 0, leftClass, rightClass, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
 				}
 
 			}
@@ -149,7 +142,7 @@ export class GlcdFontProvider extends GlyphProviderResult implements IGlyphProvi
 			var bot8vec = data.slice(bitmapIndex + width, bitmapIndex + 2 * width)
 			bot8vec.forEach((v,i,a)=>{a[i]>>=2});
 				
-			var glyphDesc = new GlyphDesc(codePointFirstGlyph + i, String.fromCodePoint(codePointFirstGlyph + i), width+2, width, 16, 0, PixelFormat.One_Bpp_Eight_In_A_Column, ToUint8Array(top8vec, bot8vec));
+			var glyphDesc = new GlyphDesc(codePointFirstGlyph + i, String.fromCodePoint(codePointFirstGlyph + i), width+2, width, 16, 0, 0, 0,0, BitmapFormat.One_Bpp_Eight_In_A_Column, ToUint8Array(top8vec, bot8vec));
 			this.glyphsDesc.push(glyphDesc)
 			bitmapIndex += (2 * width);
 		}
@@ -195,7 +188,7 @@ export class SvgDirectoryGlyphProvider extends GlyphProviderResult implements IG
 			if (debug) {
 				console.log(`offsetX=${offsetX}, w=${w}, top8vec=${toHexArray(top8vec)}, bot8vec=${toHexArray(bot8vec)}`);
 			}
-			this.glyphsDesc.push(new GlyphDesc(codePoint, fileWithoutExt, 16, w, 16, offsetX, PixelFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+			this.glyphsDesc.push(new GlyphDesc(codePoint, fileWithoutExt, 16, w, 16, offsetX, 0, 0,0, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
 
 			codePoint++;
 
@@ -211,9 +204,6 @@ export class FontCC{
 	public glyphs:Array<GlyphDesc>=[];
 	public characterMaps:Array<CharacterMap0Tiny>=[];
 	public fontUnitsPerEm:number=0;
-	public maxGlyphIndexWithKerningInfo:number=0;
-	public glyphIndex2leftKerningClass:Array<number>=[];
-	public glyphIndex2rightKerningClass:Array<number>=[];
 	public leftrightKerningClass2kerningValue:Array<number>=[];
 	public leftKerningClassCnt:number=0;
 	public rightKerningClassCnt:number=0;
@@ -247,20 +237,16 @@ export class FontCC{
 	}
 
 	private async build(mainProvider:IGlyphProviderWithKerning, otherProviders:Array<IGlyphProvider>){
-		this.glyphs.push(new GlyphDesc(0,"DummyGlyph", 0,0,0,0, PixelFormat.UNDEFINED, new Uint8Array()));
+		this.glyphs.push(new GlyphDesc(0,"DummyGlyph", 0,0,0,0,0, 0,0,BitmapFormat.UNDEFINED, new Uint8Array()));
 		if(mainProvider){
 			var res = await mainProvider.Provide();
 			this.buildAndAddCmaps(res.glyphsDesc, this.glyphs.length);
 			this.glyphs.push(...res.glyphsDesc)
 			this.fontUnitsPerEm=res.fontUnitsPerEm;
-			this.glyphIndex2leftKerningClass=res.glyphIndex2leftKerningClass;
-			this.glyphIndex2rightKerningClass=res.glyphIndex2rightKerningClass;
 			this.leftrightKerningClass2kerningValue=res.leftrightKerningClass2kerningValue;
 			this.leftKerningClassCnt=res.leftKerningClassCnt;
 			this.rightKerningClassCnt=res.rightKerningClassCnt;
 		}
-		
-		this.maxGlyphIndexWithKerningInfo=this.glyphs.length-1
 		for(var pIndex=0; pIndex<otherProviders.length;pIndex++){
 			var resx = await otherProviders[pIndex].Provide();
 			this.buildAndAddCmaps(resx.glyphsDesc, this.glyphs.length);
@@ -296,10 +282,8 @@ export class FontCC{
 		ret+=`constexpr std::initializer_list<uint8_t> glyph_bitmap={\n${bitmap}\n};\n\n`
 		ret+=`constexpr std::initializer_list<GlyphDesc> glyph_desc={\n${glyphDescStr}\n};\n\n`
 		ret+=`constexpr std::initializer_list<CharacterMap0Tiny> cmaps={\n${cmaps}\n};\n\n`
-		ret+=`constexpr std::initializer_list<uint8_t> kern_left_class_mapping = {${this.glyphIndex2leftKerningClass}};\n\n`
-		ret+=`constexpr std::initializer_list<uint8_t> kern_right_class_mapping = {${this.glyphIndex2rightKerningClass}};\n\n`
 		ret+=`constexpr std::initializer_list<int16_t> kern_class_values = {${this.leftrightKerningClass2kerningValue}};\n\n`
-		ret+=`constexpr const FontDesc font = FontDesc(\n\t${this.fontUnitsPerEm},\n\t${this.maxGlyphIndexWithKerningInfo}, \n\t${this.leftKerningClassCnt}, \n\t${this.rightKerningClassCnt},\n\t&kern_left_class_mapping,\n\t&kern_right_class_mapping,\n\t&kern_class_values,\n\t${this.characterMaps.length},\n\t&cmaps,\n\t&glyph_desc,\n\t&glyph_bitmap,\n\t16,\n\t0);\n`
+		ret+=`constexpr const FontDesc font = FontDesc(\n\t${this.fontUnitsPerEm}, \n\t${this.leftKerningClassCnt}, \n\t${this.rightKerningClassCnt},\n\t&kern_class_values,\n\t${this.characterMaps.length},\n\t&cmaps,\n\t&glyph_desc,\n\t&glyph_bitmap,\n\t16,\n\t0);\n`
 		ret+="}"
 		return ret;
 	}

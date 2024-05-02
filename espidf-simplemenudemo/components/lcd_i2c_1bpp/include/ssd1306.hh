@@ -42,32 +42,7 @@ namespace lcd_i2c_1bpp
         return (i % n + n) % n;
     }
 
-    struct GlyphHelper{
-        const GlyphDesc* glyph_dsc;
-        int16_t startX;
-        /*
-        p muss an der startX-Position des Bitmaps stehen
-        suppressedPixelIfBackground: so viele Pixel werden im BUffer nicht überschreiben, wenn Sie nur Hintergrund sind (wichtig beim Kerning)
-        */
-        void WriteLineToBuffer(const FontDesc *font, bool invert, uint16_t ramline, uint8_t *buffer)
-        {
-            const uint8_t *bitmap= font->glyph_bitmap->begin();
-            uint32_t bo = glyph_dsc->bitmap_index;
-            ESP_LOGD(TAG, "bitmap_base_address =0x%08X, glyph_bitmap_offset=%lu", (unsigned int)bitmap, bo);
-            for (int x = 0; x < glyph_dsc->box_w; x++) // x läuft die Breite der Bitmap entlang
-            {
-                int indexInBitmap = ramline * glyph_dsc->box_w + x;
-                uint8_t bits = bitmap[bo + indexInBitmap];  
-                ESP_LOGD(TAG, "indexInBitmap=%i, bits=0x%02X", indexInBitmap, bits);
-                if(!invert){
-                    buffer[startX+x]|=bits;
-                }else{
-                    buffer[startX+x]&=~bits;
-                }
-            }
-        }
-    };
-
+   
     template <uint8_t WIDTH = 128, uint8_t HEIGHT = 32, uint8_t I2C_ADDRESS = 0x3C, bool EXTERNALVCC = false, bool FLIP = false>
     class M : public display::FullLineWriter
     {

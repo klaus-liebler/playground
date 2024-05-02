@@ -1,7 +1,7 @@
 import * as Canvas from 'canvas';
 import opentype, { Font, Glyph } from 'opentype.js';
 import fs from "node:fs";
-import { GlyphProviderWithKerningResult, IGlyphProviderWithKerning, PixelFormat, Range, ToUint8Array, concat } from './utils';
+import { GlyphProviderWithKerningResult, IGlyphProviderWithKerning, BitmapFormat, Range, ToUint8Array, concat } from './utils';
 import { GlyphProcessingInfo } from './utils';
 import { UNICODE_PRIVATE_USE_AREA } from './utils';
 import { GlyphDesc } from './utils';
@@ -115,10 +115,10 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 				top8vec = top8vec.slice(offsetX, offsetX + w);
 				bot8vec = bot8vec.slice(offsetX, offsetX + w);
 				if (this.relocateToUnicodePrivateUseArea) {
-					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, PixelFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
 					relocatedCodepoint++;
 				} else {
-					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, PixelFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
 				}
 
 			}

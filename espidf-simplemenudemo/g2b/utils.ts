@@ -17,17 +17,18 @@ export class CharacterMap0Tiny {
 	}
 }
 
-export enum PixelFormat{
+export enum BitmapFormat{
     UNDEFINED,
     One_Bpp_Eight_In_A_Column,//best for SSD1306 etc
     Four_Bpp_Row_By_Row,//best for ST7789 etc
 }
 
 export class GlyphDesc {
-	constructor(public readonly codepointDest:number, public readonly name:string, public adv_w = 0, public box_w = 0, public box_h = 16, public ofs_x = 0, public readonly bitmapFormat:PixelFormat, public readonly bitmap:Uint8Array) { }
+	constructor(public readonly codepointDest:number, public readonly name:string, public adv_w = 0, public box_w = 0, public box_h = 16, public ofs_x = 0, public ofs_y = 0, public kerningClassLeft=0, public kerningClassRight=0, public readonly bitmapFormat:BitmapFormat, public readonly bitmap:Uint8Array) { }
 
 	public toCppConstructorString(bitmap_index: number, glyphIndex:number): string {
-		return `\tGlyphDesc(${bitmap_index}, ${this.adv_w}, ${this.box_w}, ${this.ofs_x}),// ${this.name} glyphindex=${glyphIndex} codepoint=${this.codepointDest}\n`;
+        //        GlyphDesc(uint32_t bitmap_index, uint16_t adv_w, uint8_t box_w, uint8_t box_h, uint8_t ofs_x, uint8_t ofs_x)
+		return `\tGlyphDesc(${bitmap_index}, ${this.adv_w}, ${this.box_w}, ${this.box_h}, ${this.ofs_x}, ${this.ofs_y}, ${this.kerningClassLeft}, ${this.kerningClassRight}, ${this.bitmapFormat}),// ${this.name} glyphindex=${glyphIndex} codepoint=${this.codepointDest}\n`;
 	}
 }
 
@@ -66,8 +67,6 @@ export class GlyphProviderWithKerningResult{
     public fontUnitsPerEm:number;
     public leftKerningClassCnt:number;
     public rightKerningClassCnt:number;
-    public glyphIndex2leftKerningClass:Array<number>;
-    public glyphIndex2rightKerningClass:Array<number>;
     public leftrightKerningClass2kerningValue:Array<number>;
 }
 
