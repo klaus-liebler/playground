@@ -1,0 +1,5 @@
+node_modules/
+flatbuffers_gen/
+generated/
+certificates/
+dist*/
