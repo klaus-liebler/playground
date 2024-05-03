@@ -13,7 +13,7 @@
 #include <spilcd16.hh>
 #include "FullTextLineRenderer.hh"
 #include "simple_menu.hh"
-#include "lvgl/lvgl.h"
+#include <lcd_font.hh>
 
 #include <RGB565.hh>
 #define TAG "MAIN"
@@ -37,7 +37,7 @@ private:
 public:
     LineWriterToSpiLcsAdapter(IRendererHost *host, uint8_t lineHeight) : host(host), lineHeight(lineHeight) {
         frr = new FilledRectRenderer(Point2D(0,0), Point2D(240, 320), Color::GREEN);
-        ftlr= new FullTextlineRenderer<LINE_HEIGHT_PIXELS, LINE_WIDTH_PIXELS, PADDING_LEFT, PADDING_RIGHT>(&roboto_fontawesome);
+        ftlr= new FullTextlineRenderer<LINE_HEIGHT_PIXELS, LINE_WIDTH_PIXELS, PADDING_LEFT, PADDING_RIGHT>(&arial_and_symbols_16px1bpp::font);
 
     }
     size_t printfl(int line, bool invert, const char *format, ...) override

@@ -1,8 +1,10 @@
 #pragma once
 #include <cstdint>
 #include <cstring>
+#include <vector>
 #include <initializer_list>
 #include <esp_log.h>
+#include "unicode_utils.hh"
 #define TAG "FONT"
 namespace lcd_common
 {
@@ -144,6 +146,95 @@ class GlyphHelper
         const GlyphDesc *glyph_dsc;
         int16_t startX;//position of bitmap
 
+        static void PopulateGlyphs(const FontDesc* const font, char *chars, std::vector<GlyphHelper>& glyphs, uint16_t PADDING_LEFT, uint16_t LINE_WIDTH_PIXELS, uint16_t PADDING_RIGHT)
+        {
+            uint32_t currentCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
+            auto currentGlyph=font->GetGlyphDesc(currentCodepoint);
+            uint32_t nextCodepoint{0};
+            const GlyphDesc* nextGlyph{nullptr};
+            //two tabs are supported. First tab is centered and center-aligned
+            //second tab is right and right-aligned
+            size_t glyphBeforeTabulator[2]={UINT32_MAX, UINT32_MAX};
+            
+            uint16_t posX = PADDING_LEFT-currentGlyph->ofs_x;
+            uint16_t endX{0};
+            uint8_t tabIndex=0;
+            while (currentCodepoint)
+            {
+                
+                nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
+                int32_t kv;
+                if(nextCodepoint=='\t' && tabIndex<2){
+                    glyphBeforeTabulator[tabIndex++]=glyphs.size();
+                    nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
+                    if(nextCodepoint=='\t' && tabIndex<2){
+                        glyphBeforeTabulator[tabIndex++]=glyphs.size();
+                        nextCodepoint = unicode_utils::getCodepointAndAdvancePointer(&chars);
+                        ESP_LOGD(TAG, "Two Tabs detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
+                    else{
+                        ESP_LOGD(TAG, "One Tab detected! pos=%d, codePointAfter=%lu", glyphs.size(), nextCodepoint);
+                    }
+                    nextGlyph = font->GetGlyphDesc(nextCodepoint);
+                    kv=0;
+                    
+                } else{
+                    nextGlyph = font->GetGlyphDesc(nextCodepoint);
+                    kv = font->GetKerningValue(currentGlyph, nextGlyph);
+                }
+
+                GlyphHelper gh = {};
+                gh.glyph_dsc = currentGlyph;
+                gh.startX = posX + gh.glyph_dsc->ofs_x;
+               
+                endX = gh.startX + gh.glyph_dsc->box_w;
+                if (endX >= LINE_WIDTH_PIXELS)
+                {
+                    ESP_LOGW(TAG, "NOT push GlyphIndex, posX=%d endX=%d, startX=%d", posX, endX, gh.startX);
+                    break; // Damit ist sicher gestellt, dass man bei der Ausgabe keinerlei überprüfung machen muss, ob irgendwelche Grenzen überschritten werden -->einfach glyphs zeichnen und gut!
+                }
+                if(font->unitsPerEm==0){
+                    posX += (gh.glyph_dsc->adv_w + kv);
+                }else{
+                    posX += ((gh.glyph_dsc->adv_w + kv) + (1 << 6)) >> 7;
+                }
+                glyphs.push_back(gh);
+                currentCodepoint=nextCodepoint;
+                currentGlyph=nextGlyph;
+            }
+            //Now, all glyphs are in the vector ... but still left aligned. Now, consider tabulators and move the glyphs back and forth
+            int i=glyphs.size()-1;
+            //Erst rechtsbündigen tabluator
+            int offset = LINE_WIDTH_PIXELS-PADDING_RIGHT-endX;
+            if(glyphBeforeTabulator[1]!=UINT32_MAX && offset>0){
+                while(i>glyphBeforeTabulator[1]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+            }
+            
+            if(glyphBeforeTabulator[0]!=UINT32_MAX && glyphBeforeTabulator[0]!=glyphBeforeTabulator[1]){
+                GlyphHelper* g1 =&glyphs.at(glyphBeforeTabulator[0]+1);//""
+                GlyphHelper* g2 =&glyphs.at(glyphBeforeTabulator[1]);
+                
+                uint16_t startOfBlock=g1->startX;
+                uint16_t endOfBlock =g2->startX+g2->glyph_dsc->box_w;
+                ESP_LOGD(TAG, "Two separate tabs -->we need to center some glyphs, startOfBlock=%d, endOfBlock=%d", startOfBlock, endOfBlock);
+                assert(endOfBlock>startOfBlock);
+                uint16_t widthOfCenteredChars=endOfBlock-startOfBlock;
+                uint16_t startPos = (LINE_WIDTH_PIXELS/2)-(widthOfCenteredChars/2);
+                offset=startPos-g1->startX;
+                assert(offset>0);
+                while(i>glyphBeforeTabulator[0]){
+                    glyphs.at(i).startX+=offset;
+                    ESP_LOGD(TAG, "moved Glyph at pos %d to posX=%d",  i, glyphs.at(i).startX);
+                    i--;
+                }
+
+            }
+        }
+        
         size_t WriteGlyphLineToBuffer16bpp(const FontDesc* font, uint16_t line, uint16_t *buffer_at_correct_position, uint16_t *colors, uint16_t suppressedPixelIfBackground = 0){
             switch (glyph_dsc->bitmapFormat)
             {
@@ -171,12 +262,18 @@ class GlyphHelper
 
         size_t WriteGlyphLine1bppToBuffer16bpp(const FontDesc* font, uint16_t line, uint16_t *buffer_at_correct_position, uint16_t *colors, uint16_t suppressedPixelIfBackground = 0)
         {
+            int16_t lineInBitmap = line - this->glyph_dsc->ofs_y;
+            if(lineInBitmap<0 || lineInBitmap>=this->glyph_dsc->box_h){
+                //Wir sind außerhalb der Bitmap...und schreiben deshalb einfach nur "Hintergrundfarbe in den Buffer"
+                for (int x = suppressedPixelIfBackground; x < glyph_dsc->box_w; x++) // x läuft die Breite der Bitmap entlang
+                {
+                    // ausgabe nur dann, wenn wir sowieso außerhalb der suppressed sind oder die Farbe Nicht-Hintergrund ist
+                    buffer_at_correct_position[x] = colors[0];
+                }
+                return glyph_dsc->box_w;
+            }
             const uint8_t *bitmap = font->glyph_bitmap->begin();
             uint32_t bo = this->glyph_dsc->bitmap_index;
-            int16_t lineInBitmap = line - this->glyph_dsc->ofs_y;
-            if(lineInBitmap<0){
-                return 0;
-            }
             uint16_t lineOf8 = lineInBitmap >> 3;
             uint16_t lineIn8 = lineInBitmap & 7;
 
