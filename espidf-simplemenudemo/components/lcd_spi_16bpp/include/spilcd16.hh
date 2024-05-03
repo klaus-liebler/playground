@@ -159,10 +159,11 @@ namespace spilcd16
 
         void Render(uint16_t startline, uint16_t linesCount, uint16_t *buffer) override
         {
-            
-            for (int i = 0; i < (end_excl.x-start.x)*linesCount; i++)
+            size_t pixelCnt= (end_excl.x-start.x)*linesCount;
+            ESP_LOGD(TAG, "In FilledRectRenderer::Render: startline=%d, linesCount=%d numPixels=%u Pixels ", startline, linesCount, pixelCnt);
+            for (int i = 0; i < pixelCnt; i++)
             {
-                //TODO:buffer[i] = this->foreground;
+                buffer[i] = this->foreground;
             }
         }
     };
@@ -795,9 +796,9 @@ namespace spilcd16
                 uint16_t linesTotal = end_ex.y-start.y;
                 uint16_t lineLengthPixel = end_ex.x-start.x;
                 uint16_t linesMaxPerCall=(uint16_t)(PIXEL_BUFFER_SIZE_IN_PIXELS/lineLengthPixel);
-                ESP_LOGI(TAG, "Called DrawAsyncAsSync for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
+                ESP_LOGD(TAG, "Called Draw for %d/%d - %d/%d i.e. %u lines of length %d. As buffer size is %upx, max %d lines per call are possible", start.x, start.y, end_ex.x, end_ex.y, linesTotal, lineLengthPixel, PIXEL_BUFFER_SIZE_IN_PIXELS, linesMaxPerCall);
                 updateAndEnqueuePrepareTransactions(start, end_ex, considerOffsetsOfVisibleArea, true);
-                ESP_LOGD(TAG, "Five basic transaction in DrawAsyncAsSync have been completed");
+                ESP_LOGD(TAG, "Five basic transaction in Draw have been completed");
                 uint16_t startLine{0};
                 uint8_t bufferIndex=0;
                 while (startLine < linesTotal)
@@ -805,7 +806,7 @@ namespace spilcd16
                     uint16_t linesInNextCall = std::min((uint16_t)(linesTotal - startLine), linesMaxPerCall);
                     renderer->Render(startLine, linesInNextCall, buffer[bufferIndex]);
                     updateAndEnqueueBufferTransaction(bufferIndex, renderer, startLine, lineLengthPixel, linesTotal, linesInNextCall, true);
-                    ESP_LOGD(TAG, "Buffer%d transaction in DrawAsyncAsSync has been completed with %u lines.",bufferIndex, linesInNextCall);
+                    ESP_LOGD(TAG, "Buffer%d transaction in Draw has been completed with %u lines.",bufferIndex, linesInNextCall);
                     startLine += linesInNextCall;
                     bufferIndex++;
                     bufferIndex%=2;
