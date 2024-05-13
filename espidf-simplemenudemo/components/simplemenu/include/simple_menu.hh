@@ -44,6 +44,13 @@ namespace menu
     public:
         virtual void ValueChanged(const MenuItem *item, T newValue) = 0;
     };
+    
+    template <class T>
+    class MenuItemChangedWithHandle
+    {
+    public:
+        virtual void ValueChanged(const MenuItem *item, void* referenceOrHandle, T newValue) = 0;
+    };
 
     class MenuItem
     {
@@ -62,14 +69,59 @@ namespace menu
         virtual MenuItemResult Back() { return MenuItemResult::CLOSE_MYSELF; }
         const char *GetName() const { return name; }
 
-        virtual esp_err_t WriteToNvs(nvs_handle_t& nvs_handle){
+        virtual esp_err_t SaveToNvs(nvs_handle_t& nvs_handle){
             return ESP_OK;
         }
 
-        virtual esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle){
+        virtual esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle){
             return ESP_OK;
         }
     };
+
+    class ConfirmationItem : public MenuItem
+    {
+    private:
+        void* referenceOrHandle;
+        MenuItemChangedWithHandle<bool> *cb;
+        static bool confirmationTmp;
+
+    public:
+        ConfirmationItem(const char *const name, void* referenceOrHandle, MenuItemChangedWithHandle<bool> *cb = nullptr) : MenuItem(name), referenceOrHandle(referenceOrHandle), cb(cb) {}
+        void RenderCompact(FullLineWriter *lw, int line, bool invert) override
+        {
+            lw->printfl(line, invert, "%s" G_LABEL_ALT, name);
+        }
+
+        MenuItemResult Select(MenuItem **toOpen) override {
+            (void)toOpen;
+             if (cb)
+                cb->ValueChanged(this, this->referenceOrHandle, confirmationTmp);
+            return MenuItemResult::CLOSE_MYSELF;
+        }
+
+        void RenderFullScreen(FullLineWriter *lw, bool initial, uint8_t shownLines, uint8_t availableLines) override
+        {
+            if (initial)
+            {
+                lw->ClearScreenAndResetStartline();
+                lw->printfl(0, false, "Are you sure?");
+                confirmationTmp=false;
+            }
+            lw->printfl(1, true, ">[%s]", confirmationTmp?"Yes":"No");
+        }
+        MenuItemResult Up() override
+        {
+            confirmationTmp=!confirmationTmp;
+            return MenuItemResult::REDRAW;
+        }
+        MenuItemResult Down() override
+        {
+            confirmationTmp=!confirmationTmp;
+            return MenuItemResult::REDRAW;
+        }
+    };
+
+    
 
     class IntegerItem : public MenuItem
     {
@@ -87,11 +139,11 @@ namespace menu
             lw->printfl(line, invert, "%s\t\t%d", name, *value);
         }
 
-        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t SaveToNvs(nvs_handle_t& nvs_handle) override{
             return nvs_set_i32(nvs_handle, name, *value);
         }
 
-        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle) override{
             return nvs_get_i32(nvs_handle, name, value);
         }
 
@@ -139,11 +191,11 @@ namespace menu
     public:
         BoolItem(const char *const name, bool *value, MenuItemChanged<bool> *cb = nullptr) : MenuItem(name), value(value), cb(cb) {}
         
-        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t SaveToNvs(nvs_handle_t& nvs_handle) override{
             return nvs_set_i32(nvs_handle, name, *value?1:0);
         }
 
-        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle) override{
             int32_t foo=0;
             auto ret = nvs_get_i32(nvs_handle, name, &foo);
             *value=foo==1?true:false;
@@ -214,11 +266,11 @@ namespace menu
         }
 
 
-        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t SaveToNvs(nvs_handle_t& nvs_handle) override{
             return nvs_set_i32(nvs_handle, name, (*value)*(float)UNITS_PER_INTEGER);
         }
 
-        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle) override{
             int32_t foo=0;
             auto ret = nvs_get_i32(nvs_handle, name, &foo);
             *value=foo/(float)UNITS_PER_INTEGER;
@@ -302,16 +354,16 @@ namespace menu
     public:
         FolderItem(const char *const name, const std::vector<MenuItem *> *const content) : MenuItem(name), content(content) {}
         
-        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t SaveToNvs(nvs_handle_t& nvs_handle) override{
             for (int i=0;i<content->size();i++) {
-                content->at(i)->WriteToNvs(nvs_handle);
+                content->at(i)->SaveToNvs(nvs_handle);
             }
             return ESP_OK;
         }
 
-        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle) override{
             for (int i=0;i<content->size();i++) {
-                content->at(i)->ReadFromNvs(nvs_handle);
+                content->at(i)->OpenFromNvs(nvs_handle);
             }
             return ESP_OK;
         }
@@ -398,6 +450,7 @@ namespace menu
 
         MenuItemResult Up() override
         {
+            movement = -1;
             return MenuItemResult::REDRAW;
         }
         MenuItemResult Down() override
@@ -426,11 +479,11 @@ namespace menu
     public:
         OptionItem(const char *name, std::vector<const char *> *options, MenuItemChanged<uint32_t> *cb = nullptr) : MenuItem(name), options(options), cb(cb) {}
         
-        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t SaveToNvs(nvs_handle_t& nvs_handle) override{
             return nvs_set_u32(nvs_handle, name, selectedOption);
         }
 
-        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+        esp_err_t OpenFromNvs(nvs_handle_t& nvs_handle) override{
             return nvs_get_u32(nvs_handle, name, (uint32_t*)&selectedOption);
         }
 
@@ -525,7 +578,7 @@ namespace menu
             path.push_back(this->root);
         }
 
-        void StoreToNvs(const char *partition_label, const char* namespace_name){
+        void SaveToNvs(const char *partition_label, const char* namespace_name){
             esp_err_t err = nvs_flash_init_partition(partition_label);
             if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
                 // NVS partition was truncated and needs to be erased
@@ -537,7 +590,23 @@ namespace menu
             ESP_LOGI(TAG, "Opening Non-Volatile Storage (NVS) handle... ");
             nvs_handle_t nvs_handle;
             err = nvs_open_from_partition(partition_label, namespace_name, NVS_READWRITE, &nvs_handle);
-            this->root->WriteToNvs(nvs_handle);
+            this->root->SaveToNvs(nvs_handle);
+            nvs_commit(nvs_handle);
+        }
+
+        void OpenFromNvs(const char *partition_label, const char* namespace_name){
+            esp_err_t err = nvs_flash_init_partition(partition_label);
+            if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+                // NVS partition was truncated and needs to be erased
+                // Retry nvs_flash_init
+                ESP_ERROR_CHECK(nvs_flash_erase_partition(partition_label));
+                err = nvs_flash_init_partition(partition_label);
+            }
+            ESP_ERROR_CHECK( err );
+            ESP_LOGI(TAG, "Opening Non-Volatile Storage (NVS) handle... ");
+            nvs_handle_t nvs_handle;
+            err = nvs_open_from_partition(partition_label, namespace_name, NVS_READONLY, &nvs_handle);
+            this->root->OpenFromNvs(nvs_handle);
             nvs_commit(nvs_handle);
         }
 

@@ -1,4 +1,13 @@
-#include <cinttypes>
+
+int32_t Integer2_1_0{1};
+int32_t Integer2_0{2};
+int32_t Integer2_2{3};
+int32_t Integer2_3{4};
+int32_t Integer0{0};
+int32_t Integer5{5};
+bool Bool3{false};
+float Fixed1{0.25};
+
 class : public MenuItemChanged<int32_t>
 {
 public:
@@ -15,7 +24,7 @@ public:
     {
         ESP_LOGI(TAG, "Value of '%s' changed to %lu", item->GetName(), newValue);
     }
-} sizet_cb;
+} option_cb;
 
 class : public MenuItemChanged<bool>
 {
@@ -35,14 +44,30 @@ public:
     }
 } float_cb;
 
-int32_t Integer2_1_0{1};
-int32_t Integer2_0{2};
-int32_t Integer2_2{3};
-int32_t Integer2_3{4};
-int32_t Integer0{0};
-int32_t Integer5{5};
-bool Bool3{false};
-float Fixed1{0.25};
+
+
+class : public MenuItemChangedWithHandle<bool>
+{
+public:
+    void ValueChanged(const MenuItem *item, void* referenceOrHandle, bool confirm) override
+    {
+        if(!confirm) return;
+        ESP_LOGI(TAG, "Save Values to NVS");
+        m->SaveToNvs("nvs", "menu");
+    }
+} save_cb;
+
+class : public MenuItemChangedWithHandle<bool>
+{
+public:
+    void ValueChanged(const MenuItem *item, void* referenceOrHandle, bool confirm) override
+    {
+        if(!confirm) return;
+        ESP_LOGI(TAG, "Open Values from NVS");
+        m->OpenFromNvs("nvs", "menu");
+    }
+} open_cb;
+
 
 std::vector<MenuItem *> folder2_1_items = {
     new IntegerItem("Integer2_1_0", &Integer2_1_0, 0, 10, &int_cb),
@@ -74,12 +99,14 @@ std::vector<const char *> option6_items = {
 };
 
 std::vector<MenuItem *> root_items = {
+    new ConfirmationItem("Save to Nvs?", (void*)1234, &save_cb),
+    new ConfirmationItem("Load from Nvs?", (void*)1234, &open_cb),
     new IntegerItem("Integer0", &Integer0, 0, 10, &int_cb),
     new FixedPointItem<4>("Fixed1", &Fixed1, 0, 1, &float_cb),
     new FolderItem("Folder2", &folder2_items),
     new BoolItem("Bool3", &Bool3, &bool_cb),
-    new OptionItem("Option4", &option4_items, &sizet_cb),
+    new OptionItem("Option4", &option4_items, &option_cb),
     new IntegerItem("Integer5", &Integer5, 0, 10, &int_cb),
-    new OptionItem("Option6", &option6_items, &sizet_cb),
+    new OptionItem("Option6", &option6_items, &option_cb),
     new PlaceholderItem("Ph7\t***\tPh7"),
 };

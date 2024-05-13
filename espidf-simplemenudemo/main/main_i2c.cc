@@ -19,6 +19,8 @@ using namespace lcd_i2c_1bpp;
 using namespace menu;
 using namespace display;
 
+menu::MenuManagement* m{nullptr};
+
 #include "handler_and_menu_definition.inc"
 
 constexpr gpio_num_t SCL{GPIO_NUM_6};
@@ -39,7 +41,7 @@ extern "C" void app_main(void)
     
     
     auto root_folder = new FolderItem("root", &root_items);
-    auto m = new menu::MenuManagement(root_folder, lcd);
+    m = new menu::MenuManagement(root_folder, lcd);
     m->Init();
     while (true)
     {
