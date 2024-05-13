@@ -1,11 +1,21 @@
-class : public MenuItemChanged<int>
+#include <cinttypes>
+class : public MenuItemChanged<int32_t>
 {
 public:
-    void ValueChanged(const MenuItem *item, int newValue) override
+    void ValueChanged(const MenuItem *item, int32_t newValue) override
     {
-        ESP_LOGI(TAG, "Value of '%s' changed to %d", item->GetName(), newValue);
+        ESP_LOGI(TAG, "Value of '%s' changed to %li", item->GetName(), newValue);
     }
 } int_cb;
+
+class : public MenuItemChanged<uint32_t>
+{
+public:
+    void ValueChanged(const MenuItem *item, uint32_t newValue) override
+    {
+        ESP_LOGI(TAG, "Value of '%s' changed to %lu", item->GetName(), newValue);
+    }
+} sizet_cb;
 
 class : public MenuItemChanged<bool>
 {
@@ -25,12 +35,12 @@ public:
     }
 } float_cb;
 
-int Integer2_1_0{1};
-int Integer2_0{2};
-int Integer2_2{3};
-int Integer2_3{4};
-int Integer0{0};
-int Integer5{5};
+int32_t Integer2_1_0{1};
+int32_t Integer2_0{2};
+int32_t Integer2_2{3};
+int32_t Integer2_3{4};
+int32_t Integer0{0};
+int32_t Integer5{5};
 bool Bool3{false};
 float Fixed1{0.25};
 
@@ -68,8 +78,8 @@ std::vector<MenuItem *> root_items = {
     new FixedPointItem<4>("Fixed1", &Fixed1, 0, 1, &float_cb),
     new FolderItem("Folder2", &folder2_items),
     new BoolItem("Bool3", &Bool3, &bool_cb),
-    new OptionItem("Option4", &option4_items, &int_cb),
+    new OptionItem("Option4", &option4_items, &sizet_cb),
     new IntegerItem("Integer5", &Integer5, 0, 10, &int_cb),
-    new OptionItem("Option6", &option6_items, &int_cb),
+    new OptionItem("Option6", &option6_items, &sizet_cb),
     new PlaceholderItem("Ph7\t***\tPh7"),
 };

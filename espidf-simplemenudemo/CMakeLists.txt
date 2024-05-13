@@ -5,4 +5,5 @@
 cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 set(EXTRA_COMPONENT_DIRS "C:/repos/espidf-components")
+set(EXCLUDE_COMPONENTS "webmanager")
 project(espidf-simplemenudemo)

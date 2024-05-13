@@ -7,6 +7,9 @@
 #define TAG "MENU"
 #include <esp_log.h>
 #include <symbols.hh>
+#include "esp_system.h"
+#include "nvs_flash.h"
+#include "nvs.h"
 
 using namespace display;
 
@@ -58,22 +61,38 @@ namespace menu
         virtual MenuItemResult Select(MenuItem **toOpen) { return MenuItemResult::CLOSE_MYSELF; }
         virtual MenuItemResult Back() { return MenuItemResult::CLOSE_MYSELF; }
         const char *GetName() const { return name; }
+
+        virtual esp_err_t WriteToNvs(nvs_handle_t& nvs_handle){
+            return ESP_OK;
+        }
+
+        virtual esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle){
+            return ESP_OK;
+        }
     };
 
     class IntegerItem : public MenuItem
     {
     private:
-        int *value;
-        int value_min;
-        int value_max;
-        MenuItemChanged<int> *cb;
-        static int valueTmp;
+        int32_t *value;
+        int32_t value_min;
+        int32_t value_max;
+        MenuItemChanged<int32_t> *cb;
+        static int32_t valueTmp;
 
     public:
-        IntegerItem(const char *const name, int *value, int value_min, int value_max, MenuItemChanged<int> *cb = nullptr) : MenuItem(name), value(value), value_min(value_min), value_max(value_max), cb(cb) {}
+        IntegerItem(const char *const name, int32_t *value, int32_t value_min, int32_t value_max, MenuItemChanged<int32_t> *cb = nullptr) : MenuItem(name), value(value), value_min(value_min), value_max(value_max), cb(cb) {}
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             lw->printfl(line, invert, "%s\t\t%d", name, *value);
+        }
+
+        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_set_i32(nvs_handle, name, *value);
+        }
+
+        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_get_i32(nvs_handle, name, value);
         }
 
         MenuItemResult Select(MenuItem **toOpen) override {
@@ -119,6 +138,18 @@ namespace menu
 
     public:
         BoolItem(const char *const name, bool *value, MenuItemChanged<bool> *cb = nullptr) : MenuItem(name), value(value), cb(cb) {}
+        
+        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_set_i32(nvs_handle, name, *value?1:0);
+        }
+
+        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+            int32_t foo=0;
+            auto ret = nvs_get_i32(nvs_handle, name, &foo);
+            *value=foo==1?true:false;
+            return ret;
+        }
+        
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             if (*value)
@@ -167,7 +198,7 @@ namespace menu
     class FixedPointItem : public MenuItem
     {
     private:
-        int value_min, value_max;
+        int32_t value_min, value_max;
         float *value;
         static int valueTmp;
         MenuItemChanged<float> *cb;
@@ -181,6 +212,19 @@ namespace menu
                                                                                                                                        cb(cb)
         {
         }
+
+
+        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_set_i32(nvs_handle, name, (*value)*(float)UNITS_PER_INTEGER);
+        }
+
+        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+            int32_t foo=0;
+            auto ret = nvs_get_i32(nvs_handle, name, &foo);
+            *value=foo/(float)UNITS_PER_INTEGER;
+            return ret;
+        }
+
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             lw->printfl(line, invert, "%s\t\t%.2f", name, *value);
@@ -257,6 +301,21 @@ namespace menu
 
     public:
         FolderItem(const char *const name, const std::vector<MenuItem *> *const content) : MenuItem(name), content(content) {}
+        
+        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+            for (int i=0;i<content->size();i++) {
+                content->at(i)->WriteToNvs(nvs_handle);
+            }
+            return ESP_OK;
+        }
+
+        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+            for (int i=0;i<content->size();i++) {
+                content->at(i)->ReadFromNvs(nvs_handle);
+            }
+            return ESP_OK;
+        }
+        
         void RenderCompact(FullLineWriter *lw, int line, bool invert) override
         {
             lw->printfl(line, invert, "%s\t\t" G_CHEVRON_RIGHT, name);
@@ -359,13 +418,22 @@ namespace menu
     private:
         std::vector<const char *> *options;
         size_t selectedOption{0}; // index in the content vector
-        static size_t selectedOptionTmp;
-        static size_t selectedRamlineTmp;   // index in the graphics ram o
+        static uint32_t selectedOptionTmp;
+        static uint32_t selectedRamlineTmp;   // index in the graphics ram o
         int movement{0};
-        MenuItemChanged<int> *cb;
+        MenuItemChanged<uint32_t> *cb;
 
     public:
-        OptionItem(const char *name, std::vector<const char *> *options, MenuItemChanged<int> *cb = nullptr) : MenuItem(name), options(options), cb(cb) {}
+        OptionItem(const char *name, std::vector<const char *> *options, MenuItemChanged<uint32_t> *cb = nullptr) : MenuItem(name), options(options), cb(cb) {}
+        
+        esp_err_t WriteToNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_set_u32(nvs_handle, name, selectedOption);
+        }
+
+        esp_err_t ReadFromNvs(nvs_handle_t& nvs_handle) override{
+            return nvs_get_u32(nvs_handle, name, (uint32_t*)&selectedOption);
+        }
+
         void RenderCompact(FullLineWriter *lw, int page, bool invert) override
         {
             lw->printfl(page, invert, "%s\t\t%s", name, GetSelectedOptionName());
@@ -394,7 +462,7 @@ namespace menu
                 lw->ClearScreenAndResetStartline(false, 0);
                 selectedOptionTmp=selectedOption; //selectedOptionTemp wird auf dem Display immer in der zweiten dargestellten Zeile dargestellt
                 selectedRamlineTmp=1;
-                ESP_LOGD(TAG, "Full update, selectedRamlineTmp=%d, selectedOptionTmp=%d", selectedRamlineTmp, selectedOptionTmp);
+                ESP_LOGD(TAG, "Full update, selectedRamlineTmp=%lu, selectedOptionTmp=%lu", selectedRamlineTmp, selectedOptionTmp);
                 for (int ramline = 0; ramline < availableLines; ramline++)
                 {
                     lw->printfl(ramline, ramline==1, "%s %s", GetSelectedOptionName(-1+ramline), GetSelectedOptionSymbol(- 1+ramline));
@@ -402,7 +470,7 @@ namespace menu
             }
             else if (movement == +1)
             {
-                ESP_LOGD(TAG, "Partial update start, selectedRamlineTmp=%d, selectedOptionTmp=%d", selectedRamlineTmp, selectedOptionTmp);
+                ESP_LOGD(TAG, "Partial update start, selectedRamlineTmp=%lu, selectedOptionTmp=%lu", selectedRamlineTmp, selectedOptionTmp);
                 lw->printfl(selectedRamlineTmp - 1, false, " ");                                    // delete first line on display (needs at least a space character; otherwise nothiong will be printed)
                 lw->printfl(selectedRamlineTmp, false, "%s %s", GetSelectedOptionName(), GetSelectedOptionSymbol(0));           // redraw selected line as unselected
                 lw->printfl(selectedRamlineTmp + 1, true, "%s %s", GetSelectedOptionName(+1), GetSelectedOptionSymbol(+1)); // redraw next line as selected
@@ -410,7 +478,7 @@ namespace menu
                 lw->printfl(selectedRamlineTmp + availableLines - 1, false, "%s %s", GetSelectedOptionName(availableLines - 1), GetSelectedOptionSymbol(availableLines - 1));
                 selectedRamlineTmp = modulo(++selectedRamlineTmp, availableLines);
                 selectedOptionTmp = modulo(++selectedOptionTmp, options->size());
-                ESP_LOGD(TAG, "Partial update end, selectedRamlineTmp=%d, selectedOptionTmp=%d", selectedRamlineTmp, selectedOptionTmp);
+                ESP_LOGD(TAG, "Partial update end, selectedRamlineTmp=%lu, selectedOptionTmp=%lu", selectedRamlineTmp, selectedOptionTmp);
                 movement = 0;
             }
         }
@@ -456,6 +524,23 @@ namespace menu
             root->RenderFullScreen(lw, true, shownLines, availableLines);
             path.push_back(this->root);
         }
+
+        void StoreToNvs(const char *partition_label, const char* namespace_name){
+            esp_err_t err = nvs_flash_init_partition(partition_label);
+            if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+                // NVS partition was truncated and needs to be erased
+                // Retry nvs_flash_init
+                ESP_ERROR_CHECK(nvs_flash_erase_partition(partition_label));
+                err = nvs_flash_init_partition(partition_label);
+            }
+            ESP_ERROR_CHECK( err );
+            ESP_LOGI(TAG, "Opening Non-Volatile Storage (NVS) handle... ");
+            nvs_handle_t nvs_handle;
+            err = nvs_open_from_partition(partition_label, namespace_name, NVS_READWRITE, &nvs_handle);
+            this->root->WriteToNvs(nvs_handle);
+            nvs_commit(nvs_handle);
+        }
+
 
         void Down()
         {

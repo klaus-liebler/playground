@@ -1,8 +1,8 @@
 #include "simple_menu.hh"
 namespace menu{
-    int IntegerItem::valueTmp;
-    size_t OptionItem::selectedOptionTmp;
-    size_t OptionItem::selectedRamlineTmp;
+    int32_t IntegerItem::valueTmp;
+    uint32_t OptionItem::selectedOptionTmp;
+    uint32_t OptionItem::selectedRamlineTmp;
     bool BoolItem::valueTmp;
     //int FixedPointItem::valueTmp; not neccesary - this is defined in hh-File
 }
