@@ -99,8 +99,8 @@ std::vector<const char *> option6_items = {
 };
 
 std::vector<MenuItem *> root_items = {
-    new ConfirmationItem("Save to Nvs?", (void*)1234, &save_cb),
-    new ConfirmationItem("Load from Nvs?", (void*)1234, &open_cb),
+    new ConfirmationItem(G_SAVE " Save?", (void*)1234, &save_cb),
+    new ConfirmationItem(G_OPEN " Load?", (void*)1234, &open_cb),
     new IntegerItem("Integer0", &Integer0, 0, 10, &int_cb),
     new FixedPointItem<4>("Fixed1", &Fixed1, 0, 1, &float_cb),
     new FolderItem("Folder2", &folder2_items),
