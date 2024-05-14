@@ -1,8 +1,9 @@
-import {NotifyEnrollNewFinger, NotifyFingerDetected, RequestCancelInstruction, RequestDeleteAllFingers, RequestDeleteFinger, RequestEnrollNewFinger, RequestFingerprintSensorInfo, RequestFingers, RequestOpenDoor, RequestRestart, RequestSystemData, RequestWrapper, Requests, ResponseDeleteFinger, ResponseEnrollNewFinger, ResponseFingerprintSensorInfo, ResponseFingers, ResponseSystemData, ResponseWrapper, Responses } from "../generated/flatbuffers/webmanager";
-import { Html, gel} from "../utils";
-import { Severity } from "./dialog_controller";
+import { Ref, createRef, ref } from "lit-html/directives/ref.js";
+import {NotifyEnrollNewFinger, NotifyFingerDetected, RequestCancelInstruction, RequestDeleteAllFingers, RequestDeleteFinger, RequestEnrollNewFinger, RequestFingerprintSensorInfo, RequestFingers, RequestOpenDoor, RequestWrapper, Requests, ResponseDeleteFinger, ResponseEnrollNewFinger, ResponseFingerprintSensorInfo, ResponseFingers, ResponseWrapper, Responses } from "../../generated/flatbuffers/webmanager";
 import { ScreenController } from "./screen_controller";
 import * as flatbuffers from 'flatbuffers';
+import { Html, Severity } from "../utils/common";
+import { html } from "lit-html";
 
 enum RET
 {
@@ -59,11 +60,47 @@ enum RET
 };
 
 export class FingerprintScreenController extends ScreenController {
+
     
-    private tblFingers = <HTMLTableSectionElement>gel("tblFingers");
-    private tblFingerprintSensorInfo=<HTMLTableSectionElement>gel("tblFingerprintSensorInfo");
+    private tblFingers:Ref<HTMLTableSectionElement>= createRef();
+    private tblFingerprintSensorInfo:Ref<HTMLTableSectionElement> = createRef();
     private fingerIndex2tr = new Map<number, HTMLTableRowElement>();
     private fingerIndex2name = new Map<number, string>();
+
+    public Template = () => html`
+    <h1>Current Fingers</h1>
+        <div class="buttons">
+            <input @click=${()=>this.btnOpenDoor()} type="button" value="Open Door" />
+            <input @click=${()=>this.btnUpdateFingers()} type="button" value="Update" />
+            <input @click=${()=>this.btnFingerprintEnroll()} type="button" value="Enroll" />
+            <input @click=${()=>this.btnDeleteAll()} type="button" value="Delete All" />
+            <input @click=${()=>this.btnCancelInstruction()} type="button" value="Cancel Instruction" />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Index</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+            <tbody ${ref(this.tblFingers)}></tbody>
+        </table>
+        
+        <h1>Fingerprint Sensor</h1>
+        <div class="buttons">
+            <input @click=${()=>this.btnFingerprintGetSensorInfo()} type="button" value="Get Sensor Info" />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody ${ref(this.tblFingerprintSensorInfo)}></tbody>
+        </table>`
 
     //jede Tabellenzeile hat einen Button "Rename" und einen Button "Delete"
     //im Property-Speicher des ESP32 wird abgelegt, welche Bezeichnung zu welcher internen Nummer gehört
@@ -84,7 +121,7 @@ export class FingerprintScreenController extends ScreenController {
 
 
     private insertParameter(name: string, value: string | number) {
-        var row = this.tblFingerprintSensorInfo.insertRow();
+        var row = this.tblFingerprintSensorInfo.value!.insertRow();
         row.insertCell().textContent = name;
         row.insertCell().textContent = value.toString();
     }
@@ -94,7 +131,7 @@ export class FingerprintScreenController extends ScreenController {
             case Responses.ResponseFingerprintSensorInfo:{
                 
                 let m = <ResponseFingerprintSensorInfo>messageWrapper.response(new ResponseFingerprintSensorInfo());
-                this.tblFingerprintSensorInfo.textContent = "";
+                this.tblFingerprintSensorInfo.value!.textContent = "";
                 this.insertParameter("Status", m.status());
                 this.insertParameter("Security Level", m.securityLevel());
                 this.insertParameter("Library Size", m.librarySize()+" Fingers");
@@ -108,13 +145,13 @@ export class FingerprintScreenController extends ScreenController {
             case Responses.ResponseFingers:
             {
                 let m = <ResponseFingers>messageWrapper.response(new ResponseFingers());
-                this.tblFingers.textContent = "";
+                this.tblFingers.value!.textContent = "";
                 this.fingerIndex2name.clear();
                 this.fingerIndex2tr.clear();
                 for (let i = 0; i < m.fingersLength(); i++) {
                     var f= m.fingers(i);
                     if(!f) continue;
-                    var row = this.tblFingers.insertRow();
+                    var row = this.tblFingers.value!.insertRow();
                     this.fingerIndex2tr.set(f.index(),row);
                     this.fingerIndex2name.set(f.index(), f.name()!)
                     row.insertCell().textContent = f.name();
@@ -131,9 +168,9 @@ export class FingerprintScreenController extends ScreenController {
                 var m = <ResponseDeleteFinger>messageWrapper.response(new ResponseDeleteFinger());
                 var ret = <RET>m.errorcode();
                 if(ret!=RET.OK){
-                    this.appManagement.DialogController().showOKDialog(Severity.ERROR, `Error while deleting Finger ${m.name()}: ${RET[ret]}.`);
+                    this.appManagement.showOKDialog(Severity.ERROR, `Error while deleting Finger ${m.name()}: ${RET[ret]}.`);
                 }else{
-                    this.appManagement.DialogController().showOKDialog(Severity.SUCCESS, `Finger ${m.name()} successfully deleted.`);
+                    this.appManagement.showOKDialog(Severity.SUCCESS, `Finger ${m.name()} successfully deleted.`);
                     this.sendRequestFingers();
                 }
                 break;
@@ -142,7 +179,7 @@ export class FingerprintScreenController extends ScreenController {
                 let m = <ResponseEnrollNewFinger>messageWrapper.response(new ResponseEnrollNewFinger());
                 var ret = <RET>m.errorcode();
                 if(ret!=RET.OK){
-                    this.appManagement.DialogController().showOKDialog(Severity.ERROR, `Enrollment could not be started: ${RET[ret]}`);
+                    this.appManagement.showOKDialog(Severity.ERROR, `Enrollment could not be started: ${RET[ret]}`);
                 }else{
                     this.appManagement.showSnackbar(Severity.SUCCESS, `Enrollment successfully started. Put your finger on the sensor`);
                 }
@@ -200,63 +237,60 @@ export class FingerprintScreenController extends ScreenController {
         }
     }
 
-    onCreate(): void {
-        gel("btnOpenDoor").onclick=()=>{
-            let b = new flatbuffers.Builder(1024);
+    btnOpenDoor() {
+        let b = new flatbuffers.Builder(1024);
             let n = RequestOpenDoor.createRequestOpenDoor(b);
             let mw = RequestWrapper.createRequestWrapper(b, Requests.RequestOpenDoor, n);
             b.finish(mw);
             this.appManagement.sendWebsocketMessage(b.asUint8Array());
-        }
-        gel("btnFingerprintEnroll").onclick = (e: MouseEvent) => {
-            this.appManagement.DialogController().showEnterFilenameDialog(1, "Enter name of finger", (name)=>{
-                let b = new flatbuffers.Builder(1024);
-                b.finish(
-                    RequestWrapper.createRequestWrapper(b, Requests.RequestEnrollNewFinger, 
-                        RequestEnrollNewFinger.createRequestEnrollNewFinger(b, b.createString(name))
-                    )
-                );
-                this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseEnrollNewFinger]);
-            })
-           
-        };
-        gel("btnDeleteAll").onclick=(e)=>{
-            this.appManagement.DialogController().showOKCancelDialog(Severity.WARN, "Please confirm to DELETE ALL FINGERPRINTS", (ok:boolean)=>{
-                if(!ok) return;
-                let b = new flatbuffers.Builder(1024);
-                let n = RequestDeleteAllFingers.createRequestDeleteAllFingers(b);
-                let mw = RequestWrapper.createRequestWrapper(b, Requests.RequestDeleteAllFingers, n);
-                b.finish(mw);
-                this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseDeleteAllFingers]);
-            })
-           
-        };
-        gel("btnFingerprintGetSensorInfo").onclick=(e)=>{
+    }
+    btnUpdateFingers() {
+        this.sendRequestFingers();
+    }
+    btnFingerprintEnroll() {
+        this.appManagement.showEnterFilenameDialog("Enter name of finger", (_ok, name)=>{
             let b = new flatbuffers.Builder(1024);
+            b.finish(
+                RequestWrapper.createRequestWrapper(b, Requests.RequestEnrollNewFinger, 
+                    RequestEnrollNewFinger.createRequestEnrollNewFinger(b, b.createString(name))
+                )
+            );
+            this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseEnrollNewFinger]);
+        })
+    }
+
+    btnFingerprintGetSensorInfo(){
+        let b = new flatbuffers.Builder(1024);
             b.finish(
                 RequestWrapper.createRequestWrapper(b, Requests.RequestFingerprintSensorInfo, 
                     RequestFingerprintSensorInfo.createRequestFingerprintSensorInfo(b)
                     )
             );
             this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseFingerprintSensorInfo]);
-        }
-
-        gel("btnUpdateFingers").onclick=()=>{
-            this.sendRequestFingers();
-        }
-
-        gel("btnCancelInstruction").onclick=()=>{
-            let b = new flatbuffers.Builder(1024);
-            b.finish(
-                RequestWrapper.createRequestWrapper(b, Requests.RequestCancelInstruction, 
-                    RequestCancelInstruction.createRequestCancelInstruction(b)
-                    )
-            );
-            this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseCancelInstruction]);
-        }
-        this.appManagement.registerWebsocketMessageTypes(this, Responses.ResponseEnrollNewFinger, Responses.ResponseDeleteFinger, Responses.ResponseDeleteAllFingers, Responses.ResponseFingerprintSensorInfo, Responses.ResponseFingers, Responses.NotifyEnrollNewFinger, Responses.NotifyFingerDetected);
-
     }
+    btnDeleteAll() {
+        this.appManagement.showOKCancelDialog(Severity.WARN, "Please confirm to DELETE ALL FINGERPRINTS", (ok:boolean)=>{
+            if(!ok) return;
+            let b = new flatbuffers.Builder(1024);
+            let n = RequestDeleteAllFingers.createRequestDeleteAllFingers(b);
+            let mw = RequestWrapper.createRequestWrapper(b, Requests.RequestDeleteAllFingers, n);
+            b.finish(mw);
+            this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseDeleteAllFingers]);
+        })
+    }
+    btnCancelInstruction() {
+        let b = new flatbuffers.Builder(1024);
+        b.finish(
+            RequestWrapper.createRequestWrapper(b, Requests.RequestCancelInstruction, 
+                RequestCancelInstruction.createRequestCancelInstruction(b)
+                )
+        );
+        this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseCancelInstruction]);
+    }
+    onCreate(): void {
+        this.appManagement.registerWebsocketMessageTypes(this, Responses.ResponseEnrollNewFinger, Responses.ResponseDeleteFinger, Responses.ResponseDeleteAllFingers, Responses.ResponseFingerprintSensorInfo, Responses.ResponseFingers, Responses.NotifyEnrollNewFinger, Responses.NotifyFingerDetected);
+    }
+
     private sendRequestFingers(){
         let b = new flatbuffers.Builder(1024);
         b.finish(

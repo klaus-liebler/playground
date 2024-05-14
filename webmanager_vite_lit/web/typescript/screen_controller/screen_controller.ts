@@ -1,7 +1,6 @@
-import { TemplateResult } from "lit-html";
-import { ResponseWrapper, Responses } from "../../generated/flatbuffers/webmanager";
-import { IAppManagement, IDialogBodyRenderer, IWebsocketMessageListener } from "../utils/interfaces";
-import { Severity } from "./dialog_controller";
+import { TemplateResult, html } from "lit-html";
+import { ResponseWrapper } from "../../generated/flatbuffers/webmanager";
+import { IAppManagement, IWebsocketMessageListener } from "../utils/interfaces";
 
 export enum ControllerState {
     CREATED,
@@ -10,63 +9,50 @@ export enum ControllerState {
 }
 
 export abstract class ScreenController implements IWebsocketMessageListener {
+    private state=ControllerState.CREATED
     constructor(protected appManagement: IAppManagement) {}
-    abstract onCreate(): void;
-    abstract onFirstStart(): void;
-    abstract onRestart(): void;
+    public abstract onCreate(): void;
+    public onStartPublic(){
+        switch (this.state) {
+            case ControllerState.CREATED:
+                this.onFirstStart();
+                this.state=ControllerState.STARTED;
+                break;
+            case ControllerState.STARTED:
+                break;
+            case ControllerState.PAUSED:
+                this.onRestart();
+                this.state=ControllerState.STARTED;
+                break;
+            default:
+                break;
+        }
+    }
+    public onPausePublic(){
+        switch (this.state) {
+            case ControllerState.CREATED:
+                break;
+            case ControllerState.STARTED:
+                this.onPause();
+                this.state=ControllerState.PAUSED;
+                break;
+            case ControllerState.PAUSED:
+                break;
+            default:
+                break;
+        }
+    }
+    protected abstract onFirstStart(): void;
+    protected abstract onRestart(): void;
     abstract onPause(): void;
     abstract onMessage(messageWrapper:ResponseWrapper):void;
     abstract Template():TemplateResult<1>
-}
-
-export class ScreenControllerWrapper  implements IAppManagement{
-
-    public controller!: ScreenController; 
-
-    constructor(public name: string, public state: ControllerState, public element: HTMLElement, private parent:IAppManagement) { }
-    
-    public showDialog(head: string, renderer: IDialogBodyRenderer, pHandler?: (ok: boolean, value: string) => any): void {
-        return this.parent.showDialog(head, renderer, pHandler);
-    }
-
-    public showEnterFilenameDialog(messageText: string, pHandler?: (ok: boolean, value: string) => any): void {
-        this.parent.showEnterFilenameDialog(messageText, pHandler)
-    }
-    public showEnterPasswordDialog(messageText: string, pHandler?: (ok: boolean, value: string) => any): void {
-        this.parent.showEnterPasswordDialog(messageText, pHandler)
-    }
-    public showOKDialog(pSeverity: Severity, messageText: string, pHandler?: (ok: boolean, value: string) => any): void {
-        this.parent.showOKDialog(pSeverity, messageText, pHandler)
-    }
-    public showOKCancelDialog(pSeverity: Severity, messageText: string, pHandler?: (ok: boolean, value: string) => any): void {
-        this.parent.showOKCancelDialog(pSeverity, messageText, pHandler)
-    }
-    
-    public MainElement(): HTMLElement {
-        return this.element;
-    }
-    public registerWebsocketMessageTypes(listener: IWebsocketMessageListener, ...messageType: number[]): (() => void) {
-        return this.parent.registerWebsocketMessageTypes(listener, ...messageType);
-    }
-
-    unregister(listener: IWebsocketMessageListener) {
-        return this.parent.unregister(listener)
-    }
-
-    sendWebsocketMessage(data: ArrayBuffer, messageToUnlock?:Array<Responses> | undefined, maxWaitingTimeMs?: number | undefined): void {
-        return this.parent.sendWebsocketMessage(data, messageToUnlock, maxWaitingTimeMs);
-    }
-
-    log(text:string){
-        return this.parent.log(text);
-    }
-
-    showSnackbar(severity:Severity, text:string){
-        return this.parent.showSnackbar(severity, text);
-    }
+    SetParameter(_params:RegExpMatchArray):void{}
 }
 
 export class DefaultScreenController extends ScreenController {
+    
+    public Template = () => html`<span>DefaultScreenController</span>`
     onMessage(messageWrapper: ResponseWrapper): void {
         messageWrapper
     }

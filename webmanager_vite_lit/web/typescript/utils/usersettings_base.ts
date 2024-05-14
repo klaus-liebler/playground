@@ -1,6 +1,7 @@
-import { BooleanSetting, EnumSetting, IntegerSetting, Setting, SettingWrapper, StringSetting } from '../generated/flatbuffers/webmanager';
-import { A, T } from './utils'
+import { TemplateResult, html, render } from 'lit-html';
+import { BooleanSetting, EnumSetting, IntegerSetting, Setting, SettingWrapper, StringSetting } from '../../generated/flatbuffers/webmanager';
 import * as flatbuffers from 'flatbuffers';
+import { Ref, createRef, ref } from 'lit-html/directives/ref.js';
 
 export enum ItemState {
     NODATA,
@@ -16,11 +17,12 @@ export interface ValueUpdater {
 }
 
 export abstract class ConfigItem {
-    protected inputElement!:HTMLInputElement|HTMLSelectElement;
-    protected resetButton!:HTMLInputElement;
+    protected inputElement:Ref<HTMLInputElement|HTMLSelectElement>=createRef()
+    protected resetButton:Ref<HTMLInputElement>=createRef()
     protected itemState:ItemState=ItemState.NODATA;
 
-    constructor(public readonly displayName: string, private key:string|null=null) { }
+    
+    constructor(protected readonly groupName:string, public readonly displayName: string, private key:string|null=null, protected readonly callback: ValueUpdater) { }
 
     public get Key(){
         return this.key??this.displayName;
@@ -39,34 +41,42 @@ export abstract class ConfigItem {
     }
 
     protected SetVisualState(value: ItemState): void {
-        this.inputElement.className = "";
-        this.inputElement.classList.add("config-item");
+        this.inputElement.value!.className = "";
+        this.inputElement.value!.classList.add("config-item");
         switch (value) {
             case ItemState.NODATA:
-                this.inputElement.classList.add("nodata");
-                this.inputElement.disabled=true;
-                this.resetButton.disabled=true;
+                this.inputElement.value!.classList.add("nodata");
+                this.inputElement.value!.disabled=true;
+                this.resetButton.value!.disabled=true;
                 break;
             case ItemState.SYNCHRONIZED:
-                this.inputElement.classList.add("synchronized");
-                this.inputElement.disabled=false;
-                this.resetButton.disabled=true;
+                this.inputElement.value!.classList.add("synchronized");
+                this.inputElement.value!.disabled=false;
+                this.resetButton.value!.disabled=true;
                 break;
             case ItemState.NONSYNCHRONIZED:
-                this.inputElement.classList.add("nonsynchronized");
-                this.inputElement.disabled=false;
-                this.resetButton.disabled=false;
+                this.inputElement.value!.classList.add("nonsynchronized");
+                this.inputElement.value!.disabled=false;
+                this.resetButton.value!.disabled=false;
                 break;
             default:
                 break;
         }
     }
-    
+    protected OverallTemplate=()=>html`
+    <tr>
+        <td style='width:1%; white-space:nowrap'><label>${this.displayName}</label></td>
+        <td style='width:1%; white-space:nowrap'><input @click=${this.OnReset()} type="button" value="🗑" /></td>
+        <td>${this.Template()}</td>
+    </tr>
+    `
 
-    abstract RenderHtml(parent: HTMLElement, groupName: string, callback: ValueUpdater): void;
+    abstract AfterRender(): void;
     abstract WriteToFlatbufferBufferAndReturnSettingWrapperOffset(b: flatbuffers.Builder): number;
     abstract ReadFlatbuffersObjectAndSetValueInDom(sw: SettingWrapper): boolean;
     abstract HasAChangedValue(): boolean;
+    abstract Template:()=>TemplateResult<1>;
+    protected abstract OnReset();
 }
 
 export class ConfigItemRT {
@@ -76,12 +86,15 @@ export class ConfigItemRT {
 }
 
 export class StringItem extends ConfigItem {
+    private previousValue:string;
+    public Template=()=>html`<input ${ref(this.inputElement)} @input=${()=>this.oninput()} style='width:100%; max-width: 200px;' type="text" value=${this.defaultValue} pattern=${this.regex.source}/>`
+    
     HasAChangedValue(): boolean {
-        return this.inputElement.value != this.inputElement.dataset["previousvalue"];
+        return this.inputElement.value!.value != this.previousValue
     }
    
     WriteToFlatbufferBufferAndReturnSettingWrapperOffset(b: flatbuffers.Builder): number {
-        let settingOffset = StringSetting.createStringSetting(b, b.createString(this.inputElement.value));
+        let settingOffset = StringSetting.createStringSetting(b, b.createString(this.inputElement.value!.value));
         return SettingWrapper.createSettingWrapper(b, b.createString(this.Key), Setting.StringSetting, settingOffset);
     }
     ReadFlatbuffersObjectAndSetValueInDom(sw: SettingWrapper): boolean {
@@ -89,43 +102,46 @@ export class StringItem extends ConfigItem {
         let s = <StringSetting>sw.setting(new StringSetting());
         if (!s.value()){console.warn("Returned a null value for string "+this.Key); true;}
         if (!this.regex.test(s.value()!)){console.warn(`Regex ${this.regex} does not accept ${s.value()}`);  return false;}
-        this.inputElement.value = s.value()!;
-        this.inputElement.dataset["previousvalue"] = s.value()!;
+        this.inputElement.value!.value = s.value()!;
+        this.previousValue = s.value()!;
         this.SetVisualState(ItemState.SYNCHRONIZED);
         return true;
     }
 
-    constructor(displayName: string, public readonly defaultValue: string = "", public readonly regex: RegExp = /.*/, key:string|null=null) { super(displayName, key) }
-    RenderHtml(parent: HTMLElement, groupName: string, callback: ValueUpdater) {
-        let tr = T(parent, "StringItem") as HTMLTableRowElement;
-        tr.firstElementChild!.textContent = this.displayName;
-        this.inputElement = tr.children[2]!.children[0] as HTMLInputElement;
-        this.inputElement.value = this.defaultValue;
-        this.inputElement.dataset["previousvalue"] = this.defaultValue;
-        this.inputElement.pattern = this.regex.source;
-        this.inputElement.oninput = () =>{
-            this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
-            callback.UpdateString(groupName, this, this.inputElement.value);
-        }
-        this.resetButton = tr.children[1]!.children[0] as HTMLInputElement;
-        this.resetButton.onclick=()=>{
-            let fireChangeEvent= this.HasAChangedValue();
-            this.inputElement.value = this.inputElement.dataset["previousvalue"]!;
-            this.SetVisualState(ItemState.SYNCHRONIZED);
-            if(fireChangeEvent)callback.UpdateString(groupName, this, this.inputElement.value); 
-        }
+    constructor(protected readonly groupName:string, displayName: string, public readonly defaultValue: string = "", public readonly regex: RegExp = /.*/, key:string|null=null, protected readonly callback: ValueUpdater) {
+        super(groupName, displayName, key, callback) 
+        this.previousValue=defaultValue;
+    }
+
+    private oninput(){
+        this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
+        this.callback.UpdateString(this.groupName, this, this.inputElement.value!.value);
+    }
+
+    protected OnReset(){
+        let fireChangeEvent= this.HasAChangedValue();
+        this.inputElement.value!.value = this.previousValue
+        this.SetVisualState(ItemState.SYNCHRONIZED);
+        if(fireChangeEvent)this.callback.UpdateString(this.groupName, this, this.inputElement.value!.value); 
+    }
+    
+    AfterRender():void {
         this.SetVisualState(ItemState.NODATA);
         return;
     }
 }
 
 export class IntegerItem extends ConfigItem {
+    private previousValue:number;
+    public Template=()=>html`
+       <input ${ref(this.inputElement)} @input=${()=>this.oninput()} type="number" value=${this.defaultValue} min=${this.min.toString()} max=${this.max.toString()} ></input>`
+
     HasAChangedValue(): boolean {
-        return this.inputElement.value != this.inputElement.dataset["previousvalue"];
+        return this.inputElement.value!.value != this.previousValue.toString()
     }
 
     WriteToFlatbufferBufferAndReturnSettingWrapperOffset(b: flatbuffers.Builder): number {
-        let settingOffset = IntegerSetting.createIntegerSetting(b, parseInt(this.inputElement.value));
+        let settingOffset = IntegerSetting.createIntegerSetting(b, parseInt(this.inputElement.value!.value));
         return SettingWrapper.createSettingWrapper(b, b.createString(this.Key), Setting.IntegerSetting, settingOffset);
     }
     ReadFlatbuffersObjectAndSetValueInDom(sw: SettingWrapper): boolean {
@@ -133,135 +149,125 @@ export class IntegerItem extends ConfigItem {
         let s = <IntegerSetting>sw.setting(new IntegerSetting());
         if (!s) return true;
         if (!s.value()) return true;
-        this.inputElement.value = s.value().toString();
-        this.inputElement.dataset["previousvalue"] = s.value().toString();
+        this.inputElement.value!.value = s.value()!.toString();
+        this.previousValue = s.value()!;
         this.SetVisualState(ItemState.SYNCHRONIZED);
         return true;
     }
-    constructor(displayName: string, public readonly defaultValue: number = 0, public readonly min: number = 0, public readonly max: number = Number.MAX_SAFE_INTEGER, public readonly step: number = 1, key:string|null=null) {
-        super(displayName, key)
+    constructor(protected readonly groupName:string, displayName: string, public readonly defaultValue: number = 0, public readonly min: number = 0, public readonly max: number = Number.MAX_SAFE_INTEGER, public readonly step: number = 1, key:string|null=null, protected readonly callback: ValueUpdater) {
+        super(groupName, displayName, key, callback)
+        this.previousValue=defaultValue;
     }
 
-    RenderHtml(parent: HTMLElement, groupName: string, callback: ValueUpdater) {
-        let tr = T(parent, "IntegerItem") as HTMLTableRowElement;
-        tr.firstElementChild!.textContent = this.displayName;
-        this.inputElement = tr.children[2]!.children[0] as HTMLInputElement;
-        this.inputElement.value = this.defaultValue.toString();
-        this.inputElement.min = this.min.toString();
-        this.inputElement.max = this.max.toString();
-        this.inputElement.dataset["previousvalue"] = this.defaultValue.toString();
-        this.inputElement.oninput = () =>{
-            this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
-            callback.UpdateInteger(groupName, this, parseInt(this.inputElement.value));
-        }
-        this.resetButton = tr.children[1]!.children[0] as HTMLInputElement;
-        this.resetButton.onclick=()=>{
-            let fireChangeEvent= this.HasAChangedValue();
-            this.inputElement.value = this.inputElement.dataset["previousvalue"]!;
-            this.SetVisualState(ItemState.SYNCHRONIZED);
-            if(fireChangeEvent)callback.UpdateInteger(groupName, this, parseInt(this.inputElement.value)); 
-        }
+    private oninput(){
+        this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
+        this.callback.UpdateInteger(this.groupName, this, parseInt(this.inputElement.value!.value));
+    }
+
+    protected OnReset(){
+        let fireChangeEvent= this.HasAChangedValue();
+        this.inputElement.value!.value = this.previousValue.toString()
+        this.SetVisualState(ItemState.SYNCHRONIZED);
+        if(fireChangeEvent)this.callback.UpdateInteger(this.groupName, this, parseInt(this.inputElement.value!.value)); 
+    }
+
+    AfterRender() {
         this.SetVisualState(ItemState.NODATA);
         return;
     }
-
-
 }
 
 export class BooleanItem extends ConfigItem {
+    private previousValue:boolean;
+    public Template=()=>html`<input ${ref(this.inputElement)} @input=${()=>this.oninput()} type="checkbox" checked = ${this.defaultValue} style="width: auto;" />`
 
-    HasAChangedValue(): boolean {
-        return (<HTMLInputElement>this.inputElement).checked != (this.inputElement.dataset["previousvalue"]=="true");
+    private oninput(){
+        this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
+        this.callback.UpdateBoolean(this.groupName, this, (<HTMLInputElement>this.inputElement.value!).checked);
     }
 
+    protected OnReset(){
+        let fireChangeEvent= this.HasAChangedValue();
+        (<HTMLInputElement>this.inputElement.value!).checked = this.previousValue;
+        this.SetVisualState(ItemState.SYNCHRONIZED);
+        if(fireChangeEvent)this.callback.UpdateBoolean(this.groupName, this, (<HTMLInputElement>this.inputElement.value!).checked); 
+    }
+    
+    HasAChangedValue(): boolean {
+        return (<HTMLInputElement>this.inputElement.value!).checked != this.previousValue;
+    }
 
     WriteToFlatbufferBufferAndReturnSettingWrapperOffset(b: flatbuffers.Builder): number {
-        let settingOffset = BooleanSetting.createBooleanSetting(b, (<HTMLInputElement>this.inputElement).checked);
+        let settingOffset = BooleanSetting.createBooleanSetting(b, (<HTMLInputElement>this.inputElement.value!).checked);
         return SettingWrapper.createSettingWrapper(b, b.createString(this.Key), Setting.BooleanSetting, settingOffset);
     }
     ReadFlatbuffersObjectAndSetValueInDom(sw: SettingWrapper): boolean {
         if (sw.settingType() != Setting.BooleanSetting) return false;
         let s = <BooleanSetting>sw.setting(new BooleanSetting());
         if (!s) return true;
-        (<HTMLInputElement>this.inputElement).checked = s.value();
-        this.inputElement.dataset["previousvalue"] = s.value() ? "true" : "false";
+        (<HTMLInputElement>this.inputElement.value!).checked = s.value();
+        this.previousValue = s.value();
         this.SetVisualState(ItemState.SYNCHRONIZED);
         return true;
     }
 
-    RenderHtml(parent: HTMLElement, groupName: string, callback: ValueUpdater) {
-        let tr = T(parent, "BooleanItem") as HTMLTableRowElement;
-        tr.firstElementChild!.textContent = this.displayName;
-        this.inputElement = tr.children[2]!.children[0] as HTMLInputElement;
-        this.inputElement.checked = this.defaultValue;
-        this.inputElement.dataset["previousvalue"] = this.defaultValue.toString();
-        this.inputElement.onchange = () => {
-            this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
-            callback.UpdateBoolean(groupName, this, (<HTMLInputElement>this.inputElement).checked);
-        }
-        this.resetButton = tr.children[1]!.children[0] as HTMLInputElement;
-        this.resetButton.onclick=()=>{
-            let fireChangeEvent= this.HasAChangedValue();
-            (<HTMLInputElement>this.inputElement).checked = this.inputElement.dataset["previousvalue"]=="true";
-            this.SetVisualState(ItemState.SYNCHRONIZED);
-            if(fireChangeEvent)callback.UpdateBoolean(groupName, this, (<HTMLInputElement>this.inputElement).checked); 
-        }
+    AfterRender() {
         this.SetVisualState(ItemState.NODATA);
         return;
     }
 
-    constructor(displayName: string, public readonly defaultValue: boolean = false, key:string|null=null) {
-        super(displayName, key);
+    constructor(protected readonly groupName:string, displayName: string, public readonly defaultValue: boolean = false, key:string|null=null, callback:ValueUpdater) {
+        super(groupName, displayName, key, callback);
+        this.previousValue=defaultValue
     }
 }
 
 export class EnumItem extends ConfigItem {
+    private previousValue:number;
+    public Template=()=>html`
+    <select ${ref(this.inputElement)} @change=${()=>this.onchange()}>
+        ${this.values.map((value, index) =>html`<option value="${index}">${value}</option>`)}
+    </select>`
+
     HasAChangedValue(): boolean {
-        return (<HTMLSelectElement>this.inputElement).selectedIndex != parseInt(this.inputElement.dataset["previousvalue"]!);
+        return (<HTMLSelectElement>this.inputElement.value).selectedIndex != this.previousValue;
     }
 
     WriteToFlatbufferBufferAndReturnSettingWrapperOffset(b: flatbuffers.Builder): number {
-        let settingOffset = EnumSetting.createEnumSetting(b, (<HTMLSelectElement>this.inputElement).selectedIndex);
+        let settingOffset = EnumSetting.createEnumSetting(b, (<HTMLSelectElement>this.inputElement.value).selectedIndex);
         return SettingWrapper.createSettingWrapper(b, b.createString(this.Key), Setting.EnumSetting, settingOffset);
     }
     ReadFlatbuffersObjectAndSetValueInDom(sw: SettingWrapper): boolean {
         if (sw.settingType() != Setting.EnumSetting) return false;
         let s = <EnumSetting>sw.setting(new EnumSetting());
         if (!s) return true;
-        (<HTMLSelectElement>this.inputElement).selectedIndex = s.value();
-        this.inputElement.dataset["previousvalue"] = s.value().toString();
+        (<HTMLSelectElement>this.inputElement.value).selectedIndex = s.value();
+        this.previousValue=s.value();
         this.SetVisualState(ItemState.SYNCHRONIZED);
         return true;
     }
-    RenderHtml(parent: HTMLElement, groupName: string, callback: ValueUpdater): void {
-        let tr = T(parent, "EnumItem") as HTMLTableRowElement;
-        tr.firstElementChild!.textContent = this.displayName;
-        this.inputElement = tr.children[2]!.children[0] as HTMLSelectElement;
-        (<HTMLSelectElement>this.inputElement).selectedIndex = 0;
-        this.values.forEach((v, i) => {
-            let optionElement = <HTMLOptionElement>A((<HTMLSelectElement>this.inputElement), "option", undefined, v);
-            optionElement.value = i.toString();
-        });
-        this.inputElement.dataset["previousvalue"] = (<HTMLSelectElement>this.inputElement).selectedIndex.toString();
-        this.inputElement.onchange = () =>{
-            this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
-            callback.UpdateEnum(groupName, this, (<HTMLSelectElement>this.inputElement).selectedIndex);
-        }
-        this.resetButton = tr.children[1]!.children[0] as HTMLInputElement;
-        this.resetButton.onclick=()=>{
-            let fireChangeEvent= this.HasAChangedValue();
-            (<HTMLSelectElement>this.inputElement).selectedIndex = parseInt(this.inputElement.dataset["previousvalue"]!);
-            this.SetVisualState(ItemState.SYNCHRONIZED);
-            if(fireChangeEvent)callback.UpdateEnum(groupName, this, parseInt(this.inputElement.value));      
-        }
+
+    private onchange(){
+        this.SetVisualState(this.HasAChangedValue()?ItemState.NONSYNCHRONIZED:ItemState.SYNCHRONIZED);
+        this.callback.UpdateEnum(this.groupName, this, (<HTMLSelectElement>this.inputElement.value!).selectedIndex);
+    }
+
+    protected OnReset(){
+        let fireChangeEvent= this.HasAChangedValue();
+        (<HTMLSelectElement>this.inputElement.value).selectedIndex = this.previousValue
+        this.SetVisualState(ItemState.SYNCHRONIZED);
+        if(fireChangeEvent)this.callback.UpdateEnum(this.groupName, this, parseInt(this.inputElement.value!.value));
+    }
+    AfterRender(){
+
         this.SetVisualState(ItemState.NODATA);
         return;
     }
 
-    constructor(displayName: string, public readonly values: string[], key:string|null=null) {
-        super(displayName, key);
+    constructor(protected readonly groupName:string, displayName: string, public readonly values: string[], key:string|null=null, protected readonly callback: ValueUpdater) {
+        super(groupName, displayName, key, callback);
+        this.previousValue=0
     }
-
 }
 
 export class ConfigGroup {

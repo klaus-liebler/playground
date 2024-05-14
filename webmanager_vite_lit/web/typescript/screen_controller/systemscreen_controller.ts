@@ -1,22 +1,24 @@
-import { Mac6, RequestRestart, RequestSystemData, RequestWrapper, Requests, ResponseSystemData, ResponseWrapper, Responses } from "../generated/flatbuffers/webmanager";
-import { findChipModel, findChipFeatures, findPartitionState, findPartitionSubtype } from "../esp32";
-import { gel, MyFavouriteDateTimeFormat } from "../utils";
+import { Mac6, RequestRestart, RequestSystemData, RequestWrapper, Requests, ResponseSystemData, ResponseWrapper, Responses } from "../../generated/flatbuffers/webmanager";
+
+
 import { ScreenController } from "./screen_controller";
 import * as flatbuffers from 'flatbuffers';
-import { Severity } from "./dialog_controller";
+
 import { UPLOAD_URL } from "../constants";
+import { MyFavouriteDateTimeFormat, Severity } from "../utils/common";
+import { findChipModel, findChipFeatures, findPartitionSubtype, findPartitionState } from "../utils/esp32";
+import { html } from "lit-html";
+import { Ref, createRef, ref } from "lit-html/directives/ref.js";
 
 
 export class SystemScreenController extends ScreenController {
-    private btnUpload = <HTMLInputElement>gel("btnUpload");
-    private btnNfc = <HTMLInputElement>gel("btnNfc");
-    private btnRestart = <HTMLInputElement>gel("btnRestart");
-    private inpOtafile = <HTMLInputElement>gel("inpOtafile");
-    private lblProgress = <HTMLInputElement>gel("lblProgress");
-    private prgbProgress = <HTMLInputElement>gel("prgbProgress");
-    private tblAppPartitions = <HTMLTableSectionElement>gel("tblAppPartitions");
-    private tblDataPartitions = <HTMLTableSectionElement>gel("tblDataPartitions");
-    private tblParameters = <HTMLTableSectionElement>gel("tblParameters");
+    private btnUpload:Ref<HTMLInputElement> = createRef();
+    private inpOtafile:Ref<HTMLInputElement> = createRef();
+    private lblProgress:Ref<HTMLInputElement> = createRef();
+    private prgbProgress:Ref<HTMLInputElement> = createRef();
+    private tblAppPartitions:Ref<HTMLTableSectionElement> = createRef();
+    private tblDataPartitions:Ref<HTMLTableSectionElement> = createRef();
+    private tblParameters:Ref<HTMLTableSectionElement> = createRef();
 
     private sendRequestRestart() {
         let b = new flatbuffers.Builder(1024);
@@ -43,7 +45,7 @@ export class SystemScreenController extends ScreenController {
             return;
         }
         let sd = <ResponseSystemData>messageWrapper.response(new ResponseSystemData());
-        this.tblParameters.textContent = "";
+        this.tblParameters.value!.textContent = "";
 
         let secondsEpoch = sd.secondsEpoch();
         let localeDate = new Date(Number(1000n * secondsEpoch)).toLocaleString("de-DE", MyFavouriteDateTimeFormat);
@@ -61,10 +63,10 @@ export class SystemScreenController extends ScreenController {
         this.insertParameter("Chip Cores", sd.chipCores());
         this.insertParameter("Chip Temperature", sd.chipTemperature().toLocaleString() + "°C");
 
-        this.tblAppPartitions.textContent = "";
+        this.tblAppPartitions.value!.textContent = "";
         for (let i = 0; i < sd.partitionsLength(); i++) {
             if (sd.partitions(i)!.type() != 0) continue;
-            var row = this.tblAppPartitions.insertRow();
+            var row = this.tblAppPartitions.value!.insertRow();
             row.insertCell().textContent = <string>sd.partitions(i)!.label();
             row.insertCell().textContent = findPartitionSubtype(sd.partitions(i)!.type(), sd.partitions(i)!.subtype());
             row.insertCell().textContent = (sd.partitions(i)!.size() / 1024) + "k";
@@ -75,10 +77,10 @@ export class SystemScreenController extends ScreenController {
             row.insertCell().textContent = this.partitionString(sd.partitions(i)!.appDate(), "<undefined>");
             row.insertCell().textContent = this.partitionString(sd.partitions(i)!.appTime(), "<undefined>");
         }
-        this.tblDataPartitions.textContent = "";
+        this.tblDataPartitions.value!.textContent = "";
         for (let i = 0; i < sd.partitionsLength(); i++) {
             if (sd.partitions(i)!.type() != 1) continue;
-            var row = this.tblDataPartitions.insertRow();
+            var row = this.tblDataPartitions.value!.insertRow();
             row.insertCell().textContent = <string>sd.partitions(i)!.label();
             row.insertCell().textContent = findPartitionSubtype(sd.partitions(i)!.type(), sd.partitions(i)!.subtype());
             row.insertCell().textContent = (sd.partitions(i)!.size() / 1024) + "k";
@@ -86,7 +88,7 @@ export class SystemScreenController extends ScreenController {
     }
 
     private insertParameter(name: string, value: string | number) {
-        var row = this.tblParameters.insertRow();
+        var row = this.tblParameters.value!.insertRow();
         row.insertCell().textContent = name;
         row.insertCell().textContent = value.toString();
     }
@@ -96,15 +98,15 @@ export class SystemScreenController extends ScreenController {
         return `${mac.v(0)}:${mac.v(1)}:${mac.v(2)}:${mac.v(3)}:${mac.v(4)}:${mac.v(5)}`;
     }
 
-    private startUpload(e: MouseEvent) {
-        let otafiles = this.inpOtafile!.files!;
+    private startUpload() {
+        let otafiles = this.inpOtafile.value!.files!;
         if (otafiles.length == 0) {
-            this.appManagement.DialogController().showOKDialog(0, "No file selected!");
+            this.appManagement.showOKDialog(0, "No file selected!");
             return;
         }
 
-        this.inpOtafile.disabled = true;
-        this.btnUpload.disabled = true;
+        this.inpOtafile.value!.disabled = true;
+        this.btnUpload.value!.disabled = true;
 
         var file = otafiles[0];
         var xhr = new XMLHttpRequest();
@@ -112,7 +114,7 @@ export class SystemScreenController extends ScreenController {
             console.info(`onreadystatechange: e:${e}; xhr:${xhr}; xhr.text:${xhr.responseText}; xhr.readyState:${xhr.readyState}`);
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
-                    this.appManagement.DialogController().showOKDialog(Severity.SUCCESS, xhr.responseText);
+                    this.appManagement.showOKDialog(Severity.SUCCESS, xhr.responseText);
                 } else if (xhr.status == 0) {
                     console.error("Server closed the connection abruptly!");
                 } else {
@@ -125,8 +127,8 @@ export class SystemScreenController extends ScreenController {
         xhr.upload.onprogress = (e: ProgressEvent) => {
 
             let percent = (e.loaded / e.total * 100).toFixed(0);
-            this.lblProgress.textContent = "Progress: " + percent + "%";
-            this.prgbProgress.value = percent;
+            this.lblProgress.value!.textContent = "Progress: " + percent + "%";
+            this.prgbProgress.value!.value = percent;
         };
         console.log(`Trying to POST ${UPLOAD_URL}`);
         xhr.open("POST", UPLOAD_URL, true);
@@ -135,32 +137,6 @@ export class SystemScreenController extends ScreenController {
     }
 
     onCreate(): void {
-        this.btnUpload.onclick = (e: MouseEvent) => this.startUpload(e);
-        this.btnRestart.onclick = (e: MouseEvent) => {
-            this.appManagement.DialogController().showOKCancelDialog(Severity.WARN, "Are you really sure to restart the system", (s) => { if (s) this.sendRequestRestart(); });
-        };
-
-        if (window["NDEFReader"]) {
-            var ndef = new NDEFReader();
-
-            ndef.onreading = (event) => {
-                console.log(`Serial Number: ${event.serialNumber}, Records Length:${event.message.records.length}`);
-                var td = new TextDecoder();
-                this.appManagement.log(`Serial Number: ${event.serialNumber}, Records Length:${event.message.records.length}`);
-                for (const record of event.message.records) {
-                    if (!record.data) continue;
-                    this.appManagement.log(`   Record ${record.recordType} ${record.mediaType} ${record.data.byteLength} ${td.decode(record.data)}`);
-                }
-            };
-
-            this.btnNfc.onclick = async () => {
-                console.log("Scan starting");
-                this.appManagement.log("Scan starting");
-                await ndef.scan();
-                console.log("Scan Returned");
-                this.appManagement.log("Scan Returned");
-            }
-        }
         this.appManagement.registerWebsocketMessageTypes(this, Responses.ResponseSystemData);
 
     }
@@ -172,5 +148,81 @@ export class SystemScreenController extends ScreenController {
     }
     onPause(): void {
     }
+
+    public Template = () => html`
+            <h1>Application Partitions</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Subtype</th>
+                    <th>Size [byte]</th>
+                    <th>State</th>
+                    <th>Is Running</th>
+                    <th>Project Name</th>
+                    <th>Project Version</th>
+                    <th>Compile Date</th>
+                    <th>Compile Time</th>
+                </tr>
+            </thead>
+            <tbody ${ref(this.tblAppPartitions)}></tbody>
+        </table>
+        <h1>Data Partitions</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Subtype</th>
+                    <th>Size [byte]</th>
+                </tr>
+            </thead>
+            <tbody ${ref(this.tblDataPartitions)}></tbody>
+        </table>
+        <h1>Parameters</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 200px;">Parameter</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody ${ref(this.tblParameters)}></tbody>
+        </table>
+
+        
+        <h1 class="dangerous">Dangerous Zone</h1>
+        <h2>Over-the-air Firmware Update</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>1.) Choose Firmware File</td>
+                    <td><input type="file" ${ref(this.inpOtafile)} name="otafile" accept=".bin"></td>
+                </tr>
+                <tr>
+                    <td>2.) Click!</td>
+                    <td><input @click=${()=>this.startUpload()} ${ref(this.btnUpload)} type="button" value="Start Over The Air Firmware Update" /></td>
+                </tr>
+                <tr>
+                    <td>3.) See Progress</td>
+                    <td><progress ${ref(this.prgbProgress)} value="0" max="100">0</progress><span ${ref(this.lblProgress)}></span></td>
+                </tr>
+                <tr>
+                    <td>4.) Wait</td>
+                    <td>After Upload, the CPU is reset automatically. You have to reconnect after an appropriate waiting time</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <h2>Reset CPU</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Click to Reset/Restart CPU</td>
+                    <td><input @click=${()=>{this.appManagement.showOKCancelDialog(Severity.WARN, "Are you really sure to restart the system", (s) => { if (s) this.sendRequestRestart(); });}} type="button" value="Restart" /></td>
+                </tr>
+            </tbody>
+        </table>
+    
+    `
 
 }

@@ -24,7 +24,7 @@ export const TESTSERVER_CERT_PEM_PRVTKEY = path.join(CERTIFICATES, "testserver.p
 
 
 export const FLATBUFFERS_SCHEMA_PATH = path.join(ROOT, "flatbuffers", "app.fbs");
-export const USERSETTINGS_PATH = path.join(ROOT, "usersettings", "definition", "usersettings.ts");
+export const USERSETTINGS_PATH = path.join(ROOT, "usersettings", "go_here","go_here", "usersettings.ts");
 
 //Template
 export const TEMPLATE_SEND_COMMAND_IMPLEMENTATION = path.join(WEB, "templates", "sensact",  "sendCommandImplementation.template.ts");

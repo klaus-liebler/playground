@@ -1,7 +1,7 @@
 import * as Canvas from 'canvas';
 import opentype, { Font, Glyph } from 'opentype.js';
 import fs from "node:fs";
-import { GlyphProviderWithKerningResult, IGlyphProviderWithKerning, BitmapFormat, Range, ToUint8Array, concat } from './utils';
+import { GlyphProviderWithKerningResult, IGlyphProviderWithKerning, BitmapFormat, Range, concat } from './utils';
 import { GlyphProcessingInfo } from './utils';
 import { UNICODE_PRIVATE_USE_AREA } from './utils';
 import { GlyphDesc } from './utils';

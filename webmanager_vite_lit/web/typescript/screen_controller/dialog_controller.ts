@@ -1,189 +1,147 @@
-import { AppManagement } from "../app_management";
-import { $, A, Html, SvgIcon, gel, gqs } from "../utils"
+import { html } from "lit-html";
+import { Ref, createRef, ref } from "lit-html/directives/ref.js";
+import { IDialogBodyRenderer } from "../utils/interfaces";
+import { Html, Severity, severity2class, severity2symbol } from "../utils/common";
 
-
-
-export enum Severity {
-    SUCCESS,
-    INFO,
-    WARN,
-    ERROR,
-}
+enum Mode {
+    CUSTOM_RENDERER,
+    OK,
+    OK_CANCEL,
+    FILENAME,
+    PASSWORD,
+  }
 
 export class DialogController {
+    private dialog: Ref<HTMLDialogElement> = createRef();
+    private dialogHeading:Ref<HTMLElement> = createRef();
+    private dialogBodyLeft:Ref<HTMLElement> = createRef();
+    private dialogBodyRightMessage:Ref<HTMLParagraphElement> = createRef();
+    private dialogBodyRightContent:Ref<HTMLParagraphElement> = createRef();
+    private dialogFooter:Ref<HTMLElement> = createRef();
+   
+   
+    public Template = () => html`
+    <dialog ${ref(this.dialog)}>
+        <header>
+            <span ${ref(this.dialogHeading)}>Überschrift</span>
+            <button @click=${()=>this.dialog.value!.close("cancelled")} type="button">&times;</button>
+        </header>
+        <main>
+            <section ${ref(this.dialogBodyLeft)}></section>
+            <section><p ${ref(this.dialogBodyRightMessage)}></p><p ${ref(this.dialogBodyRightContent)}></p></section>
+        </main>
+        <footer ${ref(this.dialogFooter)}></footer>
+    </dialog>`
 
-    private dialog = <HTMLDialogElement>gqs('dialog')!;
-    private dialogHeading = <HTMLHeadingElement>gqs('dialog>header>span')!;
-    private dialogBodyLeft = <HTMLDivElement>gqs('dialog>main>section:nth-child(1)')!;
-    private dialogBodyRight = <HTMLDivElement>gqs('dialog>main>section:nth-child(2)')!;
-    private dialogFooter = <HTMLElement>gqs('dialog>footer')!;
-    private dialogClose = <HTMLElement>gqs('dialog>header>button')!;
+    private handler: ((ok: boolean, value: string) => any)|undefined;
+    private inputElement: HTMLInputElement | null=null;
+    private inputValue: string="";
+    private mode = Mode.OK
 
-    constructor(private appManagement: AppManagement) {
-
+    private ok_handler() {
+        this.dialog.value!.close('OK')
+        switch (this.mode) {
+            case Mode.FILENAME:
+            case Mode.PASSWORD:
+                this.handler?.(true, this.inputValue)
+                break;
+            case Mode.CUSTOM_RENDERER:
+                this.handler?.(true, this.inputElement?.value ?? '')
+                break;
+            default:
+                this.handler?.(true, '')
+                break;
+        }
+        
     }
+
+  private cancel_handler() {
+    this.dialog.value!.close('Cancel')
+    this.handler?.(false, '')
+  }
 
     public init() {
 
-        this.dialogClose.onclick = (e) => {
-            this.dialog.close("cancelled");
-        }
-        this.dialog.oncancel = (e) => {
-            this.dialog.close("cancelled");
+        this.dialog.value!.oncancel = () => {
+            this.dialog.value!.close("cancelled");
         }
 
         // close when clicking on backdrop
-        this.dialog.onclick = (event) => {
+        this.dialog.value!.onclick = (event) => {
             if (event.target === this.dialog) {
-                this.dialog.close('cancelled');
+                this.dialog.value!.close('cancelled');
             }
         }
     }
 
-    public showDialog(heading: string, message: string, renderer: IDialogBodyRenderer, handler: ((a: string) => any) | null) {
-        this.whipeDialog();
-        this.dialogHeading.innerText = heading;
-        Html(this.dialogBodyRight, "p", [], [], message);
-        let inputElement = renderer.Render(this.dialogBodyRight);
-        Html(this.dialogFooter, "button", [], [], "OK").onclick = (e) => {
-            this.dialog.close('OK');
-            if (handler != null) handler(inputElement ? inputElement.value : "");
-        };
+
+    private prepareDialog(mode:Mode, h:string, m:string, severity:Severity, handler?:((ok: boolean, value: string) => any)) {
+        this.mode=mode;
+        this.dialogHeading.value!.innerText = h;
+        this.dialogBodyLeft.value!.innerText="";
+        Html(this.dialogBodyLeft.value!, "span", [], [severity2class(severity)], severity2symbol(severity));
+        this.dialogBodyRightMessage.value!.innerText = m;
+        this.dialogBodyRightContent.value!.innerText = "";
+        this.dialogFooter.value!.innerText="";
+        this.handler=handler;
     }
 
-    public showEnterFilenameDialog(priority: number, messageText: string, handler: (filename: string) => void) {
-        this.whipeDialog();
-        this.dialogHeading.innerText = "Enter Filename";
-        Html(this.dialogBodyRight, "p", [], [], messageText);
-        var fileInput = <HTMLInputElement>Html(this.dialogBodyRight, "input", ["pattern", "^[A-Za-z0-9]{1,10}$"], []);
+    
+    public showDialog(heading: string, message: string, renderer: IDialogBodyRenderer, handler?:((ok: boolean, value: string) => any)) {
+        this.prepareDialog(Mode.CUSTOM_RENDERER, heading, message, Severity.INFO, handler);
+        this.inputElement = renderer.Render(this.dialogBodyRightContent.value!);
+        Html(this.dialogFooter.value!, "button", [], [], "OK").onclick = () => {this.ok_handler()}
+        Html(this.dialogFooter.value!, "button", [], [], "Cancel").onclick = () => {this.cancel_handler()}
+        this.dialog.value!.showModal();
+        return this.dialog.value!;
+    }
 
-        var btnOk=Html(this.dialogFooter, "button", [], [], "OK")
-        btnOk.onclick = (e) => {
-            this.dialog.close('OK');
-            if (handler != null) handler(fileInput.value);
-        };
-        this.dialog.showModal();
-        fileInput.focus();
-        fileInput.onkeyup = (e) => {
+    public showEnterFilenameDialog(messageText: string, handler?: ((ok: boolean, value: string) => any)) {
+        this.prepareDialog(Mode.FILENAME, "Enter Filename", messageText, Severity.INFO, handler);
+        this.inputElement = <HTMLInputElement>Html(this.dialogBodyRightContent.value!, "input", ["pattern", "^[A-Za-z0-9]{1,10}$"], []);
+
+        var btnOk=Html(this.dialogFooter.value!, "button", [], [], "OK")
+        btnOk.onclick = () => {this.ok_handler()}
+        Html(this.dialogFooter.value!, "button", [], [], "Cancel").onclick = () => {this.cancel_handler()}
+        this.dialog.value!.showModal();
+        this.inputElement.focus();
+        this.inputElement.onkeyup = (e) => {
             if (e.key == 'Enter') {
                 btnOk.click();
             }
         }
+        return this.dialog.value!;
     }
 
-    public showEnterPasswordDialog(severity: Severity, messageText: string, handler: (filename: string) => void) {
-        this.whipeDialog();
-        this.dialogHeading.innerText = "Enter Password";
-        Html(this.dialogBodyLeft, "span", [], [DialogController.severity2class(severity)], DialogController.severity2symbol(severity));
-        Html(this.dialogBodyRight, "p", [], [], messageText);
-        var btnOk = Html(this.dialogFooter, "button", [], [], "OK");
-        btnOk.onclick = (e) => {
-            this.dialog.close('OK');
-            if (handler != null) handler(passwordInput.value);
-        };
-        var passwordInput = <HTMLInputElement>Html(this.dialogBodyRight, "input", ["type", "password"], []);
-
-
-        Html(this.dialogFooter, "button", ["type", "button"], [], "Cancel").onclick = (e) => {
-            this.dialog.close('Cancel');
-        };
-        this.dialog.showModal();
-        passwordInput.focus();
-        passwordInput.onkeyup = (e) => {
+    public showEnterPasswordDialog(severity: Severity, messageText: string, handler?: ((ok: boolean, value: string) => any)) {
+        this.prepareDialog(Mode.PASSWORD, "Enter Password", messageText, severity, handler);
+        
+        var btnOk = Html(this.dialogFooter.value!, "button", [], [], "OK");
+        btnOk.onclick = () => {this.ok_handler()}
+        this.inputElement = <HTMLInputElement>Html(this.dialogBodyRightContent.value!, "input", ["type", "password"], []);
+        Html(this.dialogFooter.value!, "button", [], [], "Cancel").onclick = () => {this.cancel_handler()}
+        this.dialog.value!.showModal();
+        this.inputElement.focus();
+        this.inputElement.onkeyup = (e) => {
             if (e.key == 'Enter') {
                 btnOk.click();
             }
         }
+        return this.dialog.value!;
     }
 
-    public static severity2symbol(severity: Severity): string {
-        switch (severity) {
-            case Severity.WARN:
-            case Severity.ERROR: return "⚠";
-            case Severity.INFO: return "🛈";
-            case Severity.SUCCESS: return "👍";
-        }
+    public showOKDialog(severity: Severity, messageText: string, handler?: ((ok: boolean, value: string) => any)) {
+        this.prepareDialog(Mode.OK, Severity[severity], messageText, severity, handler);
+        Html(this.dialogFooter.value!, "button", [], [], "OK").onclick = () => {this.ok_handler()}
+        this.dialog.value!.showModal();
+        return this.dialog.value!;
     }
 
-    public static severity2class(severity: Severity): string {
-        switch (severity) {
-            case Severity.WARN: return "ye"
-            case Severity.ERROR: return "rd";
-            case Severity.INFO: return "gr";
-            case Severity.SUCCESS: return "gr";
-        }
-    }
-
-    public showOKDialog(severity: Severity, messageText: string, handler?: ((a: string) => any) | null) {
-        this.whipeDialog();
-        this.dialogHeading.innerText = Severity[severity];
-        Html(this.dialogBodyRight, "p", [], [], messageText);
-        Html(this.dialogBodyLeft, "span", [], [], DialogController.severity2symbol(severity));
-        Html(this.dialogFooter, "button", ["type", "button"], [], "OK").onclick = (e) => {
-            this.dialog.close('OK');
-            if (handler != null) handler("OK");
-        };
-        this.dialog.showModal();
-    }
-
-    public showOKCancelDialog(severity: Severity, messageText: string, handler: ((clickedOk: boolean) => any) | null): HTMLDialogElement {
-        this.whipeDialog();
-        this.dialogHeading.innerText = "Message";
-        Html(this.dialogBodyRight, "p", [], [], messageText);
-        Html(this.dialogBodyLeft, "span", [], [DialogController.severity2class(severity)], DialogController.severity2symbol(severity));
-        Html(this.dialogFooter, "button", ["type", "button"], [], "OK").onclick = (e) => {
-            this.dialog.close('OK');
-            if (handler != null) handler(true);
-        };
-        Html(this.dialogFooter, "button", ["type", "button"], [], "Cancel").onclick = (e) => {
-            this.dialog.close('Cancel');
-            if (handler != null) handler(false);
-        };
-        this.dialog.showModal();
-        return this.dialog;
-    }
-
-    private whipeDialog() {
-        this.dialogHeading.innerText = "";
-        this.dialogBodyLeft.innerText = "";
-        this.dialogBodyRight.innerText = "";
-        this.dialogFooter.innerText = "";
-    }
-
-    public showFilelist(priority: number, files: string[], openhandler: (filename: string) => any, deletehandler: (filename: string) => any) {
-
-        this.whipeDialog();
-        this.dialogHeading.innerText = "Please select a file to load"
-        Html(this.dialogFooter, "button", ["type", "button"], [], "Cancel").onclick = (e) => {
-            this.dialog.close("cancelled");
-        };
-        let table = <HTMLTableElement>Html(this.dialogBodyRight, "table", [], []);
-        let thead = <HTMLTableSectionElement>Html(table, "thead", [], []);
-        let tr_head = Html(thead, "tr", [], []);
-        Html(tr_head, "th", [], [], "File Name");
-        Html(tr_head, "th", [], [], "File Operation");
-        let tbody = <HTMLTableSectionElement>Html(table, "tbody", [], []);
-        for (let filename of files) {
-            if (!filename.endsWith(".json")) continue;
-            filename = filename.substring(0, filename.length - 5);
-            let tr = Html(tbody, "tr", [], []);
-            Html(tr, "td", [], [], filename);
-            let operationTd = Html(tr, "td", [], []);
-            let openButton = Html(operationTd, "button", ["type", "button"], []);
-            SvgIcon(openButton, "folder-open");
-            openButton.onclick = (e) => {
-                this.dialog.close("opened");
-                openhandler(filename);
-
-            };
-            let deleteButton = Html(operationTd, "button", ["type", "button"], [],);
-            SvgIcon(deleteButton, "bin2");
-            deleteButton.onclick = (e) => {
-                this.dialog.close("deleted");
-                deletehandler(filename);
-            }
-        };
-        this.dialog.showModal();
-
+    public showOKCancelDialog(severity: Severity, messageText: string, handler?: ((ok: boolean, value: string) => any)) {
+        this.prepareDialog(Mode.OK_CANCEL, Severity[severity], messageText, severity, handler);
+        Html(this.dialogFooter.value!, "button", [], [], "OK").onclick = () => {this.ok_handler()}
+        Html(this.dialogFooter.value!, "button", [], [], "Cancel").onclick = () => {this.cancel_handler()}
+        this.dialog.value!.showModal();
+        return this.dialog.value!;
     }
 }

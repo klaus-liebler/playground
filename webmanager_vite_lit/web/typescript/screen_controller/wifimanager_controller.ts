@@ -1,18 +1,135 @@
-import { Severity } from "./dialog_controller";
+
 import { ScreenController } from "./screen_controller";
-import { gel, $, gqsa, Html, ip4_2_string } from "../utils";
 import * as flatbuffers from 'flatbuffers';
-import { RequestNetworkInformation, RequestWifiConnect, RequestWifiDisconnect, RequestWrapper, Requests, ResponseNetworkInformation, ResponseWifiConnectSuccessful, ResponseWrapper, Responses } from "../generated/flatbuffers/webmanager";
+import { RequestNetworkInformation, RequestWifiConnect, RequestWifiDisconnect, RequestWrapper, Requests, ResponseNetworkInformation, ResponseWifiConnectSuccessful, ResponseWrapper, Responses } from "../../generated/flatbuffers/webmanager";
+import { Severity, ip4_2_string } from "../utils/common";
+//import icon_lock from '../../assets/icon-lock.svg'
+import { TemplateResult, html, render } from "lit-html";
+import { Ref, createRef, ref } from "lit-html/directives/ref.js";
+import { unsafeSVG } from "lit-html/directives/unsafe-svg.js";
 
-const icon_lock_template = document.getElementById("icon-lock") as HTMLTemplateElement;
-const icon_rssi_template = document.getElementById("icon-wifi") as HTMLTemplateElement;
 
-
+const icon_lock ='<svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path style="fill: black;" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path></svg>'
 export class WifimanagerController extends ScreenController {
-    onConnectToWifi(ssid: string): void {
-        this.appManagement.DialogController().showEnterPasswordDialog(Severity.INFO, "Enter Password for Wifi", (password: string) => {
-            this.sendRequestWifiConnect(ssid, password);
-        });
+    
+    
+    
+    private isConnectedSta=false;
+    private ssidSta="";
+    private ipSta="";
+    private netmaskSta="";
+    private gatewaySta="";
+    private rssiSta=-1000;
+    private hostname: string="";
+    private ssidAp: string="";
+    private passwordAp: string="";
+    private ipAp:string="";
+
+    private rssi2color(rssi: number, limit:number){
+        //var rssi=this.r.accesspoints(i)?.rssi()??-1000;
+        return rssi>= limit?'black':'lightgrey';
+    }
+
+    private networkTable:Ref<HTMLTableSectionElement>=createRef();
+    private networkTableTemplate=()=>html`
+ <tr>
+    <td>Hostname</td>
+    <td>${this.hostname}</td>
+</tr>
+<tr>
+    <td>Access Point SSID</td>
+    <td>${this.ssidAp}</td>
+</tr>
+<tr>
+    <td>Access Point Password</td>
+    <td>${this.passwordAp}</td>
+</tr>
+<tr>
+    <td>Access Point IP</td>
+    <td>${this.ipAp}</td>
+</tr>
+    `
+    private wifiTable:Ref<HTMLTableSectionElement>=createRef();
+    private wifiTableTemplate=()=>html`
+<tr>
+    <td>Connection State</td>
+    <td style="background-color:${this.isConnectedSta ? 'green' : 'red'}">${this.isConnectedSta ? 'Connected' : 'Not connected'}</td>
+</tr>
+<tr>
+    <td>Current SSID</td>
+    <td>${this.ssidSta}</td>
+</tr>
+<tr>
+    <td>IP</td>
+    <td>${this.ipSta}</td>
+</tr>
+<tr>
+    <td>Netmask</td>
+    <td>${this.netmaskSta}</td>
+</tr>
+<tr>
+    <td>Gateway</td>
+    <td>${this.gatewaySta}</td>
+</tr>
+<tr>
+    <td>Signal Strength</td>
+    <td>${this.rssiSta}</td>
+</tr>
+    `
+    private apTable:Ref<HTMLTableSectionElement>=createRef();
+    private apTableTemplate = (lock:boolean, rssi:number, ssid:string)=>html`
+    <tr>
+        <td><svg width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path style="fill:${this.rssi2color(rssi, -60)}" d="M1,9L3,11C7.97,6.03 16.03,6.03 21,11L23,9C16.93,2.93 7.08,2.93 1,9Z" />
+            <path style="fill:${this.rssi2color(rssi, -67)}" d="M5,13L7,15C9.76,12.24 14.24,12.24 17,15L19,13C15.14,9.14 8.87,9.14 5,13Z" />
+            <path style="fill:${this.rssi2color(rssi, -75)}" d="M9,17L12,20L15,17C13.35,15.34 10.66,15.34 9,17Z" />
+            </svg></td>
+        <td>${lock?unsafeSVG(icon_lock):""}</td>
+        <td>${ssid} [${rssi}dB]</td>
+        <td><input type="button" value="Connect" @click=${()=>this.onConnectToWifi(ssid)}/></td>
+    </tr>
+    `    
+    public Template = () => html`
+
+<h1>Current Wifi-Connection (as stored in flash, maybe not connected)</h1>
+<div class="buttons">
+    <input type="button" value="Disconnect & Delete" @click=${()=>{this.onBtnWifiDisconnect()}} />
+    <input type="button" value="Show More Details" />
+</div>
+<table>
+    <tbody ${ref(this.wifiTable)}></tbody>
+</table>
+
+<h1>Common Network Configuration</h1>
+<table>
+    <tbody ${ref(this.networkTable)}></tbody>
+</table>
+
+<h1>Select New Connection</h1>
+<div class="buttons">
+    <input type="button" value="Update Access Point List" @click=${()=>this.sendRequestWifiAccesspoints(false)} />
+</div>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 34px;">RSSI</th>
+            <th style="width: 34px;">Security</th>
+            <th>SSID</th>
+            <th>Connect</th>
+        </tr>
+
+    </thead>
+    <tbody ${ref(this.apTable)}></tbody>
+</table>
+    `
+
+
+    
+    public onConnectToWifi(ssid: string): void {
+        if(!ssid) return;
+        this.appManagement.showEnterPasswordDialog('Enter Password for Wifi', (ok:boolean, password: string) => {
+            if(ok) this.sendRequestWifiConnect(ssid, password)
+        })
     }
 
     private sendRequestWifiAccesspoints(forceNewSearch:boolean) {
@@ -33,6 +150,10 @@ export class WifimanagerController extends ScreenController {
         this.appManagement.sendWebsocketMessage(b.asUint8Array(), [Responses.ResponseWifiConnectSuccessful, Responses.ResponseWifiConnectFailed], 30000);
     }
 
+    private onBtnWifiDisconnect(){
+        this.appManagement.showOKCancelDialog(Severity.WARN, "Möchten Sie wirklich die bestehende Verbindung trennen und damit auch vom ESP32 löschen?", (ok) => {if(ok) this.sendRequestWifiDisconnect();})
+    }
+    
     private sendRequestWifiDisconnect() {
         let b = new flatbuffers.Builder(1024);
         let n = RequestWifiDisconnect.createRequestWifiDisconnect(b)
@@ -42,13 +163,8 @@ export class WifimanagerController extends ScreenController {
     }
 
     onCreate(): void {
-        this.appManagement.registerWebsocketMessageTypes(this, Responses.ResponseNetworkInformation, Responses.ResponseWifiConnectFailed ,Responses.ResponseWifiConnectSuccessful, Responses.ResponseWifiDisconnect);
-        gel("btnWifiShowDetails").onclick = () => this.appManagement.DialogController().showOKDialog(Severity.INFO, "Das sind die Details", (s) => { });
-        gel("btnWifiUpdateList").onclick = () =>{this.sendRequestWifiAccesspoints(false);};
-        gel("btnWifiDisconnect").onclick=()=> this.appManagement.DialogController().showOKCancelDialog(Severity.WARN, "Möchten Sie wirklich die bestehende Verbindung trennen und damit auch vom ESP32 löschen?", (ok) => {if(ok) this.sendRequestWifiDisconnect();});
+        this.appManagement.registerWebsocketMessageTypes(this, Responses.ResponseNetworkInformation, Responses.ResponseWifiConnectFailed ,Responses.ResponseWifiConnectSuccessful, Responses.ResponseWifiDisconnect);   
     }
-
-
 
     onFirstStart(): void {
         this.sendRequestWifiAccesspoints(false);
@@ -61,17 +177,18 @@ export class WifimanagerController extends ScreenController {
     }
 
     onResponseNetworkInformation(r: ResponseNetworkInformation) {
-        gqsa(".hostname", (e) => e.textContent = r.hostname());
-        gqsa(".ssid_ap", (e) => e.textContent = r.ssidAp());
-        gqsa(".password_ap", (e) => e.textContent = r.passwordAp());
-        gqsa(".ip_ap", (e) => e.textContent = ip4_2_string(r.ipAp()));
-        gqsa(".is_connected_sta", (e) => e.style.backgroundColor=r.isConnectedSta()?"green":"red");
-        gqsa(".ssid_sta", (e) => e.textContent = r.ssidSta());
-        gqsa(".ip_sta", (e) => e.textContent = ip4_2_string(r.ipSta()));
-        gqsa(".netmask_sta", (e) => e.textContent = ip4_2_string(r.netmaskSta()));
-        gqsa(".gateway_sta", (e) => e.textContent = ip4_2_string(r.gatewaySta()));
-        gqsa(".rssi_sta", (e) => e.textContent = r.rssiSta().toLocaleString()+"dB");
+        this.hostname=r.hostname()!;
+        this.ssidAp= r.ssidAp()!;
+        this.passwordAp= r.passwordAp()!;
+        this.ipAp = ip4_2_string(r.ipAp());
+        this.isConnectedSta=r.isConnectedSta()!;
+        this.ssidSta = r.ssidSta()!;
+        this.ipSta = ip4_2_string(r.ipSta());
+        this.netmaskSta = ip4_2_string(r.netmaskSta());
+        this.gatewaySta = ip4_2_string(r.gatewaySta());
+        this.rssiSta = r.rssiSta()!;//.toLocaleString()+"dB");
         let ssid2index = new Map<string, number>();
+
         for (let i = 0; i < r.accesspointsLength(); i++) {
             let key = r.accesspoints(i)!.ssid() + "_" + r.accesspoints(i)!.authMode();
             let ap_exist = ssid2index.get(key);
@@ -87,41 +204,27 @@ export class WifimanagerController extends ScreenController {
             var y = r.accesspoints(b)!.rssi();
             return x < y ? 1 : x > y ? -1 : 0;
         });
-
-
-        let table = gel("tblAccessPointList");
-        table.textContent = "";
+        var templates:Array<TemplateResult<1>>=[]
         for (let i of access_points_list) {
-            let tr = Html(table, "tr");
-            let td_rssi = Html(tr, "td");
-            let figure_rssi = document.importNode(icon_rssi_template.content, true);
-            td_rssi.appendChild(figure_rssi);
-            let td_auth = Html(tr, "td");
-            if (r.accesspoints(i)!.authMode() != 0) {
-                td_auth.appendChild(document.importNode(icon_lock_template.content, true));
-            }
-            let rssiIcon = td_rssi.children[0];
-            (rssiIcon.children[0] as SVGPathElement).style.fill = r.accesspoints(i)!.rssi() >= -60 ? "black" : "Gray";
-            (rssiIcon.children[1] as SVGPathElement).style.fill = r.accesspoints(i)!.rssi() >= -67 ? "black" : "Gray";
-            (rssiIcon.children[2] as SVGPathElement).style.fill = r.accesspoints(i)!.rssi() >= -75 ? "black" : "Gray";
-            Html(tr, "td", [], [], `${r.accesspoints(i)!.ssid()} [${r.accesspoints(i)!.rssi()}dB]`);
-            let buttonParent = Html(tr, "td");
-            let button = <HTMLInputElement>Html(buttonParent, "input", ["type", "button", "value", `Connect`]);
-            button.onclick = () => {
-                this.onConnectToWifi(r.accesspoints(i)!.ssid()!);
-            };
+            templates.push(this.apTableTemplate(r.accesspoints(i)!.authMode() != 0, r.accesspoints(i)!.rssi()!, r.accesspoints(i)!.ssid()!))
         }
+        render(templates, this.apTable.value!);
+
+        render(this.networkTableTemplate(), this.networkTable.value!)
+
+        render(this.wifiTableTemplate(), this.wifiTable.value!)
+
     }
 
     onResponseWifiConnectSuccessful(r: ResponseWifiConnectSuccessful) {
-        console.info("Got connection!");
+        this.ssidSta = r.ssid()!;
+        this.ipSta =  ip4_2_string(r.ip());
+        this.netmaskSta = ip4_2_string(r.netmask());
+        this.gatewaySta = ip4_2_string(r.gateway());
+        this.rssiSta = r.rssi();
+        console.info(`Got connection! to ${this.ssidSta} with ip ${this.ipSta}`);
+        render(this.wifiTableTemplate(), this.wifiTable.value!)
         this.appManagement.showOKDialog(Severity.SUCCESS, `Connection to ${r.ssid()} was successful. `, () => { });
-        gqsa(".current_ssid", (e) => e.textContent = r.ssid());
-        gqsa(".current_ip", (e) => e.textContent = ip4_2_string(r.ip()));
-        gqsa(".current_netmask", (e) => e.textContent = ip4_2_string(r.netmask()));
-        gqsa(".current_gw", (e) => e.textContent = ip4_2_string(r.gateway()));
-
-        gqsa(".current_rssi", (e) => e.textContent = r.rssi().toLocaleString()+"dB");
     }
 
     onMessage(messageWrapper: ResponseWrapper): void {
@@ -131,7 +234,6 @@ export class WifimanagerController extends ScreenController {
                 break;
             case Responses.ResponseWifiConnectSuccessful:
                 this.onResponseWifiConnectSuccessful(<ResponseWifiConnectSuccessful>messageWrapper.response(new ResponseWifiConnectSuccessful()));
-               
                 break;
             case Responses.ResponseWifiDisconnect:
                 console.log("Manual disconnect requested...");

@@ -1,7 +1,10 @@
-import { ApplicationId, Command } from "../generated/flatbuffers/app";
-import type { NotifyCanMessage } from "../generated/flatbuffers/webmanager";
 import * as flatbuffers from 'flatbuffers'
-import { CommandMessage } from "../generated/flatbuffers/websensact";
+import { ApplicationId } from '../../generated/flatbuffers/application-id';
+import { Command } from '../../generated/flatbuffers/command';
+import { NotifyCanMessage } from '../../generated/flatbuffers/webmanager';
+import { CommandMessage } from '../../generated/flatbuffers/websensact/command-message';
+import { uint8Array2HexString } from './common';
+
 
 export interface SensactContext {
 
@@ -85,7 +88,11 @@ export class cCANMessageBuilderParserOld{
         }
         var dc=this.ParseApplicationCommandMessageId(m);
         var payloadLen=m.dataLen()-1;
-        var s= `ApplicationCommand (old CAN-ID) to id 0x${dc.destinationAppId.toString(16)} (${ApplicationId[dc.destinationAppId]}); command:0x${dc.commandId.toString(16)} (${Command[dc.commandId]}); len:${payloadLen}; payload: 0x${uint8Array2HexString(m)}`
+        var arr:Uint8Array= new Uint8Array(8);
+        for(var i=0; i<payloadLen;i++){
+            arr[i]=m.data()?.data(i)!;
+        }
+        var s= `ApplicationCommand (old CAN-ID) to id 0x${dc.destinationAppId.toString(16)} (${ApplicationId[dc.destinationAppId]}); command:0x${dc.commandId.toString(16)} (${Command[dc.commandId]}); len:${payloadLen}; payload: 0x${uint8Array2HexString(arr)}`
         console.log(s);
         return s;
 
@@ -101,5 +108,5 @@ export async function sendCommandMessage(id: ApplicationId, cmd: Command, payloa
     CommandMessage.addPayload(b, payloadOffset);
     let x = CommandMessage.endCommandMessage(b);
     b.finish(x);
-    let buf = b.asUint8Array();
+    //let buf = b.asUint8Array();
 }

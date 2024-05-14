@@ -1,4 +1,4 @@
-import { ConfigGroup, StringItem, IntegerItem, BooleanItem, EnumItem } from '../usersettings_base';
+import { ConfigGroup, StringItem, IntegerItem, BooleanItem, EnumItem } from '../../typescript/utils/usersettings_base';
 
 
 export default class{

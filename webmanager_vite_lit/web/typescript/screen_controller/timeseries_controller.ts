@@ -1,13 +1,21 @@
-import { RequestTimeseries, RequestWrapper, Requests, ResponseWrapper, Responses, TimeGranularity } from "../generated/flatbuffers/webmanager";
+import { RequestTimeseries, RequestWrapper, Requests, ResponseWrapper, Responses, TimeGranularity } from "../../generated/flatbuffers/webmanager";
 import { ScreenController } from "./screen_controller";
 import * as flatbuffers from 'flatbuffers';
-import { LineChart, LineChartOptions } from '../chartist/charts/LineChart/index';
-import { AxisOptions } from "../chartist/core/types";
+import * as chartist from "chartist"
+import { html, render } from "lit-html";
+import { Ref, createRef, ref } from "lit-html/directives/ref.js";
 
 
 export class TimeseriesController extends ScreenController {
-    private chartSeconds?:LineChart;
-    onMessage(messageWrapper: ResponseWrapper): void {
+    private chartSeconds?:chartist.LineChart;
+    private chartDiv:Ref<HTMLDivElement>=createRef()
+    private paramPara:Ref<HTMLParagraphElement>=createRef()
+    public Template = () => html`<h1>Timeseries Sconds</h1><p ${ref(this.paramPara)}>Value=</p><div ${ref(this.chartDiv)}></div>`
+
+    private ParamsTemplate = ()=>html`id=${this.match.groups!["id"]} val=${this.match.groups!["val"]}`
+    match: RegExpMatchArray;
+
+    onMessage(_messageWrapper: ResponseWrapper): void {
         throw new Error("TimeseriesController does not expect 'normal' messages");
     }
 
@@ -74,35 +82,48 @@ export class TimeseriesController extends ScreenController {
         }
     }
 
+    private options: chartist.LineChartOptions<chartist.AxisOptions, chartist.AxisOptions> = {
+        axisX:{
+            scaleMinSpace:40
+        },
+        showArea:false,
+        width: '100%',
+        height:"200px",
 
+    };
 
     onCreate(): void {
-        let options: LineChartOptions<AxisOptions, AxisOptions> = {
-            axisX:{
-                scaleMinSpace:40
-            },
-            showArea:false,
-            width: '100%',
-            height:"200px",
+        
 
-        };
+        
+    }
 
-        this.chartSeconds=new LineChart(
-            '#timeseries_seconds',
+    onFirstStart(): void {
+        this.chartSeconds=new chartist.LineChart(
+            this.chartDiv.value!,
             {
                 labels: [1, 2, 3, 4, 5, 6, 7, 8],
                 series: [[5, 9, 7, 8, 5, 3, 5, 4]]
             },
-            options);
-    }
-
-    onFirstStart(): void {
-        this.sendRequestTimeseries();
+            this.options);
+        //this.sendRequestTimeseries();
     }
     onRestart(): void {
-        this.sendRequestTimeseries();
+        this.chartSeconds=new chartist.LineChart(
+            this.chartDiv.value!,
+            {
+                labels: [1, 2, 3, 4, 5, 6, 7, 8],
+                series: [[5, 9, 7, 8, 5, 3, 5, 4]]
+            },
+            this.options);
+        //this.sendRequestTimeseries();
     }
     onPause(): void {
+    }
+
+    SetParameter(match:RegExpMatchArray):void{
+        this.match=match;
+        render(this.ParamsTemplate(), this.paramPara.value!)
     }
 
 }

@@ -2,7 +2,7 @@ import {TemplateResult, html, render} from 'lit-html';
 import { IHtmlRenderer } from "./interfaces";
 
 export interface IRouteHandler {
-  handleRoute(params: Array<string>): void;
+  handleRoute(params: RegExpMatchArray): void;
 }
 
 export class Route {
@@ -34,7 +34,6 @@ export default class RouterMenu implements IHtmlRenderer {
         var match = fragment.match(r.urlPattern);
         if (match){
           console.log(`Match for ${r.url}`)
-          match.shift();
           r.handler.handleRoute(match);
           break;
         }

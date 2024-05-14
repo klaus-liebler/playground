@@ -4,15 +4,16 @@
 import * as proc from "child_process";
 import gulp from "gulp";
 import path from "path";
-import { EscapeToVariableName } from "../usersettings/usersettings_base";
+import { EscapeToVariableName } from "../usersettings/typescript/utils/usersettings_base";
 import { MyCodeBuilderImpl, writeFileCreateDirLazy } from "./gulpfile_utils";
 import { GENERATED_USERSETTINGS, NVS_PART_GEN_TOOL, USERSETTINGS_PATH, DEST_USERSETTINGS_PATH } from "./paths";
-import UserSettings from "./../usersettings/definition/usersettings";
+import UserSettings from "../usersettings/go_here/go_here/usersettings
 import fs from "node:fs";
 import { COM_PORT, USERSETTINGS_PARTITION_NAME, USERSETTINGS_PARTITION_SIZE_KILOBYTES } from "./gulpfile_config";
 
 //Code Generation
 const theusersettings = UserSettings.Build();
+
 export function usersettings_generate_cpp_code(cb: gulp.TaskFunctionCallback) {
   console.log(`User settings has ${theusersettings.length} groups`);
   var codeBuilder = new MyCodeBuilderImpl("key,type,encoding,value");
