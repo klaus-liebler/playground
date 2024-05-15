@@ -39,7 +39,7 @@ function AddScreenControllers(app: AppController): void {
   app.AddScreenController("properties", new RegExp("^/properties$"), html`<span>⚙</span><span>Properties</span>`, UsersettingsController)
   //app.AddScreenController("wifiman", new RegExp("^/wifiman$"), html`<span>📶</span><span>Wifi Manager</span>`, WifimanagerScreenController)
   app.AddScreenController("timeseries", /^\/timeseries(?:\/(?<id>\w*))?(?:\/(?<val>\d*))?$/, html`<span>📶</span><span>Timeseries</span>`, TimeseriesController)
-  //app.AddScreenController("finger", new RegExp("^/finger$"), html`<span>👉</span><span>Fingerprint</span>`, FingerprintScreenController)
+  app.AddScreenController("finger", new RegExp("^/finger$"), html`<span>👉</span><span>Fingerprint</span>`, FingerprintScreenController)
 }
 
 class BufferedMessage {

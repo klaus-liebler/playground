@@ -1,5 +1,5 @@
 import * as fs from "node:fs"
-import { CodeBuilder } from "../usersettings/usersettings_base";
+import { CodeBuilder } from "../usersettings/typescript/utils/usersettings_base";
 import path from "node:path";
 
 export function X02(num: number, len = 2) { let str = num.toString(16); return "0".repeat(len - str.length) + str; }

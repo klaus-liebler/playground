@@ -2,12 +2,12 @@ import http from "node:http";
 import * as fs from "node:fs";
 import * as flatbuffers from 'flatbuffers';
 import { WebSocketServer, WebSocket, RawData } from "ws";
-import { ResponseSystemData } from "./flatbuffers/webmanager/response-system-data"
-import { PartitionInfo } from "./flatbuffers/webmanager/partition-info";
-import { Mac6, } from "./flatbuffers/webmanager/mac6";
-import { NotifyLiveLogItem } from "./flatbuffers/webmanager/notify-live-log-item";
-import { AccessPoint } from "./flatbuffers/webmanager/access-point";
-import { BooleanSetting, EnumSetting, Finger, IntegerSetting, JournalItem, RequestGetUserSettings, RequestSetUserSettings, RequestTimeseries, RequestWifiConnect, RequestWrapper, Requests, ResponseFingerprintSensorInfo, ResponseFingers, ResponseGetUserSettings, ResponseJournal, ResponseNetworkInformation, ResponseSetUserSettings, ResponseWifiConnectFailed, ResponseWifiConnectSuccessful, ResponseWrapper, Responses, Setting, SettingWrapper, StringSetting, TimeGranularity } from "./flatbuffers/webmanager";
+import { ResponseSystemData } from "./generated/flatbuffers/webmanager/response-system-data"
+import { PartitionInfo } from "./generated/flatbuffers/webmanager/partition-info";
+import { Mac6, } from "./generated/flatbuffers/webmanager/mac6";
+import { NotifyLiveLogItem } from "./generated/flatbuffers/webmanager/notify-live-log-item";
+import { AccessPoint } from "./generated/flatbuffers/webmanager/access-point";
+import { BooleanSetting, EnumSetting, Finger, IntegerSetting, JournalItem, RequestGetUserSettings, RequestSetUserSettings, RequestTimeseries, RequestWifiConnect, RequestWrapper, Requests, ResponseFingerprintSensorInfo, ResponseFingers, ResponseGetUserSettings, ResponseJournal, ResponseNetworkInformation, ResponseSetUserSettings, ResponseWifiConnectFailed, ResponseWifiConnectSuccessful, ResponseWrapper, Responses, Setting, SettingWrapper, StringSetting, TimeGranularity } from "./generated/flatbuffers/webmanager";
 import { createTimeseries } from "./timeseries_generator";
 
 
@@ -206,8 +206,8 @@ function process(buffer: Buffer, ws: WebSocket) {
     }
 }
 
-let hostCert =fs.readFileSync("./../certificates/testserver.pem.crt").toString();
-let hostPrivateKey = fs.readFileSync("./../certificates/testserver.pem.prvtkey").toString();
+//let hostCert =fs.readFileSync("./../certificates/testserver.pem.crt").toString();
+//let hostPrivateKey = fs.readFileSync("./../certificates/testserver.pem.prvtkey").toString();
 
 let server = http.createServer((req, res) => {
 //let server = https.createServer({key: hostPrivateKey, cert: hostCert}, (req, res) => {
