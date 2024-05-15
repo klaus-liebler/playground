@@ -11,6 +11,7 @@ export default defineConfig({
     cssCodeSplit:false,
   },
   server:{
+    open:"https://protzklotz:5173",
     https:{
       key: fs.readFileSync('../certificates/testserver.pem.prvtkey'),
       cert: fs.readFileSync('../certificates/testserver.pem.crt'),

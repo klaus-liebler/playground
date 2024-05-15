@@ -70,7 +70,7 @@ export class FingerprintScreenController extends ScreenController {
     public Template = () => html`
     <h1>Current Fingers</h1>
         <div class="buttons">
-            <input @click=${()=>this.btnOpenDoor()} type="button" value="Open Door" />
+            
             <input @click=${()=>this.btnUpdateFingers()} type="button" value="Update" />
             <input @click=${()=>this.btnFingerprintEnroll()} type="button" value="Enroll" />
             <input @click=${()=>this.btnDeleteAll()} type="button" value="Delete All" />
@@ -88,8 +88,9 @@ export class FingerprintScreenController extends ScreenController {
             <tbody ${ref(this.tblFingers)}></tbody>
         </table>
         
-        <h1>Fingerprint Sensor</h1>
+        <h1>System</h1>
         <div class="buttons">
+            <input @click=${()=>this.btnOpenDoor()} type="button" value="Open Door" />
             <input @click=${()=>this.btnFingerprintGetSensorInfo()} type="button" value="Get Sensor Info" />
         </div>
         <table>
@@ -178,6 +179,7 @@ export class FingerprintScreenController extends ScreenController {
             case Responses.ResponseEnrollNewFinger:{
                 let m = <ResponseEnrollNewFinger>messageWrapper.response(new ResponseEnrollNewFinger());
                 var ret = <RET>m.errorcode();
+                console.log(`ResponseEnrollNewFinger: errorcode=${RET[ret]}`);
                 if(ret!=RET.OK){
                     this.appManagement.showOKDialog(Severity.ERROR, `Enrollment could not be started: ${RET[ret]}`);
                 }else{
@@ -190,11 +192,11 @@ export class FingerprintScreenController extends ScreenController {
                 var ret = <RET>m.errorcode();
                 console.log(`NotifyEnrollNewFinger: step=${m.step()}, name=${m.name()}, errorcode=${RET[ret]}`);
                 if(m.step()<13){
-                    var step = Math.ceil(m.step()/2)
+                    var reading = Math.ceil(m.step()/2)
                     var collectImage = m.step()%2==1;
                     this.appManagement.showSnackbar(
                         ret==RET.OK?Severity.INFO:Severity.WARN, 
-                        `Round ${step}: ${collectImage?"Collect Image":"Generate Feature"}: ${RET[ret]}.`);
+                        `Reading ${reading}: ${collectImage?"Collect Image":"Generate Feature"}: ${RET[ret]}.`);
                 }
                 else if(m.step()==13){
                     this.appManagement.showSnackbar(ret==RET.OK?Severity.INFO:Severity.WARN, `Repeat fingerprint check: ${RET[ret]}.`);
@@ -203,7 +205,7 @@ export class FingerprintScreenController extends ScreenController {
                     this.appManagement.showSnackbar(ret==RET.OK?Severity.INFO:Severity.WARN, `Merge feature: ${RET[ret]}.`);
                 }
                 else if(m.step()==15){
-                    this.appManagement.showSnackbar(ret==RET.OK?Severity.SUCCESS:Severity.WARN, `Fingerprint stored in Sensor with  name "${m.name()}" on index ${m.index}: ${RET[ret]}.`);
+                    this.appManagement.showSnackbar(ret==RET.OK?Severity.SUCCESS:Severity.WARN, `Fingerprint stored in Sensor with  name "${m.name()}" on index ${m.index()}: ${RET[ret]}.`);
                 }
                 else{
                     this.appManagement.showSnackbar(Severity.ERROR, `Unknown step: ${m.step()}, errorcode: ${RET[ret]}.!`);
@@ -248,7 +250,11 @@ export class FingerprintScreenController extends ScreenController {
         this.sendRequestFingers();
     }
     btnFingerprintEnroll() {
-        this.appManagement.showEnterFilenameDialog("Enter name of finger", (_ok, name)=>{
+        this.appManagement.showEnterFilenameDialog("Enter name of finger", (ok, name)=>{
+            if(!ok){
+                return
+            }
+            console.log(`Send RequestEnrollNewFinger name=${name}`)
             let b = new flatbuffers.Builder(1024);
             b.finish(
                 RequestWrapper.createRequestWrapper(b, Requests.RequestEnrollNewFinger, 

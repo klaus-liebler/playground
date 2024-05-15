@@ -7,7 +7,7 @@ import { PartitionInfo } from "./generated/flatbuffers/webmanager/partition-info
 import { Mac6, } from "./generated/flatbuffers/webmanager/mac6";
 import { NotifyLiveLogItem } from "./generated/flatbuffers/webmanager/notify-live-log-item";
 import { AccessPoint } from "./generated/flatbuffers/webmanager/access-point";
-import { BooleanSetting, EnumSetting, Finger, IntegerSetting, JournalItem, RequestGetUserSettings, RequestSetUserSettings, RequestTimeseries, RequestWifiConnect, RequestWrapper, Requests, ResponseFingerprintSensorInfo, ResponseFingers, ResponseGetUserSettings, ResponseJournal, ResponseNetworkInformation, ResponseSetUserSettings, ResponseWifiConnectFailed, ResponseWifiConnectSuccessful, ResponseWrapper, Responses, Setting, SettingWrapper, StringSetting, TimeGranularity } from "./generated/flatbuffers/webmanager";
+import { BooleanSetting, EnumSetting, Finger, IntegerSetting, JournalItem, NotifyEnrollNewFinger, RequestEnrollNewFinger, RequestGetUserSettings, RequestSetUserSettings, RequestTimeseries, RequestWifiConnect, RequestWrapper, Requests, ResponseEnrollNewFinger, ResponseFingerprintSensorInfo, ResponseFingers, ResponseGetUserSettings, ResponseJournal, ResponseNetworkInformation, ResponseSetUserSettings, ResponseWifiConnectFailed, ResponseWifiConnectSuccessful, ResponseWrapper, Responses, Setting, SettingWrapper, StringSetting, TimeGranularity } from "./generated/flatbuffers/webmanager";
 import { createTimeseries } from "./timeseries_generator";
 
 
@@ -62,6 +62,29 @@ function sendResponseFingers(ws: WebSocket) {
         ResponseFingers.createResponseFingers(b, fingersOffset)
         ));
     ws.send(b.asUint8Array());
+}
+
+function sendNotifyEnrollNewFinger(ws:WebSocket, step:number, index:number, name:string, delay_ms:number){
+    
+    setTimeout(() => {
+        console.log(`sendNotifyEnrollNewFinger step=${step}, index=${index}, name=${name}`)
+        let b = new flatbuffers.Builder(1024);
+        b.finish(ResponseWrapper.createResponseWrapper(b, Responses.NotifyEnrollNewFinger, NotifyEnrollNewFinger.createNotifyEnrollNewFinger(b, b.createString(name), index, step, 0)));
+        ws.send(b.asUint8Array());
+    }, delay_ms);
+
+}
+
+
+function sendResponseEnrollNewFinger(ws:WebSocket, req:RequestEnrollNewFinger){
+    var fpName= req.name();
+    console.log(`sendResponseEnrollNewFinger name=${fpName}`)
+    let b = new flatbuffers.Builder(1024);
+    b.finish(ResponseWrapper.createResponseWrapper(b, Responses.ResponseEnrollNewFinger, ResponseEnrollNewFinger.createResponseEnrollNewFinger(b, 0)));
+    ws.send(b.asUint8Array());
+    for(var step=0; step<16;step++){
+        sendNotifyEnrollNewFinger(ws, step, 42, fpName, step*500+2000);
+    }
 }
 
 const AP_GOOD="Connect to AP -50dB Auth=2";
@@ -200,7 +223,9 @@ function process(buffer: Buffer, ws: WebSocket) {
             break;
         case Requests.RequestFingers:
             setTimeout(()=>sendResponseFingers(ws), 100);
-
+            break;
+        case Requests.RequestEnrollNewFinger: {}
+            setTimeout(()=>sendResponseEnrollNewFinger(ws, <RequestEnrollNewFinger>mw.request(new RequestEnrollNewFinger())), 100);
         default:
             break;
     }

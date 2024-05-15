@@ -35,7 +35,6 @@ export class DialogController {
 
     private handler: ((ok: boolean, value: string) => any)|undefined;
     private inputElement: HTMLInputElement | null=null;
-    private inputValue: string="";
     private mode = Mode.OK
 
     private ok_handler() {
@@ -43,7 +42,7 @@ export class DialogController {
         switch (this.mode) {
             case Mode.FILENAME:
             case Mode.PASSWORD:
-                this.handler?.(true, this.inputValue)
+                this.handler?.(true, this.inputElement.value)
                 break;
             case Mode.CUSTOM_RENDERER:
                 this.handler?.(true, this.inputElement?.value ?? '')

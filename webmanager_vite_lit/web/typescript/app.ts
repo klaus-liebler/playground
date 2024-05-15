@@ -66,7 +66,6 @@ class AppController implements IAppManagement, IWebsocketMessageListener {
 
 
   private modal: Ref<HTMLDivElement> = createRef();
-  private snackbar: Ref<HTMLDivElement> = createRef();
   private snackbarTimeout: number = -1;
 
   showDialog(head: string, renderer: IDialogBodyRenderer, pHandler?: (ok: boolean, value: string) => any): void {
@@ -156,7 +155,7 @@ class AppController implements IAppManagement, IWebsocketMessageListener {
     let arr = new Uint8Array(data)
     let bb = new flatbuffers.ByteBuffer(arr)
     let messageWrapper = ResponseWrapper.getRootAsResponseWrapper(bb)
-    console.log(`A message of type ${messageWrapper.responseType()} with length ${data.byteLength} has arrived.`)
+    console.log(`A message of type "${Responses[messageWrapper.responseType()]}" [${messageWrapper.responseType()}] with length ${data.byteLength} has arrived.`)
     if (this.messagesToUnlock.includes(messageWrapper.responseType())) {
       clearTimeout(this.modalSpinnerTimeoutHandle)
       this.messagesToUnlock = [Responses.NONE]
@@ -197,14 +196,15 @@ class AppController implements IAppManagement, IWebsocketMessageListener {
     if (this.snackbarTimeout >= 0) {
       clearInterval(this.snackbarTimeout);
     }
-    this.snackbar.value!.innerText = "";
-    Html(this.snackbar.value!, "span", [], [severity2class(severity)], severity2symbol(severity));
-    Html(this.snackbar.value!, "span", [], [], text);
-    this.snackbar.value!.style.visibility = "visible";
-    this.snackbar.value!.style.animation = "fadein 0.5s, fadeout 0.5s 2.5s";
-    this.snackbarTimeout = setTimeout(() => {
-      this.snackbar.value!.style.visibility = "hidden";
-      this.snackbar.value!.style.animation = "";
+    var snackbar = document.getElementById("snackbar");
+    snackbar.innerText = "";
+    Html(snackbar, "span", [], [severity2class(severity)], severity2symbol(severity));
+    Html(snackbar, "span", [], [], text);
+    snackbar.style.visibility = "visible";
+    snackbar.style.animation = "fadein 0.5s, fadeout 0.5s 2.5s";
+    this.snackbarTimeout = <any>setTimeout(() => {
+      snackbar.style.visibility = "hidden";
+      snackbar.style.animation = "";
       this.snackbarTimeout = -1;
     }, 3000);
   }
@@ -252,7 +252,7 @@ class AppController implements IAppManagement, IWebsocketMessageListener {
         <main ${ref(this.mainRef)}></main>
         <footer><div ${ref(this.scroller)}><div ${ref(this.scroller_anchor)}></div></div></footer>
         <div ${ref(this.modal)} class="modal"><span class="loader"></span></div>
-        <div ${ref(this.snackbar)}>Some text some message..</div>
+        <div id="snackbar">Some text some message..</div>
         ${this.dialogController.Template()}`
     render(Template, document.body);
     
