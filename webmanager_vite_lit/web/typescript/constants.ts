@@ -2,6 +2,6 @@
 export const HOST = window.location.host;// will return the host name and port
 
 export const URL_PREFIX = "https://"+HOST;
-export const WS_PREFIX = "ws://"+HOST;
+export const WS_PREFIX = "wss://"+HOST;
 export const WS_URL = WS_PREFIX + "/webmanager_ws";
 export const UPLOAD_URL=URL_PREFIX+"/ota";

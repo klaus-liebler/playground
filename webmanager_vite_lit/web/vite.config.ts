@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import {viteSingleFile} from "./vite_plugin/vite-plugin-singlefile"
+import fs from "node:fs"
 
 
 // https://vitejs.dev/config/
@@ -10,6 +11,10 @@ export default defineConfig({
     cssCodeSplit:false,
   },
   server:{
+    https:{
+      key: fs.readFileSync('../certificates/testserver.pem.prvtkey'),
+      cert: fs.readFileSync('../certificates/testserver.pem.crt'),
+    },
     proxy:{
       "/webmanager_ws":{
         target:"ws://localhost:3000",

@@ -107,16 +107,16 @@ function sendResponseGetUserSettings(ws: WebSocket, req: RequestGetUserSettings)
     let settingsOffset: number = 0;
     if (groupName == "Group1") {
         settingsOffset = ResponseGetUserSettings.createSettingsVector(b, [
-            SettingWrapper.createSettingWrapper(b, b.createString("Test String Item1"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String Item1 Value " + counter))),
-            SettingWrapper.createSettingWrapper(b, b.createString("Test String Itemxyz"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String Item2 Value " + counter))),
+            SettingWrapper.createSettingWrapper(b, b.createString("G1_1_S"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String Item1 Value " + counter))),
+            SettingWrapper.createSettingWrapper(b, b.createString("G1_2_S"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String Item2 Value " + counter))),
         ]);
     }
     else if (groupName == "Group2") {
         settingsOffset = ResponseGetUserSettings.createSettingsVector(b, [
-            SettingWrapper.createSettingWrapper(b, b.createString("Test String sub1item2"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String sub1item2 Value"))),
-            SettingWrapper.createSettingWrapper(b, b.createString("Test Integer sub1item2"), Setting.IntegerSetting, IntegerSetting.createIntegerSetting(b, counter)),
-            SettingWrapper.createSettingWrapper(b, b.createString("Test Boolean"), Setting.BooleanSetting, BooleanSetting.createBooleanSetting(b, toggler)),
-            SettingWrapper.createSettingWrapper(b, b.createString("Test Enum"), Setting.EnumSetting, EnumSetting.createEnumSetting(b, counter % 4)),
+            SettingWrapper.createSettingWrapper(b, b.createString("G2_1_S"), Setting.StringSetting, StringSetting.createStringSetting(b, b.createString("Test String sub1item2 Value"))),
+            SettingWrapper.createSettingWrapper(b, b.createString("G2_2_I"), Setting.IntegerSetting, IntegerSetting.createIntegerSetting(b, counter)),
+            SettingWrapper.createSettingWrapper(b, b.createString("G2_3_B"), Setting.BooleanSetting, BooleanSetting.createBooleanSetting(b, toggler)),
+            SettingWrapper.createSettingWrapper(b, b.createString("G2_4_E"), Setting.EnumSetting, EnumSetting.createEnumSetting(b, counter % 4)),
 
         ]);
         counter++;
