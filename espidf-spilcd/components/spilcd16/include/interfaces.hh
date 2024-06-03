@@ -34,6 +34,38 @@ namespace display
         Point2D() : x(0), y(0) {}
     };
 
+    class Color565
+    {
+        private:
+        const uint16_t native_value;
+        public:
+        Color565(uint8_t red, uint8_t green, uint8_t blue){
+            native_value = (((red & 0b11111000)<<8) + ((green & 0b11111100)<<3) + (blue>>3));
+
+        }
+
+        Color565 overlayWith(Color565 overlay, uint8_t alpha0_255 ){
+            
+        }
+
+        uint16_t toST7789_SPI_native(){
+                        
+            if(std::endian::native == std::endian::big) return native_value;
+            else if(std::endian::native == std::endian::little) return std::byteswap(native_value);//ESP32 is little endian
+            else return 0;
+        }        
+    };
+
+    namespace Color{
+        constexpr Color565 BLACK{Color565(0,0,0)};
+        constexpr Color565 WHITE{Color565(255,255,255)};
+        constexpr Color565 BLUE{Color565(0,0,255)};
+        constexpr Color565 GREEN{Color565(0,255,0)};
+        constexpr Color565 RED{Color565(255,0,0)};
+        constexpr Color565 YELLOW{Color565(255,255,0)};
+        constexpr Color565 SILVER{Color565(192,192,192)};
+    }
+
     class IAsyncRenderer
     {
     public:
