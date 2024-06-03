@@ -115,17 +115,18 @@ export class TtfGlyphProvider extends GlyphProviderWithKerningResult implements 
 				top8vec = top8vec.slice(offsetX, offsetX + w);
 				bot8vec = bot8vec.slice(offsetX, offsetX + w);
 				if (this.relocateToUnicodePrivateUseArea) {
-					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					//constructor(public readonly codepointDest:number, public readonly name:string, public adv_w = 0, public box_w = 0, public box_h = 16, public ofs_x = 0, public ofs_y = 0, public kerningClassLeft=0, public kerningClassRight=0, public readonly bitmapFormat:BitmapFormat, public readonly bitmap:Uint8Array) { }
+					this.glyphsDesc.push(new GlyphDesc(relocatedCodepoint, g.name, g.advanceWidth, w, 16, offsetX, 0, 0, 0, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, concat(top8vec, bot8vec)));
 					relocatedCodepoint++;
 				} else {
-					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, BitmapFormat.One_Bpp_Eight_In_A_Column, concat(top8vec, bot8vec)));
+					this.glyphsDesc.push(new GlyphDesc(codePoint, g.name, g.advanceWidth, w, 16, offsetX, 0, 0, 0, BitmapFormat.ONE_BPP_EIGHT_IN_A_COLUMN, concat(top8vec, bot8vec)));
 				}
 
 			}
 		});
-		return new Promise((resolve, reject)=>{resolve(this);});
+		return new Promise((resolve, reject) => { resolve(this); });
 	}
 
-	constructor(private font: opentype.Font, private codepointRanges: Range[], private relocateToUnicodePrivateUseArea: boolean) {super() }
+	constructor(private font: opentype.Font, private codepointRanges: Range[], private relocateToUnicodePrivateUseArea: boolean) { super() }
 
 }
