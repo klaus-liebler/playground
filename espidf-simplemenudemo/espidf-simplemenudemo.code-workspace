@@ -8,6 +8,12 @@
 		},
 		{
 			"path": "../../espidf-components-lcd/lcd_spi_16bpp"
+		},
+		{
+			"path": "../../espidf-components-lcd/simplemenu"
+		},
+		{
+			"path": "../../espidf-components-lcd/simplemenu2SpiLcdAdapter"
 		}
 	],
 	"settings": {
