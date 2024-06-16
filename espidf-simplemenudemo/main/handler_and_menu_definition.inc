@@ -11,7 +11,7 @@ float Fixed1{0.25};
 class : public MenuItemChanged<int32_t>
 {
 public:
-    void ValueChanged(const MenuItem *item, int32_t newValue) override
+    void ValueChanged(const iValueManager *item, int32_t newValue) override
     {
         ESP_LOGI(TAG, "Value of '%s' changed to %li", item->GetName(), newValue);
     }
@@ -20,7 +20,7 @@ public:
 class : public MenuItemChanged<uint32_t>
 {
 public:
-    void ValueChanged(const MenuItem *item, uint32_t newValue) override
+    void ValueChanged(const iValueManager *item, uint32_t newValue) override
     {
         ESP_LOGI(TAG, "Value of '%s' changed to %lu", item->GetName(), newValue);
     }
@@ -29,7 +29,7 @@ public:
 class : public MenuItemChanged<bool>
 {
 public:
-    void ValueChanged(const MenuItem *item, bool newValue) override
+    void ValueChanged(const iValueManager *item, bool newValue) override
     {
         ESP_LOGI(TAG, "Value of '%s' changed to %d", item->GetName(), newValue);
     }
@@ -38,7 +38,7 @@ public:
 class : public MenuItemChanged<float>
 {
 public:
-    void ValueChanged(const MenuItem *item, float newValue) override
+    void ValueChanged(const iValueManager *item, float newValue) override
     {
         ESP_LOGI(TAG, "Value of '%s' changed to %f", item->GetName(), newValue);
     }
@@ -49,22 +49,22 @@ public:
 class : public MenuItemChangedWithHandle<bool>
 {
 public:
-    void ValueChanged(const MenuItem *item, void* referenceOrHandle, bool confirm) override
+    void ValueChanged(const iValueManager *item, void* referenceOrHandle, bool confirm) override
     {
         if(!confirm) return;
         ESP_LOGI(TAG, "Save Values to NVS");
-        m->SaveToNvs("nvs", "menu");
+        //m->SaveToNvs("nvs", "menu");
     }
 } save_cb;
 
 class : public MenuItemChangedWithHandle<bool>
 {
 public:
-    void ValueChanged(const MenuItem *item, void* referenceOrHandle, bool confirm) override
+    void ValueChanged(const iValueManager *item, void* referenceOrHandle, bool confirm) override
     {
         if(!confirm) return;
         ESP_LOGI(TAG, "Open Values from NVS");
-        m->OpenFromNvs("nvs", "menu");
+        //m->OpenFromNvs("nvs", "menu");
     }
 } open_cb;
 
@@ -109,4 +109,9 @@ std::vector<MenuItem *> root_items = {
     new IntegerItem("Integer5", &Integer5, 0, 10, &int_cb),
     new OptionItem("Option6", &option6_items, &option_cb),
     new PlaceholderItem("Ph7\t***\tPh7"),
+};
+std::vector<MenuItem *> root_items1 = {
+    new PlaceholderItem("!!!!!"),
+    new PlaceholderItem("XXXXX"),
+    new PlaceholderItem("OOOOO"),
 };

@@ -25,7 +25,7 @@ enum class eNauInit
     STEREO
 };
 
-constexpr eNauInit nauInit{eNauInit::BTL};
+constexpr eNauInit nauInit{eNauInit::ORIGINAL_DF_ROBOT};//STEREO works, ORIGINAL_DF_ROBOT works, BTL does not work
 
 extern const uint8_t wav_start[] asm("_binary_CantinaBand3_wav_start");
 extern const uint8_t wav_end[] asm("_binary_CantinaBand3_wav_end");
@@ -247,7 +247,7 @@ void muteHeadphones(void)
     i2cWriteNAU8822(53, 0x140);
 }
 
-void i2cSetupNAU8822Play(uint8_t initialVolume_0_255=57*4)//this is the hardware default volume
+void i2cSetupNAU8822Play(uint8_t initialVolume_0_255=255)//this is the hardware default volume
 {
     if (nauInit == eNauInit::BTL)
     {
@@ -294,6 +294,7 @@ void i2cSetupNAU8822Play(uint8_t initialVolume_0_255=57*4)//this is the hardware
 
     setSpeakersVolume(initialVolume_0_255);
     setHeadphonesVolume(initialVolume_0_255);
+
 }
 
 void i2cInit()
