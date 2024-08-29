@@ -1,0 +1,13 @@
+Hallo zusammen,
+
+ich melde mich wieder - das Problem ist noch nicht gelöst. Die Aussage aus dem vorherigen Post muss ich insofern erweitern, als dass es sich dabei um einen sehr sehr seltenen Ausnahmefall gehandelt hat. Per Log zweifelsfrei dokumentieren konnte ich das nur noch ein einziges mal.
+
+Spannend ist aber das folgende: Ich habe testweise den ESP32 in eine _NOP-Endlosschleife versetzt (app_main(){while(true) vTaskDelay(100)}) und den STM32 zum I2C-Master gemacht und einen I2C-Scanner implementiert. Zur Erinnerung: der STM32 arbeitet eigentlich als I2C-Slave als I/O-Expander für den ESP32. Der STM32 findet den NAU88C22 _immer_! Ich habe auch dann eine Aufnahme mit dem Oszilloskop gemacht, um mögliche Unterschiede zu erkennen. Was fällt da auf?: Bei STM32 ändert sich SDA mit nicht sichtbarer Verzögerung, wenn SCL auf Low geht, beim ESP32 gibt es eine sichtbare Verzögerung von etwa 1us. Beides ist meines Erachtens OK, wobei mir das Verhalten des ESP32 fast besser gefällt...
+
+Ich habe wegen dieser Thematik bereits hier https://www.esp32.com/viewtopic.php?f=13&t=41437&start=10 einen Thread gestartet, aber ein Ergebnis haben wir leider noch nicht. Vieleicht gibt es unter Euch noch jemanden, der mit einen Tipp, Rat oder Hinweis geben kann?
+
+Vielen lieben Dank und viele Grüße
+
+Klaus
+
+

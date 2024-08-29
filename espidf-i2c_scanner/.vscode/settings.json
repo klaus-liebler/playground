@@ -1,0 +1,10 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.flashType": "UART",
+  "idf.adapterTargetName": "esp32s3",
+  "idf.portWin": "COM6",
+  "files.associations": {
+    "sdkconfig.h": "c",
+    "freertos.h": "c"
+  }
+}

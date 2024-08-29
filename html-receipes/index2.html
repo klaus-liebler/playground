@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .flow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .step {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .step svg {
+            margin: 0 20px;
+        }
+        .step .actions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+        .arrow-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+        .arrow-button:hover {
+            background-color: #0056b3;
+        }
+        .arrow-button svg {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <title>Ablaufverwaltung</title>
+</head>
+<body>
+
+<div class="flow-container" id="flowContainer">
+    <div class="step" id="startStep">
+        <svg width="100" height="50">
+            <rect x="10" y="10" rx="10" ry="10" width="80" height="30" style="fill:lightgrey;stroke:black;stroke-width:1" />
+            <text x="50" y="30" text-anchor="middle" fill="black">Start</text>
+        </svg>
+    </div>
+    <button class="arrow-button" onclick="showAddStepDialog()">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14" stroke="white" stroke-width="2"/></svg>
+    </button>
+    <div class="step" id="endStep">
+        <svg width="100" height="50">
+            <rect x="10" y="10" rx="10" ry="10" width="80" height="30" style="fill:lightgrey;stroke:black;stroke-width:1" />
+            <text x="50" y="30" text-anchor="middle" fill="black">Ende</text>
+        </svg>
+    </div>
+</div>
+
+<div id="stepDialog" style="display:none;">
+    <form id="stepForm">
+        <label for="stepType">Schritttyp:</label>
+        <select id="stepType">
+            <option value="type1">Typ 1</option>
+            <option value="type2">Typ 2</option>
+        </select><br>
+        <label for="stepName">Name:</label>
+        <input type="text" id="stepName" required><br>
+        <label for="stepParameter">Parameter:</label>
+        <input type="text" id="stepParameter" required><br>
+        <label for="stepCondition">Bedingung:</label>
+        <select id="stepCondition">
+            <option value="time">Zeitspanne</option>
+            <option value="signal">Signal</option>
+        </select><br>
+        <label id="conditionDetailLabel" for="conditionDetail">Millisekunden:</label>
+        <input type="text" id="conditionDetail" required><br>
+        <button type="button" onclick="addStep()">Hinzufügen</button>
+    </form>
+</div>
+
+<script>
+let stepCounter = 1;
+
+function showAddStepDialog() {
+    document.getElementById('stepDialog').style.display = 'block';
+}
+
+function closeDialog() {
+    document.getElementById('stepDialog').style.display = 'none';
+}
+
+function addStep() {
+    const stepType = document.getElementById('stepType').value;
+    const stepName = document.getElementById('stepName').value;
+    const stepParameter = document.getElementById('stepParameter').value;
+    const stepCondition = document.getElementById('stepCondition').value;
+    const conditionDetail = document.getElementById('conditionDetail').value;
+
+    const step = document.createElement('div');
+    step.className = 'step';
+    step.id = `step${stepCounter}`;
+    step.innerHTML = `
+        <svg width="100" height="50">
+            <rect x="10" y="10" rx="10" ry="10" width="80" height="30" style="fill:lightgrey;stroke:black;stroke-width:1" />
+            <text x="50" y="30" text-anchor="middle" fill="black">${stepName}</text>
+        </svg>
+        <div class="actions">
+            <button onclick="editStep(${stepCounter})">Edit</button>
+            <button onclick="deleteStep(${stepCounter})">Delete</button>
+            <button onclick="moveStepUp(${stepCounter})">↑</button>
+            <button onclick="moveStepDown(${stepCounter})">↓</button>
+        </div>
+    `;
+
+    const addBtn = document.querySelector('.arrow-button');
+    addBtn.parentElement.insertBefore(step, addBtn);
+    stepCounter++;
+    closeDialog();
+}
+
+function deleteStep(id) {
+    document.getElementById(`step${id}`).remove();
+}
+
+function editStep(id) {
+    const step = document.getElementById(`step${id}`);
+    // Add your implementation for opening dialog and editing steps.
+}
+
+function moveStepUp(id) {
+    const step = document.getElementById(`step${id}`);
+    const previousStep = step.previousElementSibling;
+    if(previousStep && !previousStep.classList.contains('arrow-button')) {
+        step.parentElement.insertBefore(step, previousStep);
+    }
+}
+
+function moveStepDown(id) {
+    const step = document.getElementById(`step${id}`);
+    const nextStep = step.nextElementSibling;
+    if(nextStep && !nextStep.classList.contains('arrow-button')) {
+        step.parentElement.insertBefore(nextStep, step);
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Bitte erstelle eine Ablaufverwaltung mit HTML, SVG, CSS und JavaScript. Ein Ablauf besteht aus mehreren Schritten.
+Es gibt mehrere Schritttypen. Jeder Schritt hat einen Typ (auswählbar aus einer Liste), einen Namen (Text), einen Parameter (je nach Typ eine Zahl oder ein Text) und eine Bedingung für den Wechsel zum Folgeschritt. Die Bedinung kann der Ablauf einer Zeitspanne (Parameter "Millisekunden") oder die positive Flanke eines Signals sein (Parameter "Signalindex") sein. Ein Schritt ist mit dem nächsten über einen Pfeil verbunden. Zunächst gibt es nur einen "Start"- und einen "Ende"-Schritt. Die Schnitte sollen als abgerundetes Rechteck mit SVG dargestellt werden
+Der Anwender hat nun die folgenden Bedienmöglichkeiten:
+- Schritt hinzufügen: Zentriert auf dem Pfeil zwischen zwei Schritten befindet sich ein runder Button mit einem "+"-Symbol. Wenn der Benutzer dieses klickt, öffnet sich ein Dialog. Dort kann er den Typ des neuen Schrittes, den Namen und die typabhängigen Parameter eingeben. Außerdem kann der Benutzer die Bedinung für den Wechsel zum Folgeschritt definieren
+- Schritt löschen: Jeder Schritt hat ein "Delete"-Button. Wenn der Benutzer diesen klickt, wird der Schritt gelöscht.
+- Schritt bearbeiten: Jeder Schritt hat ein "Edit"-Button. Wenn der Benutzer diesen klickt, öffnet sich ein Dialog zum Bearbeiten des Namens, des Parameters und der Wechselbedingung. Der Typ soll nicht veränderbar sein.
+-Schritt verschieben: Jeder Schritt hat einen "Pfeil nach oben"- und einen "Pfeil nach unten"-Button, mit dem der Schritt nach oben bzw nach unten verschoben werden kann.
+
+HTML, SVG, JavaScript und CSS sollen in einer einzigen HTML-Datei enthalten sein
+ 

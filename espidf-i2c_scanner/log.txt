@@ -1,0 +1,133 @@
+while(false){
+        if(i2c_master_probe(bus_handle, 0x1A, 100)!=ESP_ERR_NOT_FOUND){
+            ESP_LOGI(TAG, "Found I2C-Device @ 0x%02X", 0x1A);
+        }else{
+            ESP_LOGW(TAG, "No Device");
+        }
+        
+    }
+
+
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x2b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2810,len:0x178c
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xcb8
+load:0x403cb700,len:0x2db0
+entry 0x403c8914
+I (27) boot: ESP-IDF v5.3 2nd stage bootloader
+I (27) boot: compile time Aug 19 2024 17:22:08
+I (27) boot: Multicore bootloader
+I (30) boot: chip revision: v0.2
+I (34) boot.esp32s3: Boot SPI Speed : 80MHz
+I (38) boot.esp32s3: SPI Mode       : DIO
+I (43) boot.esp32s3: SPI Flash Size : 2MB
+I (48) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (57) boot: ## Label            Usage          Type ST Offset   Length
+I (64) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (79) boot:  2 factory          factory app      00 00 00010000 00100000
+I (87) boot: End of partition table
+I (91) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b488h ( 46216) map
+I (107) esp_image: segment 1: paddr=0001b4b0 vaddr=3fc92800 size=02a44h ( 10820) load
+I (110) esp_image: segment 2: paddr=0001defc vaddr=40374000 size=0211ch (  8476) load
+I (118) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ab30h (109360) map
+I (144) esp_image: segment 4: paddr=0003ab58 vaddr=4037611c size=0c6c8h ( 50888) load
+I (161) boot: Loaded app from partition at offset 0x10000
+I (162) boot: Disabling RNG early entropy source...
+I (173) cpu_start: Multicore app
+I (183) cpu_start: Pro cpu start user code
+I (183) cpu_start: cpu freq: 160000000 Hz
+I (183) app_init: Application information:
+I (186) app_init: Project name:     espidf-i2c_scanner
+I (191) app_init: App version:      7919669-dirty
+I (197) app_init: Compile time:     Aug 19 2024 17:21:58
+I (203) app_init: ELF file SHA256:  c49b45379...
+I (208) app_init: ESP-IDF:          v5.3
+I (213) efuse_init: Min chip rev:     v0.0
+I (217) efuse_init: Max chip rev:     v0.99 
+I (222) efuse_init: Chip rev:         v0.2
+I (227) heap_init: Initializing. RAM available for dynamic allocation:
+I (235) heap_init: At 3FC95B18 len 00053BF8 (334 KiB): RAM
+I (241) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (247) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (253) heap_init: At 600FE100 len 00001EE8 (7 KiB): RTCRAM
+I (260) spi_flash: detected chip: gd
+I (263) spi_flash: flash io: dio
+W (267) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.       
+I (280) sleep: Configure to isolate all GPIO pins in sleep state
+I (287) sleep: Enable automatic switching of GPIO sleep configuration
+I (295) main_task: Started on CPU0
+I (315) main_task: Calling app_main()
+I (315) gpio: GPIO[4]| InputEn: 1| OutputEn: 1| OpenDrain: 1| Pullup: 1| Pulldown: 0| Intr:0 
+I (315) gpio: GPIO[5]| InputEn: 1| OutputEn: 1| OpenDrain: 1| Pullup: 1| Pulldown: 0| Intr:0
+I (325) MAIN: Found I2C-Device @ 0x04
+I (335) MAIN: Found I2C-Device @ 0x1A
+I (345) MAIN: Found I2C-Device @ 0x38
+I (345) MAIN: Found I2C-Device @ 0x6A
+I (355) main_task: Returned from app_main()
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x2b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2810,len:0x178c
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xcb8
+load:0x403cb700,len:0x2db0
+entry 0x403c8914
+I (27) boot: ESP-IDF v5.3 2nd stage bootloader
+I (27) boot: compile time Aug 19 2024 17:22:08
+I (27) boot: Multicore bootloader
+I (30) boot: chip revision: v0.2
+I (34) boot.esp32s3: Boot SPI Speed : 80MHz
+I (38) boot.esp32s3: SPI Mode       : DIO
+I (43) boot.esp32s3: SPI Flash Size : 2MB
+I (48) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (57) boot: ## Label            Usage          Type ST Offset   Length
+I (64) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (72) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (79) boot:  2 factory          factory app      00 00 00010000 00100000
+I (87) boot: End of partition table
+I (91) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b488h ( 46216) map
+I (107) esp_image: segment 1: paddr=0001b4b0 vaddr=3fc92800 size=02a44h ( 10820) load
+I (110) esp_image: segment 2: paddr=0001defc vaddr=40374000 size=0211ch (  8476) load
+I (118) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=1ab30h (109360) map
+I (144) esp_image: segment 4: paddr=0003ab58 vaddr=4037611c size=0c6c8h ( 50888) load
+I (161) boot: Loaded app from partition at offset 0x10000
+I (162) boot: Disabling RNG early entropy source...
+I (173) cpu_start: Multicore app
+I (183) cpu_start: Pro cpu start user code
+I (183) cpu_start: cpu freq: 160000000 Hz
+I (183) app_init: Application information:
+I (186) app_init: Project name:     espidf-i2c_scanner
+I (191) app_init: App version:      7919669-dirty
+I (197) app_init: Compile time:     Aug 19 2024 17:21:58
+I (203) app_init: ELF file SHA256:  c49b45379...
+I (208) app_init: ESP-IDF:          v5.3
+I (213) efuse_init: Min chip rev:     v0.0
+I (217) efuse_init: Max chip rev:     v0.99
+I (222) efuse_init: Chip rev:         v0.2
+I (227) heap_init: Initializing. RAM available for dynamic allocation:
+I (235) heap_init: At 3FC95B18 len 00053BF8 (334 KiB): RAM
+I (241) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (247) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (253) heap_init: At 600FE100 len 00001EE8 (7 KiB): RTCRAM
+I (260) spi_flash: detected chip: gd
+I (263) spi_flash: flash io: dio
+W (267) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (280) sleep: Configure to isolate all GPIO pins in sleep state
+I (287) sleep: Enable automatic switching of GPIO sleep configuration
+I (295) main_task: Started on CPU0
+I (315) main_task: Calling app_main()
+I (315) gpio: GPIO[4]| InputEn: 1| OutputEn: 1| OpenDrain: 1| Pullup: 1| Pulldown: 0| Intr:0
+I (315) gpio: GPIO[5]| InputEn: 1| OutputEn: 1| OpenDrain: 1| Pullup: 1| Pulldown: 0| Intr:0 
+I (325) MAIN: Found I2C-Device @ 0x04
+I (335) MAIN: Found I2C-Device @ 0x38
+I (345) MAIN: Found I2C-Device @ 0x6A
+I (345) main_task: Returned from app_main()
