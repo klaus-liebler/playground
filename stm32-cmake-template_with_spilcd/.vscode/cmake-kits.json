@@ -1,0 +1,4 @@
+[{
+    "name": "arm-none-eabi",
+    "toolchainFile": "c:/repos/stm32-cmake/cmake/stm32_gcc.cmake"
+  }]

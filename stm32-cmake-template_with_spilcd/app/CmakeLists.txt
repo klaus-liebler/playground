@@ -1,0 +1,21 @@
+add_executable(app src/main.cpp src/stm32f0xx_hal_msp.c src/stm32f0xx_it.c)
+target_include_directories(app
+          PUBLIC include
+          )
+target_link_libraries(app 
+    HAL::STM32::F0::RCC
+    HAL::STM32::F0::RCCEx
+    HAL::STM32::F0::GPIO
+    HAL::STM32::F0::I2C
+    HAL::STM32::F0::I2CEx
+    HAL::STM32::F0::SPI
+    HAL::STM32::F0::PCD
+    HAL::STM32::F0::PCDEx
+    HAL::STM32::F0::TSC
+    HAL::STM32::F0::LL_USB
+    HAL::STM32::F0::CORTEX
+    CMSIS::STM32::F072RB
+    STM32::NoSys
+    gpiostm32
+    spilcd16
+)

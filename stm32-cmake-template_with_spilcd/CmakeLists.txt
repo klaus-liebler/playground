@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.19)
+set(STM32_TARGET_TRIPLET "arm-none-eabi")
+set(STM32_TOOLCHAIN_PATH "C:/opt/gcc-arm-none-eabi-10-2020-q4")
+set(STM32_CUBE_F0_PATH "C:/Users/KlausLiebler/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.2")
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../stm32-cmake/cmake/stm32_gcc.cmake)
+project(stm32f0-cmake-template C CXX ASM)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+
+find_package(CMSIS COMPONENTS STM32F0 REQUIRED)
+find_package(HAL COMPONENTS STM32F0 REQUIRED)
+
+add_subdirectory(libgpiostm32)
+add_subdirectory(libspilcd16)
+add_subdirectory(app)
+
+

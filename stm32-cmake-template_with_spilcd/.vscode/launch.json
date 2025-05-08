@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "cortex-debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceRoot}/build",
+            "executable": "${workspaceRoot}/build/${workspaceFolderBasename}.elf",
+            "servertype": "openocd",
+            "device": "STM32F072RB",
+            "runToEntryPoint": "main",
+            "openOCDLaunchCommands": [
+                "program ${workspaceFolderBasename}.elf verify reset",
+            ],
+            "configFiles": [
+                "board/stm32f0discovery.cfg"
+            ],
+            "searchDir": [
+                "C:/opt/openocd/share/openocd/scripts"
+            ],
+            "svdFile": "C:/opt/STM32F0_svd/STM32F0x2.svd"
+        }
+    ]
+}

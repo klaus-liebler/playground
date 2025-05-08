@@ -1,0 +1,43 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+#include "esp_event.h"
+#include "esp_log.h"
+
+#include "sdkconfig.h"
+
+#define TAG "MAIN"
+class Test
+{
+public:
+    static int stdoutfn(void *fd, const char *buf, int nbytes)
+    {
+        int *number = static_cast<int *>(fd);
+        char foo[20];
+        int len = snprintf(foo, 20, "%d ", *number);
+        write(1, foo, len);
+        return write(1, buf, nbytes);
+    }
+};
+
+extern "C" void app_main(void)
+{
+    ESP_LOGI(TAG, ">> doTelnet TEST VARIANT");
+    fflush(stdin);
+
+    int foo42 = 42;
+    // stdin = funopen((void*)&foo42, &stdinfn, nullptr, nullptr, nullptr);
+    stdout = funopen(&foo42, nullptr, Test::stdoutfn, nullptr, nullptr);
+    setvbuf(stdout, NULL, _IONBF, 0); //this is important. If not set, you have to provide a buffer
+    fprintf(stderr, "fwopen ret=%p\n", stdout);
+    while (true)
+    {
+        printf("stdout\n");
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+    // xTaskCreate(Task, "Test", 4096, nullptr, 5, nullptr); //NONONO, this setting is for the current task, only
+}
