@@ -1,0 +1,1 @@
+C:\repos\UA-ModelCompiler\build\bin\Release\net8.0\Opc.Ua.ModelCompiler compile -d2 "C:\repos\playground\opc_ua_testserver\BatchPlant.xml" -cg "C:\repos\playground\opc_ua_testserver\gen\BatchPlant.csv" -o2 "C:\repos\playground\opc_ua_testserver\gen" -version v104
