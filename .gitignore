@@ -1,3 +1,9 @@
 node_modules/
 **/build/
 **/managed_components/
+/dotnet_devicenet_hid/obj
+/dotnet_hidsharp/bin
+/dotnet_hidsharp/obj
+/dotnet_usb_hid/UsbHidConsoleApp/bin
+/dotnet_usb_hid/UsbHidConsoleApp/obj
+/lablocate/lablocate-backups

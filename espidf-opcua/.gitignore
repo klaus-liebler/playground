@@ -1,7 +1,0 @@
-#Ignore build files
-/build
-/.vscode
-sdkconfig
-sdkconfig.old
-.vscode
-.settings
