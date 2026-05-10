@@ -70,7 +70,14 @@ namespace BatchPlant
 
         public void DoSimulation(object state)
         {
-            m_batchPlant1.Mixer.LoadcellTransmitter.Output.Value = 85;
+            m_batchPlant1.Mixer.LoadcellTransmitter.Output.Value = m_simulationValue;
+            m_simulationValue += (5 * m_simulationDirection);
+            
+            // Richtung umkehren bei 150 oder 50
+            if (m_simulationValue >= 150)
+                m_simulationDirection = -1;
+            else if (m_simulationValue <= 50)
+                m_simulationDirection = 1;
         }
 
         private ServiceResult OnStartProcess(ISystemContext context, MethodState method, IList<object> inputArguments,
@@ -90,6 +97,8 @@ IList<object> outputArguments)
         private BatchPlantServerConfiguration m_configuration;
         private static BatchPlantState m_batchPlant1;
         private System.Threading.Timer m_simulationTimer;
+        private int m_simulationValue = 50;
+        private int m_simulationDirection = 1; // 1 für aufwärts, -1 für abwärts
 
     }
 }
